@@ -1,0 +1,207 @@
+<mxfile host="Electron" modified="2024-11-07T13:08:23.419Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="FHaZvajI0ATkJw4vqCKZ" version="22.1.18" type="device">
+  <diagram name="第 1 页" id="5eOEHAzaGFG4_9h35IHX">
+    <mxGraphModel dx="1235" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wuppVjDpN8mTDI-lq45I-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-1" target="wuppVjDpN8mTDI-lq45I-50">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-1" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(WIFI SoftAP)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-48" target="wuppVjDpN8mTDI-lq45I-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-54" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wuppVjDpN8mTDI-lq45I-15">
+          <mxGeometry x="0.0133" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-2" value="MAC Address&lt;br&gt;(WIFI STA)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-3" value="NV Store" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="55" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-4" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(BT)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-10" value="Effective MAC Address" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="200" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-11" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(WIFI SoftAP)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="190" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-12" value="MAC Address&lt;br&gt;(WIFI STA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="200" y="190" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-13" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(BT)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="490" y="190" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="wuppVjDpN8mTDI-lq45I-52">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="549.5" y="100" as="sourcePoint" />
+            <mxPoint x="549.5" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="wuppVjDpN8mTDI-lq45I-78" target="wuppVjDpN8mTDI-lq45I-43" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-78" target="wuppVjDpN8mTDI-lq45I-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-38" target="wuppVjDpN8mTDI-lq45I-78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-38" value="MAC Address&lt;br&gt;(WIFI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="270" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-39" value="FT Region&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(on Flash or OTP)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="295" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-40" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(BT)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-41" value="Effective MAC Address" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="435" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-42" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(WIFI SoftAP)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="420" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-43" value="MAC Address&lt;br&gt;(WIFI STA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-44" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(BT)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="490" y="420" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" target="wuppVjDpN8mTDI-lq45I-44" parent="1" source="wuppVjDpN8mTDI-lq45I-76">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="549.5" y="370" as="sourcePoint" />
+            <mxPoint x="549.5" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-47" value="set as local addr: &lt;br&gt;Byte0[bit1]&amp;nbsp; = 1&amp;nbsp;&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="364" y="370" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-49" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-2" target="wuppVjDpN8mTDI-lq45I-48">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="100" as="sourcePoint" />
+            <mxPoint x="260" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-48" value="valid" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-50" target="wuppVjDpN8mTDI-lq45I-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-55" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wuppVjDpN8mTDI-lq45I-51">
+          <mxGeometry x="-0.0533" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-50" value="valid" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-52" target="wuppVjDpN8mTDI-lq45I-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-56" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wuppVjDpN8mTDI-lq45I-53">
+          <mxGeometry x="-0.0533" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-52" value="valid" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="120" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-57" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-58" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="280" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="wuppVjDpN8mTDI-lq45I-61" target="wuppVjDpN8mTDI-lq45I-66" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="622" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="wuppVjDpN8mTDI-lq45I-61" target="wuppVjDpN8mTDI-lq45I-65" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-61" target="wuppVjDpN8mTDI-lq45I-67">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-61" value="Default MAC address" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="295" y="502" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-62" value="Default MAC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="507" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-64" value="Effective MAC Address" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="642" width="93" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-65" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(WIFI SoftAP)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="345" y="632" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-66" value="MAC Address&lt;br&gt;(WIFI STA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="200" y="632" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-67" value="MAC Address&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;(BT)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="490" y="632" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-69" value="set as local addr: &lt;br&gt;Byte0[bit1]&amp;nbsp; = 1&amp;nbsp;&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="410" y="580" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-70" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d80073;strokeColor=#A50040;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="510" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-73" value="Byte5 += 2&amp;nbsp;&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="547" y="585" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-77" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wuppVjDpN8mTDI-lq45I-40" target="wuppVjDpN8mTDI-lq45I-76">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="340" as="sourcePoint" />
+            <mxPoint x="550" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-76" value="valid" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="360" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-78" value="valid" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="350" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-81" value="goto 2, while get invalid mac or nvstore is disabled" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="120" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-82" value="goto 3, while get invalid mac or FT is disabled" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="360" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-83" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="270" as="sourcePoint" />
+            <mxPoint x="770" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-84" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="490" as="sourcePoint" />
+            <mxPoint x="770" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-85" value="WM&amp;nbsp; MAC Address Load Strategy" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="195" y="700" width="370" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="wuppVjDpN8mTDI-lq45I-86" value="&lt;b&gt;Example:&lt;/b&gt;&lt;br&gt;Default= 04:12:34:56:78:90&lt;br&gt;STA&amp;nbsp; &amp;nbsp; &amp;nbsp;= 04:12:34:56:78:90&lt;br&gt;SAP&amp;nbsp; &amp;nbsp; = &lt;b&gt;&lt;font color=&quot;#ff0000&quot;&gt;06&lt;/font&gt;&lt;/b&gt;:12:34:56:78:90&lt;br&gt;BT&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;= 04:12:34:56:78:&lt;b&gt;&lt;font color=&quot;#ff0000&quot;&gt;92&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="620" y="502" width="170" height="78" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

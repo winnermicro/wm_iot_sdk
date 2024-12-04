@@ -1,0 +1,208 @@
+menuconfig COMPONENT_WM_ATCMD_ENABLED
+    bool "AT Command"
+    default n
+    help
+        Select this option to enable wm atcmd and show the submenu.
+
+if COMPONENT_WM_ATCMD_ENABLED
+
+    choice WM_ATCMD_UART_MODE
+        prompt "AT Command port"
+        default WM_ATCMD_USE_UART1
+        help
+            Select which uart port shall be used for AT Command.
+
+        config WM_ATCMD_USE_UART0
+            bool "Uart0"
+            help
+                Use uart0.
+
+        config WM_ATCMD_USE_UART1
+            bool "Uart1"
+            help
+                Use uart1.
+
+        config WM_ATCMD_USE_UART2
+            bool "Uart2"
+            help
+                Use uart2.
+
+        config WM_ATCMD_USE_UART3
+            bool "Uart3"
+            help
+                Use uart3.
+
+        config WM_ATCMD_USE_UART4
+            bool "Uart4"
+            help
+                Use uart4.
+
+        if BUILD_TYPE_W801 || BUILD_TYPE_W801S || BUILD_TYPE_W802 || BUILD_TYPE_W806
+            config WM_ATCMD_USE_UART5
+                bool "Uart5"
+                help
+                    Use uart5.
+        endif
+
+    endchoice
+
+    config WM_ATCMD_UART_PORT
+        int
+        default 0 if WM_ATCMD_USE_UART0
+        default 1 if WM_ATCMD_USE_UART1
+        default 2 if WM_ATCMD_USE_UART2
+        default 3 if WM_ATCMD_USE_UART3
+        default 4 if WM_ATCMD_USE_UART4
+        default 5 if WM_ATCMD_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "WM_ATCMD_USE_UARTx".
+            Internal use, any modification is not allowed.
+
+    config WM_ATCMD_UART_DEVICE
+        string
+        default "uart0" if WM_ATCMD_USE_UART0
+        default "uart1" if WM_ATCMD_USE_UART1
+        default "uart2" if WM_ATCMD_USE_UART2
+        default "uart3" if WM_ATCMD_USE_UART3
+        default "uart4" if WM_ATCMD_USE_UART4
+        default "uart5" if WM_ATCMD_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "WM_ATCMD_USE_UARTx".
+            Internal use, any modification is not allowed.
+
+    config WM_ATCMD_USAGE_ENABLE
+        bool "Enable ATCMD USAGE"
+        default y
+        help
+            Enable atcmd usage.
+
+    config WM_ATCMD_SYS_ENABLE
+        bool "Enable ATCMD SYS"
+        default y
+        help
+            Enable atcmd system.
+
+    if CHIP_HAVE_WIFI
+        config WM_ATCMD_WIFI_ENABLE
+            select COMPONENT_WIFI_ENABLED
+            select WIFI_ENABLE_AP_FEATURE
+            select COMPONENT_CJSON_ENABLED
+            bool "Enable ATCMD Wi-Fi"
+            default y
+            help
+                Enable atcmd Wi-Fi.
+
+        config WM_ATCMD_TCP_ENABLE
+            select WM_ATCMD_WIFI_ENABLE
+            bool "Enable ATCMD TCP"
+            default y
+            help
+                Enable atcmd tcp.
+
+        config WM_ATCMD_MQTT_ENABLE
+            select COMPONENT_MQTT_ENABLED
+            bool "Enable ATCMD MQTT"
+            default n
+            help
+                Enable atcmd mqtt.
+                Internal use, any modification is not allowed
+
+        config WM_ATCMD_HTTP_ENABLE
+            select COMPONENT_HTTP_CLIENT_ENABLED
+            bool "Enable ATCMD HTTP CLIENT"
+            default y
+            help
+                Enable atcmd http.
+    endif
+
+    if CHIP_HAVE_BT
+        config WM_ATCMD_BT_ENABLE
+            select BT
+            bool "Enable ATCMD BLUETOOTH"
+            default n
+            help
+                Enable atcmd bluetooth.
+    endif
+
+    if CHIP_HAVE_WIFI
+        config WM_ATCMD_WEBNET_ENABLE
+            select COMPONENT_WEBNET_ENABLED
+            bool
+            default n
+            help
+                Enable atcmd webnet.
+                Internal use, any modificationis not allowed.
+
+        config WM_ATCMD_OTA_ENABLE
+            select COMPONENT_OTA_ENABLED
+            select COMPONENT_OTA_HTTP_ENABLED
+            bool "Enable ATCMD OTA"
+            default n
+            help
+                Enable atcmd ota(over-the-air).
+    endif
+
+    config WM_ATCMD_FS_ENABLE
+        select COMPONENT_FATFS_ENABLED
+        select COMPONENT_DRIVER_RTC_ENABLED
+        bool "Enable ATCMD FILE SYSTEM"
+        default y
+        help
+            Enable atcmd for file system.
+
+    if WM_ATCMD_FS_ENABLE
+        choice ATCMD_FATFS_DISK_TYPE
+            prompt "Select ATCMD FATFS disk type"
+            default ATCMD_FATFS_SDMMC_DISK
+
+            config ATCMD_FATFS_SDMMC_DISK
+                select FATFS_SDMMC_DISK_ENABLE
+                bool "SDMMC card"
+                help
+                    Use SDMMC card as FATFS disk.
+
+            config ATCMD_FATFS_INTERNAL_FLASH_DISK
+                select FATFS_INTERNAL_FLASH_DISK_ENABLE
+                bool "Internal flash"
+                help
+                    Use internal flash as FATFS disk.
+
+            config ATCMD_FATFS_EXTERNAL_FLASH_DISK
+                select FATFS_EXTERNAL_FLASH_DISK_ENABLE
+                bool "External flash"
+                help
+                    Use external flash as FATFS disk.
+        endchoice
+    endif
+
+    config WM_ATCMD_PWM_ENABLE
+        bool "Enable ATCMD PWM"
+        default y
+        select COMPONENT_DRIVER_PWM_ENABLED
+        help
+            Enable atcmd for pwm driver.
+
+    config WM_ATCMD_I2C_ENABLE
+        bool "Enable ATCMD I2C"
+        default y
+        select COMPONENT_DRIVER_I2C_ENABLED
+        help
+            Enable atcmd for i2c driver.
+
+    config WM_ATCMD_SPIM_ENABLE
+        bool "Enable ATCMD SPI MASTER"
+        default y
+        select COMPONENT_DRIVER_SPIM_ENABLED
+        help
+            Enable atcmd for spi master driver.
+
+    config WM_ATCMD_GPSEC_ENABLE
+        bool
+        default y
+        select COMPONENT_DRIVER_CRYPTO_ENABLED
+        select COMPONENT_DRIVER_RNG_ENABLED
+        help
+            Internal use, any modification is not allowed.
+    orsource "lib/Kconfig"
+
+endif

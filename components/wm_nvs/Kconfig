@@ -1,0 +1,16 @@
+menuconfig COMPONENT_NVS_ENABLED
+    bool "NVS"
+    default n
+    help
+        Select this option to enable NVStore module and show the submenu.
+
+if COMPONENT_NVS_ENABLED
+    config NVS_VER_NUM
+        depends on COMPONENT_NVS_ENABLED
+        int
+        default 0
+        help
+            NVS version number
+            If you modify it, a different version will be detected, and then all old data will be deleted at initialize stage.
+
+endif

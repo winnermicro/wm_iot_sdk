@@ -1,0 +1,6 @@
+config COMPONENT_IPERF3_ENABLED
+    bool
+    default y
+    select COMPONENT_DRIVER_RNG_ENABLED
+    help
+        Internal use, any modification is not allowed.

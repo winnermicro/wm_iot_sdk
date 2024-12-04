@@ -1,0 +1,47 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="device_name">Device name:</label>
+        <input type="text" class="col-sm-6" value="spim" id="device_name" name="device_name" readonly>
+        &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
+        </div>
+      </div>
+
+      <div class="card-header">
+        <h5>Pins</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="clkpin">clock:</label>
+        <select class="col-sm-6" id="clkpinnum" name="clkpinnum">
+          <option value="17" {% if data.clkpinnum == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
+          <option value="18" {% if data.clkpinnum == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="31" {% if data.clkpinnum == 31 %} selected {% endif %}>PIN_31 (PB15)</option>
+          <option value="40" {% if data.clkpinnum == 40 %} selected {% endif %}>PIN_40 (PB24)</option>
+        {% endif %}
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="dipin">di:</label>
+        <select class="col-sm-6" id="dipinnum" name="dipinnum">
+          <option value="16" {% if data.dipinnum == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
+          <option value="19" {% if data.dipinnum == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="32" {% if data.dipinnum == 32 %} selected {% endif %}>PIN_32 (PB16)</option>
+          <option value="41" {% if data.dipinnum == 41 %} selected {% endif %}>PIN_41 (PB25)</option>
+        {% endif %}
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="dopin">do:</label>
+        <select class="col-sm-6" id="dopinnum" name="dopinnum">
+          <option value="7" {% if data.dopinnum == 7 %} selected {% endif %}>PIN_7 (PA7)</option>
+          <option value="21" {% if data.dopinnum == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="33" {% if data.dopinnum == 33 %} selected {% endif %}>PIN_33 (PB17)</option>
+          <option value="42" {% if data.dopinnum == 42 %} selected {% endif %}>PIN_42 (PB26)</option>
+        {% endif %}
+        </select>
+        </div>
+	  </div>

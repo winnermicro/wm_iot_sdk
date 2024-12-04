@@ -1,0 +1,13 @@
+{% extends "!layout.html" %}
+{% block document %}
+  {% if is_release %}
+    <div class="wy-alert wy-alert-danger">
+      {{ hl_release_left }} <a href="/{{ current_soc }}/{{ current_language }}/latest/{{ pagename }}.html">{{ hl_release_midl }}</a> {{ hl_release_midr }} {{ version }} {{ hl_release_right }}
+    </div>
+  {% else %}
+    <div class="wy-alert wy-alert-danger">
+     {{ hl_latest_desc }}
+    </div>
+  {% endif %}
+  {{ super() }}
+{% endblock %}

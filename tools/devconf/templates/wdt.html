@@ -1,0 +1,9 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        {% include 'device_name.html' %}
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="counter_value">counter value:</label>
+        <input type="number" min="1" max="107000000" value="{{ data.counter_value }}" class="col-sm-6" id="counter_value" name="counter_value"> &nbsp;seconds
+        </div>
+      </div>

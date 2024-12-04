@@ -1,0 +1,51 @@
+#ifndef __WM_REGS_BASE_H__
+#define __WM_REGS_BASE_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define WM_DEVICE_BASE_ADDR       0x40000000
+#define WM_APB_BASE_ADDR          0x40010000
+
+#define WM_RSA_BASE_ADDR          (WM_DEVICE_BASE_ADDR + 0x00)
+#define WM_GPSEC_BASE_ADDR        (WM_DEVICE_BASE_ADDR + 0x600)
+#define WM_SDIO_BASE_ADDR         (WM_DEVICE_BASE_ADDR + 0x2400)
+#define WM_SDIO_HOST_BASE_ADDR    (WM_DEVICE_BASE_ADDR + 0xA00)
+#define WM_HSPI_BASE_ADDR         (WM_DEVICE_BASE_ADDR + 0x2600)
+#define WM_FLASH_BASE_ADDR        (WM_DEVICE_BASE_ADDR + 0x2000)
+#define WM_SDIO_WRAPPER_BASE_ADDR (WM_DEVICE_BASE_ADDR + 0x2800)
+#define WM_DMA_BASE_ADDR          (WM_DEVICE_BASE_ADDR + 0x800)
+#define WM_PMU_BASE_ADDR          (WM_DEVICE_BASE_ADDR + 0xD00)
+#define WM_RTC_BASE_ADDR          (WM_PMU_BASE_ADDR + 0x0C)
+#define WM_CLK_BASE_ADDR          (WM_DEVICE_BASE_ADDR + 0xE00)
+#define WM_MEM_BASE_ADDR          (WM_DEVICE_BASE_ADDR + 0xF00)
+#define WM_PSRRAM_BASE_ADDR       (WM_DEVICE_BASE_ADDR + 0x2200)
+
+#define WM_I2C_BASE_ADDR          (WM_APB_BASE_ADDR)
+#define WM_SD_ADC_BASE_ADDR       (WM_APB_BASE_ADDR + 0x200)
+#define WM_SPI_BASE_ADDR          (WM_APB_BASE_ADDR + 0x400)
+#define WM_UART0_BASE_ADDR        (WM_APB_BASE_ADDR + 0x600)
+#define WM_UART1_BASE_ADDR        (WM_APB_BASE_ADDR + 0x800)
+#define WM_UART2_BASE_ADDR        (WM_APB_BASE_ADDR + 0xA00)
+#define WM_UART3_BASE_ADDR        (WM_APB_BASE_ADDR + 0xC00)
+#define WM_UART4_BASE_ADDR        (WM_APB_BASE_ADDR + 0xE00)
+#define WM_GPIO_BASE_ADDR         (WM_APB_BASE_ADDR + 0x1200)
+#define WM_GPIOA_BASE_ADDR        (WM_APB_BASE_ADDR + 0x1200)
+#define WM_GPIOB_BASE_ADDR        (WM_APB_BASE_ADDR + 0x1400)
+#define WM_TIMER_BASE_ADDR        (WM_APB_BASE_ADDR + 0x1800)
+#define WM_WDG_BASE_ADDR          (WM_APB_BASE_ADDR + 0x1600)
+#define WM_LCD_REG_BASE_ADDR      (WM_APB_BASE_ADDR + 0x1C00)
+#define WM_I2S_REG_BASE_ADDR      (WM_APB_BASE_ADDR + 0x2000)
+#define WM_APB2SPI_REG_BASE_ADDR  (WM_APB_BASE_ADDR + 0x2200)
+#define WM_PWM_REG_BASE_ADDR      (WM_APB_BASE_ADDR + 0x1E00)
+#define WM_TOUCH_REG_BASE_ADDR    (WM_APB_BASE_ADDR + 0x2400)
+
+#define WM_CLK_DIV_ADDR           (WM_CLK_BASE_ADDR + 0x10)
+#define WM_CLK_RST_ADDR           (WM_CLK_BASE_ADDR + 0x0C)
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __WM_REGS_BASE_H__ */

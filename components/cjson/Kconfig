@@ -1,0 +1,5 @@
+menuconfig COMPONENT_CJSON_ENABLED
+    bool "cJSON"
+    default n
+    help
+        Select this option to enable cJSON.

@@ -1,0 +1,12 @@
+# Shell configuration options
+
+# Copyright (c) 2017 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+config BT_SHELL
+	bool "Bluetooth shell"
+	select COMPONENT_CLI_ENABLED
+	help
+	  Activate shell module that provides Bluetooth commands to the
+	  console.
+	  Internal use, any modification is not allowed.

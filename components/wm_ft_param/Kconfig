@@ -1,0 +1,6 @@
+config COMPONENT_FT_PARAM_ENABLED
+    bool
+    default y
+    select COMPONENT_DRIVER_CRC_ENABLED
+    help
+        Internal use, any modification is not allowed.

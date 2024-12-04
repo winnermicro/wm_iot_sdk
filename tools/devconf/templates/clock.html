@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>chip clock</title>
+<style>
+    .clkTable {
+        border-collapse: collapse;
+        empty-cells: show;
+        margin: 0 auto;
+        transform: scale(1);
+    }
+    .clkTable td {
+        text-align: center;
+        border: 1px solid black;
+        padding: 1px;
+        width: 80px;
+        height: 35px;
+        white-space: nowrap;
+    }
+    .rotate-cell {
+        transform-origin: center;
+        transform: rotate(270deg);
+    }
+    select {
+        width: 100%;
+    }
+    select option {
+        background-color: lightblue;
+    }
+    .no-border {
+        border: none !important;
+    }
+    .not-arrow {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: 1px solid #dcd8d8;
+        padding: 1px 1px;
+        border: none;
+        outline: none;
+        padding: 1px 1px;
+        background-color: #fff;
+    }
+    .not-arrow::-ms-expand {
+        display: none;
+    }
+    .highlight {
+        background-color: yellow;
+    }
+    .chipbg {
+        background-color: gray;
+    }
+    .invalidbg {
+        background-color: lightgrey;
+    }
+</style>
+</head>
+<body>
+
+<table class="clkTable">
+    <tr>
+        <td colspan="1" rowspan="20">PLL</td>
+        <td colspan="1" rowspan="2">
+            <select id="clk_div_cpu" name="clk_div_cpu">480
+                <option value="2" {% if data.clk_div_cpu == 2 %} selected {% endif %}>2 分频</option>
+                <option value="3" {% if data.clk_div_cpu == 3 %} selected {% endif %}>3 分频</option>
+                <option value="4" {% if data.clk_div_cpu == 4 %} selected {% endif %}>4 分频</option>
+                <option value="5" {% if data.clk_div_cpu == 5 %} selected {% endif %}>5 分频</option>
+                <option value="6" {% if data.clk_div_cpu == 6 %} selected {% endif %}>6 分频</option>
+                <option value="8" {% if data.clk_div_cpu == 8 %} selected {% endif %}>8 分频</option>
+                <option value="10" {% if data.clk_div_cpu == 10 %} selected {% endif %}>10 分频</option>
+                <option value="12" {% if data.clk_div_cpu == 12 %} selected {% endif %}>12 分频</option>
+                <option value="15" {% if data.clk_div_cpu == 15 %} selected {% endif %}>15 分频</option>
+                <option value="16" {% if data.clk_div_cpu == 16 %} selected {% endif %}>16 分频</option>
+                <option value="20" {% if data.clk_div_cpu == 20 %} selected {% endif %}>20 分频</option>
+                <option value="24" {% if data.clk_div_cpu == 24 %} selected {% endif %}>24 分频</option>
+                <option value="30" {% if data.clk_div_cpu == 30 %} selected {% endif %}>30 分频</option>
+                <option value="32" {% if data.clk_div_cpu == 32 %} selected {% endif %}>32 分频</option>
+                <option value="40" {% if data.clk_div_cpu == 40 %} selected {% endif %}>40 分频</option>
+                <option value="48" {% if data.clk_div_cpu == 48 %} selected {% endif %}>48 分频</option>
+                <option value="60" {% if data.clk_div_cpu == 60 %} selected {% endif %}>60 分频</option>
+                <option value="80" {% if data.clk_div_cpu == 80 %} selected {% endif %}>80 分频</option>
+                <option value="96" {% if data.clk_div_cpu == 96 %} selected {% endif %}>96 分频</option>
+                <option value="120" {% if data.clk_div_cpu == 120 %} selected {% endif %}>120 分频</option>
+                <option value="160" {% if data.clk_div_cpu == 160 %} selected {% endif %}>160 分频</option>
+                <option value="240" {% if data.clk_div_cpu == 240 %} selected {% endif %}>240 分频</option>
+            </select>
+        </td>
+        <td colspan="4" rowspan="2">——————————————————————></td>
+        <td>CPU</td>
+        <td id="clk_div_cpu0" class="no-border">240MHz</td>
+    </tr>
+    <tr>
+        <td>DMA</td>
+        <td id="clk_div_dma" class="no-border">240MHz</td>
+    </tr>
+    <tr>
+        <td colspan="1" rowspan="10">
+            <select id="clk_div_wlan" name="clk_div_wlan">
+                <option value="3" {% if data.clk_div_wlan == 3 %} selected {% endif %}>3 分频</option>
+                <option value="4" {% if data.clk_div_wlan == 4 %} selected {% endif %}>4 分频</option>
+                <option value="5" {% if data.clk_div_wlan == 5 %} selected {% endif %}>5 分频</option>
+                <option value="6" {% if data.clk_div_wlan == 6 %} selected {% endif %}>6 分频</option>
+                <option value="8" {% if data.clk_div_wlan == 8 %} selected {% endif %}>8 分频</option>
+                <option value="10" {% if data.clk_div_wlan == 10 %} selected {% endif %}>10 分频</option>
+                <option value="12" {% if data.clk_div_wlan == 12 %} selected {% endif %}>12 分频</option>
+                <option value="15" {% if data.clk_div_wlan == 15 %} selected {% endif %}>15 分频</option>
+                <option value="20" {% if data.clk_div_wlan == 20 %} selected {% endif %}>20 分频</option>
+                <option value="24" {% if data.clk_div_wlan == 24 %} selected {% endif %}>24 分频</option>
+                <option value="30" {% if data.clk_div_wlan == 30 %} selected {% endif %}>30 分频</option>
+                <option value="40" {% if data.clk_div_wlan == 40 %} selected {% endif %}>40 分频</option>
+                <option value="60" {% if data.clk_div_wlan == 60 %} selected {% endif %}>60 分频</option>
+                <option value="120" {% if data.clk_div_wlan == 120 %} selected {% endif %}>120 分频</option>
+                <option value="240" {% if data.clk_div_wlan == 240 %} selected {% endif %}>240 分频</option>
+            </select>
+        </td>
+        <td colspan="1" rowspan="10">—————></td>
+      {% if data.kconfig.wifi %}
+        <td>1/1</td>
+        <td colspan="2" rowspan="1">———————————></td>
+        <td>WiFi</td>
+        <td id="clk_div_wifi" class="no-border">160MHz</td>
+      {% endif %}
+    </tr>
+    <tr>
+        <td colspan="1" rowspan="9">1/4</td>
+        <td colspan="1" rowspan="9">APB</td>
+        <td colspan="1" rowspan="9">—————></td>
+        <td>SDIO SLAVE</td>
+        <td id="clk_div_sdio_slave" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>HIGH SPI SLAVE</td>
+        <td id="clk_div_high_spi_slave" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>I2C</td>
+        <td id="clk_div_i2c" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>SPI</td>
+        <td id="clk_div_spi" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>UART</td>
+        <td id="clk_div_uart" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>7816</td>
+        <td id="clk_div_7816" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>GPIO</td>
+        <td id="clk_div_gpio" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>WDT</td>
+        <td id="clk_div_wdt" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>TIMER</td>
+        <td id="clk_div_timer" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td colspan="1" rowspan="7">1/3</td>
+        <td colspan="1" rowspan="7">—————></td>
+        <td colspan="1" rowspan="3">1/1</td>
+        <td colspan="2" rowspan="3">———————————></td>
+        <td>RSA</td>
+        <td id="clk_div_rsa" class="no-border">160MHz</td>
+    </tr>
+    <tr>
+        <td>GPSEC</td>
+        <td id="clk_div_gpsec" class="no-border">160MHz</td>
+    </tr>
+    <tr>
+        <td>I2S</td>
+        <td id="clk_div_i2s" class="no-border">160MHz</td>
+    </tr>
+    <tr>
+        <td>1/2</td>
+        <td colspan="2" rowspan="1">———————————></td>
+        <td>QFLASH</td>
+        <td id="clk_div_qflash" class="no-border">80MHz</td>
+    </tr>
+    <tr>
+        <td colspan="1" rowspan="3">1/4</td>
+        <td colspan="2" rowspan="2">———————————></td>
+        <td>TOUCH SENSOR</td>
+        <td id="clk_div_touch_sensor" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>PWM</td>
+        <td id="clk_div_pwm" class="no-border">40MHz</td>
+    </tr>
+    <tr>
+        <td>—————></td>
+        <td>1/40</td>
+        <td>ADC</td>
+        <td id="clk_div_adc0" class="no-border">1MHz</td>
+    </tr>
+</table>
+
+<script>
+function proc_cpu_div() {
+    var element = document.getElementById('clk_div_cpu');
+    var selectedValue = (480 / element.value) + 'MHz';
+    var cell = document.getElementById('clk_div_cpu0');
+    cell.textContent = selectedValue;
+    cell = document.getElementById('clk_div_dma');
+    cell.textContent = selectedValue;
+    cell = document.getElementById('clk_div_sdio_host');
+    cell.textContent = selectedValue;
+    cell = document.getElementById('clk_div_psram');
+    cell.textContent = selectedValue;
+    proc_wlan_div();
+}
+
+function proc_wlan_div() {
+    var cpu_element = document.getElementById('clk_div_cpu');
+    var cpu_value = 480 / cpu_element.value;
+    var element = document.getElementById('clk_div_wlan');
+    if (cpu_value <= 40) {
+        element.value = 4;
+        element.disabled = true;
+    } else {
+        element.disabled = false;
+    }
+    var selectedValue = 480 / element.value;
+    var cell = document.getElementById('clk_div_wifi');
+  {% if data.kconfig.wifi %}
+    if (selectedValue != 160) {
+        cell.style.backgroundColor = 'red';
+    } else {
+        cell.style.backgroundColor = '';
+    }
+    var showValue = (selectedValue / 1) + 'MHz';
+    cell.textContent = showValue;
+  {% endif %}
+
+    if (selectedValue >= 4) {
+        showValue = (selectedValue / 4) + 'MHz';
+    } else {
+        showValue = ((selectedValue * 1000) / 4) + 'KHz';
+    }
+    cell = document.getElementById('clk_div_sdio_slave');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_high_spi_slave');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_i2c');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_spi');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_uart');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_7816');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_gpio');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_wdt');
+    cell.textContent = showValue;
+    cell = document.getElementById('clk_div_timer');
+    cell.textContent = showValue;
+}
+
+//function proc_peri_div() {
+//    var element = document.getElementById('clk_div_peri');
+//    var selectedValue = 480 / element.value;
+//    var showValue = (selectedValue / 1) + 'MHz';
+//    var cell = document.getElementById('clk_div_rsa');
+//    if (selectedValue != 160 && selectedValue != 80) {
+//        cell.style.backgroundColor = 'red';
+//    } else {
+//        cell.style.backgroundColor = '';
+//    }
+//    cell.textContent = showValue;
+//    cell = document.getElementById('clk_div_gpsec');
+//    if (selectedValue != 160 && selectedValue != 80) {
+//        cell.style.backgroundColor = 'red';
+//    } else {
+//        cell.style.backgroundColor = '';
+//    }
+//    cell.textContent = showValue;
+//    cell = document.getElementById('clk_div_i2s');
+//    cell.textContent = showValue;
+//    cell = document.getElementById('clk_div_qflash');
+//    if (selectedValue != 160 && selectedValue != 80) {
+//        cell.style.backgroundColor = 'red';
+//    } else {
+//        cell.style.backgroundColor = '';
+//    }
+//    cell.textContent = (selectedValue / 2) + 'MHz';
+//    showValue = (selectedValue / 4) + 'MHz';
+//    cell = document.getElementById('clk_div_touch_sensor');
+//    cell.textContent = showValue;
+//    cell = document.getElementById('clk_div_pwm');
+//    cell.textContent = showValue;
+//}
+
+//function proc_adc_div() {
+//    var element = document.getElementById('clk_div_adc');
+//    var cell = document.getElementById('clk_div_peri');
+//    var peri2 = (480 / cell.value) / 4;
+//    if (peri2 >= element.value) {
+//        var showValue = peri2 / element.value;
+//        var invalidClk = peri2 % element.value;
+//        cell = document.getElementById('clk_div_adc0');
+//        if (invalidClk) {
+//            cell.style.backgroundColor = 'red';
+//        } else {
+//            cell.style.backgroundColor = '';
+//        }
+//        cell.textContent = showValue + 'MHz';
+//    } else {
+//        peri2 = ((480 * 1000) / cell.value) / 4;
+//        showValue = peri2 / element.value;
+//        var invalidClk = peri2 % element.value;
+//        cell = document.getElementById('clk_div_adc0');
+//        if (invalidClk) {
+//            cell.style.backgroundColor = 'red';
+//        } else {
+//            cell.style.backgroundColor = '';
+//        }
+//        cell.textContent = showValue + 'KHz';
+//    }
+//}
+
+document.getElementById('clk_div_cpu').addEventListener('change', function() {
+    var selectedValue = this.value;
+    if (selectedValue !== '') {
+        proc_cpu_div();
+    }
+});
+
+document.getElementById('clk_div_wlan').addEventListener('change', function() {
+    var selectedValue = this.value;
+    if (selectedValue !== '') {
+        proc_wlan_div();
+    }
+});
+
+//document.getElementById('clk_div_peri').addEventListener('change', function() {
+//    var selectedValue = this.value;
+//    if (selectedValue !== '') {
+//        proc_peri_div();
+//        proc_adc_div();
+//    }
+//});
+
+//document.getElementById('clk_div_adc').addEventListener('change', function() {
+//    var selectedValue = this.value;
+//    if (selectedValue !== '') {
+//        proc_adc_div();
+//    }
+//});
+
+function checkClockconfigs() {
+  {% if data.kconfig.wifi %}
+    var cell = document.getElementById('clk_div_wifi');
+    if (cell !== null) {
+        if (cell && cell.style.backgroundColor === 'red') {
+            alert("Please note that with this clock setting, the WiFi module will not work properly!");
+        }
+    }
+  {% endif %}
+    cell = document.getElementById('clk_div_rsa');
+    if (cell !== null) {
+        if (cell && cell.style.backgroundColor === 'red') {
+            alert("Please note that with this clock setting, the RSA module will not work properly!");
+        }
+    }
+    cell = document.getElementById('clk_div_gpsec');
+    if (cell !== null) {
+        if (cell && cell.style.backgroundColor === 'red') {
+            alert("Please note that with this clock setting, the GPSEC module will not work properly!");
+        }
+    }
+    cell = document.getElementById('clk_div_qflash');
+    if (cell !== null) {
+        if (cell && cell.style.backgroundColor === 'red') {
+            alert("Please note that with this clock setting, the QFLASH module will not work properly!");
+        }
+    }
+    cell = document.getElementById('clk_div_adc0');
+    if (cell !== null) {
+        if (cell && cell.style.backgroundColor === 'red') {
+            alert("Please note that with this clock setting, the ADC module will not work properly!");
+        }
+    }
+}
+
+proc_cpu_div();
+proc_wlan_div();
+//proc_peri_div();
+//proc_adc_div();
+</script>
+
+</body>
+</html>

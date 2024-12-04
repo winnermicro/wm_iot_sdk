@@ -1,0 +1,39 @@
+menuconfig COMPONENT_OTA_ENABLED
+    bool "OTA"
+    default n
+    help
+        Select this option to enable ota and show the submenu.
+
+if COMPONENT_OTA_ENABLED
+
+    config COMPONENT_OTA_HTTP_ENABLED
+        depends on CHIP_HAVE_WIFI
+        bool "Enable OTA_HTTP"
+        default n
+        select COMPONENT_HTTP_CLIENT_ENABLED
+        help
+            Select this option to enable ota with http client, and the "COMPONENT_HTTP_CLIENT_ENABLED" will also be set to 'y'
+
+    config OTA_BLOCK_SIZE
+        int "OTA block size"
+        default 4096
+        range 64 65536
+        help
+            Size of each block (in bytes) during OTA firmware download. The firmware is divided into multiple blocks for transmission.
+
+    config OTA_RETRY_TIMEOUT
+        int "OTA retry timeout"
+        default 120000
+        range 60000 3600000
+        help
+            Maximum time (in ms) for OTA to retry when network timeout occurs, OTA will keep retrying until upgrade completes or this timeout is reached.
+            For non-network timeout errors, OTA will fail directly without retrying.
+
+    config OTA_SOCKET_RECONNECT_TIMES
+        int "ota socket reconnect times"
+        default 5
+        range 0 65535
+        help
+            The number of times socket connection failed and reconnected.
+
+endif

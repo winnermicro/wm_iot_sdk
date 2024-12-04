@@ -1,0 +1,36 @@
+menu "Commands configuration"
+
+    config CLI_COMMANDS_SYSTEM
+        bool "Enable system cmd"
+        default y
+        help
+            Select this option to enable system cmd.
+
+    config CLI_COMMANDS_WIFI
+        depends on COMPONENT_WIFI_ENABLED
+        bool "Enable wifi cmd"
+        default y
+        help
+            Select this option to enable wifi cmd.
+
+    config CLI_COMMANDS_LWIP
+        depends on COMPONENT_LWIP_ENABLED
+        bool "Enable lwip cmd"
+        default y
+        help
+            Select this option to enable lwip cmd.
+
+    config CLI_COMMANDS_PARTITION_TABLE
+        bool "Enable partition table cmd"
+        default y
+        help
+            Select this option to enable partition table cmd.
+
+    config CLI_COMMANDS_HTTP
+        bool "Enable HTTP cmd"
+        depends on COMPONENT_HTTP_CLIENT_ENABLED
+        default y
+        help
+            Select this option to enable HTTP cmd.
+
+endmenu

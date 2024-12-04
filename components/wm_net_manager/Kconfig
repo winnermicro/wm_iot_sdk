@@ -1,0 +1,99 @@
+menuconfig COMPONENT_NET_MANAGER_ENABLED
+    depends on CHIP_HAVE_WIFI
+    select COMPONENT_LWIP_ENABLED
+    select WM_LWIP
+    bool "Net Manager"
+    default n
+    help
+        Select this option to enable network manager and show submenu.
+
+if COMPONENT_NET_MANAGER_ENABLED
+
+    menuconfig COMPONENT_NM_WIFI_STA_ENABLED
+        select COMPONENT_WIFI_ENABLED
+        bool "Enable Wi-Fi station"
+        default y
+        help
+            Select this option to enable Wi-Fi station by net manager.
+
+    if COMPONENT_NM_WIFI_STA_ENABLED
+        config NM_WIFI_STA_AUTO_CONNECT
+            bool "Enable Wi-Fi auto reconnect"
+            default y
+            help
+                Select this option to enable Wi-Fi auto reconnect.
+            if NM_WIFI_STA_AUTO_CONNECT
+                config NM_STA_RECONNECT_INTERVAL
+                    int "Wi-Fi auto reconnect interval (ms)"
+                    range 1 100000000
+                    default 1000
+                    help
+                        Wi-Fi auto reconnect interval (millisecond).
+            endif
+    endif
+
+    menuconfig COMPONENT_NM_WIFI_SOFTAP_ENABLED
+        select COMPONENT_WIFI_ENABLED
+        select WIFI_ENABLE_AP_FEATURE
+        bool "Enable Wi-Fi softAP"
+        default y
+        help
+            Select this option to enable Wi-Fi softAP by net manager.
+
+        if COMPONENT_NM_WIFI_SOFTAP_ENABLED
+            config NM_WIFI_SOFTAP_AUTO_CHANNEL
+                bool "Auto select channel"
+                default y
+                help
+                    Select this option to enable auto select channel.
+
+                if !NM_WIFI_SOFTAP_AUTO_CHANNEL
+                    config NM_WIFI_SOFTAP_CHANNEL
+                        int "Working channel"
+                            range 1 13
+                            default 1
+                        help
+                            Wi-Fi channel (network channel) for the Wi-Fi to use.
+                endif
+
+            config NM_WIFI_SOFTAP_MAX_STA_CONN
+                int "Maximum number of station connections"
+                range 1 8
+                default 8
+                help
+                    Max number of the STA connects to AP.
+
+            menu "DHCP server configuration"
+
+                config NM_DHCPS_IP
+                    string "IP address"
+                    default "192.168.10.1"
+                    help
+                        DHCP server IP address.
+                config NM_DHCPS_NETMASK
+                    string "Network mask"
+                    default "255.255.255.0"
+                    help
+                        DHCP server netmask.
+                config NM_DHCPS_GATEWAY
+                    string "Gateway address"
+                    default "192.168.10.1"
+                    help
+                        DHCP server gateway.
+                config NM_DHCPS_START_IP
+                    string "Assign starting IP address"
+                    default "192.168.10.2"
+                    help
+                        DHCP server assign starting IP address.
+                config NM_DHCPS_LEASE_TIME
+                    int "Assign IP lease time (s)"
+                    range 60 50000000
+                    default 86400
+                    help
+                        DHCP server assign IP lease time (second).
+
+            endmenu
+
+        endif
+
+endif

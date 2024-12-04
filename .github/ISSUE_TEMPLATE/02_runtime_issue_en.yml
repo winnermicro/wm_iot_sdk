@@ -1,0 +1,119 @@
+name: 🚨 Runtime Issue Report
+description: 🐛 Report issues related to runtime behavior, including crashes, performance problems, unexpected behavior, or any other problems that occur while your application is running
+labels: ['Type: Bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🙏 Thank you for taking the time to report an issue. This template will help us gather the information we need to investigate and resolve your problem.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Pre-submission Checklist
+      description: Please verify you have completed the following steps before submitting
+      options:
+        - label: 📖 I have thoroughly reviewed the relevant sections of the [WM_IoT_SDK Programming Guide](https://doc.winnermicro.net/w800/en/latest/) documentation but have not found a solution to my issue.
+          required: true
+        - label: 🔄 I have updated my wm_iot_sdk branch (master or release) to the latest version and confirmed that the issue still exists.
+          required: true
+        - label: 🔍 I have searched through the [Issues](https://github.com/winnermicro/wm_iot_sdk/issues) and [Discussions](https://github.com/winnermicro/wm_iot_sdk/discussions) sections but have not found a similar issue.
+          required: true
+  - type: input
+    id: wm_iot_sdk_version
+    attributes:
+      label: 📌 WM_IoT_SDK Version
+      description: Please specify the version from the "version" file in your SDK root directory
+      placeholder: e.g., v2.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: chip_model
+    attributes:
+      label: 🔲 Chip Model
+      description: Please select your chip model
+      multiple: false
+      options:
+        - W800
+        - W801S
+        - W802
+        - W803
+        - W805
+        - W806
+    validations:
+      required: true
+  - type: input
+    id: board_model
+    attributes:
+      label: 🔧 Development Board Model
+      description: Please specify your development board model
+      placeholder: e.g., W800_ARDUINO_V3.0
+    validations:
+      required: true
+  - type: dropdown
+    id: development_platform
+    attributes:
+      label: 💻 Development Platform
+      description: Select your primary development platform
+      multiple: false
+      options:
+        - Command line with wm.py
+        - VS Code IDE
+        - Other (please specify below)
+    validations:
+      required: true
+  - type: dropdown
+    id: operating_system
+    attributes:
+      label: 🖥️ Operating System
+      description: Select your operating system
+      multiple: false
+      options:
+        - Windows
+        - Linux
+        - macOS
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: 📝 Steps to Reproduce
+      description: 'Please provide detailed steps to reproduce this issue'
+      value: |
+        1. Environment setup:
+        2. Actions performed:
+        3. Error observed:
+        4. Additional context:
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: ✨ Expected Behavior
+      description: What should have happened?
+      placeholder: Describe the expected outcome...
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: ❌ Actual Behavior
+      description: What actually happened?
+      placeholder: Describe what occurred instead...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 Relevant Log Output
+      description: Please copy and paste any relevant log output
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: additional_information
+    attributes:
+      label: ℹ️ Additional Information
+      description: Any other relevant details that might help us investigate
+      placeholder: Add any other context about the problem here
+    validations:
+      required: false

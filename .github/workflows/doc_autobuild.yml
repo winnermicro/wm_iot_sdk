@@ -1,0 +1,63 @@
+name: Document Automated Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: ['*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        fetch-depth: 0
+
+    - name: Check docs directory changes
+      id: check_docs
+      run: |
+        git diff --name-only HEAD^ HEAD > changes.txt
+        if ! grep -q "^docs/" changes.txt; then
+          echo "No changes in docs directory, skipping build"
+          echo "✅ Documentation check completed - no changes detected"
+          echo "docs_changed=false" >> $GITHUB_ENV
+        else
+          echo "docs_changed=true" >> $GITHUB_ENV
+        fi
+
+    - name: Install dependencies
+      run: |
+        cd docs
+        sudo apt-get update
+        sudo apt-get install -y doxygen
+        python -m pip install --user -r requirements.txt
+        cd -
+      if: ${{ env.docs_changed == 'true' }}
+
+    - name: Build documentation
+      run: |
+        cd docs
+        echo "Building documentation..."
+        python ./build.py > temp_output.log 2>&1
+        build_status=$?
+
+        echo "Generating warning report..."
+        grep -E 'warning:|error:|WARNING:|ERROR:' temp_output.log > sphinx_warning.log || true
+        if [ -s sphinx_warning.log ]; then
+          echo "⚠️ Documentation build has warnings/errors:"
+          cat sphinx_warning.log
+          exit 1
+        fi
+
+        if [ $build_status -ne 0 ]; then
+            echo "❌ Documentation build failed"
+            exit 1
+        fi
+
+        echo "✅ Documentation build completed"
+        rm temp_output.log
+      if: ${{ env.docs_changed == 'true' }}

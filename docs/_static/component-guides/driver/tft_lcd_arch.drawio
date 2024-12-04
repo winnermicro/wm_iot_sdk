@@ -1,0 +1,168 @@
+<mxfile host="Electron" modified="2024-11-07T09:42:19.302Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" etag="yCNxNyLdMnzwP7dyzF-1" version="22.1.18" type="device" pages="2">
+  <diagram name="arch" id="SNrf_Gr_xSRbBHa9VY42">
+    <mxGraphModel dx="-604" dy="1798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-1" value="WM TFT LCD Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="1663" y="-1009" width="354" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-2" value="LCD Ops Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1663" y="-944" width="354" height="19" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-3" value="LCD-1 Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="1664.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-4" value="LCD-2 Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="1789.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-5" value="LCD-x Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1909.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-6" value="TFT LCD I/F Driver (SPI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="1666" y="-843" width="350" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-7" value="wm_drv_tft_lcd.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=default;" parent="1" vertex="1">
+          <mxGeometry x="2030" y="-1002" width="210" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-8" value="wm_dt_hw.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="2030" y="-950" width="212" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-9" value="wm_drv_ops_tft_lcd_nv3041a_spi.c&lt;br&gt;wm_drv_opss_tft_lcd_st7735_spi.c&lt;br&gt;wm_drv_opss_tft_lcd_xxxxxx_spi.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="2030" y="-907" width="213" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-10" value="wm_drv_ops_tft_spi.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="2031" y="-839" width="212" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-11" value="Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1664.5" y="-1077" width="354" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-12" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;对外公共接口&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2247.9970013786765" y="-997.99767578125" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-13" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;设备表:&amp;nbsp; 含引脚定义, 驱动 Ops 挂载 等&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2248" y="-952.5" width="218" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-14" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;各种屏的 驱动具体实现&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2248" y="-902.5" width="178" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-15" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;屏所用硬件接口 IO 的相关操作封装 成通用的 TFT LCD底层操作API, 例如:&lt;/span&gt;&lt;/div&gt;lcd_send_command ()、lcd_send_data ()" style="text;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="2248" y="-850" width="232" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-16" value="WM SPI Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="1900" y="-789.5" width="115.5" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-17" value="WM SDIO Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="1783" y="-789.5" width="100" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-18" value="&lt;div style=&quot;text-align: center;&quot;&gt;SPI, SDIO 驱动 公共接口&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2248" y="-782" width="178" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-19" value="wm_drv_shd_sdi.c&lt;br&gt;wm_drv_spi_master.c&lt;br&gt;wm_drv_gpio.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="2031" y="-788" width="212" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-20" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;相关代码文件&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="2112.9970013786765" y="-1117.99767578125" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-21" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;分层说明&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="2279.9970013786765" y="-1117.99767578125" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-22" value="&lt;div style=&quot;text-align: center;&quot;&gt;TFT LCD 驱动分层架构&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1760" y="-1115" width="146" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-23" value="" style="endArrow=none;html=1;rounded=0;fontStyle=1" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1660" y="-1090" as="sourcePoint" />
+            <mxPoint x="2476" y="-1092" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bHkdmGZ3fZJVnSgzaQe4-24" value="WM GPIO Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="1666" y="-789.5" width="104" height="37" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="OpvxgyEPPdWmqPb5J_On" name="arch_en">
+    <mxGraphModel dx="-604" dy="1798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-1" value="WM TFT LCD Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1663" y="-1009" width="354" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-2" value="LCD Ops Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1663" y="-944" width="354" height="19" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-3" value="LCD-1 Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1664.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-4" value="LCD-2 Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1789.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-5" value="LCD-x Ops Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1909.5" y="-903.5" width="106" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-6" value="TFT LCD I/F Driver (SPI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1666" y="-843" width="350" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-7" value="wm_drv_tft_lcd.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="2030" y="-1002" width="210" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-8" value="wm_dt_hw.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="2030" y="-950" width="212" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-9" value="wm_drv_ops_tft_lcd_nv3041a_spi.c&lt;br&gt;wm_drv_opss_tft_lcd_st7735_spi.c&lt;br&gt;wm_drv_opss_tft_lcd_xxxxxx_spi.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="2030" y="-907" width="213" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-10" value="wm_drv_ops_tft_spi.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="2031" y="-839" width="212" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-11" value="Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1664.5" y="-1077" width="354" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-12" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Public Interface of TFT LCD driver&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2248" y="-998" width="212" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-13" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;DeviceTable: Inlcude Pinmux and Driver Ops Register, etc.&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2248" y="-952.5" width="218" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-14" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;The specific implementation of drivers for various screens&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="2248" y="-902.5" width="222" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-15" value="&lt;div style=&quot;&quot;&gt;wrapper the sdio/spi/gpio/dma driver API as&amp;nbsp; common TFT LCD operation APIs:&lt;/div&gt;&lt;div style=&quot;&quot;&gt;lcd_send_command(),&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;lcd_send_data() ...&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="2248" y="-855" width="222" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-16" value="WM SPI Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1900" y="-789.5" width="115.5" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-17" value="WM SDIO Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1783" y="-789.5" width="100" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-18" value="&lt;div style=&quot;text-align: center;&quot;&gt;Public Interface of SPI, SDIO driver&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2248" y="-776" width="212" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-19" value="wm_drv_shd_sdi.c&lt;br&gt;wm_drv_spi_master.c&lt;br&gt;wm_drv_gpio.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="2031" y="-788" width="212" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-20" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Reference Source Code&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="2060" y="-1118" width="153" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-21" value="The Description of Layer" style="text;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="2257" y="-1118" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-22" value="&lt;div style=&quot;text-align: center;&quot;&gt;TFT LCD Driver Archtecture Layer&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1760" y="-1115" width="230" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-23" value="" style="endArrow=none;html=1;rounded=0;fontStyle=1" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1660" y="-1090" as="sourcePoint" />
+            <mxPoint x="2476" y="-1092" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WIPDLpevhmHTHbJQ3Ilg-24" value="WM GPIO Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3333FF;strokeColor=#82b366;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1666" y="-789.5" width="104" height="37" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

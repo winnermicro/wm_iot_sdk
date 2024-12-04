@@ -1,0 +1,16 @@
+<script>
+var intervalId = setInterval(function(){
+    fetch("/keep_alive", {
+        method: "POST"
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("response was not ok " + response.statusText);
+        }
+    })
+    .catch(error => {
+        clearInterval(intervalId);
+        alert("Device config server may have been closed, \nclose the page and restart the configuration.");
+        window.close();
+    });
+}, 1000);
+</script>

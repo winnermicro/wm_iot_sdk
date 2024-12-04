@@ -1,0 +1,225 @@
+mainmenu "WinnerMicro IoT Software Development Kit Configuration"
+
+menu "SoC configuration"
+
+    menu "W80X"
+
+        osource "${SDK_PATH}/components/wm_soc/w80x/Kconfig" 
+
+        menu "Toolchain"
+
+            comment "Path to the toolchain, see help for details"
+
+            config TOOLCHAIN_PATH
+                string "Toolchain path"
+                default ""
+                help
+                    The absolute address of the toolchain that conforms to 
+                    the current operating system's filesystem path format.
+                    On Windows, such as D:\mytools\toolchain.
+                    On Linux and macOS systems, such as /home/user/mytools/toolchain.
+
+            comment "Toolchain name prefix, see help for details"
+
+            if "${HOST_OS_TYPE}" != "Darwin"
+                config TOOLCHAIN_PREFIX
+                    string "Toolchain prefix"
+                    default "csky-elfabiv2-" if CHIP_W80X
+                    default "csky-elfabiv2-" if CHIP_W9XX
+                    help
+                        The prefix of the toolchain name, for example, 
+                        the gcc name is cSKy-elfabiv2-gcc, then the prefix name is csky-elfabiv2-.
+            endif
+                
+            if "${HOST_OS_TYPE}" = "Darwin"
+                config TOOLCHAIN_PREFIX
+                    string "Toolchain prefix"
+                    default "csky-unknown-elf-" if CHIP_W80X
+                    default "csky-unknown-elf-" if CHIP_W9XX
+                    help
+                        The prefix of the toolchain name, for example, 
+                        the gcc name is cSKy-elfabiv2-gcc, then the prefix name is csky-elfabiv2-.
+            endif
+            
+        endmenu
+        
+    
+        choice BUILD_TYPE
+            prompt "Chip type"
+            default BUILD_TYPE_W800
+            help
+                Product build type based on specific chip/module type.
+
+            config BUILD_TYPE_W800
+                bool "W800"
+                help
+                    Product build type based on W800
+
+#            config BUILD_TYPE_W801
+#                bool "W801"
+#                help
+#                    Product build type based on W801
+
+            config BUILD_TYPE_W801S
+                bool "W801S"
+                help
+                    Product build type based on W801S
+
+            config BUILD_TYPE_W802
+                bool "W802"
+                help
+                    Product build type based on W802
+
+            config BUILD_TYPE_W803
+                bool "W803"
+                help
+                    Product build type based on W803
+
+            config BUILD_TYPE_W805
+                bool "W805"
+                help
+                    Product build type based on W805
+
+            config BUILD_TYPE_W806
+                bool "W806"
+                help
+                    Product build type based on W806
+
+#            config BUILD_TYPE_W900
+#                bool "W900"
+#                help
+#                    Product build type based on W900
+        endchoice
+    endmenu
+
+    config CHIP_NAME
+        string
+        default "W800" if BUILD_TYPE_W800
+        default "W801" if BUILD_TYPE_W801
+        default "W801S" if BUILD_TYPE_W801S
+        default "W802" if BUILD_TYPE_W802
+        default "W803" if BUILD_TYPE_W803
+        default "W805" if BUILD_TYPE_W805
+        default "W806" if BUILD_TYPE_W806
+        default "W900" if BUILD_TYPE_W900
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_W80X
+        bool
+        default y if BUILD_TYPE_W800
+        default y if BUILD_TYPE_W801
+        default y if BUILD_TYPE_W801S
+        default y if BUILD_TYPE_W802
+        default y if BUILD_TYPE_W803
+        default y if BUILD_TYPE_W805
+        default y if BUILD_TYPE_W806
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_W9XX
+        bool
+        default y if BUILD_TYPE_W900
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_FAMILY_NAME
+        string
+        default "w80x" if CHIP_W80X
+        default "w9xx" if CHIP_W9XX
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_HAVE_RF
+        bool
+        default y if BUILD_TYPE_W800
+        default y if BUILD_TYPE_W801
+        default y if BUILD_TYPE_W801S
+        default y if BUILD_TYPE_W802
+        default y if BUILD_TYPE_W803
+        default y if BUILD_TYPE_W900
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_HAVE_WIFI
+        bool
+        default y if BUILD_TYPE_W800
+        default y if BUILD_TYPE_W801
+        default y if BUILD_TYPE_W801S
+        default y if BUILD_TYPE_W802
+        default y if BUILD_TYPE_W803
+        default y if BUILD_TYPE_W900
+        help
+            Internal use, any modification is not allowed.
+
+    config CHIP_HAVE_BT
+        bool
+        default y if BUILD_TYPE_W800
+        default y if BUILD_TYPE_W801
+        default y if BUILD_TYPE_W801S
+        default y if BUILD_TYPE_W802
+        default y if BUILD_TYPE_W803
+        default y if BUILD_TYPE_W900
+        help
+            Internal use, any modification is not allowed.
+
+    source "${SDK_PATH}/version"
+endmenu
+
+
+menu "Compiler configuration"
+
+    choice COMPILER_OPTIMIZE_LEVEL
+        prompt "Optimization level"
+        default COMPILER_OPTIMIZE_LEVEL_OS
+        help
+            This option set compiler optimization level.
+
+        config COMPILER_OPTIMIZE_LEVEL_O0
+            bool "Optimize lowest (-O0)"
+            help
+                Optimize for lower
+
+        config COMPILER_OPTIMIZE_LEVEL_OS
+            bool "Optimize for size (-Os)"
+            help
+                Optimize for size
+
+        config COMPILER_OPTIMIZE_LEVEL_O2
+            bool "Optimize for performance (-O2)"
+            help
+                Optimize for performance
+
+        config COMPILER_OPTIMIZE_LEVEL_O3
+            bool "Optimize for performance highest (-O3)"
+            help
+                Optimize for performance highest
+
+    endchoice
+
+    config COMPILER_DEBUG_INFORMATION
+        bool "Enable debug information (-g3)"
+        default y
+        help
+            Enable compiler generate debug information.
+
+    config COMPILER_OPTIMIZE_CCACHE
+        bool "Enable ccache"
+        default y
+        help
+            Enable ccache improves compilation efficiency.
+
+    config ATTRIBUTE_INLINE_ALWAYS
+        bool "Enable inline always"
+        default n
+        help
+            Enable macro ATTRIBUTE_INLINE inline always.
+endmenu
+
+osource "${SDK_PATH}/components/partition_table/config/Kconfig"
+
+menu "Components configuration"
+    osource "${SDK_PATH}/components/*/Kconfig"
+endmenu
+
+osource "${PROJECT_PATH}/*/Kconfig"

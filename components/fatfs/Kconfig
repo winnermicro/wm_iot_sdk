@@ -1,0 +1,233 @@
+menuconfig COMPONENT_FATFS_ENABLED
+    bool "FATFS"
+    default n
+    help
+        Select this option to enable FATFS and show the submenu.
+
+if COMPONENT_FATFS_ENABLED
+
+    menu "FATFS disk configuration"
+        config FATFS_SDMMC_DISK_ENABLE
+            select COMPONENT_DRIVER_SDMMC_ENABLED
+            bool "Enable FATFS disk on SDMMC card"
+            default n
+            help
+                Select this option to enable FATFS disk on SDMMC card.
+
+        config FATFS_INTERNAL_FLASH_DISK_ENABLE
+            bool "Enable FATFS disk on internal flash"
+            default n
+            help
+                Select this option to enable FATFS disk on internal flash.
+
+        config FATFS_EXTERNAL_FLASH_DISK_ENABLE
+            bool "Enable FATFS disk on external flash"
+            default n
+            help
+                Select this option to enable FATFS disk on external flash.
+    endmenu
+
+    config FATFS_FF_STR_VOLUME_ID_ENABLE
+        bool "Enable volume ID string support"
+        default n
+        help
+            Enable this option to support custom volume ID strings for each storage device.
+            When enabled, you can specify arbitrary strings as volume IDs.
+            When disabled, default numeric volume IDs will be used.
+
+    menu "Volume ID string configuration"
+        depends on FATFS_FF_STR_VOLUME_ID_ENABLE
+
+        config FATFS_SDMMC_DISK_FF_VOLUME_STRS
+            string "SDMMC disk volume ID"
+            default "C"
+            help
+                Specify the volume ID string for the SDMMC disk.
+                This string will be used to identify and mount the SDMMC disk volume.
+
+        config FATFS_INTERNAL_FLASH_DISK_FF_VOLUME_STRS
+            string "Internal flash volume ID"
+            default "D"
+            help
+                Specify the volume ID string for the internal flash disk.
+                This string will be used to identify and mount the internal flash disk volume.
+
+        config FATFS_EXTERNAL_FLASH_DISK_FF_VOLUME_STRS
+            string "External flash volume ID"
+            default "E"
+            help
+                Specify the volume ID string for the external flash disk.
+                This string will be used to identify and mount the external flash disk volume.
+    endmenu
+
+    if FATFS_INTERNAL_FLASH_DISK_ENABLE
+        config FATFS_INTERNAL_FLASH_PARTITION_NAME
+            string "Internal flash partition name"
+            default "fatfs"
+            help
+                Specify the partition name for the internal flash FATFS disk.
+                This name should match the partition name defined in the partition table.
+    endif
+
+    if FATFS_EXTERNAL_FLASH_DISK_ENABLE
+        config FATFS_EXTERNAL_FLASH_DEVICE_NAME
+            string "External flash device name"
+            default "flash_w25q"
+            help
+                Specify the device name for the external flash FATFS disk.
+                This name should match the external flash device name defined in the device tree.
+        config FATFS_EXTERNAL_FLASH_START_ADDRESS
+            hex "External flash start address"
+            default 0x0
+            help
+                Specify the start address for the external flash FATFS disk.
+        config FATFS_EXTERNAL_FLASH_SIZE
+            hex "External flash size for FATFS"
+            default 0x100000
+            help
+                Specify the size of the area on external flash to be used for FATFS.
+                This defines the maximum space available for the FATFS file system on the external flash.
+    endif
+
+    config FATFS_USE_FASTSEEK
+        bool "Enable fast seek algorithm when using lseek function"
+        default n
+        help
+            This option switches fast seek function.
+
+    choice FATFS_CHOOSE_COD_EPAGE
+        prompt "OEM Code Page"
+        default FATFS_COD_EPAGE_437
+        help
+            OEM code page for file name encoding.
+
+            This option specifies the OEM code page to be used on the target system.
+            Incorrect code page setting can cause a file open failure.
+
+            If "FATFS_COD_EPAGE_DYNAMIC" is selected, it will greatly increase the firmware size.
+
+        config FATFS_COD_EPAGE_DYNAMIC
+            bool "Dynamic (all code pages supported)"
+        config FATFS_COD_EPAGE_437
+            bool "US (CP437)"
+        config FATFS_COD_EPAGE_720
+            bool "Arabic (CP720)"
+        config FATFS_COD_EPAGE_737
+            bool "Greek (CP737)"
+        config FATFS_COD_EPAGE_771
+            bool "KBL (CP771)"
+        config FATFS_COD_EPAGE_775
+            bool "Baltic (CP775)"
+        config FATFS_COD_EPAGE_850
+            bool "Latin 1 (CP850)"
+        config FATFS_COD_EPAGE_852
+            bool "Latin 2 (CP852)"
+        config FATFS_COD_EPAGE_855
+            bool "Cyrillic (CP855)"
+        config FATFS_COD_EPAGE_857
+            bool "Turkish (CP857)"
+        config FATFS_COD_EPAGE_860
+            bool "Portugese (CP860)"
+        config FATFS_COD_EPAGE_861
+            bool "Icelandic (CP861)"
+        config FATFS_COD_EPAGE_862
+            bool "Hebrew (CP862)"
+        config FATFS_COD_EPAGE_863
+            bool "Canadian French (CP863)"
+        config FATFS_COD_EPAGE_864
+            bool "Arabic (CP864)"
+        config FATFS_COD_EPAGE_865
+            bool "Nordic (CP865)"
+        config FATFS_COD_EPAGE_866
+            bool "Russian (CP866)"
+        config FATFS_COD_EPAGE_869
+            bool "Greek 2 (CP869)"
+        config FATFS_COD_EPAGE_932
+            bool "Japanese (DBCS) (CP932)"
+        config FATFS_COD_EPAGE_936
+            bool "Simplified Chinese (DBCS) (CP936)"
+        config FATFS_COD_EPAGE_949
+            bool "Korean (DBCS) (CP949)"
+        config FATFS_COD_EPAGE_950
+            bool "Traditional Chinese (DBCS) (CP950)"
+
+    endchoice
+    config FATFS_COD_EPAGE
+        int
+        default 0 if FATFS_COD_EPAGE_DYNAMIC
+        default 437 if FATFS_COD_EPAGE_437
+        default 720 if FATFS_COD_EPAGE_720
+        default 737 if FATFS_COD_EPAGE_737
+        default 771 if FATFS_COD_EPAGE_771
+        default 775 if FATFS_COD_EPAGE_775
+        default 850 if FATFS_COD_EPAGE_850
+        default 852 if FATFS_COD_EPAGE_852
+        default 855 if FATFS_COD_EPAGE_855
+        default 857 if FATFS_COD_EPAGE_857
+        default 860 if FATFS_COD_EPAGE_860
+        default 861 if FATFS_COD_EPAGE_861
+        default 862 if FATFS_COD_EPAGE_862
+        default 863 if FATFS_COD_EPAGE_863
+        default 864 if FATFS_COD_EPAGE_864
+        default 865 if FATFS_COD_EPAGE_865
+        default 866 if FATFS_COD_EPAGE_866
+        default 869 if FATFS_COD_EPAGE_869
+        default 932 if FATFS_COD_EPAGE_932
+        default 936 if FATFS_COD_EPAGE_936
+        default 949 if FATFS_COD_EPAGE_949
+        default 950 if FATFS_COD_EPAGE_950
+        default 437
+        help
+            Internal use, any modification is not allowed.
+
+    menu "File name length configuration"
+        choice FATFS_LONG_FILENAMES
+            prompt "Long file name support"
+            default FATFS_LFN_NONE
+            help
+                The "FATFS_LONG_FILENAMES" choices the support for LFN (long file name).
+
+            config FATFS_LFN_NONE
+                bool "No long file name"
+            config FATFS_LFN_HEAP
+                bool "Long file name buffer in heap"
+            config FATFS_LFN_STACK
+                bool "Long file name buffer on the stack"
+        endchoice
+
+        config FATFS_MAX_LFN
+            int "Maximum length of long file name"
+            depends on !FATFS_LFN_NONE
+            default 255
+            range 12 255
+            help
+                The maximum length of a file name, configuring a smaller maximum file name length can reduce resource consumption.
+    endmenu
+
+    choice FATFS_API_ENCODING
+        prompt "API character encoding"
+        depends on !FATFS_LFN_NONE
+        default CONFIG_FATFS_LFN_UNICODE_ANSI_OEM
+        help
+            This option choices the character encoding on the API when LFN is enabled.
+
+        config CONFIG_FATFS_LFN_UNICODE_ANSI_OEM
+            bool "ANSI/OEM"
+        config CONFIG_FATFS_LFN_UNICODE_UTF_8
+            bool "UTF-8"
+    endchoice
+
+    config FATFS_FS_LOCK
+        int "The number of files opened simultaneously while protected by the locking function"
+        default 0
+        range 0 65535
+        help
+            The option FF_FS_LOCK switches file lock function to control duplicated file open 
+            and illegal operation to open objects. This option must be 0 when FF_FS_READONLY is 1.
+            0:  Disable file lock function. To avoid volume corruption, application program
+                should avoid illegal open, remove and rename to the open objects.
+            >0: Enable file lock function. The value defines how many files/sub-directories
+                can be opened simultaneously under file lock control. Note that the file
+                lock control is independent of re-entrancy.
+
+endif

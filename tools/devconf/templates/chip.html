@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Winnermicro Device Table Configurations - pinmux</title>
+{% include 'header.html' %}
+<style>
+    .pinTable {
+        border-collapse: collapse;
+        empty-cells: show;
+        margin: 0 auto;
+        transform: scale(0.5);
+    }
+    .pinTable td {
+        text-align: center;
+        border: 1px solid black;
+        padding: 1px;
+        width: 105px;
+        height: 105px;
+        white-space: nowrap;
+    }
+    .rotate-cell {
+        transform-origin: center;
+        transform: rotate(270deg);
+    }
+    select {
+        width: 100%;
+    }
+    select option {
+        background-color: lightblue;
+    }
+    .no-border {
+        border: none !important;
+    }
+    .not-arrow {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: 1px solid #dcd8d8;
+        padding: 1px 1px;
+        border: none;
+        outline: none;
+        padding: 1px 1px;
+        background-color: #fff;
+    }
+    .not-arrow::-ms-expand {
+        display: none;
+    }
+    .highlight {
+        background-color: yellow;
+    }
+    .chipbg {
+        background-color: gray;
+    }
+    .invalidbg {
+        background-color: lightgrey;
+    }
+</style>
+</head>
+<body>
+
+{% include 'menu.html' %}
+
+{% set strs = namespace(strs="", devs="", warn=0, pin_valid=0) %}
+{% for pinnum in range(0, 46) %}
+  {% set strs.pin_valid = 0 %}
+
+  {% if pinnum == 0 or pinnum == 1 or pinnum == 4 or pinnum == 7 or pinnum == 16 or pinnum == 17 or pinnum == 18 or pinnum == 19 or pinnum == 20 or pinnum == 21 or pinnum == 22 or pinnum == 23 or pinnum == 24 or pinnum == 25 or pinnum == 26 or pinnum == 27 or pinnum == 35 or pinnum == 36 %}
+    {% set strs.pin_valid = 1 %}
+  {% endif %}
+
+  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+    {% if pinnum == 2 or pinnum == 3 or pinnum == 9 or pinnum == 10 or pinnum == 28 or pinnum == 29 or pinnum == 30 or pinnum == 31 or pinnum == 32 or pinnum == 33 or pinnum == 34 or pinnum == 37 or pinnum == 38 or pinnum == 40 or pinnum == 41 or pinnum == 42 %}
+      {% set strs.pin_valid = 1 %}
+    {% endif %}
+  {% endif %}
+
+  {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+      {% if pinnum == 5 or pinnum == 6 or pinnum == 8 or pinnum == 11 or pinnum == 13 or pinnum == 15 or pinnum == 43 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+  
+  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+      {% if pinnum == 12 or pinnum == 14 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+  
+  {% if data.chip_type == "W802" %}
+      {% if pinnum == 45 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+
+  {% if strs.pin_valid and data.pinmux[pinnum] %}
+    {% set strs.devs = "" %}
+    {% set strs.warn = 0 %}
+    {% for dev, mux in data.pinmux[pinnum].items() %}
+      {% if strs.devs %}
+        {% set strs.devs = strs.devs + "," + dev %}
+        {% set strs.warn = 1 %}
+      {% else %}
+        {% set strs.devs = dev %}
+      {% endif %}
+    {% endfor %}
+    {% if strs.warn %}
+      {% if strs.strs %}
+        {% set strs.strs = strs.strs + "<br><font color='red'>Warning: </font><font color='blue'>PIN_" + pinnum|string + "</font> is used by multiple devices: <font color='blue'>" + strs.devs + "</font>" %}
+      {% else %}
+        {% set strs.strs = "<font color='red'>Warning: </font><font color='blue'>PIN_" + pinnum|string + "</font> is used by multiple devices: <font color='blue'>" + strs.devs + "</font>" %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<div id="chip_container" style="text-align: center;">{{ strs.strs|safe }}</div>
+
+<table class="pinTable" style="margin-top:-400px">
+    <tr>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+        <td id="chip_pin_47_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_46_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_45_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_44_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_43_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_42_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_41_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_40_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_39_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_38_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_37_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_36_opt" class="no-border rotate-cell"></td>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+    </tr>
+    <tr>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+        <td id="chip_pin_47_bg" class="invalidbg"></td>
+        <td id="chip_pin_46_bg" class="invalidbg"></td>
+     {% if data.chip_type == "W802" %}
+        <td id="chip_pin_45_bg" class="rotate-cell">
+            <select id="chip_pin_45" class="not-arrow">
+                <option value="">PIN_45 (PB29)</option>
+                <option value="PSRAM_DAT1">PSRAM_DAT1</option>
+                <option value="UART0_RTS">UART0_RTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="TOUCH15">TOUCH15</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_45_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_44_bg" class="invalidbg"></td>
+     {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_43_bg" class="rotate-cell">
+            <select id="chip_pin_43" class="not-arrow">
+                <option value="">PIN_43 (PB27)</option>
+                <option value="PSRAM_CS">PSRAM_CS</option>
+                <option value="UART0_TX">UART0_TX</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_COM3">LCD_COM3</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_43_bg" class="invalidbg"></td>
+      {% endif %}
+     {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_42_bg" class="rotate-cell">
+            <select id="chip_pin_42" class="not-arrow">
+                <option value="">PIN_42 (PB26)</option>
+                <option value="LSPI_MOSI">LSPI_MOSI</option>
+                <option value="PWM4">PWM4</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG1">LCD_SEG1</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_42_bg" class="invalidbg"></td>
+      {% endif %}
+     {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_41_bg" class="rotate-cell">
+            <select id="chip_pin_41" class="not-arrow">
+                <option value="">PIN_41 (PB25)</option>
+                <option value="LSPI_MOSI">LSPI_MISO</option>
+                <option value="PWM4">PWM3</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG1">LCD_COM0</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_41_bg" class="invalidbg"></td>
+      {% endif %}
+     {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_40_bg" class="rotate-cell">
+            <select id="chip_pin_40" class="not-arrow">
+                <option value="">PIN_40 (PB24)</option>
+                <option value="LSPI_MOSI">LSPI_CK</option>
+                <option value="PWM4">PWM2</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG1">LCD_SEG2</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_40_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_39_bg" class="invalidbg"></td>
+     {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_38_bg" class="rotate-cell">
+            <select id="chip_pin_38" class="not-arrow">
+                <option value="">PIN_38 (PB22)</option>
+                <option value="UART0_CTS">UART0_CTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG1">LCD_COM2</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_38_bg" class="invalidbg"></td>
+      {% endif %}
+     {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_37_bg" class="rotate-cell">
+            <select id="chip_pin_37" class="not-arrow">
+                <option value="">PIN_37 (PB21)</option>
+                <option value="UART0_RTS">UART0_RTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG1">LCD_COM1</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_37_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_36_bg" class="rotate-cell">
+            <select id="chip_pin_36" class="not-arrow">
+                <option value="">PIN_36 (PB20)</option>
+                <option value="UART0_RX">UART0_RX</option>
+                <option value="GPIO">PWM1</option>
+                <option value="UART1_CTS">UART1_CTS</option>
+                <option value="I2C_SCL">I2C_SCL</option>
+                <option value="GPIO">GPIO</option>
+            </select>
+        </td>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_0_opt" class="no-border"></td>
+        <td id="chip_pin_0_bg">
+            <select id="chip_pin_0" class="not-arrow">
+                <option value="">PIN_0 (PA0)</option>
+                <option value="I2S_MCLK">I2S_MCLK</option>
+                <option value="LSPI_CS">LSPI_CS</option>
+                <option value="PWM2">PWM2</option>
+                <option value="I2S_DO">I2S_DO</option>
+                <option value="GPIO">GPIO</option>
+            </select>
+        </td>
+        <td colspan="12" rowspan="12" class="chipbg">{{ data.chip_type }}</td>
+        <td id="chip_pin_35_bg">
+            <select id="chip_pin_35" class="not-arrow">
+                <option value="">PIN_35 (PB19)</option>
+                <option value="UART0_TX">UART0_TX</option>
+                <option value="GPIO">PWM0</option>
+                <option value="UART1_RTS">UART1_RTS</option>
+                <option value="I2C_SDA">I2C_SDA</option>
+                <option value="GPIO">GPIO</option>
+            </select>
+        </td>
+        <td id="chip_pin_35_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_1_opt" class="no-border"></td>
+        <td id="chip_pin_1_bg">
+            <select id="chip_pin_1" class="not-arrow">
+                <option value="">PIN_1 (PA1)</option>
+                <option value="JTAG_CK">JTAG_CK</option>
+                <option value="I2C_SCL">I2C_SCL</option>
+                <option value="PWM3">PWM3</option>
+                <option value="I2S_LRCLK">I2S_LRCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="ADC0">ADC0</option>
+            </select>
+        </td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_34_bg">
+            <select id="chip_pin_34" class="not-arrow">
+                <option value="">PIN_34 (PB18)</option>
+                <option value="UART5_TX">UART5_TX</option>
+                <option value="GPIO">GPIO</option>
+                <option value="GPIO">LCD_SEG30</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_34_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_34_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_2_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_2_bg">
+            <select id="chip_pin_2" class="not-arrow">
+                <option value="">PIN_2 (PA2)</option>
+                <option value="UART1_RTS">UART1_RTS</option>
+                <option value="UART2_TX">UART2_TX</option>
+                <option value="PWM1">PWM0</option>
+                <option value="UART3_RTS">UART3_RTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="ADC1">ADC3</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_2_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_33_bg">
+            <select id="chip_pin_33" class="not-arrow">
+                <option value="">PIN_33 (PB17)</option>
+                <option value="UART5_RX">UART5_RX</option>
+                <option value="PWM_BREAK">PWM_BREAK</option>
+                <option value="LSPI_MOSI">LSPI_MOSI</option>
+                <option value="I2S_MCLK">I2S_MCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="GPIO">LCD_SEG29</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_33_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_33_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_3_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_3_bg">
+            <select id="chip_pin_3" class="not-arrow">
+                <option value="">PIN_3 (PA3)</option>
+                <option value="UART1_CTS">UART1_CTS</option>
+                <option value="UART2_RX">UART2_RX</option>
+                <option value="PWM1">PWM1</option>
+                <option value="UART3_CTS">UART3_CTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="ADC1">ADC2</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_3_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_32_bg">
+            <select id="chip_pin_32" class="not-arrow">
+                <option value="">PIN_32 (PB16)</option>
+                <option value="HSPI_DO">HSPI_DO</option>
+                <option value="PWM4">PWM4</option>
+                <option value="LSPI_MISO">LSPI_MISO</option>
+                <option value="UART1_RX">UART1_RX</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG28">LCD_SEG28</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_32_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_32_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_4_opt" class="no-border"></td>
+        <td id="chip_pin_4_bg">
+            <select id="chip_pin_4" class="not-arrow">
+                <option value="">PIN_4 (PA4)</option>
+                <option value="JTAG_SWO">JTAG_SWO</option>
+                <option value="I2C_SDA">I2C_SDA</option>
+                <option value="PWM4">PWM4</option>
+                <option value="I2S_BCLK">I2S_BCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="ADC1">ADC1</option>
+            </select>
+        </td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_31_bg">
+            <select id="chip_pin_31" class="not-arrow">
+                <option value="">PIN_31 (PB15)</option>
+                <option value="HSPI_DI">HSPI_DI</option>
+                <option value="PWM3">PWM3</option>
+                <option value="LSPI_CK">LSPI_CK</option>
+                <option value="I2S_DI">I2S_DI</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG27">LCD_SEG27</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_31_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_31_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_5_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_5_bg">
+            <select id="chip_pin_5" class="not-arrow">
+                <option value="">PIN_5 (PA5)</option>
+                <option value="UART3_TX">UART3_TX</option>
+                <option value="UART2_RTS">UART2_RTS</option>
+                <option value="PWM_BREAK">PWM_BREAK</option>
+                <option value="UART4_RTS">UART4_RTS</option>
+                <option value="GPIO">GPIO</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_5_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_30_bg">
+            <select id="chip_pin_30" class="not-arrow">
+                <option value="">PIN_30 (PB14)</option>
+                <option value="HSPI_CS">HSPI_CS</option>
+                <option value="PWM2">PWM2</option>
+                <option value="LSPI_CS">LSPI_CS</option>
+                <option value="I2S_DO">I2S_DO</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG26">LCD_SEG26</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_30_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_30_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_6_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_6_bg">
+            <select id="chip_pin_6" class="not-arrow">
+                <option value="">PIN_6 (PA6)</option>
+                <option value="UART3_RX">UART3_RX</option>
+                <option value="UART2_CTS">UART2_CTS</option>
+                <option value="UART4_CTS">UART4_CTS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG31">LCD_SEG31</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_6_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_29_bg">
+            <select id="chip_pin_29" class="not-arrow">
+                <option value="">PIN_29 (PB13)</option>
+                <option value="HSPI_INT">HSPI_INT</option>
+                <option value="PWM1">PWM1</option>
+                <option value="UART5_RTS">UART5_RTS</option>
+                <option value="I2S_LRCLK">I2S_LRCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG25">LCD_SEG25</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_29_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_29_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_7_opt" class="no-border"></td>
+        <td id="chip_pin_7_bg">
+            <select id="chip_pin_7" class="not-arrow">
+                <option value="">PIN_7 (PA7)</option>
+                <option value="PWM4">PWM4</option>
+                <option value="LSPI_MOSI">LSPI_MOSI</option>
+                <option value="I2S_MCLK">I2S_MCLK</option>
+                <option value="I2S_DI">I2S_DI</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG3">LCD_SEG3</option>
+            </select>
+        </td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_28_bg">
+            <select id="chip_pin_28" class="not-arrow">
+                <option value="">PIN_28 (PB12)</option>
+                <option value="HSPI_CK">HSPI_CK</option>
+                <option value="PWM0">PWM0</option>
+                <option value="UART5_CTS">UART5_CTS</option>
+                <option value="I2S_BCLK">I2S_BCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG24">LCD_SEG24</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_28_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_28_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_8_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_8_bg">
+            <select id="chip_pin_8" class="not-arrow">
+                <option value="">PIN_8 (PA8)</option>
+                <option value="PWM_BREAK">PWM_BREAK</option>
+                <option value="UART4_TX">UART4_TX</option>
+                <option value="UART5_TX">UART5_TX</option>
+                <option value="I2S_BCLK">I2S_BCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG4">LCD_SEG4</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_8_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_27_bg">
+            <select id="chip_pin_27" class="not-arrow">
+                <option value="">PIN_27 (PB11)</option>
+                <option value="I2S_DO">I2S_DO</option>
+                <option value="MMC_DAT3">MMC_DAT3</option>
+                <option value="HSPI_DO">HSPI_DO</option>
+                <option value="SDIO_SLAVE_D3">SDIO_SLAVE_D3</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG23">LCD_SEG23</option>
+            </select>
+        </td>
+        <td id="chip_pin_27_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_9_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_9_bg">
+            <select id="chip_pin_9" class="not-arrow">
+                <option value="">PIN_9 (PA9)</option>
+                <option value="MMC_CLK">MMC_CLK</option>
+                <option value="UART4_RX">UART4_RX</option>
+                <option value="UART5_RX">UART5_RX</option>
+                <option value="I2S_LRCLK">I2S_LRCLK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG5">LCD_SEG5</option>
+                <option value="TOUCH1">TOUCH1</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_9_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_26_bg">
+            <select id="chip_pin_26" class="not-arrow">
+                <option value="">PIN_26 (PB10)</option>
+                <option value="I2S_DI">I2S_DI</option>
+                <option value="MMC_DAT2">MMC_DAT2</option>
+                <option value="HSPI_DI">HSPI_DI</option>
+                <option value="SDIO_SLAVE_D2">SDIO_SLAVE_D2</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG22">LCD_SEG22</option>
+            </select>
+        </td>
+        <td id="chip_pin_26_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_10_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <td id="chip_pin_10_bg">
+            <select id="chip_pin_10" class="not-arrow">
+                <option value="">PIN_10 (PA10)</option>
+                <option value="MMC_CMD">MMC_CMD</option>
+                <option value="UART4_RTS">UART4_RTS</option>
+                <option value="PWM0">PWM0</option>
+                <option value="I2S_DO">I2S_DO</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG6">LCD_SEG6</option>
+                <option value="TOUCH2">TOUCH2</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_10_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_25_bg">
+            <select id="chip_pin_25" class="not-arrow">
+                <option value="">PIN_25 (PB9)</option>
+                <option value="I2S_LRCLK">I2S_LRCLK</option>
+                <option value="MMC_DAT1">MMC_DAT1</option>
+                <option value="HSPI_CS">HSPI_CS</option>
+                <option value="SDIO_SLAVE_D1">SDIO_SLAVE_D1</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG21">LCD_SEG21</option>
+                <option value="TOUCH12">TOUCH12</option>
+            </select>
+        </td>
+        <td id="chip_pin_25_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td id="chip_pin_11_opt" class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_11_bg">
+            <select id="chip_pin_11" class="not-arrow">
+                <option value="">PIN_11 (PA11)</option>
+                <option value="MMC_DAT0">MMC_DAT0</option>
+                <option value="UART4_CTS">UART4_CTS</option>
+                <option value="PWM1">PWM1</option>
+                <option value="I2S_DI">I2S_DI</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG7">LCD_SEG7</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_11_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_24_bg">
+            <select id="chip_pin_24" class="not-arrow">
+                <option value="">PIN_24 (PB8)</option>
+                <option value="I2S_BCLK">I2S_BCLK</option>
+                <option value="MMC_DAT0">MMC_DAT0</option>
+                <option value="PWM_BREAK">PWM_BREAK</option>
+                <option value="SDIO_SLAVE_D0">SDIO_SLAVE_D0</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG20">LCD_SEG20</option>
+                <option value="TOUCH11">TOUCH11</option>
+            </select>
+        </td>
+        <td id="chip_pin_24_opt" class="no-border"></td>
+    </tr>
+    <tr>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <td id="chip_pin_12_bg" class="rotate-cell">
+            <select id="chip_pin_12" class="not-arrow">
+                <option value="">PIN_12 (PA12)</option>
+                <option value="MMC_DAT1">MMC_DAT1</option>
+                <option value="UART5_TX">UART5_TX</option>
+                <option value="PWM2">PWM2</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG8">LCD_SEG8</option>
+                <option value="CMOD">CMOD</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_12_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_13_bg" class="rotate-cell">
+            <select id="chip_pin_13" class="not-arrow">
+                <option value="">PIN_13 (PA13)</option>
+                <option value="MMC_DAT2">MMC_DAT2</option>
+                <option value="UART5_RX">UART5_RX</option>
+                <option value="PWM3">PWM3</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG9">LCD_SEG9</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_13_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <td id="chip_pin_14_bg" class="rotate-cell">
+            <select id="chip_pin_14" class="not-arrow">
+                <option value="">PIN_14 (PA14)</option>
+                <option value="MMC_DAT3">MMC_DAT3</option>
+                <option value="UART5_CTS">UART5_CTS</option>
+                <option value="PWM4">PWM4</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG10">LCD_SEG10</option>
+                <option value="CDC">CDC</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_14_bg" class="invalidbg"></td>
+      {% endif %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <td id="chip_pin_15_bg" class="rotate-cell">
+            <select id="chip_pin_15" class="not-arrow">
+                <option value="">PIN_15 (PA15)</option>
+                <option value="PSRAM_CK">PSRAM_CK</option>
+                <option value="UART5_RTS">UART5_RTS</option>
+                <option value="PWM_BREAK">PWM_BREAK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG11">LCD_SEG11</option>
+            </select>
+        </td>
+      {% else %}
+        <td id="chip_pin_15_bg" class="invalidbg"></td>
+      {% endif %}
+        <td id="chip_pin_16_bg" class="rotate-cell">
+            <select id="chip_pin_16" class="not-arrow">
+                <option value="">PIN_16 (PB0)</option>
+                <option value="PWM0">PWM0</option>
+                <option value="LSPI_MISO">LSPI_MISO</option>
+                <option value="UART3_TX">UART3_TX</option>
+                <option value="PSRAM_CK">PSRAM_CK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG12">LCD_SEG12</option>
+                <option value="TOUCH3">TOUCH3</option>
+            </select>
+        </td>
+        <td id="chip_pin_17_bg" class="rotate-cell">
+            <select id="chip_pin_17" class="not-arrow">
+                <option value="">PIN_17 (PB1)</option>
+                <option value="PWM1">PWM1</option>
+                <option value="LSPI_CK">LSPI_CK</option>
+                <option value="UART2_RX">UART2_RX</option>
+                <option value="PSRAM_CS">PSRAM_CS</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG13">LCD_SEG13</option>
+                <option value="TOUCH4">TOUCH4</option>
+            </select>
+        </td>
+        <td id="chip_pin_18_bg" class="rotate-cell">
+            <select id="chip_pin_18" class="not-arrow">
+                <option value="">PIN_18 (PB2)</option>
+                <option value="PWM2">PWM2</option>
+                <option value="LSPI_CK">LSPI_CK</option>
+                <option value="UART2_TX">UART2_TX</option>
+                <option value="PSRAM_DAT0">PSRAM_DAT0</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG14">LCD_SEG14</option>
+                <option value="TOUCH5">TOUCH5</option>
+            </select>
+        </td>
+        <td id="chip_pin_19_bg" class="rotate-cell">
+            <select id="chip_pin_19" class="not-arrow">
+                <option value="">PIN_19 (PB3)</option>
+                <option value="PWM3">PWM3</option>
+                <option value="LSPI_MISO">LSPI_MISO</option>
+                <option value="UART2_RX">UART2_RX</option>
+                <option value="PSRAM_DAT1">PSRAM_DAT1</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG15">LCD_SEG15</option>
+                <option value="TOUCH6">TOUCH6</option>
+            </select>
+        </td>
+        <td id="chip_pin_20_bg" class="rotate-cell">
+            <select id="chip_pin_20" class="not-arrow">
+                <option value="">PIN_20 (PB4)</option>
+                <option value="LSPI_CS">LSPI_CS</option>
+                <option value="UART2_RTS">UART2_RTS</option>
+                <option value="UART4_TX">UART4_TX</option>
+                <option value="PSRAM_DAT2">PSRAM_DAT2</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG16">LCD_SEG16</option>
+                <option value="TOUCH7">TOUCH7</option>
+            </select>
+        </td>
+        <td id="chip_pin_21_bg" class="rotate-cell">
+            <select id="chip_pin_21" class="not-arrow">
+                <option value="">PIN_21 (PB5)</option>
+                <option value="LSPI_MOSI">LSPI_MOSI</option>
+                <option value="UART2_CTS">UART2_CTS</option>
+                <option value="UART4_RX">UART4_RX</option>
+                <option value="PSRAM_DAT3">PSRAM_DAT3</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG17">LCD_SEG17</option>
+                <option value="TOUCH8">TOUCH8</option>
+            </select>
+        </td>
+        <td id="chip_pin_22_bg" class="rotate-cell">
+            <select id="chip_pin_22" class="not-arrow">
+                <option value="">PIN_22 (PB6)</option>
+                <option value="UART1_TX">UART1_TX</option>
+                <option value="MMC_CLK">MMC_CLK</option>
+                <option value="HSPI_CK">HSPI_CK</option>
+                <option value="SDIO_SLAVE_CK">SDIO_SLAVE_CK</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG18">LCD_SEG18</option>
+                <option value="TOUCH9">TOUCH9</option>
+            </select>
+        </td>
+        <td id="chip_pin_23_bg" class="rotate-cell">
+            <select id="chip_pin_23" class="not-arrow">
+                <option value="">PIN_23 (PB7)</option>
+                <option value="UART1_RX">UART1_RX</option>
+                <option value="MMC_CMD">MMC_CMD</option>
+                <option value="HSPI_INT">HSPI_INT</option>
+                <option value="SDIO_SLAVE_CMD">SDIO_SLAVE_CMD</option>
+                <option value="GPIO">GPIO</option>
+                <option value="LCD_SEG19">LCD_SEG19</option>
+                <option value="TOUCH10">TOUCH10</option>
+            </select>
+        </td>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+    </tr>
+    <tr>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+        <td id="chip_pin_12_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_13_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_14_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_15_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_16_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_17_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_18_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_19_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_20_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_21_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_22_opt" class="no-border rotate-cell"></td>
+        <td id="chip_pin_23_opt" class="no-border rotate-cell"></td>
+        <td class="no-border"></td>
+        <td class="no-border"></td>
+    </tr>
+</table>
+
+<script>
+function addPinOpt(pin) {
+    var keypin = document.getElementById('chip_pin_' + pin);
+    if (keypin) {
+        keypin.addEventListener('change', function() {
+            var selectedValue = this.value;
+            var cell = document.getElementById('chip_pin_' + pin + '_opt');
+            if (cell) {
+                if (selectedValue !== '') {
+                    //cell.textContent = selectedValue;
+                    //cell.style.backgroundColor = 'red'; // 高亮显示
+                } else {
+                    //cell.textContent = '';
+                    //cell.style.backgroundColor = ''; // 清除背景色
+                }
+            }
+            this.selectedIndex = 0;
+        });
+    }
+}
+
+function highlightPin(pin) {
+    var keypin = document.getElementById("chip_pin_" + pin);
+    if (keypin) {
+        keypin.classList.add('highlight');
+    }
+    keypin = document.getElementById("chip_pin_" + pin + "_bg");
+    if (keypin) {
+        keypin.classList.add('highlight');
+    }
+}
+
+function setPinOpt(pin, opt, warn) {
+    var cell = document.getElementById('chip_pin_' + pin + '_opt');
+    if (cell) {
+        cell.textContent = opt;
+        if (warn) {
+            cell.style.color = "red";
+        } else {
+            cell.style.color = "black";
+        }
+    }
+}
+//for (let i = 0; i <= 43; i++) {
+//    addPinOpt(i);
+//}
+
+//highlightPin(35);
+//highlightPin(36);
+//highlightPin(37);
+//highlightPin(38);
+//highlightPin(43);
+//setPinOpt(35, "UART0_TX");
+//setPinOpt(36, "UART0_RX");
+
+{% for pinnum in range(0, 46) %}
+  addPinOpt({{ pinnum }});
+
+  {% set strs.pin_valid = 0 %}
+  {% if pinnum == 0 or pinnum == 1 or pinnum == 4 or pinnum == 7 or pinnum == 16 or pinnum == 17 or pinnum == 18 or pinnum == 19 or pinnum == 20 or pinnum == 21 or pinnum == 22 or pinnum == 23 or pinnum == 24 or pinnum == 25 or pinnum == 26 or pinnum == 27 or pinnum == 35 or pinnum == 36 %}
+    {% set strs.pin_valid = 1 %}
+  {% endif %}
+
+  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+    {% if pinnum == 2 or pinnum == 3 or pinnum == 9 or pinnum == 10 or pinnum == 28 or pinnum == 29 or pinnum == 30 or pinnum == 31 or pinnum == 32 or pinnum == 33 or pinnum == 34 or pinnum == 37 or pinnum == 38 or pinnum == 40 or pinnum == 41 or pinnum == 42 %}
+      {% set strs.pin_valid = 1 %}
+    {% endif %}
+  {% endif %}
+
+  {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+      {% if pinnum == 5 or pinnum == 6 or pinnum == 8 or pinnum == 11 or pinnum == 13 or pinnum == 15 or pinnum == 43 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+  
+  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+      {% if pinnum == 12 or pinnum == 14 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+  
+  {% if data.chip_type == "W802" %}
+      {% if pinnum == 45 %}
+        {% set strs.pin_valid = 1 %}
+      {% endif %}
+  {% endif %}
+
+  {% if strs.pin_valid and data.pinmux[pinnum] %}
+    var devs = ""
+    var muxs = ""
+    var warn = 0
+
+    {% for dev, mux in data.pinmux[pinnum].items() %}
+      if (devs) {
+        devs = devs + ", {{ dev }}"
+      } else {
+        devs = "{{ dev }}"
+      }
+      if (muxs) {
+        muxs = "{{ mux }}.."
+        warn = 1
+      } else {
+        muxs = "{{ mux }}"
+        warn = 0
+      }
+      highlightPin({{ pinnum }});
+      setPinOpt({{ pinnum }}, muxs, warn);
+    {% endfor %}
+
+    {% if (data.pinmux[pinnum]|length) > 1 %}
+        //alert("Note: pin {{ pinnum }} is used by multiple devices: " + devs);
+    {% endif %}
+  {% endif %}
+
+{% endfor %}
+</script>
+
+{% include 'keep_alive.html' %}
+
+</body>
+</html>

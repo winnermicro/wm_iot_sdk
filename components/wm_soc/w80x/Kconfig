@@ -1,0 +1,118 @@
+menu "XT804"
+    visible if CHIP_W80X
+
+    if CHIP_W80X
+        config SRAM_BASE_ADDR
+            hex
+            default 0x20000000
+            help
+                Internal use, any modification is not allowed.
+
+        config SRAM_LENGTH
+            hex
+            default 0x28000
+            help
+                Internal use, any modification is not allowed.
+
+        config DRAM_BASE_ADDR
+            hex
+            default 0x20028000
+            help
+                Internal use, any modification is not allowed.
+
+        config DRAM_LENGTH
+            hex
+            default 0x20000
+            help
+                Internal use, any modification is not allowed.
+
+        config PSRAM_BASE_ADDR
+            hex
+            default 0x30000000
+            help
+                Internal use, any modification is not allowed.
+
+        config PSRAM_MAX_LENGTH
+            hex
+            default 0x800000
+            help
+                Internal use, any modification is not allowed.
+
+        config UART_BASE_ADDR
+            hex
+            default 0x40010600
+            help
+                Internal use, any modification is not allowed.
+
+        config UART_LENGTH
+            hex
+            default 0xA00
+            help
+                Internal use, any modification is not allowed.
+
+        config XT804_SEPARATE_IRQ_SP
+            bool
+            default y
+            help
+                Use separate interrupt request stack pointer if enable.
+                Internal use, any modification is not allowed.
+
+        config XT804_ARCH_INTERRUPTSTACK
+            int "Interrupt request stack size (Byte)"
+            range 1024 16384
+            default 4096
+            help
+                Interrupt request stack size.
+
+        config XT804_IRQ_VECTOR_SIZE
+            int
+            range 256 256
+            default 256
+            help
+                Interrupt request vector size.
+                Internal use, any modification is not allowed.
+
+        config XT804_SAVE_VR_REGISTERS
+            bool "Enable vr registers save"
+            default y
+            help
+                Enable vr registers save in the rtos.
+
+        config XT804_SAVE_HIGH_REGISTERS
+            bool "Enable high registers save"
+            default y
+            help
+                Enable high registers save in the rtos.
+
+        config XT804_SYSTEM_SECURE
+            bool
+            default y
+            help
+                Enable interrupt request secure when enable interrupt request.
+                Internal use, any modification is not allowed.
+
+        config XT804_TRAP_PRINT_STR
+            bool "Enable exception interrupt string"
+            default y
+            help
+                Use exceptions to interrupt string interpretation.
+
+        config XT804_TRAP_OUTPUT_RAMDUMP
+            bool "Enable output ramdump"
+            default y
+            help
+                Use exceptions to output ramdump.
+    endif
+
+endmenu
+
+config W80X_BASIC_DRIVER
+    bool
+    default y
+    select COMPONENT_DRIVER_RCC_ENABLED
+    select COMPONENT_DRIVER_PMU_ENABLED
+    select COMPONENT_DRIVER_IRQ_ENABLED
+    select COMPONENT_DRIVER_DMA_ENABLED
+    select COMPONENT_DRIVER_INTERNAL_FLASH_ENABLED
+    help
+        Internal use, any modification is not allowed.

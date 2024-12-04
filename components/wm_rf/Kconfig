@@ -1,0 +1,43 @@
+if CHIP_HAVE_RF
+
+    config COMPONENT_RF_ENABLED
+        bool
+        default y
+        help
+            Select chip rf function.
+            Internal use, any modification is not allowed.
+
+endif
+
+if COMPONENT_RF_ENABLED
+
+    if BUILD_TYPE_W800
+        orsource "src/w800/Kconfig"
+    endif
+
+    if BUILD_TYPE_W801
+        orsource "src/w800/Kconfig"
+    endif
+
+    if BUILD_TYPE_W801S
+        orsource "src/w800/Kconfig"
+    endif
+
+    if BUILD_TYPE_W802
+        orsource "src/w800/Kconfig"
+    endif
+
+
+    if BUILD_TYPE_W803
+        orsource "src/w800/Kconfig"
+    endif
+
+    if BUILD_TYPE_W805
+        orsource "src/w800/Kconfig"
+    endif
+
+    if BUILD_TYPE_W806
+        orsource "src/w800/Kconfig"
+    endif
+
+endif

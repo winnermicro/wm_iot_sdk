@@ -1,0 +1,61 @@
+.config
+*.o
+*.pyc
+
+# gtags
+GTAGS
+GRTAGS
+GPATH
+
+# emacs
+.dir-locals.el
+
+# emacs temp file suffixes
+*~
+.#*
+\#*#
+
+# eclipse setting
+.settings
+
+# MacOS directory files
+.DS_Store
+
+# Example project files
+examples/**/build
+
+docs/zh_CN/examples_reference/index.rst
+docs/en/examples_reference/index.rst
+*docs/zh_CN/examples_reference/examples/*
+*docs/en/examples_reference/examples/*
+docs/build/
+
+# gcov coverage reports
+*.gcda
+*.gcno
+coverage.info
+coverage_report/
+
+# VS Code Settings
+.vscode/
+
+# VIM files
+*.swp
+*.swo
+
+# Clion IDE CMake build & config
+.idea/
+cmake-build-*/
+
+# Results for the checking of the Python coding style and static analysis
+.mypy_cache
+flake8_output.txt
+
+#vim index files
+.cscope
+compile_flags.txt
+tags
+*.vim
+*.si4project
+.compile_flags.tmp
+.compile_flags.txt

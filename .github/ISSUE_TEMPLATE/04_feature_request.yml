@@ -1,0 +1,35 @@
+name: 🌟 功能请求
+description: 💡 为项目建议新功能或增强功能。
+labels: ['Type: Feature Request']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🙌 我们欢迎您的功能请求和想法！请提供对该功能及其潜在影响的详细说明。
+        📖 在提交之前，请查看 [WM_IoT_SDK 编程指南](https://doc.winnermicro.net/) 是否有类似的功能请求，以避免重复。
+        🔍 在提交之前，请查看[issues](https://github.com/winnermicro/wm_iot_sdk/issues)是否有类似的功能请求，以避免重复。
+        🤝 如果您有兴趣贡献，请参阅我们的[贡献指南](https://github.com/winnermicro/wm_iot_sdk/blob/master/CONTRIBUTING.md)。
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: 📝 功能描述
+      description: 清楚地描述您提议的功能。
+      placeholder: 例如，我希望看到一个允许...的功能
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: ❓ 问题陈述
+      description: 该功能解决了什么问题？
+      placeholder: 例如，目前，很难...
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: 💡 建议的解决方案
+      description: 您设想该功能如何工作？
+      placeholder: 例如，实现此功能将涉及...
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: 📚 其他上下文
+      description: 提供任何其他支持您请求的上下文或示例。
+      placeholder: 例如，此功能将是有益的，因为...

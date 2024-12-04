@@ -1,0 +1,315 @@
+      {% include 'common.html' %}
+
+      <div class="card-header">
+        <h5>Channel 0</h5>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum0_1" name="pinnum0_1" {% if not data.enable0_1 %} disabled {% endif %}>
+            <option value="2" {% if data.pinnum0_1 == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable0_1" name="enable0_1" {% if data.enable0_1 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum0_2" name="pinnum0_2" {% if not data.enable0_2 %} disabled {% endif %}>
+            <option value="10" {% if data.pinnum0_2 == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable0_2" name="enable0_2" {% if data.enable0_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum0_3" name="pinnum0_3" {% if not data.enable0_3 %} disabled {% endif %}>
+            <option value="16" {% if data.pinnum0_3 == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable0_3" name="enable0_3" {% if data.enable0_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum0_4" name="pinnum0_4" {% if not data.enable0_4 %} disabled {% endif %}>
+            <option value="28" {% if data.pinnum0_4 == 28 %} selected {% endif %}>PIN_28 (PB12)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable0_4" name="enable0_4" {% if data.enable0_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum0_5" name="pinnum0_5" {% if not data.enable0_5 %} disabled {% endif %}>
+            <option value="35" {% if data.pinnum0_5 == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable0_5" name="enable0_5" {% if data.enable0_5 %} checked {% endif %}>
+        </div>
+	  </div>
+      <div class="card-header">
+        <h5>Channel 1</h5>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum1_1" name="pinnum1_1" {% if not data.enable1_1 %} disabled {% endif %}>
+            <option value="3" {% if data.pinnum1_1 == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1_1" name="enable1_1" {% if data.enable1_1 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum1_2" name="pinnum1_2" {% if not data.enable1_2 %} disabled {% endif %}>
+            <option value="11" {% if data.pinnum1_2 == 11 %} selected {% endif %}>PIN_11 (PA11)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1_2" name="enable1_2" {% if data.enable1_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum1_3" name="pinnum1_3" {% if not data.enable1_3 %} disabled {% endif %}>
+            <option value="17" {% if data.pinnum1_3 == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1_3" name="enable1_3" {% if data.enable1_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum1_4" name="pinnum1_4" {% if not data.enable1_4 %} disabled {% endif %}>
+            <option value="29" {% if data.pinnum1_4 == 29 %} selected {% endif %}>PIN_29 (PB13)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1_4" name="enable1_4" {% if data.enable1_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum1_5" name="pinnum1_5" {% if not data.enable1_5 %} disabled {% endif %}>
+            <option value="36" {% if data.pinnum1_5 == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1_5" name="enable1_5" {% if data.enable1_5 %} checked {% endif %}>
+        </div>
+	  </div>
+      <div class="card-header">
+        <h5>Channel 2</h5>
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum2_1" name="pinnum2_1" {% if not data.enable2_1 %} disabled {% endif %}>
+            <option value="0" {% if data.pinnum2_1 == 0 %} selected {% endif %}>PIN_0 (PA0)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2_1" name="enable2_1" {% if data.enable2_1 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum2_2" name="pinnum2_2" {% if not data.enable2_2 %} disabled {% endif %}>
+            <option value="12" {% if data.pinnum2_2 == 12 %} selected {% endif %}>PIN_12 (PA12)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2_2" name="enable2_2" {% if data.enable2_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum2_3" name="pinnum2_3" {% if not data.enable2_3 %} disabled {% endif %}>
+            <option value="18" {% if data.pinnum2_3 == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2_3" name="enable2_3" {% if data.enable2_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum2_4" name="pinnum2_4" {% if not data.enable2_4 %} disabled {% endif %}>
+            <option value="30" {% if data.pinnum2_4 == 30 %} selected {% endif %}>PIN_30 (PB14)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2_4" name="enable2_4" {% if data.enable2_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum2_5" name="pinnum2_5" {% if not data.enable2_5 %} disabled {% endif %}>
+            <option value="40" {% if data.pinnum2_5 == 40 %} selected {% endif %}>PIN_40 (PB24)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2_5" name="enable2_5" {% if data.enable2_5 %} checked {% endif %}>
+        </div>
+        {% endif %}
+	  </div>
+      <div class="card-header">
+        <h5>Channel 3</h5>
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum3_1" name="pinnum3_1" {% if not data.enable3_1 %} disabled {% endif %}>
+            <option value="1" {% if data.pinnum3_1 == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3_1" name="enable3_1" {% if data.enable3_1 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum3_2" name="pinnum3_2" {% if not data.enable3_2 %} disabled {% endif %}>
+            <option value="13" {% if data.pinnum3_2 == 13 %} selected {% endif %}>PIN_13 (PA13)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3_2" name="enable3_2" {% if data.enable3_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum3_3" name="pinnum3_3" {% if not data.enable3_3 %} disabled {% endif %}>
+            <option value="19" {% if data.pinnum3_3 == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3_3" name="enable3_3" {% if data.enable3_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum3_4" name="pinnum3_4" {% if not data.enable3_4 %} disabled {% endif %}>
+            <option value="31" {% if data.pinnum3_4 == 31 %} selected {% endif %}>PIN_31 (PB15)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3_4" name="enable3_4" {% if data.enable3_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum3_5" name="pinnum3_5" {% if not data.enable3_5 %} disabled {% endif %}>
+            <option value="41" {% if data.pinnum3_5 == 41 %} selected {% endif %}>PIN_41 (PB25)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3_5" name="enable3_5" {% if data.enable3_5 %} checked {% endif %}>
+        </div>
+        {% endif %}
+	  </div>
+      <div class="card-header">
+        <h5>Channel 4</h5>
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum4_1" name="pinnum4_1" {% if not data.enable4_1 %} disabled {% endif %}>
+            <option value="4" {% if data.pinnum4_1 == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4_1" name="enable4_1" {% if data.enable4_1 %} checked {% endif %}>
+        </div>
+        <br>
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum4_2" name="pinnum4_2" {% if not data.enable4_2 %} disabled {% endif %}>
+            <option value="7" {% if data.pinnum4_2 == 7 %} selected {% endif %}>PIN_7 (PA7)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4_2" name="enable4_2" {% if data.enable4_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum4_3" name="pinnum4_3" {% if not data.enable4_3 %} disabled {% endif %}>
+            <option value="14" {% if data.pinnum4_3 == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4_3" name="enable4_3" {% if data.enable4_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum4_4" name="pinnum4_4" {% if not data.enable4_4 %} disabled {% endif %}>
+            <option value="32" {% if data.pinnum4_4 == 32 %} selected {% endif %}>PIN_32 (PB16)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4_4" name="enable4_4" {% if data.enable4_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum4_5" name="pinnum4_5" {% if not data.enable4_5 %} disabled {% endif %}>
+            <option value="42" {% if data.pinnum4_5 == 42 %} selected {% endif %}>PIN_42 (PB26)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4_5" name="enable4_5" {% if data.enable4_5 %} checked {% endif %}>
+        </div>
+        {% endif %}
+	  </div>
+      <div class="card-header">
+        <h5>Break</h5>
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum5_1" name="pinnum5_1" {% if not data.enable5_1 %} disabled {% endif %}>
+            <option value="5" {% if data.pinnum5_1 == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5_1" name="enable5_1" {% if data.enable5_1 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum5_2" name="pinnum5_2" {% if not data.enable5_2 %} disabled {% endif %}>
+            <option value="8" {% if data.pinnum5_2 == 8 %} selected {% endif %}>PIN_8 (PA8)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5_2" name="enable5_2" {% if data.enable5_2 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum5_3" name="pinnum5_3" {% if not data.enable5_3 %} disabled {% endif %}>
+            <option value="15" {% if data.pinnum5_3 == 15 %} selected {% endif %}>PIN_15 (PA15)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5_3" name="enable5_3" {% if data.enable5_3 %} checked {% endif %}>
+        </div>
+        <br>
+        {% endif %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum5_4" name="pinnum5_4" {% if not data.enable5_4 %} disabled {% endif %}>
+            <option value="24" {% if data.pinnum5_4 == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5_4" name="enable5_4" {% if data.enable5_4 %} checked {% endif %}>
+        </div>
+        <br>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <div class="row">
+          <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
+          <select class="col-sm-6" id="pinnum5_5" name="pinnum5_5" {% if not data.enable5_5 %} disabled {% endif %}>
+            <option value="33" {% if data.pinnum5_5 == 33 %} selected {% endif %}>PIN_33 (PB17)</option>
+          </select>
+          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5_5" name="enable5_5" {% if data.enable5_5 %} checked {% endif %}>
+        </div>
+        {% endif %}
+	  </div>
+
+<script>
+function check_pwm_pin_status(channel, index) {
+    const checkbox = document.getElementById('enable' + channel.toString() + '_' + index.toString());
+    const select = document.getElementById('pinnum' + channel.toString() + '_' + index.toString());
+
+    if (checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                select.disabled = false;
+            } else {
+                select.disabled = true;
+            }
+        });
+    }
+}
+
+for (let j = 0; j <= 5; j++) {
+    for (let i = 1; i <= 5; i++) {
+        check_pwm_pin_status(j, i);
+    }
+}
+</script>

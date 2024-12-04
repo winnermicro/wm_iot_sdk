@@ -1,0 +1,13 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+mainmenu "Bluetooth: Peripheral identity"
+
+config SAMPLE_CONN_ITERATIONS
+	int "Connection iterations"
+	range 0 255
+	default 1
+	help
+	  Expected number of times connect and disconnect from
+	  central sample.
+

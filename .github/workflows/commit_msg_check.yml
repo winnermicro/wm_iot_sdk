@@ -1,0 +1,42 @@
+name: Commit Message Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ '*' ]
+
+jobs:
+  commit-lint:
+    name: Check Commit Messages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Commit Messages
+        run: |
+          # Get latest commit message
+          COMMIT_MSG=$(git log -1 --pretty=format:%s)
+
+          # Skip check if merge commit
+          if [[ $COMMIT_MSG == Merge* ]]; then
+            echo "This is a merge commit, skipping check"
+            exit 0
+          fi
+
+          # Commit message format regex
+          PATTERN="^(feat|fix|docs|style|refactor|perf|test|chore|del|revert)\(([a-z]+)\): .{8,64}$"
+
+          if [[ ! $COMMIT_MSG =~ $PATTERN ]]; then
+            echo "❌ Invalid commit message format!"
+            echo "Current commit message: $COMMIT_MSG"
+            echo "Example of correct format: feat(mqtt): add device connection feature"
+            echo "For more details, please refer to https://github.com/winnermicro/wm_iot_sdk/blob/master/CONTRIBUTING.md for commit guidelines"
+            exit 1
+          fi
+
+          echo "✅ Commit message format check passed"

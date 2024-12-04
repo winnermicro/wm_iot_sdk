@@ -1,0 +1,42 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_IS_OPEN_NETWORK
+            bool "Wi-Fi is open network"
+            default n
+
+        if !EXAMPLE_WIFI_IS_OPEN_NETWORK
+            config EXAMPLE_WIFI_PASSWORD
+                string "Wi-Fi Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (WPA or WPA2) for the example to use.
+        endif
+
+    choice EXAMPLE_IP_MODE
+        prompt "IP Version"
+        help
+            Example can use either IPV4 or IPV6.
+
+        config EXAMPLE_IPV4
+            bool "IPV4"
+
+        config EXAMPLE_IPV6
+            bool "IPV6"
+            depends on LWIP_ENABLE_IPV6
+
+    endchoice
+
+    config EXAMPLE_PORT
+        int "Port"
+        range 0 65535
+        default 3333
+        help
+            Local port the example server will listen on.
+
+endmenu

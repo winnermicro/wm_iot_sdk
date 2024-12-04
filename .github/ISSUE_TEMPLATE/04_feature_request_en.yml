@@ -1,0 +1,35 @@
+name: 🌟 Feature Request
+description: 💡 Suggest a new feature or enhancement for the project.
+labels: ['Type: Feature Request']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🙌 We welcome your feature requests and ideas! Please provide a detailed explanation of the feature and its potential impact.
+        📖 Before submitting, please check the [WM_IoT_SDK Programming Guide](https://doc.winnermicro.net/w800/en/latest/) to see if there are similar feature requests to avoid duplication.
+        🔍 Before submitting, please check the [issues](https://github.com/winnermicro/wm_iot_sdk/issues) to see if there are similar feature requests to avoid duplication.
+        🤝 If you're interested in contributing, please refer to our [Contribution Guidelines](https://github.com/winnermicro/wm_iot_sdk/blob/master/CONTRIBUTING_EN.md).
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: 📝 Feature Description
+      description: Clearly describe the feature you are proposing.
+      placeholder: e.g., I would like to see a feature that allows...
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: ❓ Problem Statement
+      description: What problem does this feature solve?
+      placeholder: e.g., Currently, it is challenging to...
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: How do you envision this feature working?
+      placeholder: e.g., Implementing this feature would involve...
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: 📚 Additional Context
+      description: Provide any other context or examples to support your request.
+      placeholder: e.g., This feature would be beneficial because...

@@ -1,0 +1,39 @@
+menuconfig COMPONENT_MBEDTLS_ENABLED
+    bool "Mbed TLS"
+    default n
+    help
+        Select this option to enable MbedTLS and show the submenu.
+
+    menu "TLS maximum fragment length configuration"
+        depends on COMPONENT_MBEDTLS_ENABLED
+
+        config MBEDTLS_SSL_IN_CONTENT_LEN
+            int "Incoming fragment length (Byte)"
+            default 16384
+            range 512 16384
+            help
+                This defines maximum incoming fragment length.
+
+        config MBEDTLS_SSL_OUT_CONTENT_LEN
+            int "Outgoing fragment length (Byte)"
+            default 4096
+            range 512 16384
+            help
+                This defines maximum outgoing fragment length.
+
+    endmenu
+
+    config MBEDTLS_ENABLE_HARD_DRV
+        depends on COMPONENT_MBEDTLS_ENABLED
+        select COMPONENT_DRIVER_RSA_ENABLED
+        bool "Enable HW encryption and decryption"
+        default y
+        help
+            Select this option to enable hard driver.
+
+    config MBEDTLS_ENABLE_DEBUG
+        depends on COMPONENT_MBEDTLS_ENABLED
+        bool "Enable debug"
+        default n
+        help
+            Select this option to enable debug message.

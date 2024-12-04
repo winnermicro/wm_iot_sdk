@@ -1,0 +1,6 @@
+config BUILD_VERSION
+    string
+    default "2.2-beta.2"
+    help
+        The version number of the SDK.
+        Internal use, any modification is not allowed.

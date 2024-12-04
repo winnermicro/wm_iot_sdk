@@ -1,0 +1,87 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        {% include 'device_name.html' %}
+	    <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="clock">clock:</label>
+        <select class="col-sm-6" id="clock" name="clock">
+          {% for clkdiv in data.clkdiv %}
+            {% if data.cpu_freq % clkdiv == 0 %}
+              {% set sdclk = (data.cpu_freq / clkdiv) | int %}
+              <option value="{{ sdclk }}" {% if data.clock == sdclk %} selected {% endif %}>{{ "{:,}".format(sdclk) }}</option>
+            {% endif %}
+          {% endfor %}
+        </select> &nbsp;HZ
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="bus_width">bus width:</label>
+        <select class="col-sm-6" id="bus_width" name="bus_width">
+          <option value="0" {% if data.bus_width == 0 %} selected {% endif %}>1 bit</option>
+          <option value="1" {% if data.bus_width == 1 %} selected {% endif %}>4 bit</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="card-header">
+        <h5>Pins</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">CLK:</label>
+        <select class="col-sm-6" id="clkpinnum" name="clkpinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="9" {% if data.clkpinnum == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+        {% endif %}
+          <option value="22" {% if data.clkpinnum == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">CMD:</label>
+        <select class="col-sm-6" id="cmdpinnum" name="cmdpinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="10" {% if data.cmdpinnum == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+        {% endif %}
+          <option value="23" {% if data.cmdpinnum == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">DAT0:</label>
+        <select class="col-sm-6" id="dat0pinnum" name="dat0pinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+          <option value="11" {% if data.dat0pinnum == 11 %} selected {% endif %}>PIN_11 (PA11)</option>
+        {% endif %}
+          <option value="24" {% if data.dat0pinnum == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">DAT1:</label>
+        <select class="col-sm-6" id="dat1pinnum" name="dat1pinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+          <option value="12" {% if data.dat1pinnum == 12 %} selected {% endif %}>PIN_12 (PA12)</option>
+        {% endif %}
+          <option value="25" {% if data.dat1pinnum == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">DAT2:</label>
+        <select class="col-sm-6" id="dat2pinnum" name="dat2pinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+          <option value="13" {% if data.dat2pinnum == 13 %} selected {% endif %}>PIN_13 (PA13)</option>
+        {% endif %}
+          <option value="26" {% if data.dat2pinnum == 26 %} selected {% endif %}>PIN_26 (PB10)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdmmcpin">CD/DAT3:</label>
+        <select class="col-sm-6" id="dat3pinnum" name="dat3pinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+          <option value="14" {% if data.dat3pinnum == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
+        {% endif %}
+          <option value="27" {% if data.dat3pinnum == 27 %} selected {% endif %}>PIN_27 (PB11)</option>
+        </select>
+        </div>
+	  </div>

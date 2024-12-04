@@ -1,0 +1,44 @@
+menuconfig COMPONENT_MQTT_ENABLED
+    depends on CHIP_HAVE_WIFI
+    bool "MQTT Client"
+    default n
+    select COMPONENT_POSIX_ENABLED
+    select COMPONENT_MBEDTLS_ENABLED
+    help
+	  This option enables mqtt client support.
+
+#menu "Mqtt Client"
+#
+#    depends on COMPONENT_POSIX_ENABLED
+#
+#    config COMPONENT_MQTT_ENABLED
+#        bool "Enable mqtt client"
+#        default y
+#
+#    config MQTT_CLIENT_TASK_PRIO
+#        int "mqtt client pthread priority"
+#        range 0 15
+#        default 4
+#        help
+#            Priority used to create new tasks with default pthread parameters.
+#
+#    config MQTT_CLIENT_TASK_STACK_SIZE
+#        int "mqtt client pthread stack size"
+#        default 2048
+#        help
+#            Minimum allowed pthread stack size set in attributes passed to pthread_create
+#
+#    config MQTT_WORK_TASK_PRIO
+#        int "mqtt work pthread priority"
+#        range 0 15
+#        default 3
+#        help
+#            Priority used to create new tasks with default pthread parameters.
+#
+#    config MQTT_WORK_TASK_STACK_SIZE
+#        int "mqtt work pthread stack size"
+#        default 8192
+#        help
+#            Minimum allowed pthread stack size set in attributes passed to pthread_create
+#
+#endmenu

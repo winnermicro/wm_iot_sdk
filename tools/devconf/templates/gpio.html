@@ -1,0 +1,106 @@
+      <div class="card-header">
+        <h5>Properties</h5><br>
+        <div class="row">
+        &nbsp;&nbsp;<label class="text-right" for="device_name">Device name: &nbsp;</label>
+        <input type="text" class="col-sm-3 text-left" value="{{ data.dev_name|lower }}" id="device_name" name="device_name" readonly>
+        &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
+        </div>
+        <br>
+        {% for i in range(0, 46) %}
+          {% set pin_valid = 0 %}
+
+          {% if i == 0 or i == 1 or i == 4 or i == 7 or i == 16 or i == 17 or i == 18 or i == 19 or i == 20 or i == 21 or i == 22 or i == 23 or i == 24 or i == 25 or i == 26 or i == 27 or i == 35 or i == 36 %}
+            {% set pin_valid = 1 %}
+          {% endif %}
+
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+            {% if i == 2 or i == 3 or i == 9 or i == 10 or i == 28 or i == 29 or i == 30 or i == 31 or i == 32 or i == 33 or i == 34 or i == 37 or i == 38 or i == 40 or i == 41 or i == 42 %}
+              {% set pin_valid = 1 %}
+            {% endif %}
+          {% endif %}
+
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+              {% if i == 5 or i == 6 or i == 8 or i == 11 or i == 13 or i == 15 or i == 43 %}
+                {% set pin_valid = 1 %}
+              {% endif %}
+          {% endif %}
+          
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+              {% if i == 12 or i == 14 %}
+                {% set pin_valid = 1 %}
+              {% endif %}
+          {% endif %}
+          
+          {% if data.chip_type == "W802" %}
+              {% if i == 45 %}
+                {% set pin_valid = 1 %}
+              {% endif %}
+          {% endif %}
+
+          {% if pin_valid %}
+            <div class="row">
+              &nbsp;&nbsp;
+              <label class="text-right" for="gpiopin">Pin: &nbsp;</label>
+              <select class="col-sm-2" id="pinnum{{i}}" name="pinnum{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                {% if data.pinnum[i] > 15 %}
+                    <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PB{{i - 16}})</option>
+                {% else %}
+                    <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PA{{i}})</option>
+                {% endif %}
+              </select>&nbsp;&nbsp;
+              <label class="text-right" for="gpiopin">Dir: &nbsp;</label>
+              <select class="col-sm-2" id="pindir{{i}}" name="pindir{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                <option value="0" {% if data.pindir[i] == 0 %} selected {% endif %}>Input</option>
+                <option value="1" {% if data.pindir[i] == 1 %} selected {% endif %}>Output</option>
+              </select>&nbsp;&nbsp;
+              <label class="text-right" for="gpiopin">Pupd: &nbsp;</label>
+              <select class="col-sm-2" id="pinpupd{{i}}" name="pinpupd{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                <option value="0" {% if data.pinpupd[i] == 0 %} selected {% endif %}>Floating</option>
+                <option value="1" {% if data.pinpupd[i] == 1 %} selected {% endif %}>Pull-up</option>
+                <option value="2" {% if data.pinpupd[i] == 2 %} selected {% endif %}>Pull-down</option>
+              </select>&nbsp;&nbsp;
+              <label class="text-right" for="gpiopin">INT: &nbsp;</label>
+              <select class="col-sm-2" id="pinint{{i}}" name="pinint{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                <option value="0" {% if data.pinint[i] == 0 %} selected {% endif %}>None</option>
+                <option value="1" {% if data.pinint[i] == 1 %} selected {% endif %}>Falling edge</option>
+                <option value="2" {% if data.pinint[i] == 2 %} selected {% endif %}>Rising edge</option>
+                <option value="3" {% if data.pinint[i] == 3 %} selected {% endif %}>Double edge</option>
+                <option value="4" {% if data.pinint[i] == 4 %} selected {% endif %}>Low level</option>
+                <option value="5" {% if data.pinint[i] == 5 %} selected {% endif %}>High level</option>
+              </select>&nbsp;&nbsp;
+              <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable{{i}}" name="enable{{i}}" {% if data.enable[i] %} checked {% endif %}>
+            </div>
+            {% if not loop.last%} <br> {% endif %}
+          {% endif %}
+        {% endfor %}
+	  </div>
+
+<script>
+    function check_gpiopin_status(index) {
+        const enable = document.getElementById('enable' + index.toString());
+        const pinnum = document.getElementById('pinnum' + index.toString());
+        const pindir = document.getElementById('pindir' + index.toString());
+        const pinpupd = document.getElementById('pinpupd' + index.toString());
+        const pinint = document.getElementById('pinint' + index.toString());
+
+        if (enable) {
+            enable.addEventListener('change', function() {
+                if (this.checked) {
+                    pinnum.disabled = false;
+                    pindir.disabled = false;
+                    pinpupd.disabled = false;
+                    pinint.disabled = false;
+                } else {
+                    pinnum.disabled = true;
+                    pindir.disabled = true;
+                    pinpupd.disabled = true;
+                    pinint.disabled = true;
+                }
+            });
+        }
+    }
+
+    for (let i = 0; i <= 47; i++) {
+        check_gpiopin_status(i);
+    }
+</script>

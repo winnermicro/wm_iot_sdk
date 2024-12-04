@@ -1,0 +1,37 @@
+menuconfig COMPONENT_EVENT_ENABLED
+    bool "Event"
+    default n
+
+if COMPONENT_EVENT_ENABLED
+
+    config WM_EVENT_USE_TASK
+#        bool "Event use task"
+        bool
+        default y
+        help
+            Use task process event.
+            Internal use, any modificationis not allowed.
+
+    if WM_EVENT_USE_TASK
+#        config WM_EVENT_TASK_PRIO
+#            int "Event task priority"
+#            range 0 15
+#            default 10
+#            help
+#                Priority used to create event task.
+#
+#        config WM_EVENT_TASK_STACK_SIZE
+#            int "Event task stack size"
+#            default 2048
+#            help
+#                Stack size used to create event task.
+
+        config WM_EVENT_QUEUE_SIZE
+            int "Event queue size (Number of messages)"
+            range 1 512
+            default 32
+            help
+                queue size used to create event queue.
+    endif
+
+endif

@@ -1,0 +1,23 @@
+menu "Heap"
+
+    config HEAP_USE_PSRAM
+        bool
+        default y if !HEAP_PSRAM_DISABLE && COMPONENT_DRIVER_PSRAM_ENABLED
+        default n if HEAP_PSRAM_DISABLE || !COMPONENT_DRIVER_PSRAM_ENABLED
+        help
+            This option is automatically set to 'y' if HEAP_PSRAM_DISABLE is set to 'n'.
+            Internal use, any modification is not allowed.
+
+    config HEAP_USE_ASSERT
+        bool "Enable heap assert"
+        default y
+        help
+            Enable heap assert.
+
+    config HEAP_USE_TRACING
+        bool "Enable heap tracing"
+        default y
+        help
+            Enable heap tracing.
+
+endmenu

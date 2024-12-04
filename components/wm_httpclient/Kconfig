@@ -1,0 +1,12 @@
+menuconfig COMPONENT_HTTP_CLIENT_ENABLED
+    depends on CHIP_HAVE_WIFI
+    bool "Http Client"
+    default n
+    select COMPONENT_LWIP_ENABLED
+    help
+        Enable http client and show the submenu.
+
+if COMPONENT_HTTP_CLIENT_ENABLED
+    orsource "http/Kconfig"
+    orsource "http2/Kconfig"
+endif

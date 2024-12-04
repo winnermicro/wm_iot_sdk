@@ -1,0 +1,12 @@
+future==0.18.3
+iso8601==1.1.0
+pyserial==3.5
+PyYAML==6.0
+xmodem==0.4.6
+PyPrind==2.11.3
+windows-curses==2.3.1; sys_platform == 'win32'
+pyelftools==0.29
+tomlkit==0.13.0
+colorama==0.4.6
+flask==3.0.3
+waitress==3.0.0

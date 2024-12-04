@@ -1,0 +1,107 @@
+menuconfig COMPONENT_WPA_SUPPLICANT_ENABLED
+    depends on COMPONENT_WIFI_ENABLED
+    bool "Wpa_supplicant"
+    default n
+
+if COMPONENT_WPA_SUPPLICANT_ENABLED
+
+    config WPA_SUPPLICANT_ENABLE_AP
+#        depends on WM_WL_ENABLE_AP
+        bool "Enable AP"
+        default n
+        help
+            Select this option to enable softap.
+
+    config WPA_SUPPLICANT_ENABLE_SAE
+        #bool "Enable SAE"
+        bool
+        default y
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W800
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W801
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W801S
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W802
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W803
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W805
+        select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W806
+        help
+            Select this option to enable SAE.
+            Internal use, any modification is not allowed.
+
+    config WPA_SUPPLICANT_HARD_CRYPTO_ENABLED
+        #bool "Enable HW encryption and decryption"
+        select COMPONENT_DRIVER_CRYPTO_ENABLED
+        select COMPONENT_DRIVER_HASH_ENABLED
+        bool
+        default n
+        help
+            Select this option to enable hard driver to encryption and decryption.
+            Internal use, any modification is not allowed.
+
+    config WPA_SUPPLICANT_CRYPTO_HARD_BIGNUM
+        depends on BUILD_TYPE_W900
+        bool
+        default y
+        help
+            Internal use, any modification is not allowed.
+
+    config WPA_SUPPLICANT_CRYPTO_HARD_EC
+        depends on BUILD_TYPE_W900
+        bool
+        default y
+        help
+            Internal use, any modification is not allowed.
+
+    menuconfig WPA_SUPPLICANT_ENABLE_DEBUG
+        bool "Enable debug"
+        default n
+        help
+            Select this option to enable debug message.
+
+    if WPA_SUPPLICANT_ENABLE_DEBUG
+
+        choice WPA_SUPPLICANT_LOG_LEVEL_DEFAULT
+            prompt "Default log level"
+            default WPA_SUPPLICANT_LOG_LEVEL_DEBUG
+            help
+                Internal use, any modification is not allowed.
+
+            config WPA_SUPPLICANT_LOG_LEVEL_ERROR
+                bool "Error"
+                help
+                    Wpa_supplicant show error log
+
+            config WPA_SUPPLICANT_LOG_LEVEL_WARNING
+                bool "Warning"
+                help
+                    Wpa_supplicant show warn log
+
+            config WPA_SUPPLICANT_LOG_LEVEL_INFO
+                bool "Info"
+                help
+                    Wpa_supplicant show info log
+
+            config WPA_SUPPLICANT_LOG_LEVEL_DEBUG
+                bool "Debug"
+                help
+                    Wpa_supplicant show debug log
+
+            config WPA_SUPPLICANT_LOG_LEVEL_MSGDUMP
+                bool "Msgdump"
+                help
+                    Wpa_supplicant show msgdump log
+
+            config WPA_SUPPLICANT_LOG_LEVEL_EXCESSIVE
+                bool "Excessive"
+                help
+                    Wpa_supplicant show excessive log
+        endchoice
+
+        config WPA_SUPPLICANT_ENABLE_DEBUG_SHOW_KEYS
+            bool "Debug show keys"
+            default n
+            help
+                Select this option to enable show keys.
+
+    endif # WPA_SUPPLICANT_ENABLE_DEBUG
+
+endif

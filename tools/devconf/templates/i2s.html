@@ -1,0 +1,132 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        {% include 'device_name.html' %}
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="extal_clock_en">external clock:</label>
+        <select class="col-sm-6" id="extal_clock_en" name="extal_clock_en">
+          <option value="1" {% if data.extal_clock_en %} selected {% endif %}>True</option>
+          <option value="0" {% if not data.extal_clock_en %} selected {% endif %}>False</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="extal_clock_hz">external clock:</label>
+        <input type="number" value="{{ data.extal_clock_hz }}" class="col-sm-6" id="extal_clock_hz" name="extal_clock_hz"> &nbsp;HZ
+        </div>
+      </div>
+
+      <div class="card-header">
+        <h5>Pins</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="i2spin">BCLK:</label>
+        <select class="col-sm-6" id="bclkpinnum" name="bclkpinnum">
+          <option value="4" {% if data.bclkpinnum == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+          <option value="8" {% if data.bclkpinnum == 8 %} selected {% endif %}>PIN_8 (PA8)</option>
+        {% endif %}
+          <option value="24" {% if data.bclkpinnum == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="28" {% if data.bclkpinnum == 28 %} selected {% endif %}>PIN_28 (PB12)</option>
+        {% endif %}
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="i2spin">LRCLK:</label>
+        <select class="col-sm-6" id="lrclkpinnum" name="lrclkpinnum">
+          <option value="1" {% if data.lrclkpinnum == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="9" {% if data.lrclkpinnum == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+        {% endif %}
+          <option value="25" {% if data.lrclkpinnum == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="29" {% if data.lrclkpinnum == 29 %} selected {% endif %}>PIN_29 (PB13)</option>
+        {% endif %}
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="i2spin">MCLK:</label>
+        <select class="col-sm-6" id="mclkpinnum" name="mclkpinnum" {% if not data.enable_mclk %} disabled {% endif %}>
+          <option value="0" {% if data.mclkpinnum == 0 %} selected {% endif %}>PIN_0 (PA0)</option>
+          <option value="7" {% if data.mclkpinnum == 7 %} selected {% endif %}>PIN_7 (PA7)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="33" {% if data.mclkpinnum == 33 %} selected {% endif %}>PIN_33 (PB17)</option>
+        {% endif %}
+        </select>
+        <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable_mclk" name="enable_mclk" {% if data.enable_mclk %} checked {% endif %}>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="i2spin">DI:</label>
+        <select class="col-sm-6" id="dipinnum" name="dipinnum" {% if not data.enable_di %} disabled {% endif %}>
+          <option value="7" {% if data.dipinnum == 7 %} selected {% endif %}>PIN_7 (PA7)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+          <option value="11" {% if data.dipinnum == 11 %} selected {% endif %}>PIN_11 (PA11)</option>
+        {% endif %}
+          <option value="26" {% if data.dipinnum == 26 %} selected {% endif %}>PIN_26 (PB10)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="31" {% if data.dipinnum == 31 %} selected {% endif %}>PIN_31 (PB15)</option>
+        {% endif %}
+        </select>
+        <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable_di" name="enable_di" {% if data.enable_di %} checked {% endif %}>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="i2spin">DO:</label>
+        <select class="col-sm-6" id="dopinnum" name="dopinnum" {% if not data.enable_do %} disabled {% endif %}>
+          <option value="0" {% if data.dopinnum == 0 %} selected {% endif %}>PIN_0 (PA0)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="10" {% if data.dopinnum == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+        {% endif %}
+          <option value="27" {% if data.dopinnum == 27 %} selected {% endif %}>PIN_27 (PB11)</option>
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="30" {% if data.dopinnum == 30 %} selected {% endif %}>PIN_30 (PB14)</option>
+        {% endif %}
+        </select>
+        <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable_do" name="enable_do" {% if data.enable_do %} checked {% endif %}>
+        </div>
+	  </div>
+
+<script>
+    function check_i2s_clk_and_pin_status() {
+        checkbox = document.getElementById('enable_mclk');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                const select = document.getElementById('mclkpinnum');
+                if (this.checked) {
+                    select.disabled = false;
+                } else {
+                    select.disabled = true;
+                }
+            });
+        }
+
+        checkbox = document.getElementById('enable_di');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                const select = document.getElementById('dipinnum');
+                if (this.checked) {
+                    select.disabled = false;
+                } else {
+                    select.disabled = true;
+                }
+            });
+        }
+
+        checkbox = document.getElementById('enable_do');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                const select = document.getElementById('dopinnum');
+                if (this.checked) {
+                    select.disabled = false;
+                } else {
+                    select.disabled = true;
+                }
+            });
+        }
+    }
+
+    check_i2s_clk_and_pin_status();
+</script>

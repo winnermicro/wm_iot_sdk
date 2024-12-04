@@ -1,0 +1,24 @@
+name: 🗂️ 其他问题报告
+description: 📝 报告任何未被现有模板涵盖的问题
+labels: ['Type: Bug']
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ 提交前检查清单
+      description: 🧐 请确认您在提交前已完成以下步骤
+      options:
+        - label: 📖 我已仔细查看 [WM_IoT_SDK 编程指南](https://doc.winnermicro.net/) 的相关部分，但未找到问题的解决方案。
+          required: true
+        - label: 🔄 我已将我的 wm_iot_sdk 分支（主分支或发布分支）更新到最新版本，并确认问题仍然存在。
+          required: true
+        - label: 🔍 我已在 [问题](https://github.com/winnermicro/wm_iot_sdk/issues) 和 [讨论](https://github.com/winnermicro/wm_iot_sdk/discussions) 部分中搜索，但未找到类似问题。
+          required: true
+  - type: textarea
+    id: issue_details
+    attributes:
+      label: 📝 问题详情
+      description: 🖊️ 请提供您问题的详细描述。
+      placeholder: 例如，我遇到了一个问题...
+    validations:
+      required: true

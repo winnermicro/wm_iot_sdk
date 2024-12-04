@@ -1,0 +1,405 @@
+# WM IoT SDK Device Table
+# table_name = "default"
+
+[[dev]]
+dev_name = "rcc"
+reg_base = 0x40000E00
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_cfg = [{type = "cpu",  clock = 80},
+           {type = "wlan", clock = 160}] #MHz
+
+[[dev]]
+dev_name = "dma"
+reg_base = 0x40000800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 4, irq_priority = 0}
+
+[[dev]]
+dev_name = "gpio"
+init_cfg = {init_level = "app", init_priority = 0}
+gpio_cfg = [{pin = 37, fun = "fun5", dir = "input", pupd = "float", interrupt_mode = "double_edge"},
+            {pin = 38, fun = "fun5", dir = "input", pupd = "float", interrupt_mode = "rising_edge"}]
+
+[[dev]]
+dev_name = "timer0"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "timer1"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "timer2"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "timer3"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "timer4"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "timer5"
+reg_base = 0x40011800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 30, irq_priority = 0}
+
+[[dev]]
+dev_name = "uart0"
+reg_base = 0x40010600
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "none"}
+irq_cfg = {irq_num = 16, irq_priority = 0}
+pin_cfg = [{pin = 35, fun = "fun1"}, #tx
+           {pin = 36, fun = "fun1"}] #rx
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "uart1"
+reg_base = 0x40010800
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "none"}
+irq_cfg = {irq_num = 17, irq_priority = 0}
+pin_cfg = [{pin = 22, fun = "fun1"}, #tx
+           {pin = 23, fun = "fun1"}] #rx
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "uart2"
+reg_base = 0x40010A00
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "rts_cts"}
+irq_cfg = {irq_num = 19, irq_priority = 0}
+pin_cfg = [{pin = 18, fun = "fun3"},
+           {pin = 19, fun = "fun2"},
+           {pin = 20, fun = "fun2"},
+           {pin = 21, fun = "fun2"}]
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "uart3"
+reg_base = 0x40010C00
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "none"}
+irq_cfg = {irq_num = 19, irq_priority = 0}
+pin_cfg = [{pin = 5, fun = "fun1"}, #tx
+           {pin = 6, fun = "fun1"}] #rx
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "uart4"
+reg_base = 0x40010E00
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "none"}
+irq_cfg = {irq_num = 19, irq_priority = 0}
+pin_cfg = [{pin =  8, fun = "fun2"}, #tx
+           {pin =  9, fun = "fun2"}] #rx
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "uart5"
+reg_base = 0x40011000
+init_cfg = {init_level = "app", init_priority = 0}
+uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "none"}
+irq_cfg = {irq_num = 19, irq_priority = 0}
+pin_cfg = [{pin = 34, fun = "fun3"}, #tx
+           {pin = 33, fun = "fun3"}] #rx
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "pwm"
+reg_base = 0x40011E00
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 22, irq_priority = 0}
+pin_cfg = [{pin = 28, fun = "fun2"},
+           {pin = 29, fun = "fun2"},
+           {pin = 30, fun = "fun2"},
+           {pin = 31, fun = "fun2"},
+           {pin = 32, fun = "fun2"},
+           {pin = 24, fun = "fun3"}] #PWM Brake Input
+dma_device = "dma"
+
+[[dev]]
+dev_name = "iflash"
+reg_base = 0x40002000
+flash_cfg = {quad_spi = true}
+init_cfg = {init_level = "app", init_priority = 0}
+
+[[dev]]
+dev_name = "seg_lcd"
+reg_base = 0x40011C00
+init_cfg = {init_level = "app", init_priority = 0}
+seg_lcd_cfg = {duty_sel = "1/4", vlcd_cc = "2.7v", bias = "1/3", hd = "low", frame_freq = 60, com_num = 4}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "i2c"
+reg_base = 0x40010000
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 10, irq_priority = 0}
+i2c_cfg = {max_clock = 400000, addr_10_bits = false}
+pin_cfg = [{pin = 1, fun = "fun2"}, #sda
+           {pin = 4, fun = "fun2"}] #scl
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "spim"
+reg_base = 0x40010400
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 17, fun = "fun2"}, #clock
+           {pin = 16, fun = "fun2"}, #di
+           {pin = 7,  fun = "fun2"}] #do
+irq_cfg = {irq_num = 12, irq_priority = 0}
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "rtc"
+reg_base = 0x40000D0C
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 29, irq_priority = 0}
+
+[[dev]]
+dev_name = "pmu"
+reg_base = 0x40000D00
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 29, irq_priority = 0}
+clk_src = "internal"
+
+[[dev]]
+dev_name = "touch_sensor"
+reg_base = 0x40012400
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 12, fun = "fun7"}, #cmod,  pa12
+           {pin = 14, fun = "fun7"}] #cdc,   pa14
+irq_cfg = {irq_num = 18, irq_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "touch_button"
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 16, fun = "fun7"}, 
+           {pin = 17, fun = "fun7"}, 
+           {pin = 18, fun = "fun7"}]
+touch_button_cfg = [{key_num = 3, threshold = 25}, 
+                    {key_num = 4, threshold = 30}, 
+                    {key_num = 5, threshold = 20}]
+touch_sensor_device = "touch_sensor"
+
+[[dev]]
+dev_name = "adc"
+reg_base = 0x40010200
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 1, fun = "fun6"}, #adc channel0
+           {pin = 4, fun = "fun6"}] #adc channel1
+irq_cfg = {irq_num = 11, irq_priority = 0}
+adc_cfg = [{adc_channel = 0, pga_gain1 = "level0", pga_gain2 = "level0", adc_cmp = false},
+           {adc_channel = 1, pga_gain1 = "level0", pga_gain2 = "level0", adc_cmp = false}]
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "eeprom0"
+init_cfg = {init_level = "app", init_priority = 0}
+i2c_device = "i2c"
+speed_hz          = 400000
+size              = 256
+i2c_addr          = 0x52
+page_size         = 16
+addr_width        = 8
+read_only         = false
+max_write_time_ms = 5
+
+[[dev]]
+dev_name = "eeprom1"
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = {pin = 21, fun = "fun5", dir = "output", pupd = "float"} #Write Protection
+i2c_device = "i2c"
+speed_hz          = 100000
+size              = 256
+i2c_addr          = 0x50
+page_size         = 16
+addr_width        = 8
+read_only         = false
+max_write_time_ms = 10
+
+[[dev]]
+dev_name = "gdc0689"
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 7,fun = "fun6"}, {pin = 8,fun = "fun6"}, {pin = 9,fun = "fun6"}, {pin = 10,fun = "fun6"}, {pin = 11,fun = "fun6"}, {pin = 12,fun = "fun6"}, {pin = 13,fun = "fun6"}, {pin = 14,fun = "fun6"}, {pin = 15,fun = "fun6"}, {pin = 16,fun = "fun6"}, {pin = 17,fun = "fun6"}, {pin = 18,fun = "fun6"}, {pin = 19,fun = "fun6"}, {pin = 20,fun = "fun6"}, {pin = 21,fun = "fun6"}, {pin = 22,fun = "fun6"}, {pin = 23,fun = "fun6"}, {pin = 24,fun = "fun6"}, {pin = 25,fun = "fun6"}, {pin = 26,fun = "fun6"}, {pin = 27,fun = "fun6"}, {pin = 28,fun = "fun6"}, {pin = 29,fun = "fun6"}, {pin = 37,fun = "fun6"}, {pin = 38,fun = "fun6"}, {pin = 40,fun = "fun6"}, {pin = 41,fun = "fun6"}, {pin = 42,fun = "fun6"}, {pin = 43,fun = "fun6"}]
+seg_lcd_device = "seg_lcd"
+
+[[dev]]
+dev_name = "flash_w25q"
+init_cfg = {init_level = "app", init_priority = 0}
+flash_cfg = {quad_spi = false}
+spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_device = "spim"
+
+[[dev]]
+dev_name = "flash_gd25q"
+init_cfg = {init_level = "app", init_priority = 0}
+flash_cfg = {quad_spi = false}
+spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_device = "spim"
+
+[[dev]]
+dev_name = "flash_xt25f"
+init_cfg = {init_level = "app", init_priority = 0}
+flash_cfg = {quad_spi = false}
+spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_device = "spim"
+
+[[dev]]
+dev_name = "flash_th25q"
+init_cfg = {init_level = "app", init_priority = 0}
+flash_cfg = {quad_spi = false}
+spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_device = "spim"
+
+[[dev]]
+dev_name = "i2s"
+reg_base = 0x40012400
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 23, irq_priority = 0}
+pin_cfg = [{pin = 24, fun = "fun1"}, #BCLK
+           {pin = 25, fun = "fun1"}, #LRCLK
+           {pin = 0,fun = "fun1"},
+           {pin = 26,fun = "fun1"},
+           {pin = 27,fun = "fun1"}]
+i2s_cfg = {extal_clock_en = false, mclk_hz = 80000000}
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "sdmmc"
+reg_base = 0x40000A00
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 24, irq_priority = 0}
+pin_cfg = [{pin = 22, fun = "fun2"}, #CLK
+           {pin = 23, fun = "fun2"}, #CMD
+           {pin = 24, fun = "fun2"}, #DAT0
+           {pin = 25, fun = "fun2"}, #DAT1
+           {pin = 26, fun = "fun2"}, #DAT2
+           {pin = 27, fun = "fun2"}] #CD/DAT3
+sdh_cfg = {clock_hz = 40000000, bus_width = 1}
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "sdspi"
+reg_base = 0x40000A00
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 24, irq_priority = 0}
+pin_cfg = [{pin = 22, fun = "fun2"}, #CLK
+           {pin = 23, fun = "fun2"}] #MOSI
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "nv3041a_spi"
+init_cfg = {init_level = "app", init_priority = 0}
+spi_cfg = {mode = 0, freq = 40000000, pin_cs = {pin_num = 27, pin_mux = "fun5", dir = "output", pupd = "float"}}
+pin_lcd_reset = 26
+pin_lcd_dcx = 25
+pin_lcd_led = 32
+pin_lcd_te = 24
+spi_device = "sdspi"
+gpio_device = "gpio"
+
+[[dev]]
+dev_name = "st7735_spi"
+init_cfg = {init_level = "app", init_priority = 0}
+spi_cfg = {mode = 0, freq = 15000000, pin_cs = {pin_num = 27, pin_mux = "fun5", dir = "output", pupd = "float"}}
+pin_lcd_reset = 26
+pin_lcd_dcx = 25
+pin_lcd_led = 24
+spi_device = "sdspi"
+gpio_device = "gpio"
+
+[[dev]]
+dev_name = "wdt"
+reg_base = 0x40011600
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 31, irq_priority = 0}
+wdt_cfg = {counter_value = 10000000}
+
+[[dev]]
+dev_name = "psram"
+reg_base = 0x40002200
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 15, fun = "fun1"}, #SCLK
+           {pin = 43, fun = "fun1"}, #CS
+           {pin = 18, fun = "fun4"}, #SIO0
+           {pin = 19, fun = "fun4"}, #SIO1
+           {pin = 20, fun = "fun4"}, #SIO2
+           {pin = 21, fun = "fun4"}] #SIO3
+psram_cfg = {qspi = true, clock_hz = 20000000}
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "crc"
+reg_base = 0x40000600
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "crypto"
+reg_base = 0x40000600
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "hash"
+reg_base = 0x40000600
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "rng"
+reg_base = 0x40000600
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "rsa"
+reg_base = 0x40000000
+init_cfg = {init_level = "app", init_priority = 0}
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "es8374"
+init_cfg = {init_level = "app", init_priority = 0}
+es8374_cfg = {dmic = false, lin1 = false, rin1 = false, lin2 = true, rin2 = true, monoout = true, spkout = true, i2c = true, address = 0x10}
+gpio_device = "gpio"
+i2s_device = "i2s"
+i2c_device = "i2c"
+
+[[dev]]
+dev_name = "sdio_slave"
+reg_base = 0x40002400
+wrapper_reg_base = 0x40002800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 0, irq_priority = 0}
+pin_cfg = [{pin = 22, fun = "fun2"}, #CLK
+           {pin = 23, fun = "fun2"}, #CMD
+           {pin = 24, fun = "fun2"}, #DAT0
+           {pin = 25, fun = "fun2"}, #DAT1
+           {pin = 26, fun = "fun2"}, #DAT2
+           {pin = 27, fun = "fun2"}] #CD/DAT3
+rcc_device = "rcc"

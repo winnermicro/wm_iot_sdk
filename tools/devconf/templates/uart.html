@@ -1,0 +1,376 @@
+
+	<div class="card-header">
+      <h5>Properties</h5>
+      {% include 'device_name.html' %}
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="baud">Baud rate:</label>
+      <select class="col-sm-6" id="baud" name="baud">
+        <option value="600" {% if data.baud == 600 %} selected {% endif %}>600</option>
+        <option value="1200" {% if data.baud == 1200 %} selected {% endif %}>1200</option>
+        <option value="1800" {% if data.baud == 1800 %} selected {% endif %}>1800</option>
+        <option value="2400" {% if data.baud == 2400 %} selected {% endif %}>2400</option>
+        <option value="4800" {% if data.baud == 4800 %} selected {% endif %}>4800</option>
+        <option value="9600" {% if data.baud == 9600 %} selected {% endif %}>9600</option>
+        <option value="19200" {% if data.baud == 19200 %} selected {% endif %}>19200</option>
+        <option value="38400" {% if data.baud == 38400 %} selected {% endif %}>38400</option>
+        <option value="57600" {% if data.baud == 57600 %} selected {% endif %}>57600</option>
+        <option value="115200" {% if data.baud == 115200 %} selected {% endif %}>115200</option>
+        <option value="230400" {% if data.baud == 230400 %} selected {% endif %}>230400</option>
+        <option value="460800" {% if data.baud == 460800 %} selected {% endif %}>460800</option>
+        <option value="921600" {% if data.baud == 921600 %} selected {% endif %}>921600</option>
+        <option value="1000000" {% if data.baud == 1000000 %} selected {% endif %}>1000000</option>
+        <option value="1250000" {% if data.baud == 1250000 %} selected {% endif %}>1250000</option>
+        <option value="1500000" {% if data.baud == 1500000 %} selected {% endif %}>1500000</option>
+        <option value="2000000" {% if data.baud == 2000000 %} selected {% endif %}>2000000</option>
+      </select>
+	  </div>
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="databits">Data bits:</label>
+      <select class="col-sm-6" id="databits" name="databits">
+        <option value="3" {% if data.databits == 3 %} selected {% endif %}>8</option>
+      </select>
+	  </div>
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="parity">Parity:</label>
+      <select class="col-sm-6" id="parity" name="parity">
+        <option value="0" {% if data.parity == 0 %} selected {% endif %}>None</option>
+        <option value="1" {% if data.parity == 1 %} selected {% endif %}>Even</option>
+        <option value="2" {% if data.parity == 2 %} selected {% endif %}>Odd</option>
+      </select>
+	  </div>
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="stopbits">Stop bits:</label>
+      <select class="col-sm-6" id="stopbits" name="stopbits">
+        <option value="0" {% if data.stopbits == 0 %} selected {% endif %}>1</option>
+        <option value="1" {% if data.stopbits == 1 %} selected {% endif %}>2</option>
+      </select>
+	  </div>
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="flowctrl">Flow ctrl:</label>
+      <select class="col-sm-6" id="flowctrl" name="flowctrl">
+        <option value="0" {% if data.flowctrl == 0 %} selected {% endif %}>None</option>
+        <option value="1" {% if data.flowctrl == 1 %} selected {% endif %}>RTS</option>
+        <option value="2" {% if data.flowctrl == 2 %} selected {% endif %}>CTS</option>
+        <option value="3" {% if data.flowctrl == 3 %} selected {% endif %}>RTS_CTS</option>
+      </select>
+	  </div>
+	  <br>
+      <div class="row">
+      <label class="col-sm-3 text-right" for="enable_dma">Use DMA:</label>
+      <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable_dma" name="enable_dma" {% if data.enable_dma %} checked {% endif %}>
+      </div>
+	</div>
+
+      <div class="card-header">
+	  <h5>Pins</h5>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pintx">TX:</label>
+      <select class="col-sm-6" id="pintx" name="pintx">
+        {% if data.dev_name == 'Uart0' %}
+        <option value="35" {% if data.pintx == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="43" {% if data.pintx == 43 %} selected {% endif %}>PIN_43 (PB27)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart1' %}
+        <option value="22" {% if data.pintx == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="2" {% if data.pintx == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          {% endif %}
+        <option value="18" {% if data.pintx == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="5" {% if data.pintx == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          {% endif %}
+        <option value="16" {% if data.pintx == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="8" {% if data.pintx == 8 %} selected {% endif %}>PIN_8 (PA8)</option>
+          {% endif %}
+        <option value="20" {% if data.pintx == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="8" {% if data.pintx == 8 %} selected {% endif %}>PIN_8 (PA8)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="12" {% if data.pintx == 12 %} selected {% endif %}>PIN_12 (PA12)</option>
+        <option value="34" {% if data.pintx == 34 %} selected {% endif %}>PIN_34 (PB18)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+	  <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pinrx">RX:</label>
+      <select class="col-sm-6" id="pinrx" name="pinrx">
+        {% if data.dev_name == 'Uart0' %}
+        <option value="36" {% if data.pinrx == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
+        {% elif data.dev_name == 'Uart1' %}
+        <option value="23" {% if data.pinrx == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="32" {% if data.pinrx == 32 %} selected {% endif %}>PIN_32 (PB16)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="3" {% if data.pinrx == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          {% endif %}
+        <option value="19" {% if data.pinrx == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="6" {% if data.pinrx == 6 %} selected {% endif %}>PIN_6 (PA6)</option>
+          {% endif %}
+        <option value="17" {% if data.pinrx == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="9" {% if data.pinrx == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+          {% endif %}
+        <option value="21" {% if data.pinrx == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="9" {% if data.pinrx == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+        <option value="13" {% if data.pinrx == 13 %} selected {% endif %}>PIN_13 (PA13)</option>
+        <option value="33" {% if data.pinrx == 33 %} selected {% endif %}>PIN_33 (PB17)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+
+      <div id="flowctrl_container">
+      {% if data.flowctrl == 1 %}
+      <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pinrts">RTS:</label>
+      <select class="col-sm-6" id="pinrts" name="pinrts">
+        {% if data.dev_name == 'Uart0' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="37" {% if data.pinrts == 37 %} selected {% endif %}>PIN_37 (PB21)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart1' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          {% endif %}
+        <option value="35" {% if data.pinrts == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          {% endif %}
+        <option value="20" {% if data.pinrts == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="10" {% if data.pinrts == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="15" {% if data.pinrts == 15 %} selected {% endif %}>PIN_15 (PA15)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="29" {% if data.pinrts == 29 %} selected {% endif %}>PIN_29 (PB13)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+      {% endif %}
+
+      {% if data.flowctrl == 2 %}
+      <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pincts">CTS:</label>
+      <select class="col-sm-6" id="pincts" name="pincts">
+        {% if data.dev_name == 'Uart0' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="38" {% if data.pincts == 38 %} selected {% endif %}>PIN_38 (PB22)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart1' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          {% endif %}
+        <option value="36" {% if data.pincts == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>
+          {% endif %}
+        <option value="21" {% if data.pincts == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>
+        <option value="11" {% if data.pincts == 11 %} selected {% endif %}>PIN_11 (PA11)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <option value="14" {% if data.pincts == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="28" {% if data.pincts == 28 %} selected {% endif %}>PIN_28 (PB12)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+      {% endif %}
+
+      {% if data.flowctrl == 3 %}
+      <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pinrts">RTS:</label>
+      <select class="col-sm-6" id="pinrts" name="pinrts">
+        {% if data.dev_name == 'Uart0' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="37" {% if data.pinrts == 37 %} selected {% endif %}>PIN_37 (PB21)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart1' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          {% endif %}
+        <option value="35" {% if data.pinrts == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          {% endif %}
+        <option value="20" {% if data.pinrts == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="10" {% if data.pinrts == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="15" {% if data.pinrts == 15 %} selected {% endif %}>PIN_15 (PA15)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="29" {% if data.pinrts == 29 %} selected {% endif %}>PIN_29 (PB13)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+
+      <br>
+	  <div class="row">
+      <label class="col-sm-3 text-right" for="pincts">CTS:</label>
+      <select class="col-sm-6" id="pincts" name="pincts">
+        {% if data.dev_name == 'Uart0' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="38" {% if data.pincts == 38 %} selected {% endif %}>PIN_38 (PB22)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart1' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          {% endif %}
+        <option value="36" {% if data.pincts == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
+        {% elif data.dev_name == 'Uart2' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>
+          {% endif %}
+        <option value="21" {% if data.pincts == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+        {% elif data.dev_name == 'Uart3' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+        <option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart4' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>
+        <option value="11" {% if data.pincts == 11 %} selected {% endif %}>PIN_11 (PA11)</option>
+          {% endif %}
+        {% elif data.dev_name == 'Uart5' %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <option value="14" {% if data.pincts == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
+          {% endif %}
+          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <option value="28" {% if data.pincts == 28 %} selected {% endif %}>PIN_28 (PB12)</option>
+          {% endif %}
+        {% endif %}
+      </select>
+	  </div>
+      {% endif %}
+      </div>
+	  </div>
+
+<script>
+    $(document).ready(function(){
+        $("#flowctrl").change(function(){
+            $("#flowctrl_container").find('label:last').remove();
+            $("#flowctrl_container").find('select:last').remove();
+            $("#flowctrl_container").find('br:last').remove();
+            $("#flowctrl_container").find('br:last').remove();
+            $("#flowctrl_container").find('div:last').remove();
+            $("#flowctrl_container").find('div:last').remove();
+            var selectedValue = $(this).val();
+            if (selectedValue === '1') {
+              {% if data.dev_name == 'Uart0' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="37" {% if data.pinrts == 37 %} selected {% endif %}>PIN_37 (PB21)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart1' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>{% endif %}<option value="35" {% if data.pinrts == 35 %} selected {% endif %}>PIN_35 (PB19)</option></select></div>');
+              {% elif data.dev_name == 'Uart2' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>{% endif %}<option value="20" {% if data.pinrts == 20 %} selected {% endif %}>PIN_20 (PB4)</option></select></div>');
+              {% elif data.dev_name == 'Uart3' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart4' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="10" {% if data.pinrts == 10 %} selected {% endif %}>PIN_10 (PA10)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart5' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="15" {% if data.pinrts == 15 %} selected {% endif %}>PIN_15 (PA15)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="29" {% if data.pinrts == 29 %} selected {% endif %}>PIN_29 (PB13)</option>{% endif %}</select></div>');
+              {% endif %}
+            } else if (selectedValue === '2') {
+              {% if data.dev_name == 'Uart0' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="38" {% if data.pincts == 38 %} selected {% endif %}>PIN_38 (PB22)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart1' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>{% endif %}<option value="36" {% if data.pincts == 36 %} selected {% endif %}>PIN_36 (PB20)</option></select></div>');
+              {% elif data.dev_name == 'Uart2' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>{% endif %}<option value="21" {% if data.pincts == 21 %} selected {% endif %}>PIN_21 (PB5)</option></select></div>');
+              {% elif data.dev_name == 'Uart3' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart4' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option><option value="11" {% if data.pincts == 11 %} selected {% endif %}>PIN_11 (PA11)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart5' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}<option value="14" {% if data.pincts == 14 %} selected {% endif %}>PIN_14 (PA14)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="28" {% if data.pincts == 28 %} selected {% endif %}>PIN_28 (PB12)</option>{% endif %}</select></div>');
+              {% endif %}
+            } else if (selectedValue === '3') {
+              {% if data.dev_name == 'Uart0' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="37" {% if data.pinrts == 37 %} selected {% endif %}>PIN_37 (PB21)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart1' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>{% endif %}<option value="35" {% if data.pinrts == 35 %} selected {% endif %}>PIN_35 (PB19)</option></select></div>');
+              {% elif data.dev_name == 'Uart2' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>{% endif %}<option value="20" {% if data.pinrts == 20 %} selected {% endif %}>PIN_20 (PB4)</option></select></div>');
+              {% elif data.dev_name == 'Uart3' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="2" {% if data.pinrts == 2 %} selected {% endif %}>PIN_2 (PA2)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart4' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="5" {% if data.pinrts == 5 %} selected {% endif %}>PIN_5 (PA5)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="10" {% if data.pinrts == 10 %} selected {% endif %}>PIN_10 (PA10)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart5' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pinrts">RTS:</label><select class="col-sm-6" id="pinrts" name="pinrts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="15" {% if data.pinrts == 15 %} selected {% endif %}>PIN_15 (PA15)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="29" {% if data.pinrts == 29 %} selected {% endif %}>PIN_29 (PB13)</option>{% endif %}</select></div>');
+              {% endif %}
+              {% if data.dev_name == 'Uart0' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="38" {% if data.pincts == 38 %} selected {% endif %}>PIN_38 (PB22)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart1' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>{% endif %}<option value="36" {% if data.pincts == 36 %} selected {% endif %}>PIN_36 (PB20)</option></select></div>');
+              {% elif data.dev_name == 'Uart2' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option>{% endif %}<option value="21" {% if data.pincts == 21 %} selected {% endif %}>PIN_21 (PB5)</option></select></div>');
+              {% elif data.dev_name == 'Uart3' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="3" {% if data.pincts == 3 %} selected {% endif %}>PIN_3 (PA3)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart4' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W806" %}<option value="6" {% if data.pincts == 6 %} selected {% endif %}>PIN_6 (PA6)</option><option value="11" {% if data.pincts == 11 %} selected {% endif %}>PIN_11 (PA11)</option>{% endif %}</select></div>');
+              {% elif data.dev_name == 'Uart5' %}
+                $("#flowctrl_container").append('<br><div class="row"><label class="col-sm-3 text-right" for="pincts">CTS:</label><select class="col-sm-6" id="pincts" name="pincts">{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}<option value="14" {% if data.pincts == 14 %} selected {% endif %}>PIN_14 (PA14)</option>{% endif %}{% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}<option value="28" {% if data.pincts == 28 %} selected {% endif %}>PIN_28 (PB12)</option>{% endif %}</select></div>');
+              {% endif %}
+            }
+        });
+    });
+</script>

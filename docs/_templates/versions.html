@@ -1,0 +1,28 @@
+{# Add rst-badge after rst-versions for small badge style. #}
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    {% set prefix = current_version if is_release else "latest" %}
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <a href="/{{ current_soc }}/{{ current_language }}/{{ prefix }}/wm-iot-sdk-docs.zip"><span class="fa fa-download"> {{ hv_download_doc }}</span></a>
+      <span class="fa fa-book"> {{ hv_select_version }}
+      <span class="fa fa-sort-down"></span></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt><span class="fa fa-language"> {{ hv_lang_desc }}</span></dt>
+          <dd><a href="/{{ current_soc }}/zh_CN/{{ prefix }}">中文</a></dd>
+          <dd><a href="/{{ current_soc }}/en/{{ prefix }}">English</a></dd>
+      </dl>
+      <dl>
+        <dt><span class="fa fa-microchip"> {{ hv_soc_desc }}</span></dt>
+        {% for stype in soc_type %}
+          <dd><a href="/{{ stype }}/{{ current_language }}/{{ prefix }}">{{ stype }}</a></dd>
+        {% endfor %}
+      </dl>
+      <dl>
+        <dt><span class="fa fa-sticky-note"> {{ hv_doc_type }}</span></dt>
+        {% for slug, url in versions %}
+          <dd><a href="/{{ current_soc }}{{ url }}">{{ slug }}</a></dd>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>

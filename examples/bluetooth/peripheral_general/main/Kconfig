@@ -1,0 +1,19 @@
+menu "Example configuration"
+
+choice PERIPHERAL_EXAMPLE
+	prompt "selectable item peripheral example"
+	default INDICATE_EXAMPLE
+	help
+	  Select the peripheral example to compile,(To work with central_general example, make sure to choice the same feature).
+
+config INDICATE_EXAMPLE
+	bool "indication exmaple"
+	help
+	  Send data to centeral device via indication once subscribed.
+config NOTIFY_EXAMPLE
+	bool "notify example"
+	help
+	  Send data to centeral device via notification once subscribed..
+endchoice
+
+endmenu

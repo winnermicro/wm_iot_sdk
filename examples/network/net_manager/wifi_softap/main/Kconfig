@@ -1,0 +1,21 @@
+menu "Net manager example configuration"
+
+    config EXAMPLE_SOFTAP_SSID
+        string "softAP SSID"
+        default "wm-nm"
+        help
+            SSID (softAP) for the example to create.
+
+    config EXAMPLE_SOFTAP_IS_OPEN_NETWORK
+            bool "softAP set to open network"
+            default n
+
+        if !EXAMPLE_SOFTAP_IS_OPEN_NETWORK
+            config EXAMPLE_SOFTAP_PASSWORD
+                string "softAP Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (softAP) for the example to create.
+        endif
+
+endmenu

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 bootloader.svg 页-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		width="10.8705in" height="10.6599in" viewBox="0 0 782.678 767.516" xml:space="preserve" color-interpolation-filters="sRGB"
+		class="st12">
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#000000;stroke-width:0.75}
+		.st2 {fill:#000000;font-family:宋体;font-size:0.499992em}
+		.st3 {font-family:Calibri;font-size:1em}
+		.st4 {font-family:微软雅黑;font-size:1em}
+		.st5 {marker-end:url(#mrkr4-64);stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+		.st6 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.28409090909091}
+		.st7 {fill:#000000;font-family:Calibri;font-size:0.499992em}
+		.st8 {font-family:宋体;font-size:1em}
+		.st9 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st10 {fill:#000000;font-family:Calibri;font-size:0.666664em}
+		.st11 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+		.st12 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-64" class="st6" refX="-7.04" orient="auto" markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-3.52,-3.52) "/>
+		</marker>
+	</defs>
+	<g>
+		<title>页-1</title>
+		<g id="shape73-1" transform="translate(150.825,-755.946)">
+			<title>圆角矩形.15</title>
+			<desc>开始</desc>
+			<path d="M5.41 767.52 L59.64 767.52 A5.40995 5.40995 -180 0 0 65.05 762.11 A5.40995 5.40995 -180 0 0 59.64 756.7 L5.41
+						 756.7 A5.40995 5.40995 -180 0 0 -0 762.11 A5.40995 5.40995 -180 0 0 5.41 767.52 Z" class="st1"/>
+			<text x="26.53" y="764.1" class="st2">开始</text>		</g>
+		<g id="shape74-4" transform="translate(150.825,-734.002)">
+			<title>矩形</title>
+			<desc>切换到4线模式</desc>
+			<rect x="0" y="756.696" width="65.0525" height="10.8201" class="st1"/>
+			<text x="13.01" y="764.1" class="st2">切换到<tspan class="st3">4</tspan>线模式</text>		</g>
+		<g id="shape75-8" transform="translate(140.599,-712.058)">
+			<title>矩形.24</title>
+			<desc>切换CPU到更高速率</desc>
+			<rect x="0" y="756.696" width="85.5054" height="10.8201" class="st1"/>
+			<text x="16.68" y="764.1" class="st2">切换<tspan class="st3">CPU</tspan><tspan class="st4">到更高速率</tspan></text>		</g>
+		<g id="shape76-13" transform="translate(150.383,-690.113)">
+			<title>矩形.25</title>
+			<desc>初始化UARTO</desc>
+			<rect x="0" y="756.696" width="65.0525" height="10.8201" class="st1"/>
+			<text x="14.79" y="764.1" class="st2">初始化<tspan class="st3">UARTO</tspan></text>		</g>
+		<g id="shape77-17" transform="translate(374.134,-322.383)">
+			<title>矩形.26</title>
+			<desc>解压并搬移固件到RUN区</desc>
+			<rect x="0" y="750.073" width="75.5575" height="17.443" class="st1"/>
+			<text x="5.29" y="760.79" class="st2">解压并搬移固件到<tspan class="st3">RUN</tspan><tspan class="st4">区</tspan></text>		</g>
+		<g id="shape78-22" transform="translate(133.017,-608.474)">
+			<title>矩形.27</title>
+			<desc>备份RF data 到备份区</desc>
+			<rect x="0" y="756.696" width="99.7839" height="10.8201" class="st1"/>
+			<text x="22.07" y="764.1" class="st2">备份<tspan class="st3">RF data </tspan><tspan class="st4">到备份区</tspan></text>		</g>
+		<g id="shape79-27" transform="translate(104.626,-576.108)">
+			<title>矩形.28</title>
+			<desc>读取OTA区IMAGE Header信息:OTAINFO 读取RUN区IMAGE Header信息:RUNINFO</desc>
+			<rect x="0" y="746.366" width="156.567" height="21.1499" class="st1"/>
+			<text x="28.05" y="755.29" class="st2">读取<tspan class="st3">OTA</tspan><tspan class="st4">区</tspan><tspan class="st3">IMAGE Header</tspan><tspan
+						class="st4">信息</tspan><tspan class="st3">:</tspan><tspan class="st3">OTAINFO </tspan><tspan x="27.44"
+						dy="1.244em" class="st4">读取</tspan><tspan class="st3">RUN</tspan><tspan class="st4">区</tspan><tspan
+						class="st3">I</tspan><tspan class="st3">MAGE Header</tspan><tspan class="st4">信息</tspan><tspan class="st3">:</tspan><tspan
+						class="st3">RUNINFO</tspan></text>		</g>
+		<g id="shape80-44" transform="translate(123.571,-547.791)">
+			<title>矩形.29</title>
+			<desc>计算OTA区和RUN区的固件校验值:OTACHECK,RUNCHECK</desc>
+			<rect x="0" y="750.417" width="117.976" height="17.0998" class="st1"/>
+			<text x="18.31" y="757.32" class="st2">计算<tspan class="st3">OTA</tspan><tspan class="st4">区和</tspan><tspan class="st3">RUN</tspan><tspan
+						class="st4">区的固件校验</tspan><tspan x="27.58" dy="1.244em" class="st4">值</tspan><tspan class="st3">:</tspan><tspan
+						class="st3">OTACHECK</tspan><tspan class="st3">,</tspan><tspan class="st3">RUNCHECK</tspan></text>		</g>
+		<g id="shape81-56" transform="translate(149.111,-426.158)">
+			<title>矩形.30</title>
+			<desc>两个区域都校验通过</desc>
+			<rect x="0" y="756.389" width="66.8976" height="11.127" class="st1"/>
+			<text x="6.45" y="763.95" class="st2">两个区域都校验通过</text>		</g>
+		<g id="shape82-59" transform="translate(176.265,-757.471)">
+			<title>动态连接线</title>
+			<path d="M7.09 769.04 L7.09 773.13" class="st5"/>
+		</g>
+		<g id="shape83-65" transform="translate(176.265,-735.526)">
+			<title>动态连接线.34</title>
+			<path d="M7.09 769.04 L7.09 773.13" class="st5"/>
+		</g>
+		<g id="shape84-70" transform="translate(190.217,-713.582)">
+			<title>动态连接线.35</title>
+			<path d="M-6.87 769.04 L-7.03 773.13" class="st5"/>
+		</g>
+		<g id="shape85-75" transform="translate(133.017,-644.816)">
+			<title>菱形</title>
+			<desc>检测到ESC吗?</desc>
+			<path d="M49.89 767.52 L99.78 758.97 L49.89 750.42 L0 758.97 L49.89 767.52 Z" class="st1"/>
+			<text x="32.06" y="760.96" class="st2">检测到<tspan class="st3">ESC</tspan><tspan class="st4">吗</tspan><tspan class="st3">?</tspan></text>		</g>
+		<g id="shape86-81" transform="translate(123.571,-461.195)">
+			<title>菱形.45</title>
+			<desc>RUNCHECK和OTACHECK校验结果</desc>
+			<path d="M58.99 767.52 L117.98 753.96 L58.99 740.4 L0 753.96 L58.99 767.52 Z" class="st1"/>
+			<text x="17.13" y="755.46" class="st7">RUNCHECK<tspan class="st8">和</tspan>OTACHECK<tspan class="st8">校验结果</tspan></text>		</g>
+		<g id="shape87-86" transform="translate(132.667,-513.254)">
+			<title>菱形.47</title>
+			<desc>有校验通过的区域吗?</desc>
+			<path d="M49.89 767.52 L99.78 755.86 L49.89 744.2 L0 755.86 L49.89 767.52 Z" class="st1"/>
+			<text x="21.5" y="757.35" class="st2">有校验通过的区域吗<tspan class="st3">?</tspan></text>		</g>
+		<g id="shape88-90" transform="translate(128.016,-385.458)">
+			<title>菱形.48</title>
+			<desc>OTA比RUN区域固件新吗?</desc>
+			<path d="M54.54 767.52 L109.09 753.96 L54.54 740.4 L0 753.96 L54.54 767.52 Z" class="st1"/>
+			<text x="21.48" y="756.21" class="st7">OTA<tspan class="st4">比</tspan>RUN<tspan class="st4">区域固件新吗</tspan>?</text>		</g>
+		<g id="shape89-95" transform="translate(7.83655,-176.498)">
+			<title>矩形.49</title>
+			<desc>依据RUN区域的IMAGE头参数确认</desc>
+			<rect x="0" y="756.389" width="464.882" height="11.127" class="st1"/>
+			<text x="188.54" y="763.95" class="st2">依据<tspan class="st3">RUN</tspan><tspan class="st4">区域的</tspan><tspan
+						class="st3">IMAGE</tspan><tspan class="st4">头参数确认</tspan></text>		</g>
+		<g id="shape90-102" transform="translate(299.748,-425.004)">
+			<title>矩形.50</title>
+			<desc>仅OTACHECK区域校验通过</desc>
+			<rect x="0" y="750.073" width="66.8976" height="17.443" class="st1"/>
+			<text x="5.17" y="757.15" class="st2">仅<tspan class="st3">OTA</tspan><tspan class="st3">CHECK</tspan><tspan class="st4">区域校验</tspan><tspan
+						x="27.45" dy="1.244em" class="st4">通过</tspan></text>		</g>
+		<g id="shape91-109" transform="translate(268.624,-647.802)">
+			<title>矩形.51</title>
+			<desc>ESC计数+1</desc>
+			<rect x="0" y="756.389" width="46.7717" height="11.127" class="st1"/>
+			<text x="9.93" y="763.77" class="st7">ESC<tspan class="st4">计数</tspan>+1</text>		</g>
+		<g id="shape92-113" transform="translate(0.75,-423)">
+			<title>矩形.52</title>
+			<desc>仅RUNCHECK区域校验通过</desc>
+			<rect x="0" y="750.073" width="73.7008" height="17.443" class="st1"/>
+			<text x="5.27" y="757.15" class="st2">仅<tspan class="st3">RUNCHECK</tspan><tspan class="st4">区域校验通</tspan><tspan
+						x="33.85" dy="1.244em" class="st4">过</tspan></text>		</g>
+		<g id="shape93-119" transform="translate(360.889,-282.584)">
+			<title>矩形.53</title>
+			<desc>计算RUN区固件校验值</desc>
+			<rect x="0" y="750.073" width="101.069" height="17.443" class="st1"/>
+			<text x="21.04" y="760.79" class="st2">计算<tspan class="st3">RUN</tspan><tspan class="st4">区固件校验值</tspan></text>		</g>
+		<g id="shape94-124" transform="translate(175.822,-690.113)">
+			<title>动态连接线.56</title>
+			<path d="M7.09 767.52 L7.09 788.67" class="st5"/>
+		</g>
+		<g id="shape95-129" transform="translate(175.822,-644.816)">
+			<title>动态连接线.57</title>
+			<desc>N</desc>
+			<path d="M7.09 767.52 L7.09 786" class="st5"/>
+			<rect x="4.50461" y="775.477" width="5.16412" height="9.59985" class="st9"/>
+			<text x="4.5" y="782.68" class="st10">N</text>		</g>
+		<g id="shape96-136" transform="translate(175.822,-609.953)">
+			<title>动态连接线.58</title>
+			<path d="M7.09 768.99 L7.09 773.17" class="st5"/>
+		</g>
+		<g id="shape97-141" transform="translate(189.821,-577.586)">
+			<title>动态连接线.59</title>
+			<path d="M-6.91 768.99 L-7.04 773.17" class="st5"/>
+		</g>
+		<g id="shape98-146" transform="translate(175.473,-549.269)">
+			<title>动态连接线.60</title>
+			<path d="M7.09 768.99 L7.09 773.17" class="st5"/>
+		</g>
+		<g id="shape99-151" transform="translate(175.473,-513.254)">
+			<title>动态连接线.61</title>
+			<desc>Y</desc>
+			<path d="M7.09 767.52 L7.09 785.42" class="st5"/>
+			<rect x="5.13743" y="775.189" width="3.8985" height="9.59985" class="st9"/>
+			<text x="5.14" y="782.39" class="st10">Y</text>		</g>
+		<g id="shape100-158" transform="translate(175.473,-461.195)">
+			<title>动态连接线.62</title>
+			<desc>2</desc>
+			<path d="M7.09 767.52 L7.09 784.39" class="st5"/>
+			<rect x="5.05915" y="774.671" width="4.05478" height="9.59985" class="st9"/>
+			<text x="5.06" y="781.87" class="st10">2</text>		</g>
+		<g id="shape101-165" transform="translate(175.473,-426.452)">
+			<title>动态连接线.65</title>
+			<path d="M7.09 767.81 L7.09 774.36" class="st5"/>
+		</g>
+		<g id="shape102-170" transform="translate(612.75,-675.501)">
+			<title>矩形.67</title>
+			<desc>清除OTA标志</desc>
+			<rect x="0" y="756.389" width="66.8976" height="11.127" class="st1"/>
+			<text x="16.26" y="763.95" class="st2">清除<tspan class="st3">OTA</tspan>标志</text>		</g>
+		<g id="shape103-174" transform="translate(223.487,-322.383)">
+			<title>矩形.68</title>
+			<desc>搬移OTA区固件到 RUN区</desc>
+			<rect x="0" y="750.073" width="66.8976" height="17.443" class="st1"/>
+			<text x="10.27" y="757.15" class="st2">搬移<tspan class="st3">OTA</tspan><tspan class="st4">区固件到 </tspan><tspan x="24.96"
+						dy="1.244em" class="st3">RUN</tspan><tspan class="st4">区</tspan></text>		</g>
+		<g id="shape104-181" transform="translate(325.364,-670.49)">
+			<title>菱形.69</title>
+			<desc>检测到3次ESC吗</desc>
+			<path d="M54.54 767.52 L109.09 756.94 L54.54 746.37 L0 756.94 L54.54 767.52 Z" class="st1"/>
+			<text x="30.58" y="759.19" class="st2">检测到<tspan class="st3">3</tspan>次<tspan class="st3">ESC</tspan>吗？</text>		</g>
+		<g id="shape105-186" transform="translate(278.654,-349.084)">
+			<title>菱形.70</title>
+			<desc>是否压缩固件?</desc>
+			<path d="M54.54 767.52 L109.09 753.96 L54.54 740.4 L0 753.96 L54.54 767.52 Z" class="st1"/>
+			<text x="35.15" y="756.21" class="st2">是否压缩固件<tspan class="st3">?</tspan></text>		</g>
+		<g id="shape106-190" transform="translate(353.314,-245.593)">
+			<title>菱形.71</title>
+			<desc>签名或者CRC校验通过?</desc>
+			<path d="M58.11 767.52 L116.22 753.96 L58.11 740.4 L0 753.96 L58.11 767.52 Z" class="st1"/>
+			<text x="27.89" y="756.21" class="st2">签名或者<tspan class="st3">CRC</tspan><tspan class="st4">校验通过</tspan><tspan
+						class="st3">?</tspan></text>		</g>
+		<g id="shape107-196" transform="translate(347.994,-68.3464)">
+			<title>矩形.72</title>
+			<desc>获取RUN区复位向量地址</desc>
+			<rect x="0" y="750.073" width="99.0236" height="17.443" class="st1"/>
+			<text x="17.02" y="760.79" class="st2">获取<tspan class="st3">RUN</tspan><tspan class="st4">区复位向量地址</tspan></text>		</g>
+		<g id="shape108-201" transform="translate(192.333,-68.3464)">
+			<title>矩形.73</title>
+			<desc>获取RUN区复位向量地址</desc>
+			<rect x="0" y="750.073" width="95.889" height="17.443" class="st1"/>
+			<text x="15.45" y="760.79" class="st2">获取<tspan class="st3">RUN</tspan><tspan class="st4">区复位向量地址</tspan></text>		</g>
+		<g id="shape109-206" transform="translate(363.479,-204.74)">
+			<title>矩形.75</title>
+			<desc>更新Image参数头 清除OTA标志区</desc>
+			<rect x="0" y="750.073" width="95.889" height="17.443" class="st1"/>
+			<text x="4.59" y="760.79" class="st2">更新<tspan class="st3">Image</tspan><tspan class="st4">参数头</tspan><tspan
+						class="st3"> </tspan><tspan class="st4">清除</tspan><tspan class="st3">O</tspan><tspan class="st3">TA</tspan><tspan
+						class="st4">标志区</tspan></text>		</g>
+		<g id="shape110-216" transform="translate(347.994,-34.3306)">
+			<title>矩形.76</title>
+			<desc>恢复DBUS总线为不加密 (针对Flash的读写操作)</desc>
+			<rect x="0" y="750.073" width="99.0236" height="17.443" class="st1"/>
+			<text x="18.73" y="757.15" class="st2">恢复<tspan class="st3">DBUS</tspan><tspan class="st4">总线为不加密 </tspan><tspan
+						x="20.44" dy="1.244em" class="st3">(</tspan><tspan class="st4">针对</tspan><tspan class="st3">Flash</tspan><tspan
+						class="st4">的读写操作</tspan><tspan class="st3">)</tspan></text>		</g>
+		<g id="shape111-226" transform="translate(347.994,-102.362)">
+			<title>矩形.77</title>
+			<desc>配置加密相关信息到控制寄存器</desc>
+			<rect x="0" y="750.073" width="99.0236" height="17.443" class="st1"/>
+			<text x="7.51" y="760.79" class="st2">配置加密相关信息到控制寄存器</text>		</g>
+		<g id="shape112-229" transform="translate(208.991,-212.189)">
+			<title>矩形.79</title>
+			<desc>更新Image参数头 清除OTA标志区</desc>
+			<rect x="0" y="750.073" width="95.889" height="17.443" class="st1"/>
+			<text x="4.59" y="760.79" class="st2">更新<tspan class="st3">Image</tspan><tspan class="st4">参数头</tspan><tspan
+						class="st3"> </tspan><tspan class="st4">清除</tspan><tspan class="st3">O</tspan><tspan class="st3">TA</tspan><tspan
+						class="st4">标志区</tspan></text>		</g>
+		<g id="shape113-239" transform="translate(123.571,-474.752)">
+			<title>动态连接线.80</title>
+			<desc>1</desc>
+			<path d="M0 767.52 L-85.97 767.52 L-85.97 794.78" class="st5"/>
+			<rect x="-62.1671" y="762.717" width="4.05478" height="9.59985" class="st9"/>
+			<text x="-62.17" y="769.92" class="st10">1</text>		</g>
+		<g id="shape114-246" transform="translate(241.548,-474.752)">
+			<title>动态连接线.81</title>
+			<desc>3</desc>
+			<path d="M0 767.52 L91.65 767.52 L91.65 792.78" class="st5"/>
+			<rect x="59.9498" y="762.717" width="4.05478" height="9.59985" class="st9"/>
+			<text x="59.95" y="769.92" class="st10">3</text>		</g>
+		<g id="shape115-253" transform="translate(278.654,-362.642)">
+			<title>动态连接线.84</title>
+			<desc>N</desc>
+			<path d="M0 767.52 L-21.72 767.52 L-21.72 783.29" class="st5"/>
+			<rect x="-24.3001" y="763.266" width="5.16412" height="9.59985" class="st9"/>
+			<text x="-24.3" y="770.47" class="st10">N</text>		</g>
+		<g id="shape116-260" transform="translate(387.74,-362.642)">
+			<title>动态连接线.85</title>
+			<desc>Y</desc>
+			<path d="M0 767.52 L24.17 767.52 L24.17 783.29" class="st5"/>
+			<rect x="21.545" y="762.717" width="3.8985" height="9.59985" class="st9"/>
+			<text x="21.55" y="769.92" class="st10">Y</text>		</g>
+		<g id="shape117-267" transform="translate(420.033,-322.383)">
+			<title>动态连接线.86</title>
+			<path d="M-6.84 767.52 L-7.18 782.83" class="st5"/>
+		</g>
+		<g id="shape118-272" transform="translate(404.337,-284.732)">
+			<title>动态连接线.87</title>
+			<path d="M7.09 769.66 L7.09 772.5" class="st5"/>
+		</g>
+		<g id="shape119-277" transform="translate(404.337,-245.593)">
+			<title>动态连接线.88</title>
+			<desc>Y</desc>
+			<path d="M7.09 767.52 L7.09 783.89" class="st5"/>
+			<rect x="5.13743" y="774.421" width="3.8985" height="9.59985" class="st9"/>
+			<text x="5.14" y="781.62" class="st10">Y</text>		</g>
+		<g id="shape120-284" transform="translate(249.849,-322.383)">
+			<title>动态连接线.89</title>
+			<path d="M7.09 767.52 L7.09 853.23" class="st5"/>
+		</g>
+		<g id="shape121-289" transform="translate(232.801,-646.279)">
+			<title>动态连接线.93</title>
+			<desc>Y</desc>
+			<path d="M0 760.43 L28.78 760.43" class="st5"/>
+			<rect x="15.9623" y="755.63" width="3.8985" height="9.59985" class="st9"/>
+			<text x="15.96" y="762.83" class="st10">Y</text>		</g>
+		<g id="shape122-296" transform="translate(434.451,-673.978)">
+			<title>动态连接线.95</title>
+			<desc>Y</desc>
+			<path d="M0 760.43 L171.26 760.43" class="st5"/>
+			<rect x="87.2004" y="755.63" width="3.8985" height="9.59985" class="st9"/>
+			<text x="87.2" y="762.83" class="st10">Y</text>		</g>
+		<g id="shape123-303" transform="translate(693.588,-250.199)">
+			<title>圆角矩形.97</title>
+			<desc>跳转到ROM命令模式</desc>
+			<path d="M8.72 767.52 L79.62 767.52 A8.72135 8.72135 -180 0 0 88.34 758.79 A8.72135 8.72135 -180 0 0 79.62 750.07 L8.72
+						 750.07 A8.72135 8.72135 -180 0 0 0 758.79 A8.72135 8.72135 -180 0 0 8.72 767.52 Z" class="st1"/>
+			<text x="16.99" y="760.79" class="st2">跳转到<tspan class="st3">ROM</tspan>命令模式</text>		</g>
+		<g id="shape124-307" transform="translate(182.167,-124.819)">
+			<title>菱形.99</title>
+			<desc>是否加密固件?</desc>
+			<path d="M58.11 767.52 L116.22 753.96 L58.11 740.4 L0 753.96 L58.11 767.52 Z" class="st1"/>
+			<text x="38.72" y="755.46" class="st2">是否加密固件<tspan class="st3">?</tspan></text>		</g>
+		<g id="shape125-311" transform="translate(196.107,-0.75)">
+			<title>圆角矩形.100</title>
+			<desc>跳转到指定地址运行</desc>
+			<path d="M8.72 767.52 L79.62 767.52 A8.72135 8.72135 -180 0 0 88.34 758.79 A8.72135 8.72135 -180 0 0 79.62 750.07 L8.72
+						 750.07 A8.72135 8.72135 -180 0 0 0 758.79 A8.72135 8.72135 -180 0 0 8.72 767.52 Z" class="st1"/>
+			<text x="17.17" y="760.79" class="st2">跳转到指定地址运行</text>		</g>
+		<g id="shape126-314" transform="translate(233.191,-176.498)">
+			<title>动态连接线.103</title>
+			<path d="M7.09 767.52 L7.09 785.04" class="st5"/>
+		</g>
+		<g id="shape127-319" transform="translate(233.191,-124.819)">
+			<title>动态连接线.104</title>
+			<desc>N</desc>
+			<path d="M7.09 767.52 L7.09 799.51" class="st5"/>
+			<rect x="4.50461" y="782.232" width="5.16412" height="9.59985" class="st9"/>
+			<text x="4.5" y="789.43" class="st10">N</text>		</g>
+		<g id="shape128-326" transform="translate(233.191,-68.3464)">
+			<title>动态连接线.105</title>
+			<path d="M7.09 767.52 L7.09 810.63" class="st5"/>
+		</g>
+		<g id="shape129-331" transform="translate(298.388,-138.376)">
+			<title>动态连接线.106</title>
+			<desc>Y</desc>
+			<path d="M0 767.52 L99.12 767.52 L99.12 779.05" class="st5"/>
+			<rect x="56.8955" y="762.717" width="3.8985" height="9.59985" class="st9"/>
+			<text x="56.9" y="769.92" class="st10">Y</text>		</g>
+		<g id="shape130-338" transform="translate(390.419,-102.362)">
+			<title>动态连接线.107</title>
+			<path d="M7.09 767.52 L7.09 777.05" class="st5"/>
+		</g>
+		<g id="shape131-343" transform="translate(390.419,-68.3464)">
+			<title>动态连接线.108</title>
+			<path d="M7.09 767.52 L7.09 777.05" class="st5"/>
+		</g>
+		<g id="shape132-348" transform="translate(469.534,-266.122)">
+			<title>动态连接线.109</title>
+			<desc>N</desc>
+			<path d="M0 774.49 L217.01 774.71" class="st5"/>
+			<rect x="109.445" y="769.803" width="5.16412" height="9.59985" class="st9"/>
+			<text x="109.44" y="777" class="st10">N</text>		</g>
+		<g id="shape133-355" transform="translate(315.396,-653.366)">
+			<title>动态连接线.116</title>
+			<path d="M0 767.52 L64.51 767.52 L64.51 757.43" class="st5"/>
+		</g>
+		<g id="shape134-360" transform="translate(347.994,-49.9641)">
+			<title>动态连接线.119</title>
+			<path d="M0 774.43 L-100.68 774.75" class="st5"/>
+		</g>
+		<g id="shape136-365" transform="translate(253.471,-212.189)">
+			<title>动态连接线.121</title>
+			<path d="M6.65 767.52 L7.27 785.1" class="st5"/>
+		</g>
+		<g id="shape137-370" transform="translate(419.744,-204.74)">
+			<title>动态连接线.125</title>
+			<path d="M-6.55 767.52 L-7.18 777.61" class="st5"/>
+		</g>
+		<g id="shape138-375" transform="translate(325.364,-673.978)">
+			<title>动态连接线.128</title>
+			<desc>N</desc>
+			<path d="M0 760.43 L-135.42 760.43" class="st5"/>
+			<rect x="-73.8096" y="755.63" width="5.16412" height="9.59985" class="st9"/>
+			<text x="-73.81" y="762.83" class="st10">N</text>		</g>
+		<g id="shape139-382" transform="translate(174.176,-385.458)">
+			<title>动态连接线.130</title>
+			<desc>N</desc>
+			<path d="M6.57 767.52 L7.56 958.31" class="st5"/>
+			<rect x="4.50461" y="861.633" width="5.16412" height="9.59985" class="st9"/>
+			<text x="4.5" y="868.83" class="st10">N</text>		</g>
+		<g id="shape140-389" transform="translate(679.648,-681.065)">
+			<title>动态连接线.148</title>
+			<desc>Y</desc>
+			<path d="M0 767.52 L58.34 767.52 L58.34 916.63" class="st5"/>
+			<rect x="56.3941" y="811.621" width="3.8985" height="9.59985" class="st9"/>
+			<text x="56.39" y="818.82" class="st10">Y</text>		</g>
+		<g id="shape141-396" transform="translate(232.451,-517.827)">
+			<title>动态连接线.149</title>
+			<desc>N</desc>
+			<path d="M0 760.43 L498.5 760.43" class="st5"/>
+			<rect x="250.188" y="755.63" width="5.16412" height="9.59985" class="st9"/>
+			<text x="250.19" y="762.83" class="st10">N</text>		</g>
+		<g id="shape142-403" transform="translate(-29.7583,499.179) rotate(-89.9481)">
+			<title>直线</title>
+			<path d="M0 767.52 L257.27 767.52" class="st11"/>
+		</g>
+		<g id="shape143-406" transform="translate(237.103,-399.015)">
+			<title>动态连接线.154</title>
+			<desc>Y</desc>
+			<path d="M0 767.52 L96.09 767.52 L96.09 783.29" class="st5"/>
+			<rect x="57.5061" y="762.717" width="3.8985" height="9.59985" class="st9"/>
+			<text x="57.51" y="769.92" class="st10">Y</text>		</g>
+		<g id="shape144-413" transform="translate(325.714,-399.015)">
+			<title>动态连接线.155</title>
+			<path d="M6.69 767.52 L7.27 748.56" class="st5"/>
+		</g>
+		<g id="shape150-418" transform="translate(44.2138,-423)">
+			<title>动态连接线.150</title>
+			<path d="M-6.61 767.52 L-7.53 995.19" class="st5"/>
+		</g>
+	</g>
+</svg>

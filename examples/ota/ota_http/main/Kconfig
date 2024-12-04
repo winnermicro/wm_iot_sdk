@@ -1,0 +1,27 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_IS_OPEN_NETWORK
+            bool "Wi-Fi is open network"
+            default n
+
+        if !EXAMPLE_WIFI_IS_OPEN_NETWORK
+            config EXAMPLE_WIFI_PASSWORD
+                string "Wi-Fi Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (WPA or WPA2) for the example to use.
+        endif
+
+    config OTA_IMAGE_URI
+        string "OTA Firmware Image URL"
+        default "http://xxx:xxx/ota_http_ota.img"
+        help
+            OTA firmware image URL for the device to download and update.
+
+endmenu

@@ -1,0 +1,13 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="device_name">Device name:</label>
+        <input type="text" class="col-sm-6" value="iflash" id="device_name" name="device_name" readonly>
+        &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
+        </div>
+	    <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="quad_spi">quad spi:</label>
+        <input type="checkbox" class="col-sm-1 text-right" value="1" id="quad_spi" name="quad_spi" {% if data.quad_spi %} checked {% endif %} disabled>
+        </div>
+      </div>

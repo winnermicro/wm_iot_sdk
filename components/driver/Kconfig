@@ -1,0 +1,213 @@
+menu "PERIPHERALS"
+
+    config COMPONENT_DRIVER_RCC_ENABLED
+        bool "RCC"
+        default y
+        help
+            Enable rcc driver module.
+            Internal use, any modificationis not allowed.
+
+    config COMPONENT_DRIVER_PMU_ENABLED
+        bool "PMU"
+        default y
+        help
+            Enable pmu driver module.
+            Internal use, any modificationis not allowed.
+
+    config COMPONENT_DRIVER_IRQ_ENABLED
+        bool "IRQ"
+        default y
+        help
+            Enable irq driver module.
+            Internal use, any modificationis not allowed.
+
+    config COMPONENT_DRIVER_DMA_ENABLED
+        bool "DMA"
+        default y
+        help
+            Enable dma driver module.
+            Internal use, any modificationis not allowed.
+
+    config COMPONENT_DRIVER_INTERNAL_FLASH_ENABLED
+        bool "Internal FLASH"
+        default y
+        help
+            Enable internal flash driver module.
+            Internal use, any modification is not allowed.
+
+
+    config COMPONENT_DRIVER_EXTERNAL_FLASH_ENABLED
+        bool "External FLASH"
+        select COMPONENT_DRIVER_SPIM_ENABLED
+        default n
+        help
+            Enable external flash driver module.
+
+    config COMPONENT_DRIVER_TIMER_ENABLED
+        bool "Timer"
+        default n
+        help
+            Enable timer driver module.
+
+    config COMPONENT_DRIVER_UART_ENABLED
+        bool "UART"
+        default y
+        help
+            Enable uart driver module.
+
+    config COMPONENT_DRIVER_GPIO_ENABLED
+        bool "GPIO"
+        default y
+        help
+            Enable gpio driver module.
+
+    config COMPONENT_DRIVER_PSRAM_ENABLED
+        bool "PSRAM"
+        default n
+        help
+            Enable psram driver module.
+
+    config COMPONENT_DRIVER_PWM_ENABLED
+        bool "PWM"
+        default n
+        help
+            Enable pwm driver module.
+
+    config COMPONENT_DRIVER_RTC_ENABLED
+        bool "RTC"
+        default y
+        help
+            Enable rtc driver module.
+
+    config COMPONENT_DRIVER_SDMMC_ENABLED
+        bool "SDIO Host (SDMMC)"
+        default n
+        help
+            Enable sdio host sdmmc driver module.
+
+    config COMPONENT_DRIVER_SDSPI_ENABLED
+        bool "SDIO Host (SPI Mode)"
+        default n
+        help
+            Enable sdio host (SPI mode) driver module.
+
+    config COMPONENT_DRIVER_SPIM_ENABLED
+        bool "SPI Master"
+        default n
+        help
+            Enable spi master driver module.
+
+    config COMPONENT_DRIVER_WDT_ENABLED
+        bool "WATCH Dog"
+        default y
+        help
+            Enable watch dog driver module.
+
+    config COMPONENT_DRIVER_TFT_LCD_ENABLED
+        bool "TFT LCD"
+        default n
+        help
+            Enable tft lcd driver module.
+
+    choice COMPONENT_DRIVER_TFT_LCD_OPTIONS
+        prompt "LCD Device"
+        depends on COMPONENT_DRIVER_TFT_LCD_ENABLED
+        help
+            "select an option for tft lcd device"
+   
+        config COMPONENT_DRIVER_LCD_NV3041A_SPI
+            bool "nv3041a_spi"
+            help
+                "LCD Device NV3041A_SPI"
+
+        config COMPONENT_DRIVER_LCD_ST7735_SPI
+            bool "st7735_spi"
+            help
+                "LCD Device ST7735_SPI"
+
+        config COMPONENT_DRIVER_LCD_GZ035_SPI
+            bool "gz035_spi"
+            help
+                "LCD Device GZ035_SPI"
+    endchoice
+
+    config COMPONENT_DRIVER_ADC_ENABLED
+        bool "ADC"
+        default n
+        help
+            Enable adc driver module.
+
+    config COMPONENT_DRIVER_CRC_ENABLED
+        bool "CRC"
+        default n
+        help
+            Enable crc driver module.
+
+    config COMPONENT_DRIVER_CRYPTO_ENABLED
+        bool "CRYPTO"
+        default n
+        select COMPONENT_MBEDTLS_ENABLED
+        help
+            Enable hardware crypto engine driver module.
+
+    config COMPONENT_DRIVER_HASH_ENABLED
+        bool "HASH"
+        default n
+        help
+            Enable hardware hash driver module.
+
+    config COMPONENT_DRIVER_RNG_ENABLED
+        bool "RNG"
+        default y
+        help
+            Enable hardware rng driver module.
+
+    config COMPONENT_DRIVER_RSA_ENABLED
+        bool "RSA"
+        default n
+        help
+            Enable hardware rsa driver module.
+
+    if BUILD_TYPE_W801S || BUILD_TYPE_W806
+    config COMPONENT_DRIVER_SEG_LCD_ENABLED
+        bool "SEG LCD"
+        default n
+        help
+            Enable seg lcd driver module.
+    endif
+
+    if BUILD_TYPE_W801S || BUILD_TYPE_W802 || BUILD_TYPE_W803 || BUILD_TYPE_W806
+    config COMPONENT_DRIVER_TOUCH_SENSOR_ENABLED
+        bool "Touch Sensor"
+        default n
+        help
+            Enable touch sensor driver module.
+    endif
+
+    config COMPONENT_DRIVER_I2S_ENABLED
+        bool
+        default n
+        help
+            Enable i2s driver module.
+
+    config COMPONENT_DRIVER_I2C_ENABLED
+        bool "I2C"
+        default n
+        help
+            Enable i2c driver module.
+
+    config COMPONENT_DRIVER_CODEC_ES8374_ENABLED
+        bool
+        default n
+        select COMPONENT_DRIVER_I2S_ENABLED
+        select COMPONENT_DRIVER_I2C_ENABLED
+        help
+            Enable codec es8374 driver module.
+
+    config COMPONENT_DRIVER_SDIO_SLAVE_ENABLED
+        bool "SDIO Slave"
+        default n
+        help
+            Enable sdio slave driver module.
+
+endmenu

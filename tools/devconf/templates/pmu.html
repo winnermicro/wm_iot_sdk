@@ -1,0 +1,16 @@
+      <div class="card-header">
+        <h5>Properties</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="device_name">Device name:</label>
+        <input type="text" class="col-sm-6" value="pmu" id="device_name" name="device_name" readonly>
+        &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
+        </div>
+	    <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="clk_src">Clock source:</label>
+        <select class="col-sm-6" id="clk_src" name="clk_src">
+          <option value="0" {% if data.clk_src == 0 %} selected {% endif %}>32K &nbsp;(Internal 32K crystal oscillator)</option>
+          <option value="1" {% if data.clk_src == 1 %} selected {% endif %}>40M (External 40M crystal oscillator by frequency division)</option>
+        </select>
+        </div>
+      </div>

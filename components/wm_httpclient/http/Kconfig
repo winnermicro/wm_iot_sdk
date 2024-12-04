@@ -1,0 +1,39 @@
+menu "HTTP Client"
+    menuconfig WM_HTTP_CLIENT_SECURE
+        bool "Enable http client secure"
+        default n
+        help
+            Enable http client secure and show submenu.
+
+    if WM_HTTP_CLIENT_SECURE
+        config WM_HTTP_CLIENT_AUTH_BASIC
+            bool "Enable auth basic"
+            default n
+            help
+                Enable http client auth basic.
+
+        config WM_HTTP_CLIENT_AUTH_DIGEST
+            bool "Enable auth digest"
+            default n
+            help
+                Enable http client auth digest.
+
+        config WM_HTTP_CLIENT_AUTH_KERBEROS
+            bool "Enable auth kerberos"
+            default n
+            help
+                Enable http client auth kerberos.
+    endif
+
+    config WM_HTTP_CLIENT_PROXY
+        bool "Enable http client proxy"
+        default n
+        help
+            Enable http client proxy.
+
+    config WM_HTTP_CLIENT_DEBUG
+        bool "Enable http client debug"
+        default n
+        help
+            Enable http client debug.
+endmenu

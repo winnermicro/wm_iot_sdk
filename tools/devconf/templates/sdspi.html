@@ -1,0 +1,24 @@
+      {% include 'common.html' %}
+
+      <div class="card-header">
+        <h5>Pins</h5>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdspipin">CLK:</label>
+        <select class="col-sm-6" id="clkpinnum" name="clkpinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="9" {% if data.clkpinnum == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+        {% endif %}
+          <option value="22" {% if data.clkpinnum == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+        </select>
+        </div>
+        <br>
+        <div class="row">
+        <label class="col-sm-3 text-right" for="sdspipin">MOSI:</label>
+        <select class="col-sm-6" id="cmdpinnum" name="cmdpinnum">
+        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+          <option value="10" {% if data.cmdpinnum == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+        {% endif %}
+          <option value="23" {% if data.cmdpinnum == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+        </select>
+        </div>
+	  </div>

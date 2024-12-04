@@ -1,0 +1,7 @@
+# Bluetooth GATT Wi-Fi Provision service
+
+# Copyright (c) 2024 WinnerMicro
+# SPDX-License-Identifier: Apache-2.0
+
+config BT_WPS
+	bool "GATT Wi-Fi Provision service"

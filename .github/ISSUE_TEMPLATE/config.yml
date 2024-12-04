@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 WM_IoT_SDK 编程指南
+    url: https://doc.winnermicro.net/
+    about: 配置和使用 WM_IoT_SDK 的文档
+  - name: 📖 WM_IoT_SDK Programming Guide
+    url: https://doc.winnermicro.net/w800/en/latest/
+    about: Documentation for configuring and using WM_IoT_SDK

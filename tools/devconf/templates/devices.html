@@ -1,0 +1,502 @@
+<div class="col-sm-3">
+      <h3>Devices</h3>
+
+      <div id="accordion">
+
+      {% if data.kconfig.uart and ("Uart0"|lower in data.exist_in_config or "Uart1"|lower in data.exist_in_config or "Uart2"|lower in data.exist_in_config or "Uart3"|lower in data.exist_in_config or "Uart4"|lower in data.exist_in_config or "Uart5"|lower in data.exist_in_config) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+              Uart
+            </a>
+          </div>
+          <div id="collapseOne" class="collapse {% if data.dev_name[:'Uart'|length] == 'Uart' %} show {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+                  <input type="hidden" id="dev_name" name="dev_name" value="Uart0" />
+                  <ul class="nav nav-pills flex-column">
+                  {% if "Uart0"|lower in data.exist_in_config %}
+                    <li class="nav-item">
+                      <a id="dev_uart0" class="nav-link" href="#" onclick="changeInputValue('Uart0')">Uart0</a>
+                    </li>
+                  {% endif %}
+                  {% if "Uart1"|lower in data.exist_in_config %}
+                    <li class="nav-item">
+                      <a id="dev_uart1" class="nav-link" href="#" onclick="changeInputValue('Uart1')">Uart1</a>
+                    </li>
+                  {% endif %}
+                  {% if "Uart2"|lower in data.exist_in_config %}
+                    <li class="nav-item">
+                      <a id="dev_uart2" class="nav-link" href="#" onclick="changeInputValue('Uart2')">Uart2</a>
+                    </li>
+                  {% endif %}
+                  {% if "Uart3"|lower in data.exist_in_config %}
+                    <li class="nav-item">
+                      <a id="dev_uart3" class="nav-link" href="#" onclick="changeInputValue('Uart3')">Uart3</a>
+                    </li>
+                  {% endif %}
+                  {% if "Uart4"|lower in data.exist_in_config %}
+                    <li class="nav-item">
+                      <a id="dev_uart4" class="nav-link" href="#" onclick="changeInputValue('Uart4')">Uart4</a>
+                    </li>
+                  {% endif %}
+                  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+                    {% if "Uart5"|lower in data.exist_in_config %}
+                      <li class="nav-item">
+                        <a id="dev_uart5" class="nav-link" href="#" onclick="changeInputValue('Uart5')">Uart5</a>
+                      </li>
+                    {% endif %}
+                  {% endif %}
+                  </ul>
+                  </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if data.kconfig.timer and ("Timer0"|lower in data.exist_in_config or "Timer1"|lower in data.exist_in_config or "Timer2"|lower in data.exist_in_config or "Timer3"|lower in data.exist_in_config or "Timer4"|lower in data.exist_in_config or "Timer5"|lower in data.exist_in_config) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+            Timer
+          </a>
+          </div>
+          <div id="collapseTwo" class="collapse {% if data.dev_name[:'Timer'|length] == 'Timer' %} show {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="Timer0" />
+              <ul class="nav nav-pills flex-column">
+               {% if "Timer0"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer0" class="nav-link" href="#" onclick="changeInputValue('Timer0')">Timer0</a>
+                </li>
+               {% endif %}
+               {% if "Timer1"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer1" class="nav-link" href="#" onclick="changeInputValue('Timer1')">Timer1</a>
+                </li>
+               {% endif %}
+               {% if "Timer2"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer2" class="nav-link" href="#" onclick="changeInputValue('Timer2')">Timer2</a>
+                </li>
+               {% endif %}
+               {% if "Timer3"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer3" class="nav-link" href="#" onclick="changeInputValue('Timer3')">Timer3</a>
+                </li>
+               {% endif %}
+               {% if "Timer4"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer4" class="nav-link" href="#" onclick="changeInputValue('Timer4')">Timer4</a>
+                </li>
+               {% endif %}
+               {% if "Timer5"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_timer5" class="nav-link" href="#" onclick="changeInputValue('Timer5')">Timer5</a>
+                </li>
+               {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if (data.kconfig.iflash and "iflash"|lower in data.exist_in_config) or (data.kconfig.eflash and ("flash_w25q"|lower in data.exist_in_config or "flash_gd25q"|lower in data.exist_in_config or "flash_xt25f"|lower in data.exist_in_config or "flash_th25q"|lower in data.exist_in_config)) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+              Flash
+            </a>
+          </div>
+          <div id="collapseThree" class="collapse {% if data.dev_name[:'Internal_flash'|length] == 'Internal_flash' %} show
+                                                  {% elif data.dev_name[:'External_flash_w25q'|length] == 'External_flash_w25q' %} show
+                                                  {% elif data.dev_name[:'External_flash_gd25q'|length] == 'External_flash_gd25q' %} show
+                                                  {% elif data.dev_name[:'External_flash_xt25f'|length] == 'External_flash_xt25f' %} show
+                                                  {% elif data.dev_name[:'External_flash_th25q'|length] == 'External_flash_th25q' %} show
+                                                  {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="Internal_flash" />
+              <ul class="nav nav-pills flex-column">
+              {% if data.kconfig.iflash %}
+               {% if "iflash"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_internal_flash" class="nav-link" href="#" onclick="changeInputValue('Internal_flash')">Internal_flash</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              {% if data.kconfig.eflash %}
+               {% if "flash_w25q"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_external_flash_w25q" class="nav-link" href="#" onclick="changeInputValue('External_flash_w25q')">External_flash_w25q</a>
+                </li>
+               {% endif %}
+               {% if "flash_gd25q"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_external_flash_gd25q" class="nav-link" href="#" onclick="changeInputValue('External_flash_gd25q')">External_flash_gd25q</a>
+                </li>
+               {% endif %}
+               {% if "flash_xt25f"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_external_flash_xt25f" class="nav-link" href="#" onclick="changeInputValue('External_flash_xt25f')">External_flash_xt25f</a>
+                </li>
+               {% endif %}
+               {% if "flash_th25q"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_external_flash_th25q" class="nav-link" href="#" onclick="changeInputValue('External_flash_th25q')">External_flash_th25q</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if (data.kconfig.crypto and "crypto"|lower in data.exist_in_config) or (data.kconfig.crc and "crc"|lower in data.exist_in_config) or (data.kconfig.hash and "hash"|lower in data.exist_in_config) or (data.kconfig.rng and "rng"|lower in data.exist_in_config) or (data.kconfig.rsa and "rsa"|lower in data.exist_in_config) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+              Crypto
+            </a>
+          </div>
+          <div id="collapseFour" class="collapse {% if data.dev_name[:'CRYPTO'|length] == 'CRYPTO' %} show
+                                                 {% elif data.dev_name[:'CRC'|length] == 'CRC' %} show
+                                                 {% elif data.dev_name[:'HASH'|length] == 'HASH' %} show
+                                                 {% elif data.dev_name[:'RNG'|length] == 'RNG' %} show
+                                                 {% elif data.dev_name[:'RSA'|length] == 'RSA' %} show
+                                                 {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="CRYPTO" />
+              <ul class="nav nav-pills flex-column">
+              {% if data.kconfig.crypto %}
+               {% if "crypto"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_crypto" class="nav-link" href="#" onclick="changeInputValue('CRYPTO')">CRYPTO</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              {% if data.kconfig.crc %}
+               {% if "crc"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_crc" class="nav-link" href="#" onclick="changeInputValue('CRC')">CRC</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              {% if data.kconfig.hash %}
+               {% if "hash"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_hash" class="nav-link" href="#" onclick="changeInputValue('HASH')">HASH</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              {% if data.kconfig.rng %}
+               {% if "rng"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_rng" class="nav-link" href="#" onclick="changeInputValue('RNG')">RNG</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              {% if data.kconfig.rsa %}
+               {% if "rsa"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_rsa" class="nav-link" href="#" onclick="changeInputValue('RSA')">RSA</a>
+                </li>
+               {% endif %}
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if (data.kconfig.sdmmc and "sdmmc"|lower in data.exist_in_config) or (data.kconfig.sdspi and "sdspi"|lower in data.exist_in_config) or (data.kconfig.st7735 and "st7735_spi"|lower in data.exist_in_config) or (data.kconfig.nv3041a and "nv3041a_spi"|lower in data.exist_in_config) or (data.kconfig.gz035 and "gz035_spi"|lower in data.exist_in_config) or (data.kconfig.sdio_slave and "sdio_slave"|lower in data.exist_in_config) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+              SDIO
+            </a>
+          </div>
+          <div id="collapseFive" class="collapse {% if data.dev_name[:'SDMMC'|length] == 'SDMMC' %} show
+                                                 {% elif data.dev_name[:'SDSPI'|length] == 'SDSPI' %} show
+                                                 {% elif data.dev_name[:'NV3041A'|length] == 'NV3041A' %} show
+                                                 {% elif data.dev_name[:'ST7735'|length] == 'ST7735' %} show
+                                                 {% elif data.dev_name[:'GZ035'|length] == 'GZ035' %} show
+                                                 {% elif data.dev_name[:'SDIO_Slave'|length] == 'SDIO_Slave' %} show
+                                                 {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="SDMMC" />
+              <ul class="nav nav-pills flex-column">
+              {% if data.kconfig.sdmmc %}
+                {% if "sdmmc"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_sdmmc" class="nav-link" href="#" onclick="changeInputValue('SDMMC')">SDMMC</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              {% if data.kconfig.sdspi %}
+                {% if "sdspi"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_sdspi" class="nav-link" href="#" onclick="changeInputValue('SDSPI')">SDSPI</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              {% if data.kconfig.nv3041a %}
+                {% if "nv3041a_spi"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_nv3041a" class="nav-link" href="#" onclick="changeInputValue('NV3041A')">NV3041A</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              {% if data.kconfig.st7735 %}
+                {% if "st7735_spi"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_st7735" class="nav-link" href="#" onclick="changeInputValue('ST7735')">ST7735</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              {% if data.kconfig.gz035 %}
+                {% if "gz035_spi"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_gz035" class="nav-link" href="#" onclick="changeInputValue('GZ035')">GZ035</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              {% if data.kconfig.sdio_slave %}
+                {% if "sdio_slave"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_sdio_slave" class="nav-link" href="#" onclick="changeInputValue('SDIO_Slave')">SDIO_Slave</a>
+                </li>
+                {% endif %}
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if data.kconfig.i2c and ("i2c"|lower in data.exist_in_config or "eeprom0"|lower in data.exist_in_config or "eeprom1"|lower in data.exist_in_config) %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+              I2C
+            </a>
+          </div>
+          <div id="collapseSix" class="collapse {% if data.dev_name[:'I2C'|length] == 'I2C' %} show
+                                                {% elif data.dev_name[:'eeprom0'|length] == 'eeprom0' %} show
+                                                {% elif data.dev_name[:'eeprom1'|length] == 'eeprom1' %} show
+                                                {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="I2C" />
+              <ul class="nav nav-pills flex-column">
+              {% if "i2c"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_i2c" class="nav-link" href="#" onclick="changeInputValue('I2C')">I2C</a>
+                </li>
+              {% endif %}
+              {% if "eeprom0"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_eeprom0" class="nav-link" href="#" onclick="changeInputValue('eeprom0')">eeprom0</a>
+                </li>
+              {% endif %}
+              {% if "eeprom1"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_eeprom1" class="nav-link" href="#" onclick="changeInputValue('eeprom1')">eeprom1</a>
+                </li>
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if data.kconfig.spim and "spim"|lower in data.exist_in_config %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
+              SPI
+            </a>
+          </div>
+          <div id="collapseSeven" class="collapse {% if data.dev_name[:'SPI_Master'|length] == 'SPI_Master' %} show
+                                                  {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="SPI_Master" />
+              <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                  <a id="dev_spi_master" class="nav-link" href="#" onclick="changeInputValue('SPI_Master')">SPI_Master</a>
+                </li>
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if data.kconfig.touch_sensor and ("touch_sensor"|lower in data.exist_in_config or "touch_button"|lower in data.exist_in_config) %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseEight">
+              Touch_Sensor
+            </a>
+          </div>
+          <div id="collapseEight" class="collapse {% if data.dev_name[:'Touch_Sensor'|length] == 'Touch_Sensor' %} show
+                                                  {% elif data.dev_name[:'Touch_Button'|length] == 'Touch_Button' %} show
+                                                  {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="Touch_Sensor" />
+              <ul class="nav nav-pills flex-column">
+              {% if "touch_sensor"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_touch_sensor" class="nav-link" href="#" onclick="changeInputValue('Touch_Sensor')">Touch_Sensor</a>
+                </li>
+              {% endif %}
+              {% if "touch_button"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_touch_button" class="nav-link" href="#" onclick="changeInputValue('Touch_Button')">Touch_Button</a>
+                </li>
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% endif %}
+
+      {% if data.kconfig.seg_lcd and ("seg_lcd"|lower in data.exist_in_config or "gdc0689"|lower in data.exist_in_config) %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <div class="card">
+          <div class="card-header">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseNine">
+              SEG_LCD
+            </a>
+          </div>
+          <div id="collapseNine" class="collapse {% if data.dev_name[:'SEG_LCD'|length] == 'SEG_LCD' %} show
+                                                  {% elif data.dev_name[:'GDC0689'|length] == 'GDC0689' %} show
+                                                  {% endif %}" data-parent="#accordion">
+            <div class="card-body">
+              <form id="get_form" method="get" action="/wmdt/index">
+              <input type="hidden" id="dev_name" name="dev_name" value="SEG_LCD" />
+              <ul class="nav nav-pills flex-column">
+              {% if "seg_lcd"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_seg_lcd" class="nav-link" href="#" onclick="changeInputValue('SEG_LCD')">SEG_LCD</a>
+                </li>
+              {% endif %}
+              {% if "gdc0689"|lower in data.exist_in_config %}
+                <li class="nav-item">
+                  <a id="dev_gdc0689" class="nav-link" href="#" onclick="changeInputValue('GDC0689')">GDC0689</a>
+                </li>
+              {% endif %}
+              </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% endif %}
+
+      </div>
+
+      {% if data.kconfig.pwm and "pwm"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="PWM" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_pwm" class="nav-link" href="#" onclick="changeInputValue('PWM')">PWM</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.rtc and "rtc"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="RTC" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_rtc" class="nav-link" href="#" onclick="changeInputValue('RTC')">RTC</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.pmu and "pmu"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="PMU" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_pmu" class="nav-link" href="#" onclick="changeInputValue('PMU')">PMU</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.i2s and "i2s"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="I2S" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_i2s" class="nav-link" href="#" onclick="changeInputValue('I2S')">I2S</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.adc and "adc"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="ADC" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_adc" class="nav-link" href="#" onclick="changeInputValue('ADC')">ADC</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.gpio and "gpio"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="GPIO" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_gpio" class="nav-link" href="#" onclick="changeInputValue('GPIO')">GPIO</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.wdt and "wdt"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="WDT" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_wdt" class="nav-link" href="#" onclick="changeInputValue('WDT')">WDT</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      {% if data.kconfig.psram and "psram"|lower in data.exist_in_config %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="PSRAM" />
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a id="dev_psram" class="nav-link" href="#" onclick="changeInputValue('PSRAM')">PSRAM</a>
+            </li>
+          </ul>
+        </form>
+      {% endif %}
+
+      <hr class="d-sm-none">
+    </div>

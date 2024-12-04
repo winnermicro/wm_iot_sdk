@@ -1,0 +1,98 @@
+name: 🛠️ 安装 & 构建 & 工具错误报告
+description: 🐛 报告与 WM_IoT_SDK 安装、构建系统或开发工具相关的问题
+labels: ['Type: Bug', 'Type: Installation', 'Type: Build']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🙏 感谢您花时间报告问题。此模板将帮助我们收集调查和解决问题所需的信息。
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ 提交前检查清单
+      description: 请确认您在提交前已完成以下步骤
+      options:
+        - label: 📖 我已仔细查看 [WM_IoT_SDK 编程指南](https://doc.winnermicro.net/) 的相关部分，但未找到问题的解决方案。
+          required: true
+        - label: 🔄 我已将我的 wm_iot_sdk 分支（主分支或发布分支）更新到最新版本，并确认问题仍然存在。
+          required: true
+        - label: 🔍 我已在 [问题](https://github.com/winnermicro/wm_iot_sdk/issues) 和 [讨论](https://github.com/winnermicro/wm_iot_sdk/discussions) 部分中搜索，但未找到类似问题。
+          required: true
+        - label: 🔧 我已尝试使用最新版本的构建工具解决问题，但问题仍然存在。
+          required: true
+  - type: input
+    id: wm_iot_sdk_version
+    attributes:
+      label: 📌 WM_IoT_SDK 版本
+      description: 请指定您 SDK 根目录中 "version" 文件中的版本
+      placeholder: 例如，v2.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: development_platform
+    attributes:
+      label: 💻 开发平台
+      description: 选择您的主要开发平台
+      multiple: false
+      options:
+        - 使用 wm.py 的命令行
+        - VS Code IDE
+        - 其他（请在下方指定）
+    validations:
+      required: true
+  - type: dropdown
+    id: operating_system
+    attributes:
+      label: 🖥️ 操作系统
+      description: 选择您的操作系统
+      multiple: false
+      options:
+        - Windows
+        - Linux
+        - macOS
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: 📝 重现步骤
+      description: '请提供详细的步骤以重现此问题'
+      value: |
+        1. 环境设置：
+        2. 执行的操作：
+        3. 观察到的错误：
+        4. 其他上下文：
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: ✨ 预期行为
+      description: 应该发生什么？
+      placeholder: 描述预期的结果...
+    validations:
+      required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: ❌ 实际行为
+      description: 实际发生了什么？
+      placeholder: 描述实际发生的情况...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 相关日志输出
+      description: 请复制并粘贴任何相关的日志输出
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: additional_information
+    attributes:
+      label: ℹ️ 其他信息
+      description: 任何其他可能帮助我们调查的相关细节
+      placeholder: 在此处添加有关问题的任何其他上下文
+    validations:
+      required: false

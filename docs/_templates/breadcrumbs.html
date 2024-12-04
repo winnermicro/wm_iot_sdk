@@ -1,0 +1,39 @@
+{% extends "!breadcrumbs.html" %}
+{% block breadcrumbs %}
+  <!-- {{ docs_title }} -->
+  {# parameterize default name "Docs" in breadcrumb via docs_title in conf.py #}
+  {% if not docs_title %}
+  {% set docs_title = "Docs" %}
+  {% endif %}
+
+  <li><a href="{{ pathto(root_doc) }}"><span class="fa fa-home">{{ docs_title }}</span></a> &raquo;</li>
+  {% for doc in parents %}
+     <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
+  {% endfor %}
+  <li>{{ title }}</li>
+
+{% endblock %}
+{%- block breadcrumbs_aside %}
+  <li class="wy-breadcrumbs-aside">
+    {%- if display_vcs_link %}
+      {% set vcs_url = pagename | vcs_link_get_url %}
+      {% if vcs_url %}
+        <a href="{{ vcs_url }}" class="fa fa-github"> {{ hb_edit_doc }}</a>
+      {% endif %}
+    {% endif %}
+  </li>
+  <li class="wy-breadcrumbs-aside">
+    {% set prefix = current_version if is_release else "latest" %}
+    {% if pagename.startswith('examples_reference/examples') %}
+      {% if hb_language.startswith('en') %}
+        {% set suffix = "" if pagename[-3:] == "_EN" else "_EN" %}
+      {% else %}
+        {% set suffix = "" %}
+        {% set pagename = pagename[:-3] if pagename[-3:] == "_EN" %}
+      {% endif %}
+    {% else %}
+      {% set suffix = "" %}
+    {% endif %}
+    <a href="/{{ current_soc }}/{{ hb_language }}/{{ prefix }}/{{ pagename }}{{ suffix }}.html">&nbsp;&nbsp;&nbsp; [{{ hb_language_desc }}] &nbsp;&nbsp;&nbsp;</a>
+  </li>
+{%- endblock %}

@@ -1,0 +1,50 @@
+menuconfig COMPONENT_POSIX_ENABLED
+    bool "Posix"
+    default n
+    help
+        Select this option to enable posix and show the submenu.
+
+config POSIX_TASK_NAME_DEFAULT
+    depends on COMPONENT_POSIX_ENABLED
+    string "Default name of pthreads"
+    default "pthread"
+    help
+        The default name of pthreads.
+
+#    config POSIX_TASK_PRIO_DEFAULT
+#        depends on COMPONENT_POSIX_ENABLED
+#        int "Default task priority"
+#        range 0 15
+#        default 1
+#        help
+#            Priority used to create new tasks with default pthread parameters.
+#
+#    config POSIX_TASK_STACK_MIN
+#        depends on COMPONENT_POSIX_ENABLED
+#        int "Minimum allowed pthread stack size"
+#        default 256
+#        help
+#            Minimum allowed pthread stack size set in attributes passed to pthread_create
+
+config POSIX_TIMER_NAME_DEFAULT
+    depends on COMPONENT_POSIX_ENABLED
+    string "Default name of timer"
+    default "timer"
+    help
+        The default name of timer.
+
+config POSIX_MQ_MAX_MESSAGES
+    depends on COMPONENT_POSIX_ENABLED
+    int "Default number of messages"
+    range 1 256
+    default 10
+    help
+        Maximum number of messages in an mq at one time.
+
+config POSIX_MQ_MAX_SIZE
+    depends on COMPONENT_POSIX_ENABLED
+    int "Default size of messages"
+    range 4 1024
+    default 128
+    help
+        Maximum size (in bytes) of each message.

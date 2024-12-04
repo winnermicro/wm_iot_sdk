@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Winnermicro Device Table Configurations</title>
+  {% include 'header.html' %}
+  <style>
+  </style>
+</head>
+<body>
+
+{% include 'menu.html' %}
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+
+    {% include 'devices.html' %}
+
+    <div class="col-sm-9">
+    <div class="row">
+    <h2 class="col-sm-3 text-right">Configurations</h2>&nbsp;&nbsp;&nbsp;
+    <form id="post_form" method="post" action="/wmdt/index">
+    <input type="hidden" id="dev_name2" name="dev_name2" value="Uart0" />
+    <div class="col-sm-6 text-right"><button class="btn btn-primary" style="width:100px" type="submit" onclick="saveDevconfigs()">Save</button></div>
+    </div>
+	<div class="card" id="conf_container">
+
+    {% if data.dev_name == 'Clock' %}
+    {% include 'clock.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
+    {% include 'uart.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'Timer'|length] == 'Timer' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'Internal_flash'|length] == 'Internal_flash' %}
+    {% include 'iflash.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'External_flash_w25q'|length] == 'External_flash_w25q' %}
+    {% include 'eflash.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'External_flash_gd25q'|length] == 'External_flash_gd25q' %}
+    {% include 'eflash.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'External_flash_xt25f'|length] == 'External_flash_xt25f' %}
+    {% include 'eflash.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'External_flash_th25q'|length] == 'External_flash_th25q' %}
+    {% include 'eflash.html' %}
+    {% endif %}
+
+
+    {% if data.dev_name[:'CRYPTO'|length] == 'CRYPTO' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'CRC'|length] == 'CRC' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'HASH'|length] == 'HASH' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'RNG'|length] == 'RNG' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'RSA'|length] == 'RSA' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'SDMMC'|length] == 'SDMMC' %}
+    {% include 'sdmmc.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'SDSPI'|length] == 'SDSPI' %}
+    {% include 'sdspi.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'NV3041A'|length] == 'NV3041A' %}
+    {% include 'tftlcd.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'ST7735'|length] == 'ST7735' %}
+    {% include 'tftlcd.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'GZ035'|length] == 'GZ035' %}
+    {% include 'tftlcd.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'SDIO_Slave'|length] == 'SDIO_Slave' %}
+    {% include 'common.html' %}
+    {% include 'sdio_slave.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'I2C'|length] == 'I2C' %}
+    {% include 'i2c.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'eeprom0'|length] == 'eeprom0' %}
+    {% include 'eeprom.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'eeprom1'|length] == 'eeprom1' %}
+    {% include 'eeprom.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'SPI_Master'|length] == 'SPI_Master' %}
+    {% include 'spim.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'Touch_Sensor'|length] == 'Touch_Sensor' %}
+    {% include 'touch_sensor.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'Touch_Button'|length] == 'Touch_Button' %}
+    {% include 'touch_button.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'SEG_LCD'|length] == 'SEG_LCD' %}
+    {% include 'seg_lcd.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'GDC0689'|length] == 'GDC0689' %}
+    {% include 'gdc0689.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'PWM'|length] == 'PWM' %}
+    {% include 'pwm.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'I2S'|length] == 'I2S' %}
+    {% include 'i2s.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'ADC'|length] == 'ADC' %}
+    {% include 'adc.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'RTC'|length] == 'RTC' %}
+    {% include 'common.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'PMU'|length] == 'PMU' %}
+    {% include 'pmu.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'GPIO'|length] == 'GPIO' %}
+    {% include 'gpio.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'WDT'|length] == 'WDT' %}
+    {% include 'wdt.html' %}
+    {% endif %}
+
+    {% if data.dev_name[:'PSRAM'|length] == 'PSRAM' %}
+    {% include 'psram.html' %}
+    {% endif %}
+
+
+    {% if data.dev_name != 'Clock' and data.dev_name[:'Uart'|length] != 'Uart' %}
+    {% include 'init.html' %}
+    {% endif %}
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function changeInputValue(newValue) {
+    event.preventDefault();
+    var inputElement = document.getElementById('dev_name');
+    inputElement.value = newValue;
+    var form = document.getElementById('get_form');
+    form.submit();
+}
+
+function saveDevconfigs() {
+    event.preventDefault();
+    var inputElement2 = document.getElementById('dev_name2');
+    inputElement2.value = "{{ data.dev_name }}";
+    {% if data.dev_name == 'Clock' %}
+      checkClockconfigs();
+    {% endif %}
+
+    var form = document.getElementById('post_form');
+
+    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
+        var pinrts = document.getElementById('pinrts');
+        if (pinrts) {
+            var pinrts_hidden = document.createElement('input');  
+            pinrts_hidden.type = 'hidden';  
+            pinrts_hidden.name = 'pinrts';  
+            pinrts_hidden.value = pinrts.value;  
+            form.appendChild(pinrts_hidden);
+        }
+        var pincts = document.getElementById('pincts');
+        if (pincts) {
+            var pincts_hidden = document.createElement('input');  
+            pincts_hidden.type = 'hidden';  
+            pincts_hidden.name = 'pincts';  
+            pincts_hidden.value = pincts.value;  
+            form.appendChild(pincts_hidden);
+        }
+    {% endif %}
+
+    form.submit();
+
+    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
+        if (pinrts) {
+            pinrts_hidden.remove();
+        }
+        if (pincts) {
+            pincts_hidden.remove();
+        }
+    {% endif %}
+}
+
+function copy_device_name() {
+    var text = document.getElementById("device_name");
+    text.select();
+    document.execCommand("copy");
+}
+
+{% include 'status.html' %}
+</script>
+
+{% include 'keep_alive.html' %}
+
+</body>
+</html>

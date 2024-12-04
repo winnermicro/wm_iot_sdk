@@ -1,0 +1,99 @@
+name: Code Automated Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      TOOLCHAIN_PATH: ${{ github.workspace }}/csky-elfabiv2-tools/bin
+      WM_TOOLS_PATH: ${{ github.workspace }}/tools/wm
+      WM_IOT_SDK_PATH: ${{ github.workspace }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        fetch-depth: 0
+
+    - name: Checkout LFS objects
+      run: |
+        git lfs checkout
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ninja-build ccache python3 python3-tk
+        wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.sh
+        chmod +x cmake-3.25.1-linux-x86_64.sh
+        sudo ./cmake-3.25.1-linux-x86_64.sh --skip-license --prefix=/usr/local
+
+    - name: Download and extract csky-elfabiv2-tools
+      run: |
+        curl -L https://occ-oss-prod.oss-cn-hangzhou.aliyuncs.com/resource//1695011075810/csky-elfabiv2-tools-x86_64-minilibc-20210423.tar.gz --output ${GITHUB_WORKSPACE}/csky-elfabiv2-tools.tar.gz
+        mkdir csky-elfabiv2-tools
+        tar -xzf ${{ github.workspace }}/csky-elfabiv2-tools.tar.gz -C csky-elfabiv2-tools
+
+    - name: Set environment variables for Toolchain and WM IoT SDK
+      run: |
+        export PATH=$TOOLCHAIN_PATH:$WM_TOOLS_PATH:$PATH
+        echo "PATH=$TOOLCHAIN_PATH:$WM_TOOLS_PATH:$PATH" >> $GITHUB_ENV
+        echo "Working directory: ${{ github.workspace }}"
+        echo "Current PATH: $PATH"
+        echo "SDK path: $WM_IOT_SDK_PATH"
+        python3 --version
+        cmake --version
+        csky-elfabiv2-gcc --version
+
+    - name: Build
+      run: |
+        sed -i 's/wm.sh/wm.py/g' tools/autobuild/autobuild.py
+        python -m pip install --user -r ./tools/wm/requirements.txt
+        wm.py --help
+
+        # Array of supported device types
+        if [[ "$GITHUB_REF" == *"release"* ]]; then
+            DEVICE_TYPES=("W806" "W805" "W803" "W802" "W801S" "W801" "W800")
+        else
+            DEVICE_TYPES=("W800")
+        fi
+
+        # Common build directories for W805/W806
+        W80X_BUILD_DIRS=("cplusplus" "event" "hello_world" "ota/ota_ops" "peripheral" "project_template" "storage")
+        
+        for device in "${DEVICE_TYPES[@]}"; do
+            echo -e "\n=== Building for ${device} ==="
+            
+            # Update build type in Kconfig
+            sed -i "s/\(default BUILD_TYPE.*\)/default BUILD_TYPE_${device}/g" ./tools/wm/Kconfig
+            
+            build_errors=0
+            
+            if [[ "${device}" =~ ^W80[56]$ ]]; then
+                # Build specific directories for W805/W806
+                for dir in "${W80X_BUILD_DIRS[@]}"; do
+                    echo -e "\nBuilding ${dir} directory..."
+                    python ./tools/autobuild/autobuild.py -w 1 -c true -p "./examples/${dir}" -s "./" -d true
+                    build_errors=$((build_errors + $?))
+                done
+            else
+                # Build all examples for other devices
+                echo -e "\nBuilding all examples..."
+                python ./tools/autobuild/autobuild.py -w 1 -c true -p "./examples" -s "./" -d true
+                build_errors=$((build_errors + $?))
+            fi
+        
+            # Report build status
+            if [ $build_errors -eq 0 ]; then
+                echo -e "\n✅ ${device} build completed successfully"
+            else
+                echo -e "\n❌ ${device} build failed with ${build_errors} errors. Please check the logs above."
+                exit 1
+            fi
+        done

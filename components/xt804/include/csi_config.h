@@ -1,0 +1,42 @@
+#ifndef __CSI_CONFIG_H__
+#define __CSI_CONFIG_H__
+
+#include "wmsdk_config.h"
+
+#define CONFIG_CHIP_SL04 1
+#define CONFIG_KERNEL_FREERTOS 1
+//#define CONFIG_KERNEL_NONE 1
+#define CONFIG_HAVE_VIC 1
+
+#if CONFIG_XT804_SEPARATE_IRQ_SP
+#define CONFIG_SEPARATE_IRQ_SP 1
+#else
+#define CONFIG_SEPARATE_IRQ_SP 0
+#endif
+
+#define CONFIG_ARCH_INTERRUPTSTACK CONFIG_XT804_ARCH_INTERRUPTSTACK
+#define CONFIG_IRQ_VECTOR_SIZE     CONFIG_XT804_IRQ_VECTOR_SIZE
+
+/*for dsp function used*/
+#if CONFIG_XT804_SAVE_VR_REGISTERS
+#define SAVE_VR_REGISTERS          1
+#else
+#define SAVE_VR_REGISTERS          0
+#endif
+
+/*for float function used*/
+#if CONFIG_XT804_SAVE_HIGH_REGISTERS
+#define SAVE_HIGH_REGISTERS     1
+#else
+#define SAVE_HIGH_REGISTERS     0
+#endif
+
+#ifdef CONFIG_KERNEL_NONE
+#if CONFIG_XT804_SYSTEM_SECURE
+#define CONFIG_SYSTEM_SECURE  1
+#else
+#define CONFIG_SYSTEM_SECURE  0
+#endif
+#endif
+
+#endif

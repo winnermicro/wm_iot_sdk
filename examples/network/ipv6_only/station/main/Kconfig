@@ -1,0 +1,34 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_IS_OPEN_NETWORK
+            bool "Wi-Fi is open network"
+            default n
+
+        if !EXAMPLE_WIFI_IS_OPEN_NETWORK
+            config EXAMPLE_WIFI_PASSWORD
+                string "Wi-Fi Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (WPA or WPA2) for the example to use.
+        endif
+
+    config EXAMPLE_IPV6_ADDR
+        string "IPV6 Address"
+        default "FE80::30AD:E57B:C212:68AD"
+        help
+            IPV6 address to which the client example will send data.
+
+    config EXAMPLE_PORT
+        int "Port"
+        range 0 65535
+        default 3333
+        help
+            The remote port to which the client example will send data.
+
+endmenu

@@ -1,0 +1,19 @@
+menu "Example configuration"
+
+choice CENTRAL_EXAMPLE
+	prompt "selectable item central example"
+	default INDICATE_EXAMPLE
+	help
+	  Select the central example to compile, (To work with peripheral_general example, make sure to choice the same feature).
+
+config INDICATE_EXAMPLE
+	bool "indication exmaple"
+	help
+	  Subscribe indication feature.
+config NOTIFY_EXAMPLE
+	bool "notify example"
+	help
+	  Subscribe notification feature.
+endchoice
+
+endmenu

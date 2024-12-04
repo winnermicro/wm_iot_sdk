@@ -1,0 +1,324 @@
+menuconfig COMPONENT_LWIP_ENABLED
+    depends on CHIP_HAVE_WIFI
+    bool "LWIP"
+    default n
+    select COMPONENT_EVENT_ENABLED
+    help
+        Select this option to enable LWIP and show the submenu.
+
+if COMPONENT_LWIP_ENABLED
+
+    config LWIP_TCPIP_MBOX_SIZE
+        int "TCPIP task mail box size"
+        default 32
+        range 6 128
+        help
+            Set TCPIP task receive mail box size. Generally bigger value means higher throughput
+            but more memory. The value should be bigger than UDP/TCP mail box size.
+
+    menu "TCP configuration"
+
+        config LWIP_TCP_MAXRTX
+                int "Maximum number of retransmissions of data segments"
+                default 3
+                range 3 12
+                help
+                    Set maximum number of retransmissions of data segments.
+
+        config LWIP_TCP_SYNMAXRTX
+            int "Maximum number of retransmissions of SYN segments"
+            default 4
+            range 3 12
+            help
+                Set maximum number of retransmissions of SYN segments.
+
+        config LWIP_TCP_MSS
+                int "Maximum Segment Size (MSS)"
+                default 1460
+                range 536 1460
+                help
+                    Set maximum segment size for TCP transmission.
+
+                    Can be set lower to save RAM, the default value 1460(ipv4)/1440(ipv6) will give best throughput.
+                    IPv4 TCP_MSS Range: 576 <= TCP_MSS <= 1460
+                    IPv6 TCP_MSS Range: 1220<= TCP_mSS <= 1440
+
+        config LWIP_TCP_WND_DEFAULT
+                int "TCP receive window size (num * MSS)"
+                default 8
+                range 2 44
+                help
+                    Set default TCP receive window size for new TCP sockets.
+
+                    Per-socket receive window size can be changed at runtime
+                    with lwip_setsockopt(s, TCP_WINDOW, ...).
+
+                    Setting a smaller default receive window size can save some RAM,
+                    but will significantly decrease performance.
+
+        config LWIP_TCP_SND_BUF_DEFAULT
+                int "TCP send buffer size (num * MSS)"
+                default 6
+                range 2 44
+                help
+                    Set default send buffer size for new TCP sockets.
+
+                    Per-socket send buffer size can be changed at runtime
+                    with lwip_setsockopt(s, TCP_SNDBUF, ...).
+
+                    This value must be at least 2x the MSS size, and the default
+                    is 4x the default MSS size.
+
+                    Setting a smaller default SNDBUF size can save some RAM, but
+                    will decrease performance.
+
+        config LWIP_TCP_RECVMBOX_SIZE
+                int "TCP receive mail box size"
+                default 10
+                range 6 64
+                help
+                    Set TCP receive mail box size. Generally bigger value means higher throughput
+                    but more memory. The recommended value is: LWIP_TCP_WND_DEFAULT/TCP_MSS + 2, e.g. if
+                    LWIP_TCP_WND_DEFAULT=14360, TCP_MSS=1436, then the recommended receive mail box size is
+                    (14360/1436 + 2) = 12.
+
+                    TCP receive mail box is a per socket mail box, when the application receives packets
+                    from TCP socket, LWIP core firstly posts the packets to TCP receive mail box and the
+                    application then fetches the packets from mail box. It means LWIP can caches maximum
+                    LWIP_TCP_RECCVMBOX_SIZE packets for each TCP socket, so the maximum possible cached TCP packets
+                    for all TCP sockets is LWIP_TCP_RECCVMBOX_SIZE multiples the maximum TCP socket number. In other
+                    words, the bigger LWIP_TCP_RECVMBOX_SIZE means more memory.
+                    On the other hand, if the receiv mail box is too small, the mail box may be full. If the
+                    mail box is full, the LWIP drops the packets. So generally we need to make sure the TCP
+                    receive mail box is big enough to avoid packet drop between LWIP core and application.
+    endmenu
+
+    menu "UDP configuration"
+        config LWIP_UDP_RECVMBOX_SIZE
+                int "UDP receive mail box size"
+                default 6
+                range 6 64
+                help
+                    Set UDP receive mail box size. The recommended value is 6.
+
+                    UDP receive mail box is a per socket mail box, when the application receives packets
+                    from UDP socket, LWIP core firstly posts the packets to UDP receive mail box and the
+                    application then fetches the packets from mail box. It means LWIP can caches maximum
+                    UDP_RECCVMBOX_SIZE packets for each UDP socket, so the maximum possible cached UDP packets
+                    for all UDP sockets is UDP_RECCVMBOX_SIZE multiples the maximum UDP socket number. In other
+                    words, the bigger UDP_RECVMBOX_SIZE means more memory.
+                    On the other hand, if the receiv mail box is too small, the mail box may be full. If the
+                    mail box is full, the LWIP drops the packets. So generally we need to make sure the UDP
+                    receive mail box is big enough to avoid packet drop between LWIP core and application.
+    endmenu
+
+        menuconfig LWIP_IP_FORWARD
+            bool "Enable IP forwarding"
+            default n
+            help
+                Enabling this option allows packets forwarding across multiple interfaces.
+
+        config LWIP_ENABLE_NAPT
+            depends on LWIP_IP_FORWARD
+            bool "Enable napt"
+            default n
+            help
+                Select this option to enable napt.
+
+        config LWIP_ADD_AP_IF
+            depends on WIFI_ENABLE_AP_FEATURE
+            bool
+            default y
+            help
+                Select this option to add softAP if.
+                Internal use, any modification is not allowed.
+
+        menuconfig LWIP_ENABLE_DNS_SERVER
+            depends on LWIP_ADD_AP_IF
+            bool "Enable DNS server"
+            default n
+            help
+                Select this option to enable DNS server.
+
+        config LWIP_DNS_SERVER_NAME
+            depends on LWIP_ADD_AP_IF
+            depends on LWIP_ENABLE_DNS_SERVER
+            string "DNS server name"
+            default "localhost"
+            help
+                Set DNS server name.
+
+        config LWIP_ENABLE_IPV4
+            bool "Enable IPv4"
+            default y
+            help
+                Select this option to enable IPv4.
+
+        menuconfig LWIP_ENABLE_IPV6
+            bool "Enable IPv6"
+            default n
+            help
+                Select this option to enable IPv6.
+
+        config LWIP_IPV6_AUTOCONFIG
+            bool "Enable IPV6 stateless address autoconfiguration (SLAAC)"
+            depends on LWIP_ENABLE_IPV6
+            default y
+            help
+                Enabling this option allows the devices to IPV6 stateless address autoconfiguration (SLAAC).
+                See RFC 4862.
+
+        config LWIP_IPV6_DHCP6
+            bool "Enable DHCPv6 stateless address autoconfiguration"
+            depends on LWIP_IPV6_AUTOCONFIG
+            default y
+            help
+                Enable DHCPv6 for IPv6 stateless address autoconfiguration.
+                Note that the dhcpv6 client has to be started using dhcp6_enable_stateless(netif);
+                Note that the stateful address autoconfiguration is not supported.
+
+        config WM_LWIP
+            bool
+            default y
+            help
+                Select this option to enable winnermicro modify LWIP code.
+                Internal use, any modification is not allowed.
+
+        menuconfig LWIP_DEBUG
+            bool "Enable Debug"
+            default n
+            help
+                Enabling this option allows different kinds of lwIP debug output.
+
+                All lwIP debug features increase the size of the final binary.
+
+        config LWIP_NETIF_DEBUG
+            bool "Enable netif debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable netif debug
+
+        config LWIP_ETHARP_DEBUG
+            bool "Enable etharp debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable etharp debug
+
+        config LWIP_API_LIB_DEBUG
+            bool "Enable api lib debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable api lib debug
+
+        config LWIP_SOCKETS_DEBUG
+            bool "Enable socket debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable socket debug
+
+        config LWIP_IP_DEBUG
+            bool "Enable IP debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable IP debug
+
+        config LWIP_ICMP_DEBUG
+            bool "Enable ICMP debug"
+            depends on LWIP_DEBUG && LWIP_ICMP
+            default n
+            help
+                Select this option to enable ICMP debug
+
+        config LWIP_DHCP_DEBUG
+            bool "Enable DHCP debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable DHCP debug
+
+        config LWIP_DHCP6_DEBUG
+            bool "Enable DHCP6 debug"
+            depends on LWIP_DEBUG
+            depends on LWIP_IPV6_DHCP6
+            default n
+            help
+                Select this option to enable DHCP6 debug
+
+        config LWIP_TCP_DEBUG
+            bool "Enable TCP debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable TCP debug
+
+        config LWIP_UDP_DEBUG
+            bool "Enable UDP debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable UDP debug
+
+        config LWIP_DNS_DEBUG
+            bool "Enable DNS debug"
+            depends on LWIP_DEBUG
+            default n
+            help
+                Select this option to enable DNS debug
+
+        config LWIP_NAPT_DEBUG
+            bool "Enable NAPT debug"
+            depends on LWIP_DEBUG && LWIP_ENABLE_NAPT
+            default n
+            help
+                Select this option to enable NAPT debug
+
+        config LWIP_NETBUF_RECVINFO
+            bool "Enable IP_PKTINFO option"
+            default n
+            help
+                Enable this option, allow receive packet to carry the source address and port.
+
+        config LWIP_MAX_NTP_SERVERS
+            int "MAX NTP servers count"
+            default 3
+            range 1 3
+            help
+                Set NTP to support maximum number of servers.
+
+    menu "NTP configuration"
+            if LWIP_MAX_NTP_SERVERS < 2
+                config WM_NTP_SERVER1
+                string "ntp server"
+                default "ntp.sjtu.edu.cn"
+                help
+                    "NTP server name"
+            endif
+            if LWIP_MAX_NTP_SERVERS >= 2
+                config WM_NTP_SERVER1
+                string "ntp server1"
+                default "ntp.sjtu.edu.cn"
+                help
+                    "First NTP server name"
+
+                config WM_NTP_SERVER2
+                string "ntp server2"
+                default "cn.ntp.org.cn"
+                help
+                    "Second NTP server name"
+            endif
+            if LWIP_MAX_NTP_SERVERS >= 3
+                config WM_NTP_SERVER3
+                string "ntp server3"
+                default "us.pool.ntp.org"
+                help
+                    "Third NTP server name"
+            endif
+    endmenu
+
+endif
+

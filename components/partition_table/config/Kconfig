@@ -1,0 +1,70 @@
+menu "Partition Table"
+
+    config COMPONENT_PARTITION_TABLE_ENABLED
+    bool
+    default y
+    select COMPONENT_DRIVER_HASH_ENABLED
+    help
+        Internal use, any modification is not allowed.
+
+#    choice WM_CHIP_FLASH_SIZE
+#        prompt "Flash size"
+#        default WM_CHIP_FLASH_SIZE_2MB
+#        help
+#            internal flash size, in megabytes
+#
+#        config WM_CHIP_FLASH_SIZE_1MB
+#            bool "1 MB"
+#        config WM_CHIP_FLASH_SIZE_2MB
+#            bool "2 MB"
+#        config WM_CHIP_FLASH_SIZE_4MB
+#            bool "4 MB"
+#        config WM_CHIP_FLASH_SIZE_8MB
+#            bool "8 MB"
+#        config WM_CHIP_FLASH_SIZE_16MB
+#            bool "16 MB"
+#    endchoice
+
+    choice WM_PARTITION_TABLE_TYPE
+        prompt "Partition Table"
+        default WM_PARTITION_TABLE_LARGE_APP if BUILD_TYPE_W800 || BUILD_TYPE_W801S || BUILD_TYPE_W803
+        default WM_PARTITION_TABLE_NORMAL_APP if BUILD_TYPE_W806 || BUILD_TYPE_W805 || BUILD_TYPE_W802
+        help
+            The partition table determines where apps, data and other resources are expected to
+            be found.
+
+        config WM_PARTITION_TABLE_NORMAL_APP
+            bool "Normal app, no OTA (components/partition_table/config/partition_table_normal.csv)"
+            help
+                This is the default partition table, with a 1MB app partition.
+
+        if BUILD_TYPE_W800 || BUILD_TYPE_W801S || BUILD_TYPE_W802 || BUILD_TYPE_W803
+            config WM_PARTITION_TABLE_LARGE_APP
+                bool "Large app, no OTA (components/partition_table/config/partition_table_large.csv)"
+                help
+                    This is a variation of the default partition table, that expands
+                    the 1MB app partition size to 1924KB to fit more code.
+        endif
+
+        config WM_PARTITION_TABLE_WITH_OTA
+            bool "Normal app, with OTA (components/partition_table/config/partition_table_with_ota.csv)"
+            help
+                This is a basic OTA-enabled partition table.
+                During a full-scale upgrade, the app and app_ota are allocated the same amount of space.
+                For upgrades compressed with xz, the app_ota is allocated 60% of the space of the app.
+
+        config WM_PARTITION_TABLE_CUSTOMIZATION
+            bool "Custom partition table (<project directory>/partition_table_custom.csv)"
+            help
+                This is a custom partition table.
+
+    endchoice
+
+    config WM_PARTITION_TABLE_OFFSET
+        hex
+        default 0xE000
+        help
+            The address of partition table.Do not modify, otherwise the bootloader will not work.
+            Internal use, any modification is not allowed.
+
+endmenu

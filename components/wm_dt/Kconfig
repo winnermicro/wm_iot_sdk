@@ -1,0 +1,20 @@
+menu "Device Table"
+
+    config COMPONENT_DT_ENABLED
+        bool
+        default y
+        help
+            Internal use, any modification is not allowed.
+
+    if COMPONENT_DT_ENABLED
+
+        config DT_USE_C_STYLE_CONF
+            bool "Use c style configuration"
+            default n
+            help
+                Select this option to enable Using c code to configure directly, 
+                the toml configuration file will be invalid.
+
+    endif
+
+endmenu

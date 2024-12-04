@@ -1,0 +1,112 @@
+menuconfig COMPONENT_CLI_ENABLED
+    bool "CLI"
+    default n
+    select COMPONENT_EVENT_ENABLED
+    help
+        Select this option to enable cli and show the submenu.
+
+if COMPONENT_CLI_ENABLED
+    config CLI_LINE_SIZE
+        int "Command line size (Byte)"
+        range 16 256
+        default 64
+        help
+            command line max size.
+
+    config CLI_CMD_PARAS_NUM
+        int "Maximum number of parameters"
+        range 0 32
+        default 8
+        help
+            The maximum number of parameters in the command.
+
+    config CLI_CMD_HISTORY_NUM
+        int "Numbers of history commands"
+        range 1 10
+        default 5
+        help
+            Command stores the most history commands (the maximum number here 
+            refers to the maximum number of commands that can be stored. When 
+            the history command line cache is full, it will automatically 
+            release the earliest command record).
+
+    config CLI_BOOT_BANNER
+        bool
+        default n
+        help
+            Show banner when boot cli.
+            Internal use, any modification is not allowed.
+
+    config CLI_ENABLE_LONG_USAGE
+        bool "Enable long usage"
+        default y
+        help
+            Select this option to enable long usage.
+
+    choice CLI_UART_MODE
+        prompt "CLI port"
+        default CLI_USE_UART0
+        help
+            Select which uart port shall be used for CLI.
+
+        config CLI_USE_UART0
+            bool "Uart0"
+            help
+                Use uart0.
+
+        config CLI_USE_UART1
+            bool "Uart1"
+            help
+                Use uart1.
+
+        config CLI_USE_UART2
+            bool "Uart2"
+            help
+                Use uart2.
+
+        config CLI_USE_UART3
+            bool "Uart3"
+            help
+                Use uart3.
+
+        config CLI_USE_UART4
+            bool "Uart4"
+            help
+                Use uart4.
+
+        if BUILD_TYPE_W801 || BUILD_TYPE_W801S || BUILD_TYPE_W802 || BUILD_TYPE_W806
+            config CLI_USE_UART5
+                bool "Uart5"
+                help
+                    Use uart5.
+        endif
+
+    endchoice
+
+    config CLI_UART_PORT
+        int
+        default 0 if CLI_USE_UART0
+        default 1 if CLI_USE_UART1
+        default 2 if CLI_USE_UART2
+        default 3 if CLI_USE_UART3
+        default 4 if CLI_USE_UART4
+        default 5 if CLI_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "CLI_USE_UARTx".
+            Internal use, any modification is not allowed.
+
+    config CLI_UART_DEVICE
+        string
+        default "uart0" if CLI_USE_UART0
+        default "uart1" if CLI_USE_UART1
+        default "uart2" if CLI_USE_UART2
+        default "uart3" if CLI_USE_UART3
+        default "uart4" if CLI_USE_UART4
+        default "uart5" if CLI_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "CLI_USE_UARTx".
+            Internal use, any modification is not allowed.
+
+    orsource "commands/Kconfig"
+
+endif

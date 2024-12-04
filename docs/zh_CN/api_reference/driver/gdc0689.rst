@@ -1,0 +1,22 @@
+.. _label_api_gdc0689:
+
+===================
+GDC0689 API 参考
+===================
+
+API参考
+------------------
+
+Enumerations
+----------------------
+
+.. doxygengroup:: WM_GDC0689_Enumerations
+    :project: wm-iot-sdk-apis
+    :content-only:
+
+Functions
+----------------------
+
+.. doxygengroup:: WM_GDC0689_Functions
+    :project: wm-iot-sdk-apis
+    :content-only:

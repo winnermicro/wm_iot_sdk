@@ -1,0 +1,24 @@
+name: 🗂️ Other Issue Report
+description: 📝 Report any other issues not covered by the existing templates
+labels: ['Type: Bug']
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Pre-submission Checklist
+      description: 🧐 Please verify you have completed the following steps before submitting
+      options:
+        - label: 📖 I have thoroughly reviewed the relevant sections of the [WM_IoT_SDK Programming Guide](https://doc.winnermicro.net/w800/en/latest/) documentation but have not found a solution to my issue.
+          required: true
+        - label: 🔄 I have updated my wm_iot_sdk branch (master or release) to the latest version and confirmed that the issue still exists.
+          required: true
+        - label: 🔍 I have searched through the [Issues](https://github.com/winnermicro/wm_iot_sdk/issues) and [Discussions](https://github.com/winnermicro/wm_iot_sdk/discussions) sections but have not found a similar issue.
+          required: true
+  - type: textarea
+    id: issue_details
+    attributes:
+      label: 📝 Issue Details
+      description: 🖊️ Please provide a detailed description of your issue.
+      placeholder: e.g., I am experiencing an issue with...
+    validations:
+      required: true

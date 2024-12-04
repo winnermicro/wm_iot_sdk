@@ -1,0 +1,143 @@
+menu "Log"
+
+    choice LOG_PRINT_UART_MODE
+        prompt "Log output port"
+        default LOG_UART_PRINT_USE_UART0
+        help
+            Select which uart port shall be used for log output.
+
+        config LOG_UART_PRINT_USE_UART0
+            bool "Uart0"
+            help
+                Use uart0 print.
+
+        config LOG_UART_PRINT_USE_UART1
+            bool "Uart1"
+            help
+                Use uart1 print.
+
+        config LOG_UART_PRINT_USE_UART2
+            bool "Uart2"
+            help
+                Use uart2 print.
+
+        config LOG_UART_PRINT_USE_UART3
+            bool "Uart3"
+            help
+                Use uart3 print.
+
+        config LOG_UART_PRINT_USE_UART4
+            bool "Uart4"
+            help
+                Use uart4 print.
+
+        if BUILD_TYPE_W801 || BUILD_TYPE_W801S || BUILD_TYPE_W802 || BUILD_TYPE_W806
+            config LOG_UART_PRINT_USE_UART5
+                bool "Uart5"
+                help
+                    Use uart5 print.
+        endif
+
+    endchoice
+
+    config LOG_PRINT_UART_PORT
+        int
+        default 0 if LOG_UART_PRINT_USE_UART0
+        default 1 if LOG_UART_PRINT_USE_UART1
+        default 2 if LOG_UART_PRINT_USE_UART2
+        default 3 if LOG_UART_PRINT_USE_UART3
+        default 4 if LOG_UART_PRINT_USE_UART4
+        default 5 if LOG_UART_PRINT_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "LOG_UART_PRINT_USE_UARTXX".
+            Internal use, any modification is not allowed.
+
+    config LOG_PRINT_UART_DEVICE
+        string
+        default "uart0" if LOG_UART_PRINT_USE_UART0
+        default "uart1" if LOG_UART_PRINT_USE_UART1
+        default "uart2" if LOG_UART_PRINT_USE_UART2
+        default "uart3" if LOG_UART_PRINT_USE_UART3
+        default "uart4" if LOG_UART_PRINT_USE_UART4
+        default "uart5" if LOG_UART_PRINT_USE_UART5
+        help
+            This option will be automatically assigned a specific value based on the selection of the "LOG_UART_PRINT_USE_UARTXX".
+            Internal use, any modification is not allowed.
+
+    config COMPONENT_LOG_ENABLED
+        #bool "Enable LOG"
+        bool
+        default y
+        help
+            Select this option to enable LOG module.
+            Internal use, any modification is not allowed.
+
+    if COMPONENT_LOG_ENABLED
+
+        choice LOG_DEFAULT_LEVEL
+            prompt "Default log level"
+            default LOG_DEFAULT_LEVEL_INFO
+            help
+                Setting static output log level and show submenu.
+
+            config LOG_DEFAULT_LEVEL_NONE
+                bool "No output"
+                help
+                    Not output any logs.
+            config LOG_DEFAULT_LEVEL_ERROR
+                bool "Error"
+                help
+                    Records errors that occur within the application, which may impact its functionality.
+                    Only includes 'Error' log levels  if this option be choice.
+            config LOG_DEFAULT_LEVEL_WARN
+                bool "Warn"
+                help
+                    Indicates potential issues that may not cause errors but could affect the performance of the application.
+                    Includes 'Warn', and 'Error' log levels if this option be choice.
+            config LOG_DEFAULT_LEVEL_INFO
+                bool "Info"
+                help
+                    Conveys general information about program operations, used to track the normal running of the application.
+                    Includes 'Info', 'Warn', and 'Error' log levels if this option be choice.
+            config LOG_DEFAULT_LEVEL_DEBUG
+                bool "Debug"
+                help
+                    In-depth information for issue diagnosis, essential for development and troubleshooting.
+                    Includes 'Debug', 'Info', 'Warn', and 'Error' log levels if this option be choice
+            config LOG_DEFAULT_LEVEL_VERBOSE
+                bool "Verbose"
+                help
+                    Provides detailed information, typically used for development to trace the execution of program.
+                    Includes All log levels if this option be choice. Not recommended for production use.
+
+        endchoice
+
+        config LOG_DEFAULT_LEVEL
+            int
+            default 0 if LOG_DEFAULT_LEVEL_NONE
+            default 1 if LOG_DEFAULT_LEVEL_ERROR
+            default 2 if LOG_DEFAULT_LEVEL_WARN
+            default 3 if LOG_DEFAULT_LEVEL_INFO
+            default 4 if LOG_DEFAULT_LEVEL_DEBUG
+            default 5 if LOG_DEFAULT_LEVEL_VERBOSE
+            help
+                This option will be automatically assigned a specific value based on the selection of the "LOG_DEFAULT_LEVEL_XX".
+                Internal use, any modification is not allowed.
+
+        config LOG_USE_COLOR
+            bool "Enable log color"
+            default n
+            help
+                Enable log color.
+
+        config LOG_FORMAT_BUF_SIZE
+            int
+            range 64 256
+            default 256
+            help
+                vprintf format buffer size
+                Internal use, any modification is not allowed.
+
+    endif
+
+endmenu

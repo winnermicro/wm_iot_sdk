@@ -1,0 +1,42 @@
+# Bluetooth LE stack configuration options
+
+# Copyright (c) 2016-2020 Nordic Semiconductor ASA
+# Copyright (c) 2015-2016 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+menu "Bluetooth tinycrypt configuration"
+	visible if (BT_CTRL_VERSION >= 50)
+
+config TINYCRYPT_ECC_DH
+	bool "ecc dh select"
+	default n
+config TINYCRYPT_ECC_DSA
+	bool "ecc dsa select"
+	default n
+config TINYCRYPT_AES
+	bool "aes select"
+	default n	
+config TINYCRYPT_AES_CBC
+	bool "aes cbc select"
+	default n		
+config TINYCRYPT_AES_CTR
+	bool "aes ctr select"
+	default n		
+config TINYCRYPT_AES_CCM
+	bool "aes ccm select"
+	default n		
+config TINYCRYPT_AES_CMAC
+	bool "aes cmac select"
+	default n		
+config TINYCRYPT_SHA256
+	bool "sha256 select"
+	default n		
+config TINYCRYPT_SHA256_HMAC
+	bool "sha256 hmac select"
+	default n	
+config TINYCRYPT_SHA256_HMAC_PRNG
+	bool "sha256 hmac prng select"
+	default n	
+config TINYCRYPT_CTR_PRNG
+	bool "prng select"
+	default n		
+endmenu

@@ -1,0 +1,72 @@
+menuconfig COMPONENT_WIFI_ENABLED
+    depends on CHIP_HAVE_WIFI
+    bool "WiFi"
+    default n
+    select COMPONENT_RF_ENABLED
+    select COMPONENT_NVS_ENABLED
+    select COMPONENT_LWIP_ENABLED
+    help
+        Select this option to enable WiFi and show the submenu.
+
+if COMPONENT_WIFI_ENABLED
+
+    config WIFI_MASCW_TX_BUF_NUM
+        int "WiFi tx buf number"
+        range 1 30
+        default 7
+        help
+            WiFi tx buf number.
+
+    config WIFI_MASCW_RX_BUF_NUM
+        int "WiFi rx buf number"
+        range 1 30
+        default 3
+        help
+            WiFi rx buf number.
+
+    menuconfig WIFI_API_ENABLED
+        bool "Enable WiFi API"
+        default y
+        select COMPONENT_WPA_SUPPLICANT_ENABLED
+        select COMPONENT_EVENT_ENABLED
+        help
+            Select this option to enable WiFi Application Programming Interface.
+
+    if WIFI_API_ENABLED
+        menuconfig WIFI_ENABLE_AP_FEATURE
+            select WPA_SUPPLICANT_ENABLE_AP
+            bool "Enable softAP feature"
+            default n
+            help
+                Select this option to enable softap.
+
+        if WIFI_ENABLE_AP_FEATURE
+            menu "DHCP server configuration"
+                visible if !COMPONENT_NM_WIFI_SOFTAP_ENABLED
+
+                config WIFI_DHCPS_IPV4_ADDR
+                    string "IP address"
+                    default "192.168.10.1"
+                    help
+                        Dhcp server IPV4 address in the ap mode.
+
+                config WIFI_DHCPS_IPV4_NETMASK
+                    string "Network mask"
+                    default "255.255.255.0"
+                    help
+                        Dhcp server IPV4 netmask in the ap mode.
+
+                config WIFI_DHCPS_IPV4_GW
+                    string "Gateway address"
+                    default "192.168.10.1"
+                    help
+                        Dhcp server IPV4 gateway in the ap mode.
+            endmenu
+
+        endif # WIFI_ENABLE_AP_FEATURE
+
+    endif # WIFI_API_ENABLED
+
+    orsource "macsw/Kconfig"
+
+endif # COMPONENT_WIFI_ENABLED
