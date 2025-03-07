@@ -124,3 +124,11 @@ int wm_drv_irq_set_wakeup(wm_irq_no_t irq)
     err = wm_hal_irq_set_wakeup(irq);
     return err;
 }
+
+int wm_drv_irq_clear_wakeup(wm_irq_no_t irq)
+{
+    int32_t err = WM_ERR_SUCCESS;
+
+    err = wm_hal_irq_clear_wakeup(irq);
+    return err;
+}

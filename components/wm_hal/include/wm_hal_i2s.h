@@ -38,58 +38,19 @@ extern "C" {
 #endif
 
 /**
- * @defgroup WM_HAL_I2S_Macros WM HAL_I2S Macros
- * @brief WinnerMicro HAL_I2S Macros
+ * @defgroup WM_HAL_I2S_Enums WM HAL_I2S Enums
+ * @brief WinnerMicro HAL_I2S Enums
  */
 
 /**
- * @addtogroup WM_HAL_I2S_Macros
+ * @addtogroup WM_HAL_I2S_Enums
  * @{
  */
-
-/**
- * @}
- */
-
-/**
- * @defgroup WM_HAL_I2S_Enumerations WM HAL_I2S Enumerations
- * @brief WinnerMicro HAL_I2S Enumerations
- */
-
-/**
- * @addtogroup WM_HAL_I2S_Enumerations
- * @{
- */
-
-/**
- * @brief index for desc to indicate that which type does this desc belong to
- */
-typedef enum wm_hal_i2s_tr_type {
-    WM_HAL_I2S_TR_TX, /**< Transmit data in the output direction. */
-    WM_HAL_I2S_TR_RX, /**< Transmit data in the input direction. */
-    WM_HAL_I2S_TR_MAX
-} wm_hal_i2s_tr_type_t;
-
-/**
- * @}
- */
-
-/**
- * @defgroup WM_HAL_I2S_Unions WM HAL_I2S Unions
- * @brief WinnerMicro HAL_I2S Unions
- */
-
-/**
- * @addtogroup WM_HAL_I2S_Unions
- * @{
- */
-
-/**
- * @brief xxx
- *
- * xxx
- */
-
+typedef enum {
+    WM_HAL_I2S_EVENT_TX_DONE,  /**< send one packet end                     */
+    WM_HAL_I2S_EVENT_RX_READY, /**< one packet receive end                  */
+    WM_HAL_I2S_EVENT_RX_DONE,  /**< hardware detect no rx data for a moment */
+} wm_hal_i2s_event_type_t;
 /**
  * @}
  */
@@ -105,80 +66,74 @@ typedef enum wm_hal_i2s_tr_type {
  */
 
 /**
- * @brief The TX (transmit) and RX (receive) completion interrupts
- * invoke the notification with the parameter structure to the driver layer.
- *
+ * @brief The TX (transmit) and RX (receive) completion event
+ * @note The attribute len maybe zero when rx receive done
  */
-typedef struct wm_hal_i2s_trx_param {
-    void *start_buf;    /**< Used to check if the first of multiple completed buffers is expected. */
-    int len;            /**< the actual length of received buffers */
-    int nodes_consumed; /**< the number of completed buffers(tx/rx) */
-    int slots_remained; /**< the idle DMA desc can be used for next loop  */
-} wm_hal_i2s_trx_param_t;
+typedef struct {
+    wm_hal_i2s_event_type_t type; /**< curernt event type                    */
+    uint8_t *buf;                 /**< curernt transfer end buffer           */
+    int len;                      /**< the actual length of xfer buffer,
+                                        only notify remove buffer if len = 0 */
+    void *priv;                   /**< Not use by hal                        */
+} wm_hal_i2s_event_t;
 
 /**
  * @brief index for desc to indicate that which type does this desc belong to
  *
  * @param[in] master_dev the uper layer(driver) device handle
- * @param[in] param @ref wm_hal_i2s_trx_param_t
- *
- * @note Under normal circumstances, len is rx_pkt_len,but when the length of
- * the last packet of data received is insufficient, len represents the actual valid data.
+ * @param[in] event @ref wm_hal_i2s_event_t
  */
-typedef void (*trx_cb)(void *master_dev, wm_hal_i2s_trx_param_t *param);
-
-/**
- * @brief Used to notify the driver layer of the interrupt callback for the
- * completion of transmission and reception.
- *
- */
-typedef void (*irq_cb)(void *master_dev, uint32_t flag);
+typedef void (*wm_hal_i2s_callback_t)(void *master_dev, wm_hal_i2s_event_t *event);
 
 /**
  * @brief I2S device configuration items
  */
 typedef struct {
-    enum wm_i2s_mode mode;                             /**< I2S role mode */
-    enum wm_i2s_dir dir;                               /**< I2S xfer direction */
-    enum wm_i2s_std std;                               /**< I2S protocol standard */
-    enum wm_i2s_fmt fmt;                               /**< I2S frame format standard */
-    enum wm_i2s_chan_type ctype;                       /**< if use stereo */
-    enum wm_i2s_xfer_type xtype;                       /**< the xfer type */
-    uint8_t dma_ch[WM_HAL_I2S_TR_MAX];                 /**< driver request dma channel and pass to HAL */
-    uint8_t desc_node_depth[WM_HAL_I2S_TR_MAX];        /**< the count of dma desc nodes on the list */
-    uint32_t desc_rxbuf_size;                          /**< the max size buffer belongs to rx dma desc nodes */
-    void *(*desc_calloc)(size_t nelem, size_t elsize); /**< the function used to calloc dma desc */
-    void (*desc_free)(void *desc);                     /**< the function used to free dma desc */
-    trx_cb cb[WM_HAL_I2S_TR_MAX];
+    enum wm_i2s_mode mode;             /**< I2S role mode             */
+    enum wm_i2s_dir dir;               /**< I2S xfer direction        */
+    enum wm_i2s_std std;               /**< I2S protocol standard     */
+    enum wm_i2s_xfer_type xtype;       /**< the xfer type             */
+    wm_hal_dma_dev_t *rx_dma;          /**< rx dma                    */
+    wm_hal_dma_dev_t *tx_dma;          /**< tx dma                    */
+    uint8_t rx_dma_ch;                 /**< rx dma  channel           */
+    uint8_t tx_dma_ch;                 /**< tx dma  channel           */
+    uint8_t rx_pkt_num;                /**< rx dma data chunk number  */
+    uint8_t tx_pkt_num;                /**< tx dma data chunk number  */
+    uint32_t rx_pkt_size;              /**< rx receive packet size    */
+    wm_hal_i2s_callback_t rx_callback; /**< rx transfer done callback */
+    wm_hal_i2s_callback_t tx_callback; /**< tx transfer done callback */
 } wm_hal_i2s_cfg_t;
 
 /**
- * @brief HAL I2S device private storage
+ * @brief I2S device format items
  */
 typedef struct {
-    wm_hal_i2s_cfg_t cfg;                       /**< for configuration storage */
-    wm_hal_dma_desc_t *desc[WM_HAL_I2S_TR_MAX]; /**< tx/rx dma desc, depth define by user */
-    bool desc_en[WM_HAL_I2S_TR_MAX];            /**< if DMA is running xfer desc */
-    uint8_t desc_cid[WM_HAL_I2S_TR_MAX];        /**< checked index */
-    uint8_t desc_cnt[WM_HAL_I2S_TR_MAX];        /**< valid buffer count in list */
-    uint8_t desc_start_cnt[WM_HAL_I2S_TR_MAX];  /**< temp, remove, indicate that the dma has been (re)start */
-    uint32_t desc_push_cnt[WM_HAL_I2S_TR_MAX];  /**< total xfer buffer counts */
-    uint32_t xfer_cnt[WM_HAL_I2S_TR_MAX];       /**< total xfer buffer counts */
-    uint32_t rx_flush_total;                    /**< the total flush times to get the remained data */
-    uint32_t rx_flush_valid;                    /**< the valid flush times to get the remained data */
-    uint32_t rx_flush_bytes;                    /**< The length of data obtained through the flush method. */
-} wm_hal_i2s_priv_t;
+    enum wm_i2s_bits bits;         /**< I2S frame format standard */
+    enum wm_i2s_chan_type channel; /**< if use stereo             */
+} wm_hal_i2s_fromat_t;
+
+/**
+ * @brief HAL I2S device transfer information
+ */
+typedef struct {
+    wm_hal_dma_desc_t *r;    /**< DMA receiving chain read  */
+    wm_hal_dma_desc_t *w;    /**< DMA receiving chain write */
+    wm_hal_dma_desc_t *desc; /**< DMA receiving desc node   */
+    uint32_t xfer_pack_cnt;  /**< transfer package count    */
+    uint64_t xfer_size;      /**< transfer total size       */
+} wm_hal_i2s_xfer_t;
 
 /**
  * @brief I2S device descriptor in HAL layer
  */
 typedef struct {
-    void *master_dev;          /**< which parent device does this device belong to */
-    wm_irq_no_t irq_num;       /**< I2S IRQ number */
-    wm_i2s_reg_t *reg_dev;     /**< register addr of I2S */
-    wm_hal_i2s_cfg_t *cfg;     /**< I2S hal configuration point to cfg in priv */
-    wm_hal_dma_dev_t *dma_dev; /**< DMA hal device */
-    wm_hal_i2s_priv_t priv;    /**< private data section */
+    void *master_dev;        /**< which parent device ,set by caller  */
+    wm_i2s_reg_t *reg_dev;   /**< register addr of I2S ,set by caller */
+    wm_irq_no_t irq_num;     /**< I2S IRQ number,set by caller        */
+    wm_hal_i2s_cfg_t cfg;    /**< I2S hal configuration, iternal use  */
+    wm_hal_i2s_fromat_t fmt; /**< I2S hal format                      */
+    wm_hal_i2s_xfer_t rx;    /**< rx xfer inforamtion, iternal use    */
+    wm_hal_i2s_xfer_t tx;    /**< tx xfer inforamtion, iternal use    */
 } wm_hal_i2s_dev_t;
 
 /**
@@ -186,12 +141,12 @@ typedef struct {
  */
 
 /**
- * @defgroup WM_HAL_I2S_Type_Definitions WM HAL_I2S Type Definitions
- * @brief WinnerMicro HAL_I2S Type Definitions
+ * @defgroup WM_HAL_I2S_APIs WM HAL_I2S APIs
+ * @brief WinnerMicro HAL_I2S APIs
  */
 
 /**
- * @addtogroup WM_HAL_I2S_Type_Definitions
+ * @addtogroup WM_HAL_I2S_APIs
  * @{
  */
 
@@ -225,6 +180,17 @@ int wm_hal_i2s_init(wm_hal_i2s_dev_t *dev, wm_hal_i2s_cfg_t *cfg);
  *    - Others: Deinitialization failed due to an unknown error.
  */
 int wm_hal_i2s_deinit(wm_hal_i2s_dev_t *dev);
+
+/**
+ * @brief Sets i2s format.
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ * @param[in] bits: sample bits width.
+ * @param[in] channel: sample channel type.
+ *
+ * @return None.
+ */
+int wm_hal_i2s_set_format(wm_hal_i2s_dev_t *dev, enum wm_i2s_bits bits, enum wm_i2s_chan_type channel);
 
 /**
  * @brief Sets the zero-crossing enable flag for the left channel of HAL I2S device.
@@ -302,7 +268,7 @@ void wm_hal_i2s_set_tx_en(wm_hal_i2s_dev_t *dev, bool en);
  *    - WM_ERR_DMA_CONFIG: Failed to configure the DMA controller.
  *    - WM_ERR_DMA_START: Failed to start the DMA transmission.
  */
-int wm_hal_i2s_tx_dma_start(wm_hal_i2s_dev_t *dev);
+int wm_hal_i2s_tx_start(wm_hal_i2s_dev_t *dev);
 
 /**
  * @brief Stops the DMA transmission for the HAL I2S device.
@@ -318,7 +284,7 @@ int wm_hal_i2s_tx_dma_start(wm_hal_i2s_dev_t *dev);
  *    - WM_ERR_INVALID_PARAM: Invalid argument(s) were provided.
  *    - WM_ERR_DMA_STOP: Failed to stop the DMA transmission.
  */
-int wm_hal_i2s_tx_dma_stop(wm_hal_i2s_dev_t *dev);
+int wm_hal_i2s_tx_stop(wm_hal_i2s_dev_t *dev);
 
 /**
  * @brief Appends a buffer to the DMA transmit list for the HAL I2S device.
@@ -365,32 +331,40 @@ void wm_hal_i2s_set_tx_clock_inv_en(wm_hal_i2s_dev_t *dev, bool en);
 void wm_hal_i2s_set_tx_mute_en(wm_hal_i2s_dev_t *dev, bool mute);
 
 /**
- * @brief Checks if the TX DMA is in a zombie state.
- *
- * This function checks if the TX DMA is in a zombie state, meaning that
- * all DMA descriptors have been consumed and there are no more buffers
- * to transmit. This can occur when a user packet experiences blockage or a
- * temporary flow interruption, causing DMA to consume the entire driver cache.
+ * @brief Checks if the TX DMA is running or stoped.
  *
  * @param[in] dev: A pointer to the HAL I2S device structure.
  *
- * @return A boolean value indicating whether the TX DMA is in a zombie state (true) or not (false).
+ * @return A boolean value indicating whether the TX DMA is running (true) or not (false).
  */
-bool wm_hal_i2s_is_txdma_zombie(wm_hal_i2s_dev_t *dev);
+bool wm_hal_i2s_is_tx_dma_running(wm_hal_i2s_dev_t *dev);
 
 /**
- * @brief Checks if the RX DMA is in a zombie state.
- *
- * This function checks if the RX DMA is in a zombie state, meaning that
- * all DMA descriptors have been consumed and there are no more buffers
- * to receive. This can occur when a user packet experiences blockage or a
- * temporary flow interruption, causing DMA to consume the entire driver cache.
+ * @brief Checks if the RX DMA is running or stoped.
  *
  * @param[in] dev: A pointer to the HAL I2S device structure.
  *
- * @return A boolean value indicating whether the RX DMA is in a zombie state (true) or not (false).
+ * @return A boolean value indicating whether the RX DMA is running (true) or not (false).
  */
-bool wm_hal_i2s_is_rxdma_zombie(wm_hal_i2s_dev_t *dev);
+bool wm_hal_i2s_is_rx_dma_running(wm_hal_i2s_dev_t *dev);
+
+/**
+ * @brief Checks if the TX is enabled or not.
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ *
+ * @return A boolean value indicating whether the TX is enabled (true) or not (false).
+ */
+bool wm_hal_i2s_is_tx_enabled(wm_hal_i2s_dev_t *dev);
+
+/**
+ * @brief Checks if the RX DMA is enabled or not.
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ *
+ * @return A boolean value indicating whether the RX is enabled (true) or not (false).
+ */
+bool wm_hal_i2s_is_rx_enabled(wm_hal_i2s_dev_t *dev);
 
 /**
  * @brief Pauses the DMA transmission for the HAL I2S device.
@@ -453,27 +427,7 @@ void wm_hal_i2s_set_rx_en(wm_hal_i2s_dev_t *dev, bool en);
  *    - WM_ERR_DMA_CONFIG: Failed to configure the DMA controller.
  *    - WM_ERR_DMA_START: Failed to start the DMA reception.
  */
-int wm_hal_i2s_rx_dma_start(wm_hal_i2s_dev_t *dev);
-
-/**
- * @brief Starts the DMA reception for the HAL I2S device.
- *
- * This function starts the DMA reception for the HAL I2S device.
- * It configures the DMA controller to transfer data from the device's
- * receive buffer to the I2S peripheral.
- *
- * @param[in] dev: A pointer to the HAL I2S device structure.
- * @param[in] buf: A pointer to the buffer that will be received.
- * @param[in] len: The length of the buffer in bytes.
- *
- * @return
- *    - WM_ERR_SUCCESS: The DMA reception was successfully started.
- *    - WM_ERR_INVALID_PARAM: Invalid argument(s) were provided.
- *    - WM_ERR_BUSY: The DMA reception is already in progress.
- *    - WM_ERR_DMA_CONFIG: Failed to configure the DMA controller.
- *    - WM_ERR_DMA_START: Failed to start the DMA reception.
- */
-int wm_hal_i2s_rx_dma(wm_hal_i2s_dev_t *dev, void *buf, int len);
+int wm_hal_i2s_rx_start(wm_hal_i2s_dev_t *dev);
 
 /**
  * @brief Stops the DMA reception for the HAL I2S device.
@@ -489,21 +443,19 @@ int wm_hal_i2s_rx_dma(wm_hal_i2s_dev_t *dev, void *buf, int len);
  *    - WM_ERR_INVALID_PARAM: Invalid argument(s) were provided.
  *    - WM_ERR_DMA_STOP: Failed to stop the DMA reception.
  */
-int wm_hal_i2s_rx_dma_stop(wm_hal_i2s_dev_t *dev);
+int wm_hal_i2s_rx_stop(wm_hal_i2s_dev_t *dev);
 
 /**
- * @brief Flushes the receive FIFO of the HAL I2S device.
- *
- * This function flushes the receive FIFO of the HAL I2S device.
- * It resets the receive FIFO to its initial state, discarding any pending data.
+ * @brief Get the number of rx idle DMA descriptor number.
  *
  * @param[in] dev: A pointer to the HAL I2S device structure.
  *
  * @return
- *    - WM_ERR_SUCCESS: The receive FIFO was successfully flushed.
- *    - WM_ERR_INVALID_OPERATION: The receive FIFO cannot be flushed while DMA is in progress.
+ *    >0: The number of rx idle DMA descriptor.
+ *    =0: No idle DMA descriptor,can't append rx buffer.
+ *    -1: fail
  */
-int wm_hal_i2s_dma_rx_flush(wm_hal_i2s_dev_t *dev);
+int wm_hal_i2s_rx_dma_get_idle_desc_num(wm_hal_i2s_dev_t *dev);
 
 /**
  * @brief Appends a buffer to the DMA receive list for the HAL I2S device.
@@ -524,6 +476,30 @@ int wm_hal_i2s_dma_rx_flush(wm_hal_i2s_dev_t *dev);
 int wm_hal_i2s_rx_dma_buf_append(wm_hal_i2s_dev_t *dev, void *buf, int len);
 
 /**
+ * @brief hal i2s rx pause.
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ *
+ * @return
+ *    - WM_ERR_SUCCESS: The DMA transmission was successfully paused.
+ *    - WM_ERR_INVALID_PARAM: Invalid argument(s) were provided.
+ *    - WM_ERR_DMA_PAUSE: Failed to pause the DMA transmission.
+ */
+int wm_hal_i2s_rx_pause(wm_hal_i2s_dev_t *dev);
+
+/**
+ * @brief hal i2s rx resume.
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ *
+ * @return
+ *    - WM_ERR_SUCCESS: The DMA transmission was successfully paused.
+ *    - WM_ERR_INVALID_PARAM: Invalid argument(s) were provided.
+ *    - WM_ERR_DMA_PAUSE: Failed to pause the DMA transmission.
+ */
+int wm_hal_i2s_rx_resume(wm_hal_i2s_dev_t *dev);
+
+/**
  * @brief Sets the receive clock inversion flag for the HAL I2S device.
  *
  * This function sets the receive clock inversion flag for the HAL I2S device.
@@ -535,6 +511,16 @@ int wm_hal_i2s_rx_dma_buf_append(wm_hal_i2s_dev_t *dev, void *buf, int len);
  * @return None.
  */
 void wm_hal_i2s_set_rx_clock_inv_en(wm_hal_i2s_dev_t *dev, bool en);
+
+/**
+ * @brief dump hal i2s information.
+ *
+ *
+ * @param[in] dev: A pointer to the HAL I2S device structure.
+ *
+ * @return None.
+ */
+int wm_hal_i2s_dump_info(wm_hal_i2s_dev_t *dev);
 
 /**
  * @}

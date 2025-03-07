@@ -1734,10 +1734,19 @@ static uint32_t HTTPIntrnConnectionOpen(P_HTTP_SESSION pHTTPSession)
 #if CONFIG_WM_HTTP_CLIENT_SECURE
         // Connect using TLS or otherwise clear connection
         if ((pHTTPSession->HttpFlags & HTTP_CLIENT_FLAG_SECURE) == HTTP_CLIENT_FLAG_SECURE) { // Is it a TLS connection?
+            char *hostname = calloc(1, pHTTPSession->HttpUrl.UrlHost.nLength + 1);
+            if (hostname == NULL) {
+                nRetCode = HTTP_CLIENT_ERROR_NO_MEMORY;
+                break;
+            }
+
+            memcpy(hostname, pHTTPSession->HttpUrl.UrlHost.pParam, pHTTPSession->HttpUrl.UrlHost.nLength);
             nRetCode = HTTPWrapperSSLConnect(&pHTTPSession->ssl, pHTTPSession->HttpConnection.HttpSocket, // Socket
                                              (HTTP_SOCKADDR *)&ServerAddress,                             // Server address
                                              sizeof(HTTP_SOCKADDR), // Length of server address structure
-                                             "desktop");            // Hostname (ToDo: Fix this)
+                                             hostname);
+            free(hostname);
+
         } else                                                      // Non TLS so..
 #endif                                                              //CONFIG_WM_HTTP_CLIENT_SECURE
         {
@@ -1840,8 +1849,16 @@ static uint32_t HTTPIntrnSend(P_HTTP_SESSION pHTTPSession,
                 if ((pHTTPSession->HttpFlags & HTTP_CLIENT_FLAG_SECURE) == HTTP_CLIENT_FLAG_SECURE) {
                     // TLS Protected connection
                     if (pConnection->TlsNego == false) {
+                        char *hostname = calloc(1, pHTTPSession->HttpUrl.UrlHost.nLength + 1);
+                        if (hostname == NULL) {
+                            nRetCode = HTTP_CLIENT_ERROR_NO_MEMORY;
+                            break;
+                        }
+
+                        memcpy(hostname, pHTTPSession->HttpUrl.UrlHost.pParam, pHTTPSession->HttpUrl.UrlHost.nLength);
                         nRetCode = HTTPWrapperSSLNegotiate((HTTP_SESSION_HANDLE)pHTTPSession, pConnection->HttpSocket, 0, 0,
-                                                           "desktop");
+                                                           hostname);
+                        free(hostname);
                         if (nRetCode != 0) {
                             // TLS Error
                             nRetCode = HTTP_CLIENT_ERROR_TLS_NEGO;
@@ -2312,6 +2329,8 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
                                      HTTP_VERB HttpVerb) // [IN] Argument that can bypass the requested verb
                                                          // Can be used for evaluating a HEAD request
 {
+    char *send_buff = NULL;
+    uint32_t total_len = 0;
     uint32_t nBytes;
     uint32_t nRetCode = HTTP_CLIENT_SUCCESS;
     char RequestCmd[16];
@@ -2330,6 +2349,13 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
 #endif
     // Cache the original VERB
     HttpCachedVerb = pHTTPSession->HttpHeaders.HttpVerb;
+
+    send_buff =
+        calloc(1, 16 + pHTTPSession->HttpUrl.UrlRequest.nLength + 16 + pHTTPSession->HttpHeaders.HeadersOut.nLength + 2);
+
+    if (send_buff == NULL) {
+        return HTTP_CLIENT_ERROR_NO_MEMORY;
+    }
 
     do {
         // Set the verb (temporarily)
@@ -2366,30 +2392,23 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
         memset(RequestCmd, 0x00, 16);
         strcpy(RequestCmd, pHTTPSession->HttpHeaders.Verb);
         strcat(RequestCmd, " ");
-        if ((nRetCode = HTTPIntrnSend(pHTTPSession, RequestCmd, &nBytes)) != HTTP_CLIENT_SUCCESS) {
-            break;
-        }
-        // Set the counters
-        pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
+
+        memcpy(&send_buff[total_len], RequestCmd, nBytes);
+        total_len += nBytes;
 
         // Request URI
         if ((pHTTPSession->HttpFlags & HTTP_CLIENT_FLAG_USINGPROXY) != HTTP_CLIENT_FLAG_USINGPROXY) {
             nBytes = pHTTPSession->HttpUrl.UrlRequest.nLength;
-            if ((nRetCode = HTTPIntrnSend(pHTTPSession, pHTTPSession->HttpUrl.UrlRequest.pParam, &nBytes)) !=
-                HTTP_CLIENT_SUCCESS) {
-                break;
-            }
-            // Set the counters
-            pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
+
+            memcpy(&send_buff[total_len], pHTTPSession->HttpUrl.UrlRequest.pParam, nBytes);
+            total_len += nBytes;
         }
 #if CONFIG_WM_HTTP_CLIENT_PROXY
         else {
             nBytes = strlen(pHTTPSession->HttpUrl.Url);
-            if ((nRetCode = HTTPIntrnSend(pHTTPSession, pHTTPSession->HttpUrl.Url, &nBytes)) != HTTP_CLIENT_SUCCESS) {
-                break;
-            }
-            // Set the counters
-            pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
+
+            memcpy(&send_buff[total_len], pHTTPSession->HttpUrl.Url, nBytes);
+            total_len += nBytes;
         }
 #endif  //CONFIG_WM_HTTP_CLIENT_PROXY
         // Request HTTP Version
@@ -2398,18 +2417,15 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
         strcat(RequestCmd, HTTP_CLIENT_DEFAULT_VER);
         strcat(RequestCmd, HTTP_CLIENT_CRLF);
         nBytes = strlen(RequestCmd);
-        if ((nRetCode = HTTPIntrnSend(pHTTPSession, RequestCmd, &nBytes)) != HTTP_CLIENT_SUCCESS) {
-            break;
-        }
-        // Set the counters
-        pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
+
+        memcpy(&send_buff[total_len], RequestCmd, nBytes);
+        total_len += nBytes;
 
         // Request headers
         nBytes = pHTTPSession->HttpHeaders.HeadersOut.nLength;
-        if ((nRetCode = HTTPIntrnSend(pHTTPSession, pHTTPSession->HttpHeaders.HeadersOut.pParam, &nBytes)) !=
-            HTTP_CLIENT_SUCCESS) {
-            break;
-        }
+
+        memcpy(&send_buff[total_len], pHTTPSession->HttpHeaders.HeadersOut.pParam, nBytes);
+        total_len += nBytes;
 
         wm_http_client_event_param_t event = { 0 };
         event.data                         = pHTTPSession->HttpHeaders.HeadersOut.pParam;
@@ -2418,7 +2434,6 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
         call_http_event_handle(pHTTPSession, WM_HTTP_CLIENT_EVENT_HEADER_SENTED, &event);
 
         // Set the counters
-        pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
 
 #if (CONFIG_WM_HTTP_CLIENT_AUTH_BASIC || CONFIG_WM_HTTP_CLIENT_AUTH_DIGEST)
         // Optionally add authentication headers and send them (for host or proxy authentication)
@@ -2436,11 +2451,15 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
 
         // Request terminating CrLf
         nBytes = strlen(HTTP_CLIENT_CRLF);
-        if ((nRetCode = HTTPIntrnSend(pHTTPSession, HTTP_CLIENT_CRLF, &nBytes)) != HTTP_CLIENT_SUCCESS) {
+
+        memcpy(&send_buff[total_len], HTTP_CLIENT_CRLF, nBytes);
+        total_len += nBytes;
+
+        if ((nRetCode = HTTPIntrnSend(pHTTPSession, send_buff, &total_len)) != HTTP_CLIENT_SUCCESS) {
             break;
         }
         // Set the counters
-        pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
+        pHTTPSession->HttpCounters.nSentHeaderBytes += total_len;
 
         // Restore the verb
         if (pHTTPSession->HttpHeaders.HttpVerb != HttpCachedVerb) {
@@ -2465,6 +2484,9 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
                      pHTTPSession->HttpHeadersInfo.nHTTPPostContentLength); // Convert the buffer length to a string value
                 if ((nRetCode = HTTPIntrnHeadersAdd(pHTTPSession, "Content-Length", 14, ContentLength,
                                                     strlen(ContentLength))) != HTTP_CLIENT_SUCCESS) {
+                    if (send_buff) {
+                        free(send_buff);
+                    }
                     return nRetCode;
                 }
             }
@@ -2473,6 +2495,10 @@ static uint32_t HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
         pHTTPSession->HttpState = pHTTPSession->HttpState | HTTP_CLIENT_STATE_REQUEST_SENT;
 
     } while (0);
+
+    if (send_buff) {
+        free(send_buff);
+    }
 
     return nRetCode; // end of HTTPIntrnSendHeaders()
 }

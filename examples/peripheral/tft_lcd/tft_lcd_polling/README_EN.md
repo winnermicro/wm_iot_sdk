@@ -43,7 +43,7 @@ Example Location：`examples\tft_lcd\tft_lcd_polling`
 During compilation, please ensure that the appropriate CONFIG_BUILD_TYPE_XXX is selected and confirm that the referenced Device Table matches the development board being used for the experiment.
 For higher picture display efficiency, users can set the RCC CPU Clock to a relatively high value, such as 240MHz, through the device table.
 
-For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

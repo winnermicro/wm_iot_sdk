@@ -493,9 +493,8 @@ Wi-Fi AT 命令集
    -  bit 4: 是否显示 ``WPA_WPA2_PSK`` 认证方式的 AP
    -  bit 5: 是否显示 ``WPA2_ENTERPRISE`` 认证方式的 AP
    -  bit 6: 是否显示 ``WPA3_PSK`` 认证方式的 AP
-   -  bit 7: 是否显示 ``WAPI_PSK`` 认证方式的 AP
-   -  bit 8: 是否显示 ``WPA2_WPA3_PSK`` 认证方式的 AP
-   -  bit 9: 是否显示 ``OWE`` 认证方式的 AP
+   -  bit 7: 是否显示 ``WPA2_WPA3_PSK`` 认证方式的 AP
+   -  bit 8: 是否显示 ``WAPI_PSK`` 认证方式的 AP
 
 示例
 ^^^^
@@ -560,9 +559,8 @@ Wi-Fi AT 命令集
    -  4: WPA_WPA2_PSK
    -  5: WPA2_ENTERPRISE
    -  6: WPA3_PSK
-   -  7: WAPI_PSK
-   -  8: WPA2_WPA3_PSK
-   -  9: OWE
+   -  7: WPA2_WPA3_PSK
+   -  8: WAPI_PSK
 
 -  **<ssid>**     ：字符串参数，AP 的 SSID
 -  **<rssi>**     ：信号强度
@@ -589,14 +587,20 @@ Wi-Fi AT 命令集
 -  **<group_cipher>**：组加密类型，与 ``<pairwise_cipher>`` 参数的枚举值相同
 -  **<bgn>**          ：802.11 b/g/n，若 bit 设为 1，则表示使能对应模式，若设为 0，则表示禁用对应模式
 
-   -  bit 0: 是否使能 802.11b 模式
-   -  bit 1: 是否使能 802.11g 模式
+   -  bit 0: 是否使能 802.11b/g 模式
    -  bit 2: 是否使能 802.11n 模式
 
 -  **<wps>**：wps flag
 
    - 0: 不支持 WPS
    - 1: 支持 WPS
+
+
+说明
+^^^^^
+
+- 使用时需注意，当 station 联网过程中执行扫描，可能会失败（自动重连亦然）。
+
 
 示例
 ^^^^
@@ -1033,7 +1037,6 @@ Wi-Fi AT 命令集
 说明
 ^^^^
 
--  当前，|Equipment-Name| 设备支持的 PHY mode 见： `待做Wi-Fi 协议模式 <https://#>`_
 -  默认情况下，|Equipment-Name| 设备的 PHY mode 是 802.11bgn 模式
 
 .. _cmd-STAPROTO:
@@ -1087,7 +1090,6 @@ Wi-Fi AT 命令集
 说明
 ^^^^
 
--  当前，|Equipment-Name| 设备支持的 PHY mode 见： `待做Wi-Fi 协议模式 <https://#>`_
 -  默认情况下，|Equipment-Name| 设备的 PHY mode 是 802.11bgn 模式
 
 .. _cmd-STAMAC:

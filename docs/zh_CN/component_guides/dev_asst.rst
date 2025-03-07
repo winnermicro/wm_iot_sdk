@@ -106,7 +106,7 @@ WM IOT SDK 包含多种存储机制，比如
   
    + NVStore 中存储 包含 Wifi Station,  WiFi SoftAP, BT 这3种不同类型的 MAC 地址。
    + FT Region 中仅存储 包含 WiFi , BT 两种类型 MAC 地址。
-   + 代码中 还存在有一个 Default MAC，在 NVStore, FT Region 内容都不可靠的场景下，用于MAC地址导入。
+   + 代码中 还存在有一个 Default MAC，默认值为 "FF:FF:FF:FF:FF:FF"，用户可以自行调整，在 NVStore, FT Region 内容都不可靠的场景下，用于MAC地址导入。
   
  - 原生 MAC API 的读操作流程：
   

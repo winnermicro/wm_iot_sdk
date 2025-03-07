@@ -123,6 +123,37 @@ HTTPS
 HTTP Client 支持使用 ``mbedtls`` 的 SSL 连接，URL 以 ``https`` 开头即可使用 HTTPS 请求。
 
 
+HTTP Client 的 meunconfig 配置
+----------------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+     
+   * - CONFIG_COMPONENT_HTTP_CLIENT_ENABLED
+     - 是否启用 HTTP Client 组件
+     - N
+
+   * - CONFIG_WM_HTTP_CLIENT_SECURE
+     - 是否支持安全功能
+     - N
+
+   * - CONFIG_WM_HTTP_CLIENT_PROXY
+     - 是否支持代理功能
+     - N
+
+   * - CONFIG_WM_HTTP_CLIENT_DEBUG 
+     - 是否显示调试消息
+     - N
+
+
 注意事项
 --------
 

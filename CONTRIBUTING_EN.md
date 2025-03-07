@@ -10,7 +10,7 @@ This project is licensed under the Apache 2.0 open source license. You are free 
 
 ## 💻 Development Environment
 
-Development is supported on Windows, Linux and macOS systems. For detailed environment setup guide, please refer to the [WM_IoT_SDK Programming Guide](http://doc.winnermicro.net).
+Development is supported on Windows, and Linux systems. For detailed environment setup guide, please refer to the [WM_IoT_SDK Programming Guide](http://doc.winnermicro.net).
 
 ## 📦 Code Repository
 
@@ -89,7 +89,7 @@ Development is supported on Windows, Linux and macOS systems. For detailed envir
 
 ## 🎨 Code Style
 
-To maintain code consistency and readability, we have established detailed code style guidelines. Please refer to the [Code Style](https://doc.winnermicro.net/w800/en/2.2-beta.2/contribute/code_style.html) chapter in the WM_IoT_SDK online documentation for complete specifications.
+To maintain code consistency and readability, we have established detailed code style guidelines. Please refer to the [Code Style](https://doc.winnermicro.net/w800/en/latest/contribute/code_style.html) chapter in the WM_IoT_SDK online documentation for complete specifications.
 
 ### 🛠️ Automatic Formatting Tool
 

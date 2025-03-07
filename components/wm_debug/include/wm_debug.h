@@ -22,7 +22,7 @@ extern "C" {
  *
  * This enumeration lists the different reasons that could cause the system to reboot.
  * The reasons include power on or reset button, chip standby, exception reset,
- * watchdog timeout, and user active reset.
+ * watchdog timeout, user active reset, and over-the-air firmware update.
  */
 typedef enum {
     WM_REBOOT_REASON_POWER_ON    = 0, /**< power on or reset button */
@@ -30,25 +30,9 @@ typedef enum {
     WM_REBOOT_REASON_EXCEPTION   = 2, /**< exception reset */
     WM_REBOOT_REASON_WDG_TIMEOUT = 3, /**< watchdog timeout */
     WM_REBOOT_REASON_ACTIVE      = 4, /**< user active reset */
+    WM_REBOOT_REASON_OTA         = 5, /**< reboot for over-the-air firmware update */
     WM_REBOOT_REASON_MAX              // No comment needed for the max value
 } wm_reboot_reason_t;
-
-/**
- * @brief Enumeration for the boot log level.
- *
- * This enumeration defines the different levels of logging that can be set during a system boot.
- * The levels range from no logging to verbose logging, allowing developers to control the amount
- * of information printed during the boot process.
- */
-typedef enum {
-    WM_BOOT_LOG_LEVEL_NONE    = 0, /**< No logging is performed. */
-    WM_BOOT_LOG_LEVEL_ERROR   = 1, /**< Only error messages are logged. */
-    WM_BOOT_LOG_LEVEL_WARN    = 2, /**< Warning and error messages are logged. */
-    WM_BOOT_LOG_LEVEL_INFO    = 3, /**< Informational, warning, and error messages are logged. */
-    WM_BOOT_LOG_LEVEL_DEBUG   = 4, /**< Debug, informational, warning, and error messages are logged. */
-    WM_BOOT_LOG_LEVEL_VERBOSE = 5, /**< Verbose logging, including all levels of messages. */
-    WM_BOOT_LOG_LEVEL_MAX          /**< Max value for this enum, not a valid log level. */
-} wm_boot_log_level_t;
 
 /**
  * @}
@@ -74,9 +58,8 @@ typedef enum {
 typedef union {
     uint32_t val; /**< The raw 32-bit unsigned integer value representing the reboot parameters */
     struct {
-        uint32_t reboot_reason  : 8;  /**< [7:0] The code indicating why the system was rebooted */
-        uint32_t boot_log_level : 3;  /**< [10:8] 3-bit field specifying the logging level for the boot process. */
-        uint32_t reserved       : 21; /**< [31:11] 21-bit field reserved for future use. */
+        uint32_t reboot_reason : 8;  /**< [7:0] The code indicating why the system was rebooted */
+        uint32_t reserved      : 24; /**< [31:8] 24-bit field reserved for future use. */
     };
 } wm_reboot_para_t;
 
@@ -109,15 +92,6 @@ void wm_set_reboot_reason(wm_reboot_reason_t reason);
   * @return wm_reboot_reason_t
   */
 wm_reboot_reason_t wm_get_reboot_reason(void);
-
-/**
-  * @brief     Set boot log level
-  *
-  * @param     level : level for log output
-  *
-  * @return  None
-  */
-void wm_set_boot_log_level(wm_boot_log_level_t level);
 
 /**
   * @brief     Wait command from uart and output randump to uart

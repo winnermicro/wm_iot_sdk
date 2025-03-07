@@ -154,7 +154,7 @@ Bluetooth AT 命令集
 
 ::
 
-   查询 Bluetooth LE 公共地址.
+   查询 Bluetooth LE 地址列表.
 
 ::
 
@@ -164,7 +164,7 @@ Bluetooth AT 命令集
 
 ::
 
-   +BLEADDR:<BLE_public_addr>
+   +BLEADDR:<addr_type>,<addr>
    OK 
                         
 设置命令
@@ -1280,7 +1280,8 @@ Bluetooth AT 命令集
 注意
 ^^^^
 
--   当某个 characteristic 的 property 配置为不带应答的写操作时，permission 不可配置为加密写，授权写或者 Le security 写（除非此连接已经为加密模式）。  
+-   当某个 characteristic 的 property 配置为不带应答的写操作时，permission 不可配置为加密写，授权写或者 Le security 写（除非此连接已经为加密模式）。 
+-   固件本身不对 property 和 permisssion 做参数的合理性检查，请用户自行确认有效性。
 
 说明
 ^^^^

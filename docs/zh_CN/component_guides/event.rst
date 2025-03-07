@@ -210,3 +210,20 @@ Event 事件涉及两个角色，发布方和订阅方，产生事件的模块�
    }
 
 
+Event 的 meunconfig 配置
+----------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_WM_EVENT_QUEUE_SIZE
+     - 配置 Event 队列大小
+     - 32

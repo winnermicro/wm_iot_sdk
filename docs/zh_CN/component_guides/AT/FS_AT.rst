@@ -24,11 +24,13 @@ FS AT 命令集
 
 2. 内部 Flash 磁盘
    - 需要正确配置 wm_drv_flash 驱动
-   - 使用用户自定义分区 partition_table_custom.csv，并添加 CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME (默认名称为 fatfs) 分区，分区大小至少为0x18000(96KB)，否则会导致格式化失败
+   - 使用用户自定义分区 partition_table_custom.csv，并添加 CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME (默认名称为 fatfs) 分区，分区大小需要 ≥ 0x18000(96KB)，否则会导致格式化失败
+   - 如需将文件或文件夹添加到 FATFS 文件系统镜像中，请参考 :ref:`构建系统 <ADD_FATFS_FILES_TO_IMG>` 章节
 
 3. 外部 Flash 磁盘
    - 需要正确配置 wm_drv_flash 驱动
    - 需要支持外部 Flash 的硬件环境，并连接上外部 Flash 设备
+   - 提供有 tools/wm/mkfs2img.py 工具，用于将 PC 上的文件或文件夹打包成 FATFS 镜像
    - 需要正确配置以下参数:
 
      - CONFIG_FATFS_EXTERNAL_FLASH_DEVICE_NAME: 外部 Flash Device Name
@@ -123,8 +125,9 @@ FS AT 命令集
 -  若读取数据的长度大于实际文件大小，仅返回实际长度的数据。
 -  当 ``<operator>`` 为 ``write`` 时，系统收到此命令后先换行返回 ``>``，此时您需要在 6 秒内输入要写的数据，数据长度应与 ``<length>`` 一致。
 -  挂载磁盘时，如果没有格式化，会自动进行格式化。FATFS 会根据磁盘容量自动选择最合适的文件系统类型，具体如下：
-   - FAT12：适用于小容量存储（≤ 2MB，最大支持 4085 个簇，MAX_FAT12 = 0xFF5 = 4085 簇 = 2042560 Bytes ≈ 2MB）
-   - FAT16：适用于中等容量存储（≤ 32MB，最大支持 65493 个簇，MAX_FAT16 = 0xFFF5 = 65493 簇 = 33516032 Bytes ≈ 32MB）
+
+   - FAT12：适用于小容量存储（≤ 2MB，最大支持 4085 个簇，MAX_FAT12 = 0xFF5 = 4085 簇 = 2091520 Bytes ≈ 2MB）
+   - FAT16：适用于中等容量存储（≤ 32MB，最大支持 65525 个簇，MAX_FAT16 = 0xFFF5 = 65525 簇 = 33548800 Bytes ≈ 32MB）
    - FAT32：适用于大容量存储（≤ 128GB，最大支持 268435445 个簇，MAX_FAT32 = 0x0FFFFFF5 = 268435445 簇 = 137438947840 Bytes ≈ 128GB）
    - EXFAT：适用于超大容量存储（≤ 1TB，最大支持 2147483645 个簇，MAX_EXFAT = 0x7FFFFFFD = 2147483645 簇 = 1099511626240 Bytes ≈ 1TB）
    - 注意：文件系统类型的选择会影响到 ``<offset>`` 的最大值和后续 API 的使用方式。

@@ -19,7 +19,7 @@ None.
 
 Example Location： `examples/dsp/cifar10`
 
-compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

@@ -314,3 +314,30 @@ Net manager 支持用户配置 DHCP server 相关参数，包括 server IP 地�
 使用 Net manager 基本示例请参照 :ref:`examples/network <network_example>` 其中：
     1. Wi-Fi station 基本示例请参照 sdk 中： examples/network/net_manager/wifi_station/ 工程
     2. Wi-Fi softAP 基本示例请参照 sdk 中： examples/network/net_manager/wifi_softap/ 工程
+
+
+Net manager 的 meunconfig 配置
+----------------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_NET_MANAGER_ENABLED
+     - 是否启用 Net manager 组件
+     - N
+
+   * - CONFIG_COMPONENT_NM_WIFI_STA_ENABLED
+     - 是否支持 Wi-Fi station
+     - N
+
+   * - CONFIG_COMPONENT_NM_WIFI_SOFTAP_ENABLED 
+     - 是否支持 Wi-Fi softAP
+     - N

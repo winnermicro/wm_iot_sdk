@@ -1,20 +1,20 @@
 /**
  * @file wm_soc_cfgs.h
  *
- * @brief Storage for differentiated hardware configurations specific to 
+ * @brief Storage for differentiated hardware configurations specific to
  * a particular SoC (System on Chip).
  *
  */
 
 /**
- *  Copyright 2022-2024 Beijing WinnerMicroelectronics Co.,Ltd. 
- *  
+ *  Copyright 2022-2024 Beijing WinnerMicroelectronics Co.,Ltd.
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,67 +56,70 @@
 /******************************************************************/
 /*                  RCC HW Capability   (Start)                   */
 /******************************************************************/
-#define WM_PLL_CLOCK          480
-#define UNIT_MHZ              1000000
+#define WM_PLL_CLOCK           480
+#define UNIT_MHZ               1000000
 
-#define WM_APB_CLOCK          (40000000) /* 40MHz */
+#define WM_APB_CLOCK           (40000000) /* 40MHz */
 
-#define WM_RCC_I2C_GATE_EN    WM_BIT(0)
-#define WM_RCC_UART0_GATE_EN  WM_BIT(1)
-#define WM_RCC_UART1_GATE_EN  WM_BIT(2)
-#define WM_RCC_UART2_GATE_EN  WM_BIT(3)
-#define WM_RCC_UART3_GATE_EN  WM_BIT(4)
-#define WM_RCC_UART4_GATE_EN  WM_BIT(5)
-#define WM_RCC_UART5_GATE_EN  WM_BIT(6)
-#define WM_RCC_LS_SPI_GATE_EN WM_BIT(7)
-#define WM_RCC_DMA_GATE_EN    WM_BIT(8)
-#define WM_RCC_RF_CFG_GATE_EN WM_BIT(9)
-#define WM_RCC_TIMER_GATE_EN  WM_BIT(10)
-#define WM_RCC_GPIO_GATE_EN   WM_BIT(11)
-#define WM_RCC_SD_ADC_GATE_EN WM_BIT(12)
-#define WM_RCC_PWM_GATE_EN    WM_BIT(13)
-#define WM_RCC_LCD_GATE_EN    WM_BIT(14)
-#define WM_RCC_I2S_GATE_EN    WM_BIT(15)
-#define WM_RCC_RSA_GATE_EN    WM_BIT(16)
-#define WM_RCC_GPSEC_GATE_EN  WM_BIT(17)
-#define WM_RCC_SDIOM_GATE_EN  WM_BIT(18)
-#define WM_RCC_QSRAM_GATE_EN  WM_BIT(19)
-#define WM_RCC_BT_GATE_EN     WM_BIT(20)
-#define WM_RCC_TOUCH_GATE_EN  WM_BIT(21)
-#define WM_RCC_CLOCK_ALL      0x3fffff
+/* Store reboot reason by RAM's Last Word */
+#define WM_REBOOT_PARA_ADDRESS (0x20047EFC)
 
-#define WM_RCC_BBP_RST        WM_BIT(0)
-#define WM_RCC_MAC_RST        WM_BIT(1)
-#define WM_RCC_SEC_RST        WM_BIT(2)
-#define WM_RCC_SDIO_AHB_RST   WM_BIT(3)
-#define WM_RCC_DMA_RST        WM_BIT(4)
-#define WM_RCC_MEM_MNG_RST    WM_BIT(5)
-#define WM_RCC_APB_RST        WM_BIT(6)
-#define WM_RCC_BUS1_RST       WM_BIT(7)
-#define WM_RCC_BUS2_RST       WM_BIT(8)
-#define WM_RCC_I2C_RST        WM_BIT(9)
-#define WM_RCC_UART0_RST      WM_BIT(10)
-#define WM_RCC_UART1_RST      WM_BIT(11)
-#define WM_RCC_UART2_RST      WM_BIT(12)
-#define WM_RCC_UART3_RST      WM_BIT(13)
-#define WM_RCC_UART4_RST      WM_BIT(14)
-#define WM_RCC_UART5_RST      WM_BIT(15)
-#define WM_RCC_SPIM_RST       WM_BIT(16)
-#define WM_RCC_SPIS_RST       WM_BIT(17)
-#define WM_RCC_RF_CFG_RST     WM_BIT(18)
-#define WM_RCC_GPIO_RST       WM_BIT(19)
-#define WM_RCC_TIMER_RST      WM_BIT(20)
-#define WM_RCC_SAR_ADC_RST    WM_BIT(21)
-#define WM_RCC_PWM_RST        WM_BIT(22)
-#define WM_RCC_LCD_RST        WM_BIT(23)
-#define WM_RCC_I2S_RST        WM_BIT(24)
-#define WM_RCC_RSA_RST        WM_BIT(25)
-#define WM_RCC_GPSEC_RST      WM_BIT(26)
-#define WM_RCC_SDIOM_RST      WM_BIT(27)
-#define WM_RCC_QSPI_RAM_RST   WM_BIT(28)
-#define WM_RCC_BT_RST         WM_BIT(29)
-#define WM_RCC_FLASH_RST      WM_BIT(30)
-#define WM_RCC_TOUCH_RST      WM_BIT(31)
+#define WM_RCC_I2C_GATE_EN     WM_BIT(0)
+#define WM_RCC_UART0_GATE_EN   WM_BIT(1)
+#define WM_RCC_UART1_GATE_EN   WM_BIT(2)
+#define WM_RCC_UART2_GATE_EN   WM_BIT(3)
+#define WM_RCC_UART3_GATE_EN   WM_BIT(4)
+#define WM_RCC_UART4_GATE_EN   WM_BIT(5)
+#define WM_RCC_UART5_GATE_EN   WM_BIT(6)
+#define WM_RCC_LS_SPI_GATE_EN  WM_BIT(7)
+#define WM_RCC_DMA_GATE_EN     WM_BIT(8)
+#define WM_RCC_RF_CFG_GATE_EN  WM_BIT(9)
+#define WM_RCC_TIMER_GATE_EN   WM_BIT(10)
+#define WM_RCC_GPIO_GATE_EN    WM_BIT(11)
+#define WM_RCC_SD_ADC_GATE_EN  WM_BIT(12)
+#define WM_RCC_PWM_GATE_EN     WM_BIT(13)
+#define WM_RCC_LCD_GATE_EN     WM_BIT(14)
+#define WM_RCC_I2S_GATE_EN     WM_BIT(15)
+#define WM_RCC_RSA_GATE_EN     WM_BIT(16)
+#define WM_RCC_GPSEC_GATE_EN   WM_BIT(17)
+#define WM_RCC_SDIOM_GATE_EN   WM_BIT(18)
+#define WM_RCC_QSRAM_GATE_EN   WM_BIT(19)
+#define WM_RCC_BT_GATE_EN      WM_BIT(20)
+#define WM_RCC_TOUCH_GATE_EN   WM_BIT(21)
+#define WM_RCC_CLOCK_ALL       0x3fffff
+
+#define WM_RCC_BBP_RST         WM_BIT(0)
+#define WM_RCC_MAC_RST         WM_BIT(1)
+#define WM_RCC_SEC_RST         WM_BIT(2)
+#define WM_RCC_SDIO_AHB_RST    WM_BIT(3)
+#define WM_RCC_DMA_RST         WM_BIT(4)
+#define WM_RCC_MEM_MNG_RST     WM_BIT(5)
+#define WM_RCC_APB_RST         WM_BIT(6)
+#define WM_RCC_BUS1_RST        WM_BIT(7)
+#define WM_RCC_BUS2_RST        WM_BIT(8)
+#define WM_RCC_I2C_RST         WM_BIT(9)
+#define WM_RCC_UART0_RST       WM_BIT(10)
+#define WM_RCC_UART1_RST       WM_BIT(11)
+#define WM_RCC_UART2_RST       WM_BIT(12)
+#define WM_RCC_UART3_RST       WM_BIT(13)
+#define WM_RCC_UART4_RST       WM_BIT(14)
+#define WM_RCC_UART5_RST       WM_BIT(15)
+#define WM_RCC_SPIM_RST        WM_BIT(16)
+#define WM_RCC_SPIS_RST        WM_BIT(17)
+#define WM_RCC_RF_CFG_RST      WM_BIT(18)
+#define WM_RCC_GPIO_RST        WM_BIT(19)
+#define WM_RCC_TIMER_RST       WM_BIT(20)
+#define WM_RCC_SAR_ADC_RST     WM_BIT(21)
+#define WM_RCC_PWM_RST         WM_BIT(22)
+#define WM_RCC_LCD_RST         WM_BIT(23)
+#define WM_RCC_I2S_RST         WM_BIT(24)
+#define WM_RCC_RSA_RST         WM_BIT(25)
+#define WM_RCC_GPSEC_RST       WM_BIT(26)
+#define WM_RCC_SDIOM_RST       WM_BIT(27)
+#define WM_RCC_QSPI_RAM_RST    WM_BIT(28)
+#define WM_RCC_BT_RST          WM_BIT(29)
+#define WM_RCC_FLASH_RST       WM_BIT(30)
+#define WM_RCC_TOUCH_RST       WM_BIT(31)
 
 typedef enum {
     WM_RCC_TYPE_PERIPHERAL = 0,
@@ -141,6 +144,11 @@ typedef enum {
     WM_PMU_CLOCK_SRC_32K = 0, /**< Using internal 32K crystal oscillator  */
     WM_PMU_CLOCK_SRC_40M_DIV, /**< Using external 40M crystal oscillator by frequency division */
 } wm_pmu_clock_source_t;
+
+#define WM_PMU_TIME0_MIN_TIME (1 * 1000)     /**< PMU timer0 min sleep time (millisecond) */
+#define WM_PMU_TIME0_MAX_TIME (65535 * 1000) /**< PMU timer0 max sleep time (millisecond) */
+#define WM_PMU_TIME1_MIN_TIME (1)            /**< PMU timer1 min sleep time (millisecond) */
+#define WM_PMU_TIME1_MAX_TIME (65535)        /**< PMU timer1 max sleep time (millisecond) */
 
 /******************************************************************/
 /*                  PMU HW Capability   (End)                     */
@@ -796,6 +804,41 @@ typedef enum {
 } wm_seg_lcd_com_id_t;
 
 typedef enum {
+    WM_SEG_LCD_SEG1 = 1, /**< SEG1 line */
+    WM_SEG_LCD_SEG2,     /**< SEG2 line */
+    WM_SEG_LCD_SEG3,     /**< SEG3 line */
+    WM_SEG_LCD_SEG4,     /**< SEG4 line */
+    WM_SEG_LCD_SEG5,     /**< SEG5 line */
+    WM_SEG_LCD_SEG6,     /**< SEG6 line */
+    WM_SEG_LCD_SEG7,     /**< SEG7 line */
+    WM_SEG_LCD_SEG8,     /**< SEG8 line */
+    WM_SEG_LCD_SEG9,     /**< SEG9 line */
+    WM_SEG_LCD_SEG10,    /**< SEG10 line */
+    WM_SEG_LCD_SEG11,    /**< SEG11 line */
+    WM_SEG_LCD_SEG12,    /**< SEG12 line */
+    WM_SEG_LCD_SEG13,    /**< SEG13 line */
+    WM_SEG_LCD_SEG14,    /**< SEG14 line */
+    WM_SEG_LCD_SEG15,    /**< SEG15 line */
+    WM_SEG_LCD_SEG16,    /**< SEG16 line */
+    WM_SEG_LCD_SEG17,    /**< SEG17 line */
+    WM_SEG_LCD_SEG18,    /**< SEG18 line */
+    WM_SEG_LCD_SEG19,    /**< SEG19 line */
+    WM_SEG_LCD_SEG20,    /**< SEG20 line */
+    WM_SEG_LCD_SEG21,    /**< SEG21 line */
+    WM_SEG_LCD_SEG22,    /**< SEG22 line */
+    WM_SEG_LCD_SEG23,    /**< SEG23 line */
+    WM_SEG_LCD_SEG24,    /**< SEG24 line */
+    WM_SEG_LCD_SEG25,    /**< SEG25 line */
+    WM_SEG_LCD_SEG26,    /**< SEG26 line */
+    WM_SEG_LCD_SEG27,    /**< SEG27 line */
+    WM_SEG_LCD_SEG28,    /**< SEG28 line */
+    WM_SEG_LCD_SEG29,    /**< SEG29 line */
+    WM_SEG_LCD_SEG30,    /**< SEG30 line */
+    WM_SEG_LCD_SEG31,    /**< SEG31 line */
+    WM_SEG_LCD_SEG_MAX
+} wm_seg_lcd_seg_id_t;
+
+typedef enum {
     WM_SEG_LCD_DRIVE_STRENGTH_LOW = 0, /**< Low output drive strength */
     WM_SEG_LCD_DRIVE_STRENGTH_HIGH,    /**< High output drive strength */
     WM_SEG_LCD_DRIVE_STRENGTH_MAX
@@ -890,15 +933,11 @@ typedef enum {
 /******************************************************************/
 /*                  GPSEC HW Capability   (Start)                   */
 /******************************************************************/
-/**
- * @defgroup WM_GPSEC_Enumerations WM GPSEC Enumerations
- * @brief WinnerMicro GPSEC Enumerations
- */
 
 /**
- * @addtogroup WM_GPSEC_Enumerations
- * @{
+ * @brief     crc max process bytes one time for W80x
  */
+#define W800_CRC_MAX_CALC_BYTES  65532
 
 /**
  * @brief     gpsec cypher mode
@@ -992,10 +1031,6 @@ typedef enum {
     WM_GPSEC_TRNG_DIG_BYPASS, /*< TRNG digital post-process bypass */
 } wm_gpsec_trng_dig_process_bypass_t;
 
-/**
- * @}
- */
-
 /******************************************************************/
 /*                  GPSEC HW Capability   (End)                   */
 /******************************************************************/
@@ -1042,20 +1077,21 @@ enum wm_i2s_std {
  *      and all the high 8 bits are 0. After receiving, it is necessary to remove the high 8 bits
  *      and restore them to 24 bits.
  */
-enum wm_i2s_fmt {
-    WM_I2S_FMT_8BIT,
-    WM_I2S_FMT_16BIT,
-    WM_I2S_FMT_24BIT,
-    WM_I2S_FMT_32BIT,
-    WM_I2S_FMT_MAX
+enum wm_i2s_bits {
+    WM_I2S_BITS_8BIT  = 8,
+    WM_I2S_BITS_16BIT = 16,
+    WM_I2S_BITS_24BIT = 24,
+    WM_I2S_BITS_32BIT = 32,
+    WM_I2S_BITS_MAX
 };
 
 /**
  * @brief The type of channel
  */
 enum wm_i2s_chan_type {
-    WM_I2S_CHAN_TYPE_MONO   = 1,
-    WM_I2S_CHAN_TYPE_STEREO = 2,
+    WM_I2S_CHAN_TYPE_MONO_LEFT  = (1 << 0),
+    WM_I2S_CHAN_TYPE_MONO_RIGHT = (1 << 1),
+    WM_I2S_CHAN_TYPE_STEREO     = (WM_I2S_CHAN_TYPE_MONO_LEFT | WM_I2S_CHAN_TYPE_MONO_RIGHT),
 
     WM_I2S_CHAN_TYPE_MAX,
 };

@@ -32,11 +32,7 @@
 
 #define WM_DRV_PMU_LOG_MARKER()          wm_log_debug("%s@%d\n", __func__, __LINE__)
 
-#define WM_800_PMU_TIME0_MIN_TIME        (1 * 1000)     /**< W800 PMU timer0 min sleep time (millisecond) */
-#define WM_800_PMU_TIME0_MAX_TIME        (65535 * 1000) /**< W800 PMU timer0 max sleep time (millisecond) */
-#define WM_800_PMU_TIME1_MIN_TIME        (1)            /**< W800 PMU timer1 min sleep time (millisecond) */
-#define WM_800_PMU_TIME1_MAX_TIME        (65535)        /**< W800 PMU timer1 max sleep time (millisecond) */
-#define WM_800_PMU_WAKEUP_IO_THRES_LEVEL (4)            /**< Wakeup duration time is 4 * 128 ms */
+#define WM_800_PMU_WAKEUP_IO_THRES_LEVEL (4) /**< Wakeup duration time is 4 * 128 ms */
 
 typedef struct {
     wm_os_mutex_t *mutex;
@@ -249,8 +245,8 @@ int wm_drv_ops_pmu_set_timer(wm_device_t *dev, uint32_t time_ms)
 
     wm_drv_pmu_data_t *dev_pmu = (wm_drv_pmu_data_t *)dev->drv;
 
-    if (!(time_ms >= WM_800_PMU_TIME1_MIN_TIME && time_ms <= WM_800_PMU_TIME1_MAX_TIME) &&
-        !(time_ms >= WM_800_PMU_TIME0_MIN_TIME && time_ms <= WM_800_PMU_TIME0_MAX_TIME)) {
+    if (!(time_ms >= WM_PMU_TIME1_MIN_TIME && time_ms <= WM_PMU_TIME1_MAX_TIME) &&
+        !(time_ms >= WM_PMU_TIME0_MIN_TIME && time_ms <= WM_PMU_TIME0_MAX_TIME)) {
         WM_DRV_PMU_LOG_MARKER();
         return WM_ERR_FAILED;
     }
@@ -261,7 +257,7 @@ int wm_drv_ops_pmu_set_timer(wm_device_t *dev, uint32_t time_ms)
     }
 
     /** prioritize using timer1, timer1 has higher accuracy */
-    if (time_ms >= WM_800_PMU_TIME1_MIN_TIME && time_ms <= WM_800_PMU_TIME1_MAX_TIME) {
+    if (time_ms >= WM_PMU_TIME1_MIN_TIME && time_ms <= WM_PMU_TIME1_MAX_TIME) {
         /** abort timer0, avoidance timer0 is running */
         wm_hal_pmu_abort_timer0(&dev_pmu->hal_pmu);
 
@@ -270,7 +266,7 @@ int wm_drv_ops_pmu_set_timer(wm_device_t *dev, uint32_t time_ms)
             WM_DRV_PMU_LOG_MARKER();
             return WM_ERR_FAILED;
         }
-    } else if (time_ms >= WM_800_PMU_TIME0_MIN_TIME && time_ms <= WM_800_PMU_TIME0_MAX_TIME) {
+    } else if (time_ms >= WM_PMU_TIME0_MIN_TIME && time_ms <= WM_PMU_TIME0_MAX_TIME) {
         /** abort timer1, avoidance timer1 is running */
         wm_hal_pmu_abort_timer1(&dev_pmu->hal_pmu);
 

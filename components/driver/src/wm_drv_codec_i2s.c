@@ -40,215 +40,313 @@
 #include "wm_drv_irq.h"
 #include "wm_dt_hw.h"
 
-#define WM_DRV_CODEC_OPS_CHECK(ops, name) ((ops) && (ops)->name)
+#define LOG_TAG "codec_i2s"
+#include "wm_log.h"
+
+#define WM_DRV_CODEC_LOG wm_log_error
+
+/**
+  * @brief  mutex lock for api
+  */
+#define WM_DRV_CODEC_I2S_LOCK(mutex)                                                                                   \
+    do {                                                                                                               \
+        if (wm_os_internal_recursive_mutex_acquire((wm_os_mutex_t *)(mutex), WM_OS_WAIT_TIME_MAX) != WM_ERR_SUCCESS) { \
+            return WM_ERR_FAILED;                                                                                      \
+        }                                                                                                              \
+    } while (0)
+
+/**
+  * @brief  mutex unlock for api
+  */
+#define WM_DRV_CODEC_I2S_UNLOCK(mutex) wm_os_internal_recursive_mutex_release((wm_os_mutex_t *)(mutex))
 
 wm_device_t *wm_drv_codec_i2s_init(const char *name, wm_drv_codec_i2s_cfg_t *cfg)
 {
-    wm_drv_codec_i2s_ops_t *ops = NULL;
-    wm_device_t *codec_device   = NULL;
+    wm_device_t *dev            = NULL;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    /* check input parameters */
-    if (name == NULL || cfg == NULL) {
+    int err;
+
+    if (!(name && cfg && (dev = wm_dt_get_device_by_name(name)))) {
+        /*bad param*/
+        WM_DRV_CODEC_LOG("bad param");
         return NULL;
     }
 
-    /* check codec configuration in DT */
-    codec_device = wm_dt_get_device_by_name(name);
-    if (codec_device == NULL) {
+    if (dev->state != WM_DEV_ST_UNINIT) {
+        /*bad status*/
+        WM_DRV_CODEC_LOG("bad state=%d", dev->state);
         return NULL;
     }
 
-    /* check if codec has been initialized already */
-    if (codec_device->state != WM_DEV_ST_UNINIT) {
+    dev->drv = calloc(1, sizeof(wm_drv_codec_i2s_ctx_t));
+    if (!dev->drv) {
         return NULL;
     }
 
-    if (codec_device->drv != NULL) {
-        return NULL;
+    dev->state = WM_DEV_ST_INITING;
+
+    ctx = (wm_drv_codec_i2s_ctx_t *)dev->drv;
+
+    if (wm_os_internal_recursive_mutex_create(&ctx->mutex) == WM_OS_STATUS_SUCCESS) {
+        err = ((wm_drv_codec_i2s_ops_t *)dev->ops)->init(dev, cfg);
+
+        if (err == WM_ERR_SUCCESS) {
+            /*init success*/
+            dev->state = WM_DEV_ST_INITED;
+            return dev;
+        } else {
+            WM_DRV_CODEC_LOG("init fail err=%d", err);
+        }
     }
 
-    /* set to init on going */
-    codec_device->state = WM_DEV_ST_INITING;
-    ops                 = codec_device->ops;
-
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, init)) {
-        goto fail;
+    /*init fail*/
+    if (ctx->mutex) {
+        wm_os_internal_recursive_mutex_delete(ctx->mutex);
     }
 
-    if (WM_ERR_SUCCESS != ops->init(codec_device, cfg)) {
-        goto fail;
+    if (dev->drv) {
+        free(dev->drv);
+        dev->drv = NULL;
     }
 
-    codec_device->state = WM_DEV_ST_INITED;
-
-    return codec_device;
-
-fail:
-    codec_device->state = WM_DEV_ST_UNINIT;
+    dev->state = WM_DEV_ST_UNINIT;
 
     return NULL;
 }
 
 int wm_drv_codec_i2s_deinit(wm_device_t *device)
 {
-    wm_drv_codec_i2s_ops_t *ops = NULL;
+    int err                     = WM_ERR_FAILED;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    if (device == NULL || device->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        WM_DRV_CODEC_LOG("deinit bad state state=%d", device->state);
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ops = device->ops;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    /* ops check */
-    if (WM_DRV_CODEC_OPS_CHECK(ops, prev_ops)) {
-        if (WM_ERR_SUCCESS != ops->prev_ops(device)) {
-            return WM_ERR_NOT_ALLOWED;
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    if (device->state == WM_DEV_ST_INITED) {
+        device->state = WM_DEV_ST_UNKNOWN;
+
+        err = ((wm_drv_codec_i2s_ops_t *)device->ops)->deinit(device);
+
+        if (ctx->mutex) {
+            wm_os_internal_recursive_mutex_delete(ctx->mutex);
+            ctx->mutex = NULL;
         }
-    }
 
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, deinit)) {
-        return WM_ERR_NOT_ALLOWED;
-    }
-
-    if (WM_ERR_SUCCESS != ops->deinit(device)) {
-        return WM_ERR_FAILED;
+        if (device->drv) {
+            free(device->drv);
+            device->drv = NULL;
+        }
     }
 
     device->state = WM_DEV_ST_UNINIT;
 
-    return WM_ERR_SUCCESS;
+    return err;
+}
+
+int wm_drv_codec_i2s_set_format(wm_device_t *device, uint32_t sample_rate_hz, enum wm_i2s_bits bits,
+                                enum wm_i2s_chan_type channel)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
+
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_format(device, sample_rate_hz, bits, channel);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
 }
 
 int wm_drv_codec_i2s_start(wm_device_t *device)
 {
-    int ret, ret_post = WM_ERR_SUCCESS;
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    wm_drv_codec_i2s_ops_t *ops = NULL;
-
-    if (device == NULL || device->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ops = device->ops;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    /* ops check */
-    if (WM_DRV_CODEC_OPS_CHECK(ops, prev_ops)) {
-        if (WM_ERR_SUCCESS != ops->prev_ops(device)) {
-            return WM_ERR_NOT_ALLOWED;
-        }
-    }
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
 
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, start)) {
-        return WM_ERR_NOT_ALLOWED;
-    }
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->start(device);
 
-    ret = ops->start(device);
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
 
-    if (WM_DRV_CODEC_OPS_CHECK(ops, post_ops)) {
-        ret_post = ops->post_ops(device);
-    }
-
-    return ret == WM_ERR_SUCCESS ? ret_post : ret;
+    return err;
 }
 
 int wm_drv_codec_i2s_stop(wm_device_t *device)
 {
-    int ret, ret_post = WM_ERR_SUCCESS;
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    wm_drv_codec_i2s_ops_t *ops = NULL;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    if (device == NULL || device->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ops = device->ops;
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
 
-    /* ops check */
-    if (WM_DRV_CODEC_OPS_CHECK(ops, prev_ops)) {
-        if (WM_ERR_SUCCESS != ops->prev_ops(device)) {
-            return WM_ERR_NOT_ALLOWED;
-        }
-    }
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->stop(device);
 
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, stop)) {
-        return WM_ERR_NOT_ALLOWED;
-    }
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
 
-    ret = ops->stop(device);
-
-    if (WM_DRV_CODEC_OPS_CHECK(ops, post_ops)) {
-        ret_post = ops->post_ops(device);
-    }
-
-    return ret == WM_ERR_SUCCESS ? ret_post : ret;
+    return err;
 }
 
-int wm_drv_codec_i2s_ioctl(wm_device_t *device, wm_drv_codec_i2s_ioctl_arg_t *arg)
+int wm_drv_codec_i2s_set_mute(wm_device_t *device, bool mute)
 {
-    int ret, ret_post = WM_ERR_SUCCESS;
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    wm_drv_codec_i2s_ops_t *ops = NULL;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    if (device == NULL || device->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ops = device->ops;
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
 
-    /* ops check */
-    if (WM_DRV_CODEC_OPS_CHECK(ops, prev_ops)) {
-        if (WM_ERR_SUCCESS != ops->prev_ops(device)) {
-            return WM_ERR_NOT_ALLOWED;
-        }
-    }
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_mute(device, mute);
 
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, ioctl)) {
-        return WM_ERR_NOT_ALLOWED;
-    }
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
 
-    ret = ops->ioctl(device, arg);
-
-    if (WM_DRV_CODEC_OPS_CHECK(ops, post_ops)) {
-        ret_post = ops->post_ops(device);
-    }
-
-    return ret == WM_ERR_SUCCESS ? ret_post : ret;
+    return err;
 }
 
-int wm_drv_codec_i2s_dumps(wm_device_t *device)
+int wm_drv_codec_i2s_set_volume(wm_device_t *device, int vol)
 {
-    int ret, ret_post = WM_ERR_SUCCESS;
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
 
-    wm_drv_codec_i2s_ops_t *ops = NULL;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    if (device == NULL || device->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv && vol >= 0 && vol <= 100)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ops = device->ops;
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
 
-    /* ops check */
-    if (WM_DRV_CODEC_OPS_CHECK(ops, prev_ops)) {
-        if (WM_ERR_SUCCESS != ops->prev_ops(device)) {
-            return WM_ERR_NOT_ALLOWED;
-        }
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_volume(device, vol);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
+}
+
+int wm_drv_codec_i2s_set_mic_mute(wm_device_t *device, bool mute)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    /* ops check */
-    if (!WM_DRV_CODEC_OPS_CHECK(ops, dumps)) {
-        return WM_ERR_NOT_ALLOWED;
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_mic_mute(device, mute);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
+}
+
+int wm_drv_codec_i2s_set_mic_volume(wm_device_t *device, int vol)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv && vol >= 0 && vol <= 100)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    ret = ops->dumps(device);
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
 
-    if (WM_DRV_CODEC_OPS_CHECK(ops, post_ops)) {
-        ret_post = ops->post_ops(device);
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_mic_volume(device, vol);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
+}
+
+int wm_drv_codec_i2s_set_reg(wm_device_t *device, int reg, int value)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
 
-    return ret == WM_ERR_SUCCESS ? ret_post : ret;
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
+
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->set_reg(device, reg, value);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
+}
+
+int wm_drv_codec_i2s_get_reg(wm_device_t *device, int reg, int *value)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv && value)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
+
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->get_reg(device, reg, value);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
+}
+
+int wm_drv_codec_i2s_dump(wm_device_t *device)
+{
+    int err;
+    wm_drv_codec_i2s_ctx_t *ctx = NULL;
+
+    if (!(device && device->state == WM_DEV_ST_INITED && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    ctx = (wm_drv_codec_i2s_ctx_t *)device->drv;
+
+    WM_DRV_CODEC_I2S_LOCK(ctx->mutex);
+
+    err = ((wm_drv_codec_i2s_ops_t *)device->ops)->dump(device);
+
+    WM_DRV_CODEC_I2S_UNLOCK(ctx->mutex);
+
+    return err;
 }

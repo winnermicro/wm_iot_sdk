@@ -22,6 +22,7 @@
  */
 
 #include "wm_drv_seg_lcd.h"
+#include "wm_drv_gpio.h"
 #include "wm_drv_rcc.h"
 #include "wm_dt_hw.h"
 
@@ -54,6 +55,8 @@ static int wm_drv_ops_seg_lcd_init(wm_device_t *dev);
 static int wm_drv_ops_seg_lcd_deinit(wm_device_t *dev);
 static int wm_drv_ops_seg_lcd_clear(wm_device_t *dev);
 static int wm_drv_ops_seg_lcd_display(wm_device_t *dev, uint8_t com_id, uint32_t seg_mask, uint32_t seg_data);
+static int wm_drv_ops_seg_lcd_register_table(wm_device_t *dev, const seg_lcd_table_t *seg_table, uint32_t seg_count);
+static int wm_drv_ops_seg_lcd_display_seg(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display, uint32_t seg_count);
 
 typedef struct {
     int (*init)(wm_device_t *dev);   /**< Pointer to the initialization function */
@@ -61,6 +64,10 @@ typedef struct {
     int (*clear)(wm_device_t *dev);  /**< Pointer to the clear display function */
     int (*display)(wm_device_t *dev, uint8_t com_id, uint32_t seg_mask,
                    uint32_t seg_data); /**< Pointer to the display function */
+    int (*register_table)(wm_device_t *dev, const seg_lcd_table_t *seg_table,
+                          uint32_t seg_count); /**< Pointer to the register table function */
+    int (*display_seg)(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display,
+                       uint32_t seg_count); /**< Pointer to the display segment function */
 } wm_drv_seg_lcd_ops_t;
 
 /**
@@ -70,8 +77,10 @@ typedef struct {
  * It includes a mutex for thread-safe operations.
  */
 typedef struct {
-    wm_os_mutex_t *mutex;   /**< Mutex for thread-safe access to the segment LCD device */
-    wm_device_t *clock_dev; /**< Pointer to a clock device, used for timing control */
+    wm_os_mutex_t *mutex;             /**< Mutex for thread-safe access to the segment LCD device */
+    wm_device_t *clock_dev;           /**< Pointer to a clock device, used for timing control */
+    const seg_lcd_table_t *seg_table; /**< Pointer to the segment table */
+    uint32_t seg_count;               /**< The number of segments to display */
 } wm_drv_seg_lcd_dev_ctx_t;
 
 /**
@@ -118,6 +127,13 @@ static int wm_drv_ops_seg_lcd_init(wm_device_t *dev)
 
     WM_DRV_SEG_LCD_LOCK(drv_data->drv_ctx.mutex);
 
+    for (uint8_t i = 0; i < hw_seg_lcd->pin_cfg_count; i++) {
+        ret = wm_drv_gpio_iomux_func_sel(hw_seg_lcd->pin_cfg[i].pin_num, hw_seg_lcd->pin_cfg[i].pin_mux);
+        if (ret != WM_ERR_SUCCESS) {
+            return ret;
+        }
+    }
+
     ret = wm_drv_clock_enable(drv_data->drv_ctx.clock_dev, WM_RCC_LCD_GATE_EN);
     if (ret != WM_ERR_SUCCESS) {
         goto exit;
@@ -147,6 +163,7 @@ exit:
 static int wm_drv_ops_seg_lcd_deinit(wm_device_t *dev)
 {
     int ret                        = WM_ERR_SUCCESS;
+    wm_dt_hw_seg_lcd_t *hw_seg_lcd = NULL;
     wm_drv_seg_lcd_drv_t *drv_data = NULL;
 
     if (dev == NULL) {
@@ -166,6 +183,14 @@ static int wm_drv_ops_seg_lcd_deinit(wm_device_t *dev)
     ret = wm_drv_clock_disable(drv_data->drv_ctx.clock_dev, WM_RCC_LCD_GATE_EN);
     if (ret != WM_ERR_SUCCESS) {
         return ret;
+    }
+
+    hw_seg_lcd = (wm_dt_hw_seg_lcd_t *)dev->hw;
+    for (uint8_t i = 0; i < hw_seg_lcd->pin_cfg_count; i++) {
+        ret = wm_drv_gpio_iomux_func_sel(hw_seg_lcd->pin_cfg[i].pin_num, WM_GPIO_IOMUX_FUN5);
+        if (ret != WM_ERR_SUCCESS) {
+            return ret;
+        }
     }
 
     if (dev->drv != NULL) {
@@ -224,9 +249,62 @@ static int wm_drv_ops_seg_lcd_display(wm_device_t *dev, uint8_t com_id, uint32_t
     return ret;
 }
 
+static int wm_drv_ops_seg_lcd_register_table(wm_device_t *dev, const seg_lcd_table_t *seg_table, uint32_t seg_count)
+{
+    wm_drv_seg_lcd_drv_t *drv_data = NULL;
+
+    if (dev == NULL || seg_table == NULL || seg_count == 0) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    drv_data = (wm_drv_seg_lcd_drv_t *)dev->drv;
+
+    if (drv_data == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    drv_data->drv_ctx.seg_table = seg_table;
+    drv_data->drv_ctx.seg_count = seg_count;
+
+    return WM_ERR_SUCCESS;
+}
+
+static int wm_drv_ops_seg_lcd_display_seg(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display, uint32_t seg_count)
+{
+    int ret                        = WM_ERR_SUCCESS;
+    wm_drv_seg_lcd_drv_t *drv_data = NULL;
+    uint32_t seg_val               = 0;
+
+    if (dev == NULL || seg_lcd_display == NULL || seg_count == 0) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    drv_data = (wm_drv_seg_lcd_drv_t *)dev->drv;
+    if (drv_data == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    for (uint32_t i = 0; i < seg_count; i++) {
+        for (uint32_t j = 0; j < drv_data->drv_ctx.seg_count; j++) {
+            if (!(strcmp(seg_lcd_display[i].seg_name, drv_data->drv_ctx.seg_table[j].seg_name))) {
+                seg_val = (seg_lcd_display[i].is_on) ? (1 << drv_data->drv_ctx.seg_table[j].seg) : 0;
+                ret     = wm_hal_seg_lcd_write(&drv_data->hal_dev, drv_data->drv_ctx.seg_table[j].com,
+                                               (1 << drv_data->drv_ctx.seg_table[j].seg), seg_val);
+                if (ret != WM_ERR_SUCCESS) {
+                    return ret;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 const wm_drv_seg_lcd_ops_t wm_drv_seg_lcd_ops = {
-    .init    = wm_drv_ops_seg_lcd_init,
-    .deinit  = wm_drv_ops_seg_lcd_deinit,
-    .clear   = wm_drv_ops_seg_lcd_clear,
-    .display = wm_drv_ops_seg_lcd_display,
+    .init           = wm_drv_ops_seg_lcd_init,
+    .deinit         = wm_drv_ops_seg_lcd_deinit,
+    .clear          = wm_drv_ops_seg_lcd_clear,
+    .display        = wm_drv_ops_seg_lcd_display,
+    .register_table = wm_drv_ops_seg_lcd_register_table,
+    .display_seg    = wm_drv_ops_seg_lcd_display_seg,
 };

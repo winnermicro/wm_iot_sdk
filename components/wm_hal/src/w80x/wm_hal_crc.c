@@ -121,7 +121,7 @@ int wm_hal_crc_init(wm_hal_crc_dev_t *dev)
 int wm_hal_crc_update(wm_hal_crc_dev_t *dev, unsigned char *in, uint32_t len)
 {
     /* Check parameters */
-    WM_HAL_CRC_ASSERT_PARAM(dev && in && len > 0 && len <= 65532);
+    WM_HAL_CRC_ASSERT_PARAM(dev && in && len > 0 && len <= W800_CRC_MAX_CALC_BYTES);
 
     wm_gpsec_reg_t *reg = dev->gpsec_reg;
     /* Check parameters */

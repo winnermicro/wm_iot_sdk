@@ -595,7 +595,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_w25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 20 * 1000000, //20M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -611,7 +611,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_gd25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 20 * 1000000, //20M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -627,7 +627,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_xt25f = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 10 * 1000000, //10M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -643,7 +643,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_th25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 10 * 1000000, //10M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -686,21 +686,17 @@ const static wm_dt_hw_rsa_t dt_hw_rsa = {
 #endif
 
 #if CONFIG_COMPONENT_DRIVER_CODEC_ES8374_ENABLED
-const wm_dt_hw_codec_i2s_t dt_hw_es8374 = {
+const static wm_dt_hw_codec_i2s_t dt_hw_es8374 = {
     .init_cfg                 = { .init_level = 0, .init_priority = 49 },
-    .gpio_device_name = "gpio",
     .i2s_device_name = "i2s",
     .i2c_device_name = "i2c",
-    .es8374_cfg = {
-        .dmic = false,
-        .lin1 = false,
-        .rin1 = false,
-        .lin2 = true,
-        .rin2 = true,
-        .monoout = true,
-        .spkout = true,
-        .i2c = true,
-        .address = 0x10,
+    .codec_cfg = {
+        .i2c_address = 0x10,        /**< codec i2c 7 bits address   */
+        .in_port = 2,               /**< mic port2 input            */
+        .out_port = 3,              /**< speaker and headphone use  */
+        .jack_pin = WM_GPIO_NUM_MAX,
+        .pa_pin = WM_GPIO_NUM_MAX,
+        .max_gain = 0,           /**< VPA == VDAC, max_gain = 20 * log(3.3/3.3) = 0 dB */
     },
 };
 #endif

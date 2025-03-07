@@ -23,4 +23,3 @@ For more information on Bluetooth Mesh, please refer to the
    mesh/heartbeat.rst
    mesh/cfg.rst
    mesh/statistic.rst
-   mesh/shell.rst

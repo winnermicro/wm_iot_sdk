@@ -1,3 +1,28 @@
+if(${CONFIG_COMPILER_OPTIMIZE_LEVEL_O0})
+    set(compiler_optimization "-O0")
+elseif(${CONFIG_COMPILER_OPTIMIZE_LEVEL_OS})
+    set(compiler_optimization "-Os")
+elseif(${CONFIG_COMPILER_OPTIMIZE_LEVEL_O2})
+    set(compiler_optimization "-O2")
+elseif(${CONFIG_COMPILER_OPTIMIZE_LEVEL_O3})
+    set(compiler_optimization "-O3")
+endif()
+
+if(${CONFIG_COMPILER_DEBUG_INFORMATION})
+    set(compiler_optimization "${compiler_optimization} -g3")
+endif()
+
+if(USE_CMAKE_PRE_PROCESS)
+    set(compiler_optimization "${compiler_optimization} -E")
+    if(USE_CMAKE_BUILD_PROMPT)
+        set(USE_CMAKE_BUILD_PROMPT OFF)
+    endif()
+endif()
+
+set(DEFINE_MACRO -DCONFIG_PROJECT_NAME="\\"${PROJECT_NAME}\\""
+                 -DCONFIG_COMPILER_OPTS="\\"${compiler_optimization}\\""
+                 )
+
 if(${CONFIG_CHIP_W80X})
     include(${SDK_PATH}/tools/cmake/compile.w80x.cmake)
 elseif(${CONFIG_CHIP_W9XX})

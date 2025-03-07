@@ -59,19 +59,44 @@ static DSTATUS wm_diskio_sdmmc_status(BYTE pdrv)
 
 static DRESULT wm_diskio_sdmmc_read(BYTE pdrv, BYTE *buff, DWORD sector, UINT count)
 {
-    DRESULT result   = RES_OK;
-    int ret          = WM_ERR_SUCCESS;
-    wm_device_t *dev = diskio_dev[pdrv];
+    DRESULT result                         = RES_OK;
+    int ret                                = WM_ERR_SUCCESS;
+    wm_device_t *dev                       = diskio_dev[pdrv];
+    BYTE *aligned_buff                     = NULL;
+    wm_drv_sdh_sdmmc_card_info_t card_info = { 0 };
 
     if (dev == NULL || dev->state != WM_DEV_ST_INITED) {
         wm_log_error("SDMMC device is not ready for read operation.");
         return RES_NOTRDY;
     }
 
-    ret = wm_drv_sdh_sdmmc_read_blocks(dev, buff, sector, count);
+    if ((uintptr_t)buff % 4 != 0) {
+        ret = wm_drv_sdh_sdmmc_get_card_info(dev, &card_info);
+        if (ret != WM_ERR_SUCCESS) {
+            wm_log_error("Failed to get SDMMC card information.");
+            return RES_ERROR;
+        }
+        aligned_buff = (BYTE *)malloc(count * card_info.block_size);
+        if (aligned_buff == NULL) {
+            wm_log_error("Failed to allocate aligned buffer for read operation.");
+            return RES_ERROR;
+        }
+    } else {
+        aligned_buff = buff;
+    }
+
+    ret = wm_drv_sdh_sdmmc_read_blocks(dev, aligned_buff, sector, count);
     if (ret != WM_ERR_SUCCESS) {
         wm_log_error("sdmmc read blocks failed: %d", ret);
+        if (aligned_buff != buff) {
+            free(aligned_buff);
+        }
         return RES_ERROR;
+    }
+
+    if (aligned_buff != buff) {
+        memcpy((void *)buff, aligned_buff, count * card_info.block_size);
+        free(aligned_buff);
     }
 
     return result;
@@ -79,19 +104,44 @@ static DRESULT wm_diskio_sdmmc_read(BYTE pdrv, BYTE *buff, DWORD sector, UINT co
 
 static DRESULT wm_diskio_sdmmc_write(BYTE pdrv, const BYTE *buff, DWORD sector, UINT count)
 {
-    DRESULT result   = RES_OK;
-    int ret          = WM_ERR_SUCCESS;
-    wm_device_t *dev = diskio_dev[pdrv];
+    DRESULT result                         = RES_OK;
+    int ret                                = WM_ERR_SUCCESS;
+    wm_device_t *dev                       = diskio_dev[pdrv];
+    BYTE *aligned_buff                     = NULL;
+    wm_drv_sdh_sdmmc_card_info_t card_info = { 0 };
 
     if (dev == NULL || dev->state != WM_DEV_ST_INITED) {
         wm_log_error("SDMMC device is not ready for write operation.");
         return RES_NOTRDY;
     }
 
-    ret = wm_drv_sdh_sdmmc_write_blocks(dev, buff, sector, count);
+    if ((uintptr_t)buff % 4 != 0) {
+        ret = wm_drv_sdh_sdmmc_get_card_info(dev, &card_info);
+        if (ret != WM_ERR_SUCCESS) {
+            wm_log_error("Failed to get SDMMC card information.");
+            return RES_ERROR;
+        }
+        aligned_buff = (BYTE *)malloc(count * card_info.block_size);
+        if (aligned_buff == NULL) {
+            wm_log_error("Failed to allocate aligned buffer for write operation.");
+            return RES_ERROR;
+        }
+        memcpy(aligned_buff, buff, count * card_info.block_size);
+    } else {
+        aligned_buff = (BYTE *)buff;
+    }
+
+    ret = wm_drv_sdh_sdmmc_write_blocks(dev, aligned_buff, sector, count);
     if (ret != WM_ERR_SUCCESS) {
         wm_log_error("sdmmc write blocks failed: %d", ret);
+        if (aligned_buff != buff) {
+            free(aligned_buff);
+        }
         return RES_ERROR;
+    }
+
+    if (aligned_buff != buff) {
+        free(aligned_buff);
     }
 
     return result;

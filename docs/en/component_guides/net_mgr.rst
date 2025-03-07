@@ -312,3 +312,30 @@ For basic examples using the Net manager, please refer to :ref:`examples/network
 Please refer to the SDK for basic examples of using net manager for Wi-Fi Stations: examples/network/net_manager/wifi_station/ 工程
 
 Please refer to the SDK for basic examples of using net manager's Wi-Fi SoftAP: examples/network/net_manager/wifi_softap/ 工程
+
+
+Net manager 的 meunconfig 配置
+----------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_COMPONENT_NET_MANAGER_ENABLED
+    - Whether to enable the Net manager component
+    - N
+
+  * - CONFIG_COMPONENT_NM_WIFI_STA_ENABLED
+    - Whether the Wi-Fi station is supported
+    - N
+
+  * - CONFIG_COMPONENT_NM_WIFI_SOFTAP_ENABLED 
+    - Whether to support Wi-Fi softAP
+    - N

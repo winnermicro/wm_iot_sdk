@@ -137,6 +137,102 @@ static FRESULT unmount_filesystem(FATFS *fs, const char *path)
     return res;
 }
 
+static void print_indent(int level)
+{
+    for (int i = 0; i < level; i++) {
+        printf("|   ");
+    }
+}
+
+static void format_size(FSIZE_t size, char *buf, int buf_size)
+{
+    if (size < 1024) {
+        snprintf(buf, buf_size, "%uB", size);
+    } else if (size < 1024 * 1024) {
+        snprintf(buf, buf_size, "%.2fKB", size / 1024.0);
+    } else {
+        snprintf(buf, buf_size, "%.2fMB", size / (1024.0 * 1024.0));
+    }
+}
+
+static FRESULT scan_files(const char *path, int level)
+{
+    FRESULT res;
+    DIR dir;
+    FILINFO fno;
+    char new_path[256];
+    char size_str[16];
+
+    res = f_opendir(&dir, path);
+    if (res != FR_OK) {
+        return res;
+    }
+
+    while (1) {
+        res = f_readdir(&dir, &fno);
+        if (res != FR_OK || fno.fname[0] == 0) {
+            break;
+        }
+
+        // Skip "." and ".." directories
+        if (fno.fname[0] == '.') {
+            continue;
+        }
+
+        print_indent(level);
+
+        if (fno.fattrib & AM_DIR) {
+            // Directory
+            printf("+-- %s/\n", fno.fname);
+
+            // Build new path
+            sprintf(new_path, "%s/%s", path, fno.fname);
+            res = scan_files(new_path, level + 1);
+            if (res != FR_OK) {
+                break;
+            }
+        } else {
+            // File
+            format_size(fno.fsize, size_str, sizeof(size_str));
+            printf("+-- %s (%s, %u-%02u-%02u %02u:%02u:%02u)\n", fno.fname, size_str, (fno.fdate >> 9) + 1980,
+                   (fno.fdate >> 5) & 15, fno.fdate & 31, (fno.ftime >> 11), (fno.ftime >> 5) & 63, (fno.ftime & 31) * 2);
+        }
+    }
+
+    f_closedir(&dir);
+    return res;
+}
+
+static int fatfs_list_files_demo(void)
+{
+    FRESULT res;
+    FATFS *fs    = NULL;
+    char path[8] = { 0 };
+
+    /* Allocate memory for FATFS structure */
+    fs = (FATFS *)malloc(sizeof(FATFS));
+    memset(fs, 0, sizeof(FATFS));
+
+    sprintf(path, "%d:", WM_DISKIO_DRIVER_NUM_INTERNAL_FLASH);
+    res = mount_filesystem(fs, path);
+    if (res != FR_OK) {
+        goto exit1;
+    }
+
+    printf(".\n");
+    res = scan_files(path, 0);
+
+    res = unmount_filesystem(fs, path);
+    if (res != FR_OK) {
+        wm_log_error("Failed to unmount file system.");
+    }
+
+exit1:
+    free(fs);
+    fs = NULL;
+    return res;
+}
+
 static int fatfs_write_read_demo(void)
 {
     FRESULT res;
@@ -197,10 +293,16 @@ int main(void)
     wm_log_info("FATFS demo start.");
 
     ret = fatfs_write_read_demo();
-    if (ret == RES_OK) {
+    if (ret != FR_OK) {
+        wm_log_error("File read and write demo failed.");
+    }
+
+    ret = fatfs_list_files_demo();
+    if (ret == FR_OK) {
+        wm_log_info("File listing completed successfully.");
         wm_log_info("This example succeeds in running.");
     } else {
-        wm_log_error("File read and write demo failed.");
+        wm_log_error("File listing failed.");
     }
 
     while (1) {

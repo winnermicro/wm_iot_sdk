@@ -10,7 +10,7 @@ if(NOT __exist_source_code)
     if(USE_CMAKE_BUILD_DEBUG)
         message(STATUS "osal use lib")
     endif()
-    list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libosal.a"
+    list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libosal.a"
                                )
 endif()
 

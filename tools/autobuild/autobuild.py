@@ -171,38 +171,7 @@ def check_in_file(filenames, file_to_check):
     except FileNotFoundError:
         print(f"The file {file_to_check} does not exist.")
 
-def extract_config_chip_name(file_path):
-    """
-    Extracts the value within quotes for the pattern '#define CONFIG_CHIP_NAME "xxx"'
-    from the given file.
-
-    Parameters:
-    file_path (str): The path to the file to be read.
-
-    Returns:
-    str: The content within the quotes, or None if not found or an error occurs.
-    """
-    # Regular expression pattern to match '#define CONFIG_CHIP_NAME "xxx"'
-    pattern = r'#define\s+CONFIG_CHIP_NAME\s+"([^"]+)"'
-    
-    # Try to open and read the file
-    try:
-        with open(file_path, 'r') as file:
-            for line in file:
-                # Use regular expression to search for the pattern
-                match = re.search(pattern, line)
-                if match:
-                    # If a match is found, return the content within the quotes
-                    return match.group(1)
-    except FileNotFoundError:
-        print(f"The file {file_path} was not found.")
-    except Exception as e:
-        print(f"An error occurred while reading the file: {e}")
-    
-    # Return None if not found or an error occurred
-    return None
-
-def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map_analyzer, ignore_build, modified_files, start_build_time):
+def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map_analyzer, ignore_build, modified_files, start_build_time, lib_build):
     """
     Executes the build script for a given project directory and handles the output and errors.
 
@@ -214,6 +183,7 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
         verified_build (str): A flag indicating whether to perform a quick build of the most recently modified files.
         modified_files (list): A list of files that have been modified.
         start_build_time (str): A timestamp used to name the binary save directory.
+        lib_build (str): A flag indicating whether to build the library.
 
     Returns:
         tuple: A tuple containing the return code from the build process and a list of new modified files.
@@ -235,20 +205,20 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
             print(f"Clean failed in {main_dir}")
             return return_code, modified_files
 
-    # config
-    if os_name == 'Linux':
-        cmd = "wm.sh config -g Ninja"
-    elif os_name == 'Windows':
-        cmd = "wm.py config -g Ninja"
-    stdout, stderr, return_code = execute_command(cmd, cwd = main_dir)
-    if return_code == 0:
-        print(f"Config successfully in {main_dir}")
-    else:
-        print(f"Config failed in {main_dir}")
-        return return_code, modified_files
-
     # When verifying build, the project will exit without compiling without relying on modifying files
     if verified_build == "true":
+        # config
+        if os_name == 'Linux':
+            cmd = "wm.sh config -g Ninja"
+        elif os_name == 'Windows':
+            cmd = "wm.py config -g Ninja"
+        stdout, stderr, return_code = execute_command(cmd, cwd = main_dir)
+        if return_code == 0:
+            print(f"Config successfully in {main_dir}")
+        else:
+            print(f"Config failed in {main_dir}")
+            return return_code, modified_files
+
         found_files = check_in_file(modified_files, main_dir +"/build/build.ninja")
         if not found_files:
             return 0, modified_files
@@ -257,12 +227,6 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
                 if file not in found_files:
                     new_modified_files.append(file)
             print("found_file", found_files)
-
-    # W800, W801, and W805 do not have touch sensors and can be exited without compilation
-    chip_name = extract_config_chip_name(main_dir + "/build/config/wmsdk_config.h")
-    if chip_name == "W800" or chip_name == "W801" or chip_name == "W805":
-        if "touch" in main_dir:
-            return 0, new_modified_files
 
     # ignore build
     if ignore_build == "true":
@@ -279,7 +243,6 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
         cmd = "wm.py build"
     stdout, stderr, return_code = execute_command(cmd, cwd = main_dir)
     if return_code == 0:
-        print(f"Built successfully in {main_dir}")
         if "warning:" in stdout.decode('utf-8'):
             print(f"Built warning in {main_dir}")
             return_code = 1
@@ -289,19 +252,21 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
         print(f"Built failed in {main_dir}")
         print(stdout.decode('utf-8'))
         return return_code, new_modified_files
+    print(f"Built successfully in {main_dir}")
 
     # lib
-    if os_name == 'Linux':
-        cmd = "wm.sh lib"
-    elif os_name == 'Windows':
-        cmd = "wm.py lib"
-    stdout, stderr, return_code = execute_command(cmd, cwd = main_dir)
-    if return_code == 0:
-        print(f"lib generated successfully in {main_dir}")
-    else:
-        print(f"lib generation failed in {main_dir}")
-        print(stdout.decode('utf-8'))
-        return return_code, new_modified_files
+    if lib_build == "true":
+        if os_name == 'Linux':
+            cmd = "wm.sh lib"
+        elif os_name == 'Windows':
+            cmd = "wm.py lib"
+        stdout, stderr, return_code = execute_command(cmd, cwd = main_dir)
+        if return_code == 0:
+            print(f"lib generated successfully in {main_dir}")
+        else:
+            print(f"lib generation failed in {main_dir}")
+            print(stdout.decode('utf-8'))
+            return return_code, new_modified_files
 
     # map analyzer
     if map_analyzer == "true":
@@ -361,7 +326,7 @@ def execute_script(main_dir, clean_en, save_path, del_build, verified_build, map
 
     return return_code, new_modified_files
 
-def main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, format_check, map_analyzer, ignore_build):
+def main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, format_check, map_analyzer, ignore_build, lib_build):
     """
     Orchestrates the build process for all main directories found in the project path using a thread pool.
 
@@ -372,7 +337,10 @@ def main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, 
         save_path (str): The path where the build binaries will be saved.
         del_build (str): A flag indicating whether to delete the build directory after compilation.
         verified_build (str): A flag indicating whether to perform a quick build of the most recently modified files.
-    format_check (str): A string flag indicating if code formatting checks should be performed using clang-format.
+        format_check (str): A string flag indicating if code formatting checks should be performed using clang-format.
+        map_analyzer (str): A flag indicating whether to enable map analysis.
+        ignore_build (str): A flag indicating whether to enable ignore compilation.
+        lib_build (str): A flag indicating whether to build the library.
 
     Returns:
         int: Number of projects that failed compilation.
@@ -397,17 +365,35 @@ def main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, 
         for i in range(len(modified_files)):
             if ".h" in modified_files[i]:
                 modified_files[i] = os.path.dirname(modified_files[i])
-
+        modified_files = [file for file in modified_files if file.endswith(('.c', '.h'))]
+        if not modified_files:
+            modified_files = ['examples/atcmd/main/src/main.c'] # Must compile atcmd
+        print("modified_files:", modified_files)
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        for main_dir in find_main_directories(prj_path):
-            future = executor.submit(execute_script, main_dir, clean_en, save_path, del_build, verified_build, map_analyzer, ignore_build, modified_files, start_build_time)
+        err = 0
+        total = 0
+        main_dirs = list(find_main_directories(prj_path))
+        if verified_build == "true":
+            main_dirs = [
+                main_dir for main_dir in main_dirs
+                if any(os.path.relpath(main_dir) in os.path.relpath('./' + modified_file) for modified_file in modified_files)
+            ] + [
+                main_dir for main_dir in main_dirs
+                if not any(os.path.relpath(main_dir) in os.path.relpath('./' + modified_file) for modified_file in modified_files)
+            ]
+        for main_dir in main_dirs:
+            future = executor.submit(execute_script, main_dir, clean_en, save_path, del_build, verified_build, map_analyzer, ignore_build, modified_files, start_build_time, lib_build)
             result, modified_files = future.result()
             total += 1
             if result != 0:
                 err += result
+            if verified_build == "true":
+                if not modified_files:
+                    break
         executor.shutdown(wait=True)
-        percentage = (err / total) * 100
-        print(f"Build failure rate: {err}/{total} = {percentage:.2f}%")
+        if total != 0:
+            percentage = (err / total) * 100
+            print(f"Build failure rate: {err}/{total} = {percentage:.2f}%")
         return err
 
 if __name__ == "__main__":
@@ -444,6 +430,9 @@ if __name__ == "__main__":
     parser.add_argument('-r', '--release_rm', type=str, default='false',
                         help='Specify whether release should execute file deletion. Set "ture" to enable '
                             'or "false" to disable it. Default is "false".',)
+    parser.add_argument('-l', '--lib_build', type=str, default='false',
+                        help='Specify whether to build the library. Set "true" to enable '
+                            'or "false" to disable it. Default is "false".',)
 
     args = parser.parse_args()
     max_workers = args.max_works
@@ -456,6 +445,7 @@ if __name__ == "__main__":
     map_analyzer = args.map_analyzer.lower()
     ignore_build = args.ignore_build.lower()
     release_rm = args.release_rm.lower()
+    lib_build = args.lib_build.lower()
 
     print('max_workers = ', max_workers)
     print('clean_en = ', clean_en)
@@ -467,6 +457,7 @@ if __name__ == "__main__":
     print('map_analyzer = ', map_analyzer)
     print('ignore_build = ', ignore_build)
     print('release_rm = ', release_rm)
+    print('lib_build = ', lib_build)
 
     if release_rm == "true":
         execute_script("./examples/atcmd", "true", "", "true", "false", "false", "false", {}, 0)
@@ -484,7 +475,7 @@ if __name__ == "__main__":
                         print(f"{stripped_line} does not exist")
 
     start_time = time.time()
-    err = main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, format_check, map_analyzer, ignore_build)
+    err = main(max_workers, clean_en, prj_path, save_path, del_build, verified_build, format_check, map_analyzer, ignore_build, lib_build)
     end_time = time.time()
     print(f"Total build time: {(end_time - start_time) // 1} seconds.")
     sys.exit(err)

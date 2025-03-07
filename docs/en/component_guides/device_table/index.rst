@@ -11,6 +11,11 @@ The device table currently supports two usage methods:
     * Configuration using C language files, which is the traditional method
 
 Users can choose either method, with TOML file configuration being the default.
+The current device table configuration process is illustrated in the following figure:
+
+.. figure:: ../../../_static/component-guides/device_table/wm_device_table_en.svg
+    :align: center
+    :alt: Device Table Configuration
 
 Using TOML Files Configuration 
 -----------------------------------
@@ -993,3 +998,21 @@ API Reference
 ---------------
 
 Refer to :ref:`label_api_device_table`
+
+Device Table meunconfig configuration
+-------------------------------------------------
+
+The main configuration is as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration name
+    - Configuration description
+    - Default values
+
+  * - CONFIG_DT_USE_C_STYLE_CONF
+    - Whether to use the C language file configuration
+    - N

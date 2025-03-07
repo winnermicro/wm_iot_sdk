@@ -213,3 +213,20 @@ Application Example
    }
 
 
+The meunconfig configuration of Event
+---------------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_WM_EVENT_QUEUE_SIZE
+    - Configure the Event queue size
+    - 32

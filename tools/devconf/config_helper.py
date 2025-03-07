@@ -60,11 +60,10 @@ class ConfigHelper:
         self.pmu_config_data = {'chip_type':'W800', 'dev_name':'PMU', 'exist_in_config':[], 'clk_src':0, 'initlevel':0, 'initpriority':0}
         self.i2s_config_data = {'chip_type':'W800', 'dev_name':'I2S', 'exist_in_config':[], 'extal_clock_en':0, 'extal_clock_hz':0, 'initlevel':0, 'initpriority':0}
 
-        self.seg_lcd_config_data = {'chip_type':'W800', 'dev_name':'SEG_LCD', 'exist_in_config':[], 'frame_freq':0, 'com_num':0, 'initlevel':0, 'initpriority':0}
-        self.gdc0689_config_data = {'chip_type':'W800', 'dev_name':'GDC0689', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'pinnum':[], 'enable':[]}
+        self.seg_lcd_config_data = {'chip_type':'W800', 'dev_name':'SEG_LCD', 'exist_in_config':[], 'frame_freq':0, 'com_num':0, 'initlevel':0, 'initpriority':0, 'pinnum':[], 'enable':[]}
         for i in range(0, 48):
-            self.gdc0689_config_data['enable'].append(0)
-            self.gdc0689_config_data['pinnum'].append(i)
+            self.seg_lcd_config_data['enable'].append(0)
+            self.seg_lcd_config_data['pinnum'].append(i)
 
         self.adc_config_data = {'chip_type':'W800', 'dev_name':'ADC', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'enable':[], 'pga_gain1':[], 'pga_gain2':[], 'cmp_data':[], 'adc_cmp':[], 'cmp_pol':[], 'pinnum0':[], 'pinnum1':[]}
         for i in range(0, 6):
@@ -635,21 +634,13 @@ class ConfigHelper:
                         config_data["frame_freq"] = item["seg_lcd_cfg"]["frame_freq"]
                         config_data["com_num"] = item["seg_lcd_cfg"]["com_num"]
 
-                        self.load_init_cfg(item, config_data)
-
-                        self.seg_lcd_config_data = config_data
-
-                    elif dev_name == "gdc0689":
-                        config_data = self.gdc0689_config_data
-                        exist_in_config.append(dev_name.lower())
-
                         for cfg in item["pin_cfg"]:
                             config_data["enable"][cfg["pin"]] = 1
                             config_data["pinnum"][cfg["pin"]] = cfg["pin"]
 
                         self.load_init_cfg(item, config_data)
 
-                        self.gdc0689_config_data = config_data
+                        self.seg_lcd_config_data = config_data
 
                     elif dev_name == "adc":
                         config_data = self.adc_config_data
@@ -903,6 +894,8 @@ class ConfigHelper:
                         kconfig["i2c"] = 1
                     elif line == "CONFIG_COMPONENT_WIFI_ENABLED=y":
                         kconfig["wifi"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_PMU_ENABLED=y":
+                        kconfig["pmu"] = 1
 
                 self.set_devices_kconfig(kconfig)
                 self.clock_config_data["chip_type"] = chip_type
@@ -946,7 +939,6 @@ class ConfigHelper:
                 self.touch_button_config_data["chip_type"] = chip_type
                 self.i2s_config_data["chip_type"] = chip_type
                 self.seg_lcd_config_data["chip_type"] = chip_type
-                self.gdc0689_config_data["chip_type"] = chip_type
                 self.i2c_config_data["chip_type"] = chip_type
                 self.eeprom0_config_data["chip_type"] = chip_type
                 self.eeprom1_config_data["chip_type"] = chip_type
@@ -995,7 +987,6 @@ class ConfigHelper:
         self.touch_button_config_data["kconfig"] = kconfig
         self.i2s_config_data["kconfig"] = kconfig
         self.seg_lcd_config_data["kconfig"] = kconfig
-        self.gdc0689_config_data["kconfig"] = kconfig
         self.i2c_config_data["kconfig"] = kconfig
         self.eeprom0_config_data["kconfig"] = kconfig
         self.eeprom1_config_data["kconfig"] = kconfig
@@ -1042,7 +1033,6 @@ class ConfigHelper:
         self.touch_button_config_data["exist_in_config"] = exist_in_config
         self.i2s_config_data["exist_in_config"] = exist_in_config
         self.seg_lcd_config_data["exist_in_config"] = exist_in_config
-        self.gdc0689_config_data["exist_in_config"] = exist_in_config
         self.i2c_config_data["exist_in_config"] = exist_in_config
         self.eeprom0_config_data["exist_in_config"] = exist_in_config
         self.eeprom1_config_data["exist_in_config"] = exist_in_config
@@ -1423,10 +1413,6 @@ class ConfigHelper:
     def get_seg_lcd_config(self, dev_name):
         if dev_name == 'SEG_LCD':
             return self.seg_lcd_config_data
-
-    def get_gdc0689_config(self, dev_name):
-        if dev_name == 'GDC0689':
-            return self.gdc0689_config_data
 
     def get_adc_config(self, dev_name):
         if dev_name == 'ADC':
@@ -2461,21 +2447,6 @@ class ConfigHelper:
                 item["seg_lcd_cfg"]["frame_freq"] = config_data["frame_freq"]
                 item["seg_lcd_cfg"]["com_num"] = config_data["com_num"]
 
-                self.update_init_cfg(config_data, item)
-
-                self.update_config_file()
-                break
-
-    def set_gdc0689_config(self, data):
-        if data['dev_name'] == 'GDC0689':
-            self.gdc0689_config_data = data
-
-        if not hasattr(self, 'config'):
-            return
-
-        for item in self.config["dev"]:
-            if item["dev_name"] == "gdc0689":
-                config_data = self.gdc0689_config_data
                 item["pin_cfg"].clear()
                 for i in range(0, 46):
                     if config_data["enable"][i]:

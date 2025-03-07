@@ -2,7 +2,7 @@
 
 * 🌍 [English](README_EN.md)
 
-WM_IoT_SDK 是 WinnerMicro 官方推出的物联网软件开发套件，支持 💻 Windows、🐧 Linux 和 🍎 macOS 操作系统。
+WM_IoT_SDK 是 WinnerMicro 官方推出的物联网软件开发套件，支持 💻 Windows 和 🐧 Linux 操作系统。
 
 ![系统架构](docs/_static/architecture.svg)
 
@@ -49,21 +49,21 @@ WM_IoT_SDK 的 examples 目录下带有很多示例项目。
 
 打开一个基于文本的配置菜单对项目进行配置：
 
-执行 `wm.py menuconfig` 或 `python %WM_IOT_SDK_PATH%\tools\wm\wm.py menuconfig`
+执行 `wm.py menuconfig`
 
 ## 🛠️ 编译项目
 
 编译应用程序，生成可以烧录的固件镜像文件：
 
-执行 `wm.py build` 或 `python %WM_IOT_SDK_PATH%\tools\wm\wm.py build`
+执行 `wm.py build`
 
 ## 💾 烧写项目
 
 当构建结束，终端会打印出一条命令告知如何烧写项目到芯片中：
 
-执行 `wm.py flash -p PORT` 或 `python %WM_IOT_SDK_PATH%\tools\wm\wm.py flash -p PORT`
+执行 `wm.py flash -p PORT`
 
-将其中的 PORT 替换为系统中实际串口的名字（比如 Windows 下的 `COM1`，Linux 下的 `/dev/ttyUSB0`，或者 macOS 下的 `/dev/cu.usbserial-X`）。如果省略 `-p` 选项，`wm.py flash` 会尝试使用第一个可用的串口进行烧写。
+将其中的 PORT 替换为系统中实际串口的名字（比如 Windows 下的 `COM1`，或者 Linux 下的 `/dev/ttyUSB0`）。如果省略 `-p` 选项，`wm.py flash` 会尝试使用第一个可用的串口进行烧写。
 
 不必先运行 `wm.py build` 再运行 `wm.py flash`，`wm.py flash` 会根据需要自动重新构建项目。
 
@@ -73,9 +73,9 @@ WM_IoT_SDK 的 examples 目录下带有很多示例项目。
 
 显示芯片的串口输出信息，使用命令：
 
-执行 `wm.py monitor -p PORT` 或 `python %WM_IOT_SDK_PATH%\tools\wm\wm.py monitor -p PORT`
+执行 `wm.py monitor -p PORT`
 
-将其中的 PORT 替换为系统中实际串口的名字（比如 Windows 下的 `COM1`，Linux 下的 `/dev/ttyUSB0`，或者 macOS 下的 `/dev/cu.usbserial-X`）。如果省略 `-p` 选项，`wm.py monitor` 会尝试使用第一个可用的串口。
+将其中的 PORT 替换为系统中实际串口的名字（比如 Windows 下的 `COM1`，或者 Linux 下的 `/dev/ttyUSB0`）。如果省略 `-p` 选项，`wm.py monitor` 会尝试使用第一个可用的串口。
 
 `wm.py monitor` 运行后，输入 `Ctrl+C` 可退出。
 

@@ -12,7 +12,7 @@ SDH_SPI only uses the SPI mode of SDIO to achieve high-speed SPI data transmissi
 
 Example Location： `examples\peripheral\sdh_spi`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

@@ -375,40 +375,22 @@
       {% endif %}
       {% endif %}
 
-      {% if data.kconfig.seg_lcd and ("seg_lcd"|lower in data.exist_in_config or "gdc0689"|lower in data.exist_in_config) %}
-      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
-        <div class="card">
-          <div class="card-header">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseNine">
-              SEG_LCD
-            </a>
-          </div>
-          <div id="collapseNine" class="collapse {% if data.dev_name[:'SEG_LCD'|length] == 'SEG_LCD' %} show
-                                                  {% elif data.dev_name[:'GDC0689'|length] == 'GDC0689' %} show
-                                                  {% endif %}" data-parent="#accordion">
-            <div class="card-body">
-              <form id="get_form" method="get" action="/wmdt/index">
-              <input type="hidden" id="dev_name" name="dev_name" value="SEG_LCD" />
-              <ul class="nav nav-pills flex-column">
-              {% if "seg_lcd"|lower in data.exist_in_config %}
-                <li class="nav-item">
-                  <a id="dev_seg_lcd" class="nav-link" href="#" onclick="changeInputValue('SEG_LCD')">SEG_LCD</a>
-                </li>
-              {% endif %}
-              {% if "gdc0689"|lower in data.exist_in_config %}
-                <li class="nav-item">
-                  <a id="dev_gdc0689" class="nav-link" href="#" onclick="changeInputValue('GDC0689')">GDC0689</a>
-                </li>
-              {% endif %}
-              </ul>
-              </form>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-      {% endif %}
-
       </div>
+
+      {% if data.kconfig.seg_lcd and ("seg_lcd"|lower in data.exist_in_config) %}
+      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+        <form id="get_form" method="get" action="/wmdt/index">
+          <input type="hidden" id="dev_name" name="dev_name" value="SEG_LCD" />
+          <ul class="nav nav-pills flex-column">
+          {% if "seg_lcd"|lower in data.exist_in_config %}
+            <li class="nav-item">
+              <a id="dev_seg_lcd" class="nav-link" href="#" onclick="changeInputValue('SEG_LCD')">SEG_LCD</a>
+            </li>
+          {% endif %}
+          </ul>
+        </form>
+      {% endif %}
+      {% endif %}
 
       {% if data.kconfig.pwm and "pwm"|lower in data.exist_in_config %}
         <form id="get_form" method="get" action="/wmdt/index">

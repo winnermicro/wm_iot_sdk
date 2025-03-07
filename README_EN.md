@@ -2,7 +2,7 @@
 
 * [中文](README.md)
 
-WM_IoT_SDK is the official Internet of Things software development kit from WinnerMicro, supporting 💻 Windows, 🐧 Linux and 🍎 macOS operating systems.
+WM_IoT_SDK is the official Internet of Things software development kit from WinnerMicro, supporting 💻 Windows, and 🐧 Linux operating systems.
 
 ![Architecture](docs/_static/architecture_en.svg)
 
@@ -49,21 +49,21 @@ If you want to start your own project based on an example project, please copy t
 
 Open a text-based configuration menu to configure the project:
 
-Run `wm.py menuconfig` or `python %WM_IOT_SDK_PATH%\tools\wm\wm.py menuconfig`
+Run `wm.py menuconfig`
 
 ## 🛠️ Build Project
 
 Compile the application to generate firmware image files that can be flashed:
 
-Run `wm.py build` or `python %WM_IOT_SDK_PATH%\tools\wm\wm.py build`
+Run `wm.py build`
 
 ## 💾 Flash Project
 
 When the build is complete, the terminal will print a command showing how to flash the project to the chip:
 
-Run `wm.py flash -p PORT` or `python %WM_IOT_SDK_PATH%\tools\wm\wm.py flash -p PORT`
+Run `wm.py flash -p PORT`
 
-Replace PORT with the actual serial port name on your system (e.g., `COM1` on Windows, `/dev/ttyUSB0` on Linux, or `/dev/cu.usbserial-X` on macOS). If the `-p` option is omitted, `wm.py flash` will attempt to use the first available serial port.
+Replace PORT with the actual serial port name on your system (e.g., `COM1` on Windows, or `/dev/ttyUSB0` on Linux). If the `-p` option is omitted, `wm.py flash` will attempt to use the first available serial port.
 
 You don't need to run `wm.py build` before `wm.py flash`, as `wm.py flash` will automatically rebuild the project if needed.
 
@@ -73,9 +73,9 @@ You don't need to run `wm.py build` before `wm.py flash`, as `wm.py flash` will 
 
 To display the chip's serial output information, use the command:
 
-Run `wm.py monitor -p PORT` or `python %WM_IOT_SDK_PATH%\tools\wm\wm.py monitor -p PORT`
+Run `wm.py monitor -p PORT`
 
-Replace PORT with the actual serial port name on your system (e.g., `COM1` on Windows, `/dev/ttyUSB0` on Linux, or `/dev/cu.usbserial-X` on macOS). If the `-p` option is omitted, `wm.py monitor` will attempt to use the first available serial port.
+Replace PORT with the actual serial port name on your system (e.g., `COM1` on Windows, or `/dev/ttyUSB0` on Linux). If the `-p` option is omitted, `wm.py monitor` will attempt to use the first available serial port.
 
 Press `Ctrl+C` to exit `wm.py monitor`.
 

@@ -37,9 +37,9 @@
 #include "wm_nvs.h"
 #include "wm_nvs_debug.h"
 
-#define WM_NVS_DEBUG_HANDLERR_NUM (WM_NVS_MAX_HANDLE_NUM + 2)
+#define WM_NVS_DEBUG_HANDLER_NUM (WM_NVS_MAX_HANDLE_NUM + 2)
 
-static wm_nvs_handle_t g_cmd_handle[WM_NVS_DEBUG_HANDLERR_NUM];
+static wm_nvs_handle_t g_cmd_handle[WM_NVS_DEBUG_HANDLER_NUM];
 
 int wm_nvs_debug_print_sector(const char *partition_name, int index, int size)
 {
@@ -105,7 +105,7 @@ static int wm_nvs_debug_nvs_get_user_id(wm_nvs_handle_t handle)
 {
     int ret = -1;
 
-    for (int i = 0; i < WM_NVS_DEBUG_HANDLERR_NUM; i++) {
+    for (int i = 0; i < WM_NVS_DEBUG_HANDLER_NUM; i++) {
         if (g_cmd_handle[i] == handle) {
             ret = i;
             break;
@@ -228,7 +228,7 @@ int wm_nvs_debug_nvs_open(const char *partition, const char *group, wm_nvs_open_
         return err;
     }
 
-    for (int i = 0; i < WM_NVS_DEBUG_HANDLERR_NUM; i++) {
+    for (int i = 0; i < WM_NVS_DEBUG_HANDLER_NUM; i++) {
         if (!g_cmd_handle[i]) {
             g_cmd_handle[i] = handle;
             wm_log_info("open nvs %s %s %d OK, handle_index=%d,handle=%p", partition, group, mode, i, handle);
@@ -241,7 +241,7 @@ int wm_nvs_debug_nvs_open(const char *partition, const char *group, wm_nvs_open_
 
 int wm_nvs_debug_nvs_close(int id)
 {
-    if (id >= 0 && id < WM_NVS_DEBUG_HANDLERR_NUM && g_cmd_handle[id]) {
+    if (id >= 0 && id < WM_NVS_DEBUG_HANDLER_NUM && g_cmd_handle[id]) {
         int err = wm_nvs_close(g_cmd_handle[id]);
         if (err == WM_NVS_ERR_OK) {
             g_cmd_handle[id] = NULL;
@@ -258,7 +258,7 @@ wm_nvs_handle_t wm_nvs_debug_nvs_get_handle(int id)
 {
     wm_nvs_handle_t handle = NULL;
 
-    if (id >= 0 && id < WM_NVS_DEBUG_HANDLERR_NUM && g_cmd_handle[id]) {
+    if (id >= 0 && id < WM_NVS_DEBUG_HANDLER_NUM && g_cmd_handle[id]) {
         handle = g_cmd_handle[id];
     } else {
         wm_log_error("the handler index=%d not opend", id);
@@ -269,7 +269,7 @@ wm_nvs_handle_t wm_nvs_debug_nvs_get_handle(int id)
 
 bool wm_nvs_debug_nvs_check_handle_id(int id)
 {
-    if (!(id >= 0 && id < WM_NVS_DEBUG_HANDLERR_NUM && g_cmd_handle[id])) {
+    if (!(id >= 0 && id < WM_NVS_DEBUG_HANDLER_NUM && g_cmd_handle[id])) {
         wm_log_error("the handler index=%d not opend", id);
         return false;
     }
@@ -280,7 +280,7 @@ int wm_nvs_debug_clear_partiton_handle(const char *partition)
 {
     wm_nvs_handle_info_t *info;
 
-    for (int i = 0; i < WM_NVS_DEBUG_HANDLERR_NUM; i++) {
+    for (int i = 0; i < WM_NVS_DEBUG_HANDLER_NUM; i++) {
         info = (wm_nvs_handle_info_t *)g_cmd_handle[i];
         if (info) {
             if (!strcmp(info->storage->pt.name, partition)) {
@@ -371,7 +371,7 @@ int wm_nvs_debug_cmd_get_item(int id, const char *key)
     int err;
     unsigned char *buf = NULL;
 
-    if (!(id >= 0 && id < WM_NVS_DEBUG_HANDLERR_NUM && g_cmd_handle[id])) {
+    if (!(id >= 0 && id < WM_NVS_DEBUG_HANDLER_NUM && g_cmd_handle[id])) {
         wm_log_error("the handler index=%d not opend", id);
         return WM_NVS_ERR_INVALID_HANDLE;
     }

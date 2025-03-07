@@ -1,0 +1,302 @@
+<mxfile host="Electron" modified="2025-02-24T10:23:34.412Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="sIYkMfmejFSydo67-Eh1" version="24.2.5" type="device" pages="2">
+  <diagram name="zh_cn" id="P4ulBE0eMtRflvgFUFzI">
+    <mxGraphModel dx="1461" dy="717" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-30" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="156" y="390" width="654" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-29" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" parent="1" vertex="1">
+          <mxGeometry x="156" y="210" width="654" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-1" target="XN3FtlBUHc0lj6nS4iNb-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-1" value="wm_dt_hw.c" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="610" y="272" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-2" value="device_table.toml" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="276" y="272" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-4" value="wm_dt_hw.c" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" parent="1" vertex="1">
+          <mxGeometry x="470" y="520" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-5" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;components/wm_dt/&amp;lt;chip&amp;gt;/config/*.toml&lt;br&gt;或者&amp;nbsp; &lt;br&gt;用户在example 中自己创建的设备表文件*.toml&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="167" y="225" width="349" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-6" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;examples/***/build/wm_dt&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="169" y="396" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-2" target="XN3FtlBUHc0lj6nS4iNb-12" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="336" y="330" as="sourcePoint" />
+            <mxPoint x="336" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-12" target="XN3FtlBUHc0lj6nS4iNb-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="336" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-24" value="wmdt.py" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="XN3FtlBUHc0lj6nS4iNb-22" vertex="1" connectable="0">
+          <mxGeometry x="-0.6603" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-12" value="device_table.toml" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="276" y="440" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-17" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;fontColor=#FF0000;strokeColor=#FF0000;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="512" y="510" as="sourcePoint" />
+            <mxPoint x="512" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-19" value="CONFIG_DT_USE_C_STYLE_CONF = n（默认）" style="text;whiteSpace=wrap;fontStyle=1;fontColor=#FF0000;" parent="1" vertex="1">
+          <mxGeometry x="100" y="155" width="388" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-20" value="CONFIG_DT_USE_C_STYLE_CONF = y" style="text;whiteSpace=wrap;fontStyle=1;fontColor=#FF0000;" parent="1" vertex="1">
+          <mxGeometry x="570" y="155" width="303" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-21" target="XN3FtlBUHc0lj6nS4iNb-12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-25" value="devconfi.py" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="XN3FtlBUHc0lj6nS4iNb-23" vertex="1" connectable="0">
+          <mxGeometry x="-0.6147" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="87" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-21" value="命令：&lt;br&gt;wm.py&amp;nbsp; devconfig" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="4" y="202" width="132" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-31" value="1" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="10" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-32" value="2" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-33" value="3" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="650" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-36" value="代码中最终编译 链接的设备表文件" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="530" y="590" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-37" value="临时文件，&lt;br&gt;执行 wm.py disclean&amp;nbsp;会被清除&lt;br&gt;执行wm.py clean 不会清除" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+          <mxGeometry x="167" y="517" width="218" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-40" target="XN3FtlBUHc0lj6nS4iNb-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="336" y="321" />
+              <mxPoint x="207" y="321" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-40" value="启动编译命令" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="291" y="360" width="90" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="vTsDIqmrjpRt0s9fnAcB-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="XN3FtlBUHc0lj6nS4iNb-41" target="o8623ZPmPAUV9PARmBTd-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="320" />
+              <mxPoint x="723" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-41" value="启动编译命令" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="610" y="360" width="90" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-42" value="启动Web UI ，&lt;br&gt;用户手动在UI中配置后存储" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+          <mxGeometry x="20" y="262" width="111.5" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-44" value="" style="endArrow=none;dashed=1;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" target="XN3FtlBUHc0lj6nS4iNb-36" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="560" as="sourcePoint" />
+            <mxPoint x="600" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XN3FtlBUHc0lj6nS4iNb-46" value="&lt;b&gt;注意：&lt;br&gt;&lt;/b&gt;方式1&amp;nbsp; 还在持续完善，新的版本会修正问题。&lt;br&gt;方式2&amp;nbsp; 为默认启用方法，默认(components下的设备表文件)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="20" y="619" width="703" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="o8623ZPmPAUV9PARmBTd-1" target="XN3FtlBUHc0lj6nS4iNb-19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="294" y="74" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="o8623ZPmPAUV9PARmBTd-1" target="XN3FtlBUHc0lj6nS4iNb-20" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-1" value="命令：&lt;br&gt;wm.py&amp;nbsp; menuconfig" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="388" y="54" width="171" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-8" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;components/wm_dt/&amp;lt;chip&amp;gt;/config/*.c&lt;br&gt;或者&amp;nbsp; &lt;br&gt;用户在example 中自己创建的设备表文件*.c&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="514" y="221" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="o8623ZPmPAUV9PARmBTd-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="346" y="370" as="sourcePoint" />
+            <mxPoint x="217" y="272" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="WfoKrAhplAtEX_EJBY4l" name="en">
+    <mxGraphModel dx="1461" dy="717" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="156" y="390" width="654" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" vertex="1" parent="1">
+          <mxGeometry x="156" y="210" width="654" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-4" target="Ww1SLn8MlnSZgTktHp1Y-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-4" value="wm_dt_hw.c" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="272" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-5" value="device_table.toml" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="272" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-6" value="wm_dt_hw.c" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" vertex="1" parent="1">
+          <mxGeometry x="470" y="520" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-7" value="components/wm_dt/&amp;lt;chip&amp;gt;/config/*.toml&amp;nbsp;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;or&lt;/span&gt;&lt;div&gt;The device table file *.toml created by the user in the example&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="224" width="354" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-8" value="examples/***/build/wm_dt" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="169" y="394" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-5" target="Ww1SLn8MlnSZgTktHp1Y-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="336" y="330" as="sourcePoint" />
+            <mxPoint x="336" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-12" target="Ww1SLn8MlnSZgTktHp1Y-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="336" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-11" value="wmdt.py" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Ww1SLn8MlnSZgTktHp1Y-10">
+          <mxGeometry x="-0.6603" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-12" value="device_table.toml" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="276" y="440" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-13" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;fontColor=#FF0000;strokeColor=#FF0000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="510" as="sourcePoint" />
+            <mxPoint x="520" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-14" value="CONFIG_DT_USE_C_STYLE_CONF = n（default）" style="text;whiteSpace=wrap;fontStyle=1;fontColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="100" y="155" width="410" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-15" value="CONFIG_DT_USE_C_STYLE_CONF = y" style="text;whiteSpace=wrap;fontStyle=1;fontColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="550" y="155" width="350" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-18" target="Ww1SLn8MlnSZgTktHp1Y-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-17" value="devconfi.py" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Ww1SLn8MlnSZgTktHp1Y-16">
+          <mxGeometry x="-0.6147" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="87" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-18" value="Command：&lt;br&gt;wm.py&amp;nbsp; devconfig" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="3" y="202" width="143" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-19" value="1" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-20" value="2" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-21" value="3" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="185" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-22" value="The linked device table file is finally compiled in the code" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="530" y="590" width="208" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-23" value="&lt;div&gt;Temporary files,&lt;/div&gt;&lt;div&gt;Running wm.py disclean will clear it&lt;/div&gt;&lt;div&gt;wm.py clean does not&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="167" y="520" width="420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-25" target="Ww1SLn8MlnSZgTktHp1Y-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="336" y="321" />
+              <mxPoint x="207" y="321" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-25" value="Start the build command" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="283" y="360" width="145" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-27" target="Ww1SLn8MlnSZgTktHp1Y-34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="322" />
+              <mxPoint x="749" y="322" />
+              <mxPoint x="749" y="289" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-27" value="Start the build command" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="580" y="360" width="160" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-28" value="&lt;div&gt;Start the Web UI,&lt;/div&gt;&lt;div&gt;Users manually configure the storage in the UI&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="10" y="262" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-29" value="" style="endArrow=none;dashed=1;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="Ww1SLn8MlnSZgTktHp1Y-22">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="560" as="sourcePoint" />
+            <mxPoint x="600" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-30" value="&lt;div&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Method 1 is still being worked on, and new versions will fix the issues.&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Mode 2 is the default enabled method, default (device table file under components)&lt;/b&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="619" width="612" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-33">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="238" y="85" />
+            </Array>
+            <mxPoint x="238" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ww1SLn8MlnSZgTktHp1Y-33" target="Ww1SLn8MlnSZgTktHp1Y-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="725" y="85" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-33" value="Command&lt;span style=&quot;background-color: initial;&quot;&gt;：&lt;/span&gt;&lt;div&gt;wm.py&amp;nbsp; menuconfig&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="368" y="65" width="193" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-34" value="components/wm_dt/&amp;lt;chip&amp;gt;/config/*.c&lt;br&gt;&lt;div&gt;or&lt;/div&gt;&lt;div&gt;The device table file *.c created by the user in the example&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="519" y="221.5" width="307" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ww1SLn8MlnSZgTktHp1Y-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="346" y="370" as="sourcePoint" />
+            <mxPoint x="217" y="272" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

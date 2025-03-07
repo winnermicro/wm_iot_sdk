@@ -91,10 +91,10 @@ class xdownload(object):
     def reset_device(self):
         self.ser.dtr = 0
         self.ser.rts = 1
-        time.sleep(0.05)
+        time.sleep(0.01)
         self.ser.dtr = 1
         self.ser.rts = 0
-        time.sleep(0.05)
+        time.sleep(0.01)
         self.ser.dtr = 0
 
     def send_esc(self, ms):

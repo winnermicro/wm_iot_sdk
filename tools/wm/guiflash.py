@@ -162,10 +162,10 @@ class SerialDownload:
     def reset_device(self):
         self.port.dtr = 0
         self.port.rts = 1
-        time.sleep(0.05)
+        time.sleep(0.01)
         self.port.dtr = 1
         self.port.rts = 0
-        time.sleep(0.05)
+        time.sleep(0.01)
         self.port.dtr = 0
 
     def try_reset_device(self):

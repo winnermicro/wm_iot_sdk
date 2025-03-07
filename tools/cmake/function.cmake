@@ -174,6 +174,21 @@ function(register_component)
         endif()
     endif()
 
+    # add fatfs files
+    if(ADD_FATFS_FILES)
+        # Create a cache variable to store fatfs files list
+        set(fatfs_files_list ${fatfs_files})
+        foreach(fatfs_file ${ADD_FATFS_FILES})
+            get_filename_component(fatfs_file_abs ${fatfs_file} ABSOLUTE BASE_DIR ${component_dir})
+            if(NOT EXISTS ${fatfs_file_abs})
+                message(FATAL_ERROR "FATFS file not found: ${fatfs_file}")
+            endif()
+            list(APPEND fatfs_files_list ${fatfs_file_abs})
+        endforeach()
+        list(REMOVE_DUPLICATES fatfs_files_list)
+        set(fatfs_files ${fatfs_files_list} CACHE INTERNAL "List of FATFS files")
+    endif()
+
     set(cur_component_libs "")
     set(cur_component_incs "")
 
@@ -207,7 +222,7 @@ function(register_component)
         target_include_directories(${component_name} PRIVATE ${abs_dir})
     endforeach()
 
-    # add blobal config include
+    # add global config include
     if(${include_type} STREQUAL INTERFACE)
         target_include_directories(${component_name} INTERFACE ${wmsdk_config_dir})
     else()

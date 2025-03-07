@@ -121,8 +121,8 @@ if(CONFIG_COMPONENT_MBEDTLS_ENABLED)
                          "port/rsa_alt.c"
                          )
 
-    #list(APPEND ADD_DEFINITIONS -DMBEDTLS_CONFIG_FILE="wm_mbedtls_config.h"
-    #                            )
+    list(APPEND ADD_GDEFINITIONS -DMBEDTLS_CONFIG_FILE="wm_mbedtls_config.h"
+                                 )
 
     if (CONFIG_UNIT_TEST_ENABLE_CODE_COVERAGE)
         list(APPEND ADD_DEFINITIONS -fno-profile-arcs -fno-test-coverage)

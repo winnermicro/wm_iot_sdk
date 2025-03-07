@@ -70,8 +70,8 @@ int example_spim_read_data_from_flash(wm_device_t *dev)
     desc_ex.basic.flags = SPI_TRANS_VARIABLE_CMD;
     desc_ex.addr        = 0x1fb000; //flash begin address will be read
     desc_ex.addr_len    = 3;        //3 byte addr
-    desc_ex.basic.flags = SPI_TRANS_VARIABLE_ADDR;
-    desc_ex.dummy_bits  = 1 * 8; //dummy: 8 bit
+    desc_ex.basic.flags |= SPI_TRANS_VARIABLE_ADDR;
+    desc_ex.dummy_bits = 1 * 8; //dummy: 8 bit
     desc_ex.basic.flags |= SPI_TRANS_DUMMY_BITS;
     desc_ex.basic.tx_buf = NULL;
     desc_ex.basic.tx_len = 0;

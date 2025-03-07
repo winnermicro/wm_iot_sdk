@@ -15,13 +15,11 @@ Function List
 
 - Supports multiple interfaces: I2S interface, PCM interface
 - Supports master/slave mode
-- Zero-crossing detection
-- Supports FIFO functionality
+- Supports Zero-crossing detection
 - Supports sample width of 8/16/24/32 bits
-- Supports stereo audio transmission
+- Supports mono and stereo audio transmission
 - Supports multiple data formats including I2S, MSB Justified, PCM A/B
-- Supports interrupts and DMA
-- Mute functionality
+- Supports DMA
 
 Function Overview
 --------------------
@@ -77,10 +75,7 @@ Use the structure ``wm_drv_i2s_cfg_t`` for configuration:
         enum wm_i2s_mode mode;
         enum wm_i2s_dir dir;
         enum wm_i2s_std std;
-        enum wm_i2s_fmt fmt;
-        enum wm_i2s_chan_type ctype;
         enum wm_i2s_xfer_type xtype;
-        uint32_t sample_rate_hz;
         uint32_t rx_pkt_size;
         uint32_t rx_ready_th;
         uint32_t tx_ready_th;
@@ -121,62 +116,28 @@ Use the structure ``wm_drv_i2s_cfg_t`` for configuration:
 
 | When in input mode, the maximum length of each data packet
 
-**rx_ready_th**
+**rx_pkt_num**
 
-| When in input mode, the driver-layer buffer threshold. Only when the buffered data exceeds this threshold will the buffered packets be chained and then delivered to the user through the user-registered rxready callback.
+| max number pkt buffer to receive
 
-**tx_ready_th**
+**tx_pkt_num**
 
-| When in output mode, the driver-layer buffer threshold. Only when the buffered data exceeds this threshold will the transmission actually begin.
+| max number packet data to send.
 
 .. figure:: ../../../_static/component-guides/driver/I2Streshold.drawio_en.svg
     :align: center
-    
+
 .. note::
    The principle for setting rx/tx threshold: The larger the memory and the lower the delay requirement, the larger the value that can be set, thereby accommodate link jitter (occurrence of data blockage or burst) situations.
 
 **Parameters that can be dynamically modified using IOCTL API**
 
-.. code:: C
-
-    typedef struct {
-        enum wm_drv_i2s_ioctl_cmd cmd;
-        bool tx; /* tx/rx select for this setting */
-        union {
-            bool mclk_en; /**< true if enable mclk */
-            bool mute;    /**< true if enable mute */
-            bool inverse; /**< true if enable clock inverse */
-            bool lzc;     /**< true if enable left zero cross check */
-            bool rzc;     /**< true if enable right zero cross check */
-            bool left;    /**< if set to left channel when work in mono mode */
-        } u;
-    } wm_drv_i2s_ioctl_args_t;
-
-**cmd**
-
 | Specifies the IOCTL command to execute, including:
 
-- ``WM_DRV_I2S_CMD_SET_MUTE``: Enable or disable the mute function for TX or RX. When enabled, the respective channel will not transmit or receive audio data.
-- ``WM_DRV_I2S_CMD_SET_INVERSE``: Set the clock phase to inverse mode. This is typically used for compatibility with certain hardware to ensure the correct clock signal phase.
-- ``WM_DRV_I2S_CMD_CLS_FIFO``: Clear the FIFO buffer for TX or RX. This helps reset or clear the data in the buffer when necessary.
-- ``WM_DRV_I2S_CMD_SET_MONO_CH``: Set the channel used in mono mode, allowing selection of whether to use the left or right channel data.
+- ``WM_DRV_I2S_CMD_SET_TX_BITSHIFT``: Set the TX clock phase to inverse mode. This is typically used for compatibility with certain hardware to ensure the correct clock signal phase.
+- ``WM_DRV_I2S_CMD_SET_RX_BITSHIFT``: Set the RX clock phase to inverse mode. This is typically used for compatibility with certain hardware to ensure the correct clock signal phase.
 - ``WM_DRV_I2S_CMD_SET_LZC``: Enables or disables left channel zero-crossing detection. Zero-crossing detection is a technique to ensure phase continuity of the audio signal at zero crossings.
 - ``WM_DRV_I2S_CMD_SET_RZC``: Enables or disables right channel zero-crossing detection, similar to the left channel.
-
-**tx**
-
-| Indicates whether this setting is applied to TX (Transmit) or RX (Receive).
-
-**u**
-
-| Depending on the cmd value, it can store different boolean parameters:
-
-- mclk_en: Used when the cmd requires enabling or disabling the master clock.
-- mute: Used when the cmd is to set mute function.
-- inverse: Used when the cmd is to set clock phase inversion.
-- lzc: Used when the cmd is to enable or disable left channel zero-cross check.
-- rzc: Used when the cmd is to enable or disable right channel zero-cross check.
-- left: Used when the cmd is to set the channel in mono mode, selecting whether to use the left channel.
 
 DMA Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -260,64 +221,7 @@ Precautions
 Application Example
 ---------------------
 
-.. code:: C
-
-    int main(void)
-    {
-        int ret;
-        uint8_t *buf;
-        wm_drv_i2s_cfg_t cfg;
-
-        memset(&cfg, 0x0, sizeof(cfg));
-
-        cfg.mode           = WM_I2S_MODE_MASTER;
-        cfg.dir            = WM_I2S_DIR_OUT;
-        cfg.std            = WM_I2S_STD_I2S;
-        cfg.fmt            = WM_I2S_FMT_16BIT;
-        cfg.ctype          = WM_I2S_CHAN_TYPE_STEREO;
-        cfg.xtype          = WM_I2S_XFER_DMA;
-        cfg.sample_rate_hz = 8000;
-
-        wm_device_t *i2s_device = wm_drv_i2s_init("i2s", &cfg);
-        if (i2s_device == NULL) {
-            wm_log_error("I2S driver init Failed!\n");
-            return WM_ERR_FAILED;
-        }
-
-        wm_drv_i2s_register_write_cb(i2s_device, txdone_cb);
-        wm_drv_i2s_register_read_cb(i2s_device, rxready_cb);
-
-        buf = calloc(1, block_size);
-
-        ret = wm_drv_i2s_write_async(i2s_device, (void *)buf, block_size);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver init Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        while (send_pkts == 0) {
-            vTaskDelay(pdMS_TO_TICKS(1000));
-        }
-
-        wm_log_info("I2S send 1 pkt done!\n");
-
-        ret = wm_drv_i2s_write_stop(i2s_device);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver stop Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        ret = wm_drv_i2s_deinit(i2s_device);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver deinit Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        return WM_ERR_SUCCESS;
-    }
+    I2S example :ref:`examples/peripheral/i2s<peripheral_example>`
 
 API Reference
 ----------------

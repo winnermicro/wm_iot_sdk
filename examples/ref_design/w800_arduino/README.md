@@ -7,7 +7,7 @@
 
 需要注意的是：
 WM IOT SDK v2.x 目前并不支持 Arduino IDE。
-WM IOT SDK v2.x 所支持的开发环境请参考：[搭建编译环境](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html#compiling-environment)
+WM IOT SDK v2.x 所支持的开发环境请参考：[搭建编译环境](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html#compiling-environment)
 
 
 ## 环境要求
@@ -31,7 +31,7 @@ WM IOT SDK v2.x 所支持的开发环境请参考：[搭建编译环境](https:/
 
 示例位置：`examples/ref_design/w800_arduino`
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## 运行结果
 

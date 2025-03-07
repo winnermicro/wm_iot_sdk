@@ -49,5 +49,15 @@ if(CONFIG_WM_HTTP2_CLIENT_ENABLED)
                             )
     endif()
 
+    if (CONFIG_WM_HTTP2_CLIENT_LLHTTP)
+        list(APPEND ADD_INCLUDE "http2/nghttp2/third-party/llhttp/include"
+        )
+
+        list(APPEND ADD_SRCS    "http2/nghttp2/third-party/llhttp/src/api.c"
+                                "http2/nghttp2/third-party/llhttp/src/http.c"
+                                "http2/nghttp2/third-party/llhttp/src/llhttp.c"
+                                )
+    endif()
+
     register_component()
 endif()

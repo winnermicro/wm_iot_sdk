@@ -6,8 +6,8 @@ list(APPEND ADD_INCLUDE "include"
                         "include/eeprom"
                         )
 
-list(APPEND ADD_PRIVATE_INCLUDE "src/ops/${chip_family_type}"
-                                "src/ops/${chip_family_type}/touch_sensor"
+list(APPEND ADD_PRIVATE_INCLUDE "src/ops/${CONFIG_CHIP_FAMILY_NAME}"
+                                "src/ops/${CONFIG_CHIP_FAMILY_NAME}/touch_sensor"
                                 )
 
 if(${CONFIG_COMPONENT_DRIVER_IRQ_ENABLED})
@@ -171,12 +171,12 @@ if(${not_touch_sensor})
     list(REMOVE_ITEM ADD_INCLUDE "include/touch_sensor"
                                  )
 
-    list(REMOVE_ITEM ADD_PRIVATE_INCLUDE "src/ops/${chip_family_type}/touch_sensor"
+    list(REMOVE_ITEM ADD_PRIVATE_INCLUDE "src/ops/${CONFIG_CHIP_FAMILY_NAME}/touch_sensor"
                                          )
 
         list(REMOVE_ITEM ADD_SRCS "src/wm_drv_touch_sensor.c"
                                   "src/touch_sensor/wm_drv_touch_button.c"
-                                  "src/ops/${chip_family_type}/wm_drv_ops_touch_sensor.c"
+                                  "src/ops/${CONFIG_CHIP_FAMILY_NAME}/wm_drv_ops_touch_sensor.c"
                                   )
 endif()
 

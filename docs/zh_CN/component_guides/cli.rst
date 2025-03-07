@@ -95,3 +95,37 @@ CLI 的核心是开源项目 `Letter-shell <https://github.com/NevermindZZT/lett
 .. figure:: ../../_static/component-guides/cli/putty_main.png
     :align: center
     :alt: 使用 PuTTY 操作串口
+
+CLI 的 meunconfig 配置
+------------------------
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_CLI_ENABLED
+     - 是否启用 CLI 组件
+     - N
+
+   * - CONFIG_CLI_LINE_SIZE 
+     - 配置单行输入大小
+     - 64 
+
+   * - CONFIG_CLI_CMD_PARAS_NUM
+     - 配置命令行输入参数个数
+     - 8
+    
+   * - CONFIG_CLI_CMD_HISTORY_NUM
+     - 配置历史命令个数
+     - 5
+
+   * - CONFIG_CLI_ENABLE_LONG_USAGE
+     - 配置使用 CLI 的端口
+     - Uart0
+
+   

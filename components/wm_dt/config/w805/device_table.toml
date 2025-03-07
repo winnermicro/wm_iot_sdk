@@ -82,7 +82,7 @@ init_cfg = {init_level = "app", init_priority = 0}
 uart_cfg = {baudrate = 115200, parity = "none", stop_bits = 1, data_bits = 8, flow_ctrl = "rts_cts"}
 irq_cfg = {irq_num = 19, irq_priority = 0}
 pin_cfg = [{pin = 18, fun = "fun3"},
-           {pin = 19, fun = "fun2"},
+           {pin = 19, fun = "fun3"},
            {pin = 20, fun = "fun2"},
            {pin = 21, fun = "fun2"}]
 rcc_device = "rcc"
@@ -224,33 +224,33 @@ max_write_time_ms = 10
 dev_name = "flash_w25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 20000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_gd25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 20000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_xt25f"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 10000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_th25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 10000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "i2s"
-reg_base = 0x40012400
+reg_base = 0x40012000
 init_cfg = {init_level = "app", init_priority = 0}
 irq_cfg = {irq_num = 23, irq_priority = 0}
 pin_cfg = [{pin = 24, fun = "fun1"}, #BCLK
@@ -361,8 +361,7 @@ rcc_device = "rcc"
 [[dev]]
 dev_name = "es8374"
 init_cfg = {init_level = "app", init_priority = 0}
-es8374_cfg = {dmic = false, lin1 = false, rin1 = false, lin2 = true, rin2 = true, monoout = true, spkout = true, i2c = true, address = 0x10}
-gpio_device = "gpio"
+codec_cfg = {i2c_address = 0x10, in_port = 2, out_port = 3, jack_pin = -1, pa_pin = -1, max_gain = 0}
 i2s_device = "i2s"
 i2c_device = "i2c"
 
@@ -372,10 +371,10 @@ reg_base = 0x40002400
 wrapper_reg_base = 0x40002800
 init_cfg = {init_level = "app", init_priority = 0}
 irq_cfg = {irq_num = 0, irq_priority = 0}
-pin_cfg = [{pin = 22, fun = "fun2"}, #CLK
-           {pin = 23, fun = "fun2"}, #CMD
-           {pin = 24, fun = "fun2"}, #DAT0
-           {pin = 25, fun = "fun2"}, #DAT1
-           {pin = 26, fun = "fun2"}, #DAT2
-           {pin = 27, fun = "fun2"}] #CD/DAT3
+pin_cfg = [{pin = 22, fun = "fun4"}, #CLK
+           {pin = 23, fun = "fun4"}, #CMD
+           {pin = 24, fun = "fun4"}, #DAT0
+           {pin = 25, fun = "fun4"}, #DAT1
+           {pin = 26, fun = "fun4"}, #DAT2
+           {pin = 27, fun = "fun4"}] #CD/DAT3
 rcc_device = "rcc"

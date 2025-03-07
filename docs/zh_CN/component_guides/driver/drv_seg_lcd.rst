@@ -46,16 +46,26 @@ seg_lcd 配置（已配置）
 
 | 通过修改 DT 进行配置。
 
-gdc0689 配置（已配置）
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-| 通过修改 DT 进行配置。
-
 主要功能
 -------------
 
-显示时间功能
-^^^^^^^^^^^^^
+SEG_LCD 驱动层功能
+^^^^^^^^^^^^^^^^^^^^^
+
+起始条件：
+
+- 使用前初始化 seg_lcd 驱动
+
+相关 API:
+
+- 调用 ``wm_drv_seg_lcd_init`` 来初始化 seg_lcd 驱动
+- 调用 ``wm_drv_seg_lcd_register_table`` 注册 seg_lcd 显示表
+- 调用 ``wm_drv_seg_lcd_display_seg`` 控制指定段的显示状态
+- 调用 ``wm_drv_seg_lcd_clear`` 清除所有显示内容
+- 调用 ``wm_drv_seg_lcd_deinit`` 反初始化 seg_lcd 驱动
+
+GDC0689 显示时间功能
+^^^^^^^^^^^^^^^^^^^^^
 
 起始条件：
 
@@ -71,8 +81,8 @@ gdc0689 配置（已配置）
 
 - 断码屏上显示时间
 
-显示数字功能
-^^^^^^^^^^^^^
+GDC0689 显示数字功能
+^^^^^^^^^^^^^^^^^^^^^
 
 起始条件：
 
@@ -88,8 +98,8 @@ gdc0689 配置（已配置）
 
 - 断码屏上显示数字
 
-显示单位功能
-^^^^^^^^^^^^^
+GDC0689 显示单位功能
+^^^^^^^^^^^^^^^^^^^^^
 
 起始条件：
 
@@ -104,8 +114,8 @@ gdc0689 配置（已配置）
 
 - 断码屏上显示单位
 
-显示图标功能
-^^^^^^^^^^^^^
+GDC0689 显示图标功能
+^^^^^^^^^^^^^^^^^^^^^
 
 起始条件：
 
@@ -125,8 +135,15 @@ gdc0689 配置（已配置）
 注意事项
 -------------
 
-| 1. DT 配置需按照实际断码屏实际参数进行设置;
-| 2. 若使用非 GDC0689 断码屏，需基于 seg_lcd driver 参考 gdc0689 device driver ，并结合断码屏数据手册完成对应的 device driver;
+1. DT 配置需按照实际断码屏实际参数进行设置;
+
+2. 若使用非 GDC0689 断码屏，需基于 seg_lcd driver 参考 ``examples/peripheral/seg_lcd/sample`` ，并结合断码屏数据手册完成对应内容的显示:
+
+   * 第一步. 通过 :ref:`lable_device_table` 配置 seg_lcd 的引脚和相关参数
+   * 第二步. 调用 ``wm_drv_seg_lcd_init("seg_lcd");`` 初始化 seg_lcd 驱动
+   * 第三步. 根据屏幕的datasheet，定义 seg_lcd 的显示表 ``g_seg_lcd_table``
+   * 第四步. 调用 ``wm_drv_seg_lcd_register_table(dev, g_seg_lcd_table, sizeof(g_seg_lcd_table) / sizeof(g_seg_lcd_table[0]));`` 注册 seg_lcd 的显示表
+   * 第五步. 调用 ``wm_drv_seg_lcd_display_seg`` 自行封装各个内容显示函数，可以借鉴 ``components\driver\src\display\seg_lcd\wm_gdc0689.c`` 的实现方式
 
 应用实例
 -------------

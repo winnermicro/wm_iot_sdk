@@ -22,7 +22,7 @@ This example demonstrates how to synchronize network clocks through SNTP.
 
 Example Location：`examples/network/sntp`
 
-For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

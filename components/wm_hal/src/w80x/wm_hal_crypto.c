@@ -87,14 +87,14 @@ int wm_hal_rc4_init(wm_hal_cryp_dev_t *dev)
 
     /* set key */
     wm_ll_gpsec_set_key(reg, key, key_len >> 2);
-    /* Clear complete Flag */
-    wm_ll_gpsec_clear_irq_flag(reg);
     /* set config register */
     wm_ll_gpsec_reset_config_reg(reg);
     wm_ll_gpsec_mask_cmplt_irq(reg);
     wm_ll_gpsec_set_cypher_mode(reg, WM_GPSEC_CYPHER_MODE_RC4);
     wm_ll_gpsec_set_rc4_block_length(reg, key_len == RC4_128BIT_KEYLEN ? WM_GPSEC_RC4_128BIT : WM_GPSEC_RC4_256BIT);
     wm_ll_gpsec_set_rc4_soft_reset(reg);
+    /* Clear complete Flag */
+    wm_ll_gpsec_clear_irq_flag(reg);
 
     return ret;
 }
@@ -141,7 +141,7 @@ int wm_hal_rc4_encrypt_decrypt(wm_hal_cryp_dev_t *dev, unsigned char *in, unsign
 
     /* Clear complete Flag */
     wm_ll_gpsec_clear_irq_flag(reg);
-    wm_hal_rc4_deinit(dev);
+
     return WM_ERR_SUCCESS;
 }
 
@@ -163,14 +163,14 @@ int wm_hal_aes_init(wm_hal_cryp_dev_t *dev)
     wm_ll_gpsec_set_key(reg, key, key_len >> 2);
     /* set iv */
     wm_ll_gpsec_set_iv(reg, iv, AES_IV_LEN >> 2);
-    /* Clear complete Flag */
-    wm_ll_gpsec_clear_irq_flag(reg);
     /* set config register */
     wm_ll_gpsec_reset_config_reg(reg);
     wm_ll_gpsec_mask_cmplt_irq(reg);
     wm_ll_gpsec_set_cypher_mode(reg, WM_GPSEC_CYPHER_MODE_AES);
     wm_ll_gpsec_set_sub_mode(reg, sub_mode);
     wm_ll_gpsec_set_aes_soft_reset(reg);
+    /* Clear complete Flag */
+    wm_ll_gpsec_clear_irq_flag(reg);
 
     return ret;
 }
@@ -244,14 +244,14 @@ int wm_hal_des_init(wm_hal_cryp_dev_t *dev)
     wm_ll_gpsec_set_key(reg, key, DES_KEY_LEN >> 2);
     /* set iv */
     wm_ll_gpsec_set_iv(reg, iv, DES_IV_LEN >> 2);
-    /* Clear complete Flag */
-    wm_ll_gpsec_clear_irq_flag(reg);
     /* set config register */
     wm_ll_gpsec_reset_config_reg(reg);
     wm_ll_gpsec_mask_cmplt_irq(reg);
     wm_ll_gpsec_set_cypher_mode(reg, WM_GPSEC_CYPHER_MODE_DES);
     wm_ll_gpsec_set_sub_mode(reg, sub_mode);
     wm_ll_gpsec_set_des_soft_reset(reg);
+    /* Clear complete Flag */
+    wm_ll_gpsec_clear_irq_flag(reg);
 
     return ret;
 }
@@ -327,14 +327,14 @@ int wm_hal_3des_init(wm_hal_cryp_dev_t *dev)
     wm_ll_gpsec_set_key(reg, key, DES3_KEY_LEN >> 2);
     /* set iv */
     wm_ll_gpsec_set_iv(reg, iv, DES3_IV_LEN >> 2);
-    /* Clear complete Flag */
-    wm_ll_gpsec_clear_irq_flag(reg);
     /* set config register */
     wm_ll_gpsec_reset_config_reg(reg);
     wm_ll_gpsec_mask_cmplt_irq(reg);
     wm_ll_gpsec_set_cypher_mode(reg, WM_GPSEC_CYPHER_MODE_3DES);
     wm_ll_gpsec_set_sub_mode(reg, sub_mode);
     wm_ll_gpsec_set_des_soft_reset(reg);
+    /* Clear complete Flag */
+    wm_ll_gpsec_clear_irq_flag(reg);
 
     return ret;
 }

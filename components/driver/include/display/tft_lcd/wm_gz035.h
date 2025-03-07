@@ -72,7 +72,7 @@ extern "C" {
    the command header is defined by LCD_CMD_SEQ_HEADER_LEN
    len = cmd content + data content */
 const uint8_t gz035_init_seq[] = {
-    /*  len , delay, cmd_type,  cmd, data ... */
+    /*  len , delay(ms), cmd_type,  cmd, data ... */
     //0x03, 0x00, LCD_CMD_TYPE_16BIT, 0x12, 0x34, 0xBE, // Example:16bit command "0x1234" be used
     0x03, 0x00, LCD_CMD_TYPE_8BIT, 0xDF, 0x98, 0x53,                                                             //
     0x02, 0x00, LCD_CMD_TYPE_8BIT, 0xDE, 0x00,                                                                   //

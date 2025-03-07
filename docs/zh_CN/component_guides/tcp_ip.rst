@@ -91,24 +91,60 @@ WM IoT SDK 提供 menuconfig 配置LWIP
 """""""""""""""""""""""""""""""""""""""
 
 使用编译命令行进入 ``menuconfig``，选择 ``Components configuration`` 进入组件配置 选择 ``LWIP`` 后可以查看
-配置关于 LWIP 的相关属性，如：
+配置关于 LWIP 的相关属性，主要配置参数有：
 
-- TCPIP task receive mail box size ：
+.. list-table::
+   :widths: 45 45 25
+   :header-rows: 0
+   :align: center
+
+  * - 配置名称
+    - 配置描述
+    - 默认值
+
+  * - CONFIG_LWIP_TCP_MAXRTX
+    - 设置数据段的最大重传次数
+    - 3
+
+  * - CONFIG_LWIP_TCP_SYNMAXRTX
+    - 设置 SYN 报文段的最大重传次数
+    - 4
   
-  TCPIP 任务接收邮件箱大小。
-
-- Maximum number of retransmissions of data segments ：
+  * - CONFIG_LWIP_TCP_MSS
+    - 设置 TCP 传输的最大段大小
+    - 1460
   
-  数据段重传的最大次数。
+  * - CONFIG_LWIP_TCP_WND_DEFAULT 
+    - 设置默认的TCP接收窗口大小
+    - 8
 
-- Default TCP receive mail box size ：
+  * - CONFIG_LWIP_TCP_SND_BUF_DEFAULT 
+    - 设置默认的发送缓冲区大小。
+    - 6
+
+  * - CONFIG_LWIP_IP_FORWARD 
+    - 是否允许数据包跨多个转发
+    - N
   
-  默认 TCP 接收邮件箱大小。
+  * - CONFIG_LWIP_ENABLE_NAPT
+    - 是否启用 napt
+    - N
 
-- Enable ipv6 ：
-  
-  启用 ipv6。
+  * - CONFIG_LWIP_ENABLE_IPV4 
+    - 是否启用 IPv4。
+    - Y
 
+  * - CONFIG_LWIP_ENABLE_IPV6  
+    - 是否启用 IPv6
+    - N
+
+  * - CONFIG_LWIP_IPV6_AUTOCONFIG
+    - 是否允许设备 IPV6 无状态地址参见 RFC 4862
+    - Y
+
+  * - CONFIG_LWIP_IPV6_DHCP6 
+    - 是否开启 DHCPv6 的 IPv6 无状态地址自动配置功能
+    - Y
 
 .. _freertos_tcp:
 

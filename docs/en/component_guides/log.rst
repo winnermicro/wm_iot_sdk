@@ -255,6 +255,34 @@ Usage restrictions
 
         In floating point number format, %f and %lf are supported, but %e, %E, %g, %G are not. In addition, integer formatting does not support %zu, %zi, %zd.
 
+
+LOG meunconfig configuration
+------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_LOG_PRINT_UART_MODE 
+    - Configuring output ports
+    - Uart0
+
+  * - CONFIG_LOG_DEFAULT_LEVEL
+    - Configuration output level
+    - INFO level
+
+  * - CONFIG_LOG_USE_COLOR
+    - Configure the output LOG to support colors
+    - N
+
+
 API Reference
 -------------
 

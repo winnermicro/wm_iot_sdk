@@ -114,7 +114,7 @@ SDH SPI 设备数据传输接收数据
 注意事项
 -------------
 
-- SDH SDMMC 存储卡读写，单块数据长度为 512 bytes, 最大传输数据块为 127 block
+- SDH SDMMC 存储卡读写，单块数据长度为 512 bytes, 最大传输数据块为 127 block，buffer 地址需要四字节对齐
 - SDH SPI 同步最大传输数据长度为 65535 bytes，异步最大传输数据长度为 65532 bytes，且异步传输数据需 4 bytes 对齐
 - SDH SDMMC 和 SDH SPI 使用了相关的底层硬件，因此不能同时使用
 

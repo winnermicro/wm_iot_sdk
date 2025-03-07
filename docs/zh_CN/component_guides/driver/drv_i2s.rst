@@ -15,13 +15,11 @@ I2S（Inter-IC Sound）是一种串行、同步通信协议，通常用于传输
 
 - 支持多种接口:I2S 接口、PCM 接口。
 - 支持主/从模式。
-- 过零检测。
-- 支持 FIFO 功能。
+- 支持过零检测。
 - 支持采样位宽 8/16/24/32 bits。
-- 支持立体声音频传输。
+- 支持单声道，立体声音频传输。
 - 支持多种数据格式，包括 I2S、MSB Justified、PCM A/B。
-- 支持中断和 DMA。
-- 静音功能。
+- 支持 DMA 模式发送和接收数据。
 
 功能概述
 -------------
@@ -75,16 +73,18 @@ I2S（Inter-IC Sound）是一种串行、同步通信协议，通常用于传输
 .. code:: C
 
     typedef struct {
-        enum wm_i2s_mode mode;
-        enum wm_i2s_dir dir;
-        enum wm_i2s_std std;
-        enum wm_i2s_fmt fmt;
-        enum wm_i2s_chan_type ctype;
-        enum wm_i2s_xfer_type xtype;
-        uint32_t sample_rate_hz;
-        uint32_t rx_pkt_size;
-        uint32_t rx_ready_th;
-        uint32_t tx_ready_th;
+        enum wm_i2s_mode mode;       /**< I2S role mode                                         */
+        enum wm_i2s_dir dir;         /**< I2S xfer direction                                    */
+        enum wm_i2s_std std;         /**< I2S protocol standard                                 */
+        enum wm_i2s_xfer_type xtype; /**< the transfer type select from DMA or others           */
+        uint32_t rx_pkt_size;        /**< The buffer size of each received packet [80 ~ 15360].
+                                        Usually set to 10/20 millisecond transmission data size.
+                                        4 bytes aligned, 32 bits and stereo need 8 bytes align  */
+        uint8_t rx_pkt_num;          /**< Max number of the RX package receive buffer [2~16],
+                                        recommended 4, can be large if rx_pkt_size is small     */
+        uint8_t tx_pkt_num;          /**< Max number of the TX packages wait to send, [2~16]
+                                        recommended 4, can be large if tx send pkt size is small*/
+
     } wm_drv_i2s_cfg_t;
 
 
@@ -123,13 +123,13 @@ I2S（Inter-IC Sound）是一种串行、同步通信协议，通常用于传输
 
 | 作为输入时，每一包数据最大长度
 
-**rx_ready_th**
+**rx_pkt_num**
 
-| 作为输入时 driver 层缓冲阀值，即缓存数据大于该阀值时才会将缓存的报文串链后调用用户注册的 rxready callback 递交给用户
+| 指定接收 I2S 数据时，最大接收 Buffer 个数
 
-**tx_ready_th**
+**tx_pkt_num**
 
-| 作为输出时 driver 层缓冲阀值，即缓存数据大于该阀值时才会真正开始发送
+| 指定发送 I2S 数据时，最大等待发送数据包个数
 
 
 .. figure:: ../../../_static/component-guides/driver/I2Streshold.drawio.svg
@@ -141,47 +141,13 @@ I2S（Inter-IC Sound）是一种串行、同步通信协议，通常用于传输
 
 **用户可以动态调用IOCTL API进行修改的参数**
 
-.. code:: C
-
-    typedef struct {
-        enum wm_drv_i2s_ioctl_cmd cmd;
-        bool tx; /* tx/rx select for this setting */
-        union {
-            bool mclk_en; /**< true if enable mclk */
-            bool mute;    /**< true if enable mute */
-            bool inverse; /**< true if enable clock inverse */
-            bool lzc;     /**< true if enable left zero cross check */
-            bool rzc;     /**< true if enable right zero cross check */
-            bool left;    /**< if set to left channel when work in mono mode */
-        } u;
-    } wm_drv_i2s_ioctl_args_t;
-
-
-**cmd**
-
 | 指定要执行的 IOCTL 命令，包括：
 
-- ``WM_DRV_I2S_CMD_SET_MUTE``: 启用或禁用 TX 或 RX 的静音功能。当启用时，相应的通道将不会传输或接收音频数据
-- ``WM_DRV_I2S_CMD_SET_INVERSE``: 设置时钟相位为反转模式。这通常用于与某些特定硬件的兼容性，以确保时钟信号的相位正确
-- ``WM_DRV_I2S_CMD_CLS_FIFO``: 清除 TX 或 RX 的 FIFO 缓冲区。这有助于在需要时重置或清除缓冲区中的数据
-- ``WM_DRV_I2S_CMD_SET_MONO_CH``: 在单声道模式下设置使用的通道。这允许选择是使用左声道还是右声道的数据
+- ``WM_DRV_I2S_CMD_SET_TX_BITSHIFT``: 设置 TX 时钟相位为反转模式。这通常用于与某些特定硬件的兼容性，以确保时钟信号的相位正确
+- ``WM_DRV_I2S_CMD_SET_RX_BITSHIFT``: 设置 RX 时钟相位为反转模式。这通常用于与某些特定硬件的兼容性，以确保时钟信号的相位正确
 - ``WM_DRV_I2S_CMD_SET_LZC``: 启用或禁用左声道的零点交叉检查。零点交叉检查是一种技术，用于确保音频信号在交叉零点时的相位连续性
 - ``WM_DRV_I2S_CMD_SET_RZC``: 启用或禁用右声道的零点交叉检查，与左声道类似
 
-**tx**
-
-| 指示该设置是应用于 TX（发送）还是 RX（接收）
-
-**u**
-
-| 根据不同的 cmd 值，可以存储不同的布尔值参数：
-
-- mclk_en: 当 cmd 需要启用或禁用主时钟时使用
-- mute: 当 cmd 是设置静音时使用
-- inverse: 当 cmd 是设置时钟相位反转时使用
-- lzc: 当 cmd 是启用或禁用左声道零点交叉检查时使用
-- rzc: 当 cmd 是启用或禁用右声道零点交叉检查时使用
-- left: 当 cmd 是设置单声道模式下的通道时使用，选择是否使用左声道
 
 DMA 配置
 ^^^^^^^^^^^^^
@@ -199,7 +165,7 @@ I2S 中包含多种时钟：
 
 | I2S 的时钟上级是 CLK_PERI，该时钟由 DPLL 输出的 480MHz 分频得出
 | 正常工作情况下应固定为 3 分频，即 CLK_PERI 时钟为 160MHz。
-| 由此时钟再进行分频可得到 80MHz 与 40MHz，分别给到加密模块与接口模块。
+
 
 主要功能
 -------------
@@ -213,6 +179,7 @@ I2S 中包含多种时钟：
 
 **相关时序API:**
 
+- 调用 ``wm_drv_i2s_set_format`` 调用该接口设置传输格式
 - 调用 ``wm_drv_i2s_write_async`` 异步发送I2S数据，返回成功表示已经被 I2S 驱动成功处理，否则需要用户释放
 - 根据需要调用 ``wm_drv_i2s_write_pause`` 暂停 I2S 设备的写操作，此接口不会复位 HW，在 resume 可以快速进行发送
 - 根据需要调用 ``wm_drv_i2s_write_resume`` 恢复 I2S 设备的写操作，重新开始异步发送数据
@@ -232,6 +199,7 @@ I2S 中包含多种时钟：
 
 **相关时序API:**
 
+- 调用 ``wm_drv_i2s_set_format`` 调用该接口设置传输格式
 - 调用 ``wm_drv_i2s_read_async`` 异步从 I2S 设备读取数据，返回成功表示已经被 I2S 驱动成功处理，否则需要用户释放
 - 根据需要调用 ``wm_drv_i2s_read_pause`` 暂停 I2S 设备的写操作，此接口不会复位 HW，在 resume 可以快速进行接收
 - 根据需要调用 ``wm_drv_i2s_read_resume`` 恢复 I2S 设备的读操作，重新开始异步接收数据
@@ -253,83 +221,29 @@ I2S设备查询功能
 
 **相关时序API:**
 
-- 调用 ``wm_drv_i2s_dump_cfgs`` 查询I2S设备的配置信息并打印
+- 调用 ``wm_drv_i2s_dump_info`` 查询I2S设备的配置信息并打印
 
 **结果:**
 
 - 返回设备信息
 
+
+
 注意事项
 -------------
 
-| I2S 是一个流式设备，对数据流稳定性和时延有较高要求。在实现场景中，要求数据的粒度可调，以适应不同链路的需求
+.. warning:: I2S 是一个流式设备，对数据流稳定性和时延有较高要求。在实现场景中，要求数据连续不断，中间不能停顿。以发送为例，如果发送 2 笔数据的之间有间隙，接收端会收到错误数据。驱动可以同时缓冲多笔发送数据，在驱动发送完最后一笔数据前，尽快追加后续数据。
+
+.. warning:: 24 位模式下，一个声道样本占 24 位。发送数据时，应用需要把每个样本转成 32 位，即 32 位的高 8 位补 0 ， 低 24 位为样本。接收到的数据后，应用需要把每个样本的高 8 位去除，从 32 位转回 24 位。
 
 应用实例
 -------------
 
-.. code:: C
-
-    int main(void)
-    {
-        int ret;
-        uint8_t *buf;
-        wm_drv_i2s_cfg_t cfg;
-
-        memset(&cfg, 0x0, sizeof(cfg));
-
-        cfg.mode           = WM_I2S_MODE_MASTER;
-        cfg.dir            = WM_I2S_DIR_OUT;
-        cfg.std            = WM_I2S_STD_I2S;
-        cfg.fmt            = WM_I2S_FMT_16BIT;
-        cfg.ctype          = WM_I2S_CHAN_TYPE_STEREO;
-        cfg.xtype          = WM_I2S_XFER_DMA;
-        cfg.sample_rate_hz = 8000;
-
-        wm_device_t *i2s_device = wm_drv_i2s_init("i2s", &cfg);
-        if (i2s_device == NULL) {
-            wm_log_error("I2S driver init Failed!\n");
-            return WM_ERR_FAILED;
-        }
-
-        wm_drv_i2s_register_write_cb(i2s_device, txdone_cb);
-        wm_drv_i2s_register_read_cb(i2s_device, rxready_cb);
-
-        buf = calloc(1, block_size);
-
-        ret = wm_drv_i2s_write_async(i2s_device, (void *)buf, block_size);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver init Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        while (send_pkts == 0) {
-            vTaskDelay(pdMS_TO_TICKS(1000));
-        }
-
-        wm_log_info("I2S send 1 pkt done!\n");
-
-        ret = wm_drv_i2s_write_stop(i2s_device);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver stop Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        ret = wm_drv_i2s_deinit(i2s_device);
-        if (ret != WM_ERR_SUCCESS) {
-            wm_log_error("I2S driver deinit Failed!\n");
-            free_buf(buf);
-            return WM_ERR_FAILED;
-        }
-
-        return WM_ERR_SUCCESS;
-    }
+    使用 I2S 基本示例请参照 :ref:`examples/peripheral/i2s<peripheral_example>`
 
 
-API参考
+API 参考
 -------------
-
-    查找TIMER相关API请参考：
+    查找 I2S 相关 API 请参考：
 
     :ref:`label_api_i2s`

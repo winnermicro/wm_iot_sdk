@@ -105,7 +105,7 @@ extern "C" {
    the command header is defined by LCD_CMD_SEQ_HEADER_LEN
    len = cmd content + data content */
 const uint8_t nv3041a_init_seq[] = {
-    /*  len , delay, cmd_type,  cmd, data ... */
+    /*  len , delay(ms), cmd_type,  cmd, data ... */
     //0x03, 0x00, LCD_CMD_TYPE_16BIT, 0x12, 0x34, 0xBE, // Example:16bit command "0x3412" be used
     0x02, 0x00, LCD_CMD_TYPE_8BIT, 0xFF, 0xA5, //
     0x02, 0x00, LCD_CMD_TYPE_8BIT, 0xE7, 0x10, // TE_output_en

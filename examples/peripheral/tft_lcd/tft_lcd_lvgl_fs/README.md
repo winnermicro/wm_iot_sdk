@@ -151,7 +151,7 @@ CONFIG_CLI_COMMANDS_SYSTEM=y
 CLI 为 debug 用途，通过 CLI 查询工程运行时状态，在用户工程中的量产版本 可以考虑关闭。
 
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 
 ## 运行结果

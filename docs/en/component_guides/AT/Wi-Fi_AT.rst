@@ -490,9 +490,8 @@ Parameters
    -  bit 4: Whether to display the AP with ``WPA_WPA2_PSK`` authentication method
    -  bit 5: Whether to display the AP with ``WPA2_ENTERPRISE`` authentication method
    -  bit 6: Whether to display the AP with ``WPA3_PSK`` authentication method
-   -  bit 7: Whether to display the AP with ``WAPI_PSK`` authentication method
-   -  bit 8: Whether to display the AP with ``WPA2_WPA3_PSK`` authentication method
-   -  bit 9: Whether to display the AP with ``OWE`` authentication method
+   -  bit 7: Whether to display the AP with ``WPA2_WPA3_PSK`` authentication method
+   -  bit 8: Whether to display the AP with ``WAPI_PSK`` authentication method
 
 Examples
 ^^^^^^^^^^^^
@@ -557,9 +556,8 @@ Parameters
    -  4: WPA_WPA2_PSK
    -  5: WPA2_ENTERPRISE
    -  6: WPA3_PSK
-   -  7: WAPI_PSK
-   -  8: WPA2_WPA3_PSK
-   -  9: OWE
+   -  7: WPA2_WPA3_PSK
+   -  8: WAPI_PSK
 
 -  **<ssid>**     : String parameter, SSID of AP
 -  **<rssi>**     : Signal strength
@@ -586,14 +584,18 @@ Parameters
 -  **<group_cipher>**: Group encryption type, with the same enumeration value as the ``<pairwise_cipher>`` parameter
 -  **<bgn>**         : 802.11 b/g/n, if the bit is set to 1, it means the corresponding mode is enabled, if set to 0, it means the corresponding mode is disabled
 
-   -  bit 0: Enable 802.11b mode or not
-   -  bit 1: Is 802.11g mode enabled
+   -  bit 0: Is 802.11b/g mode enabled
    -  bit 2: Is 802.11n mode enabled
 
 -  **<wps>**: wps flag
 
    - 0: Does not support WPS
    - 1: Support WPS
+
+Note
+^^^^^
+
+- Note that scanning may fail when the station is networked (including automatic reconnection).
 
 Examples
 ^^^^^^^^^
@@ -1029,7 +1031,6 @@ Parameters
 Note
 ^^^^^
 
--  Currently, the PHY modes supported by |Equipment-Name| device are as follows:  `Pending Wi-Fi protocol mode <https://#>`_
 -  By default, the PHY mode of the |Equipment-Name| device is 802.11bgn mode
 
 .. _cmd-STAPROTO:
@@ -1083,7 +1084,6 @@ Parameter
 Note
 ^^^^^
 
--  Currently, the PHY modes supported by |Equipment-Name| device are as follows:  `Pending Wi-Fi protocol mode <https://#>`_
 -  By default, the PHY mode of the |Equipment-Name| device is 802.11bgn mode
 
 .. _cmd-STAMAC:

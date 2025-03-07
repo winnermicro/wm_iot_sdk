@@ -2,9 +2,11 @@
 #include "wm_ota_ops.h"
 #include "wm_partition_table.h"
 #include "wm_drv_flash.h"
+#include "wm_hal_wdt.h"
 #include "wm_osal.h"
 #include "wm_utils.h"
 #include "wm_debug.h"
+
 #define LOG_TAG "ota_ops"
 #include "wm_log.h"
 
@@ -37,6 +39,10 @@ static int wm_ota_ops_check_header(wm_ota_ops_ctx_t *wm_ota_ops_ctx, const uint8
     wm_log_debug("org_checksum: %08X", wm_ota_ops_ctx->ota_header.org_checksum);
     wm_log_debug("upd_no: %08X", wm_ota_ops_ctx->ota_header.upd_no);
     wm_log_debug("ver: %s", wm_ota_ops_ctx->ota_header.ver);
+    wm_log_debug("log_level: %08X", wm_ota_ops_ctx->ota_header.log_level);
+    wm_log_debug("skip_esc_check: %08X", wm_ota_ops_ctx->ota_header.skip_esc_check);
+    wm_log_debug("skip_upgrade_check: %08X", wm_ota_ops_ctx->ota_header.skip_upgrade_check);
+    wm_log_debug("skip_integrity_check: %08X", wm_ota_ops_ctx->ota_header.skip_integrity_check);
     wm_log_debug("_reserved0: %08X", wm_ota_ops_ctx->ota_header._reserved0);
     wm_log_debug("_reserved1: %08X", wm_ota_ops_ctx->ota_header._reserved1);
     wm_log_debug("next: %08X", (uint32_t)wm_ota_ops_ctx->ota_header.next);
@@ -289,9 +295,14 @@ int wm_ota_ops_reboot(void)
 
     // Trigger a system reset to reboot the device.
     wm_log_info("ota reboot, please wait for the restart...");
-    wm_set_boot_log_level(WM_LOG_LEVEL_INFO);
     wm_os_internal_time_delay_ms(20);
-    wm_system_reboot();
+
+    wm_os_internal_set_critical();
+    wm_hal_wdt_dev_t dev = { 0 };
+    dev.register_base    = WM_WDG_BASE_ADDR;
+
+    wm_set_reboot_reason(WM_REBOOT_REASON_OTA);
+    wm_hal_wdt_set_counter_value(&dev, 0x100);
 
     return ret;
 }

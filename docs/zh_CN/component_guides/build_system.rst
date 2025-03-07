@@ -98,13 +98,24 @@ tools       工具目录
   list(REMOVE_ITEM ADD_SRCS "src/test2.c"
                             )
 
-其中 `ADD_DEFINITIONS` 列表变量定义了编译时需要添加的选项，如增加宏定义 `AAABBB=1` 和 `BBBBDDDD=2` ：
+其中 `ADD_DEFINITIONS` 列表变量定义了编译时需要添加的选项，如增加宏定义 `AAABBB`、`AAACCC=1` 和 `BBBBDDDD="abc"` ：
 
 ::
 
-  list(APPEND ADD_DEFINITIONS -DAAABBB=1
-                              -DBBBBDDDD=2
+  list(APPEND ADD_DEFINITIONS -DAAABBB
+                              -DAAACCC=1
+                              -DBBBBDDDD="abc"
                               )
+
+其中 `ADD_GDEFINITIONS` 列表变量定义了编译时需要全局添加的选项（每个组件编译时都会被添加），
+如增加宏定义 `AAABBB2`、`AAACCC2=1` 和 `BBBBDDDD2="abc"` ：
+
+::
+
+  list(APPEND ADD_GDEFINITIONS -DAAABBB2
+                               -DAAACCC2=1
+                               -DBBBBDDDD2="abc"
+                               )
 
 其中 `ADD_LINK_SEARCH_PATH` 列表变量定义了链接时所需要查找 lib 的路径，如：
 
@@ -290,3 +301,64 @@ tools       工具目录
 注意自定义分区表请参考 :ref:`分区表机制 <partition_table>`
 
 .. attention:: 分区表的 Offset 和 size 需要 4K 对齐。请确保在配置分区表时，每个分区的 Offset 和 size 都是 4K 的整数倍。
+
+
+.. _ADD_FATFS_FILES_TO_IMG:
+
+在固件中添加 FATFS 文件系统镜像
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+可在固件中添加 FATFS 文件系统镜像随编译生成烧录镜像，烧录至指定的 Flash 分区（CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME，默认为名为 fatfs 的分区）。该功能允许在编译时将文件和文件夹打包成 FATFS 文件系统镜像，并烧录到 Flash 中。
+
+在工程文件夹 `main` 文件夹中的 `CMakeLists.txt` 文件 `register_component()` 之前设置要添加到 FATFS 文件系统镜像的文件或文件夹，然后修改分区表指定烧录位置即可。
+
+
+**1. 在固件中添加到 FATFS 文件系统镜像的文件或文件夹：**
+----------------------------------------------------------------------------------
+
+使用 `ADD_FATFS_FILES` 列表变量来指定需要添加到 FATFS 文件系统镜像的文件或文件夹。可以按每行一个路径来添加多个项目，示例如下：
+
+  ::
+
+    list(APPEND ADD_FATFS_FILES "../fatfs_folder/"
+                                "../fatfs_file.txt"
+                                    )
+
+说明：
+
+- `"../fatfs_folder/"` - 将指定文件夹下的所有内容添加到文件系统镜像中，但不包含 `fatfs_folder` 文件夹本身
+- `"../fatfs_file.txt"` - 将单个文件添加到文件系统镜像的根目录
+
+**2. 配置分区表：**
+------------------------------------------
+
+需要在分区表中添加用于存储 FATFS 文件系统的分区。默认分区名为 fatfs，也可通过 CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME 配置项修改。
+
+分区表配置示例：
+
+.. list-table::
+   :align: center
+
+   * - # name
+     - offset
+     - size
+     - flag
+
+   * - fatfs
+     - 0x131000
+     - 0xAF000
+     - 0x0
+
+更多信息：
+
+- 内部 Flash 中使用 FATFS 的完整示例，请参考 :ref:`examples/storage/fatfs/internal_flash_disk<storage_example>`
+- 关于分区表的详细说明，请参考 :ref:`分区表机制 <partition_table>`
+
+.. attention::
+
+  - 分区表的 Offset 和 size 需要 4K 对齐。请确保在配置分区表时，每个分区的 Offset 和 size 都是 4K 的整数倍；
+  - fatfs 分区大小务必 ≥ 96KB；
+  - 生成的 FATFS 文件系统镜像大小等于 fatfs 分区大小，如果由于文件太大超过 fatfs 分区大小将会编译报错，导致构建失败；
+  - 默认使用 8.3 格式文件名（8 个字符文件名 + 3 个字符扩展名），如需支持长文件名，可在 menuconfig 中配置 `CONFIG_FATFS_LFN_HEAP=y` 并通过 `CONFIG_FATFS_MAX_LFN` 设置最大长度（默认 128 字符）；
+  - 生成的 fatfs 镜像会保存在 `build/fatfs_bin` 中，执行 `wm.py flash` 时会自动烧写该镜像，同时也会随 `app` 打包到工程的 `xxx.fls` 文件中，也可以通过 `wm.py flash -i` 命令行或 `Upgrade Tools 工具 <http://isme.fun/?log=blog&id=34>`_ 单独烧写 fatfs 镜像；
+  - 对于外部 flash，也可以使用 `tools/wm/mkfs2img.py` 打包成 fatfs 二进制镜像文件，使用方法可通过 `python tools/wm/mkfs2img.py --help` 命令进行查阅；生成的镜像文件可由开发者自己开发的应用程序烧写到外部 flash 中，比如：应用自行创建一个 xmodem 通过 UART 从 PC 端获取镜像文件并烧写到外部 flash 的指定位置，或创建一个 http client 从网络下载并烧写到外部 flash 的指定位置。

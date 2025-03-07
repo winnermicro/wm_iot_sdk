@@ -42,6 +42,8 @@ uint32_t wm_rf_read(uint32_t data);
 
 void wm_rf_write(uint32_t data);
 
+void wm_rf_check(void);
+
 /**
  * @}
  */

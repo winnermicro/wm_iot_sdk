@@ -34,6 +34,11 @@ if(CONFIG_COMPONENT_CLI_ENABLED)
 	                         )
     endif()
 
+    if(CONFIG_CLI_COMMANDS_NTP)
+        list(APPEND ADD_SRCS "commands/cmd_ntp.c"
+	                         )
+    endif()
+
     if(CONFIG_UNIT_TEST_ENABLE_CODE_COVERAGE)
         list(APPEND ADD_DEFINITIONS -fno-profile-arcs -fno-test-coverage)
     endif()

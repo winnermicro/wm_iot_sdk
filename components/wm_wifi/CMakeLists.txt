@@ -18,7 +18,7 @@ if(CONFIG_COMPONENT_WIFI_ENABLED)
         if(USE_CMAKE_BUILD_DEBUG)
             message(STATUS "wifi macsw use lib")
         endif()
-        list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libmacsw.a"
+        list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libmacsw.a"
                                    )
     endif()
 

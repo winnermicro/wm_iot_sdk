@@ -30,6 +30,21 @@ typedef struct {
  */
 
 /**
+ * @defgroup WM_DRV_RCC_Type_Definitions WM DRV_RCC Type Definitions
+ * @brief WinnerMicro DRV_RCC Type Definitions
+ */
+
+/**
+ * @addtogroup WM_DRV_RCC_Type_Definitions
+ * @{
+ */
+typedef int (*wm_bus_clock_change_cb)(void *user_arg);
+
+/**
+ * @}
+ */
+
+/**
  * @defgroup WM_DRV_RCC_APIs WM DRV RCC APIs
  * @brief WinnerMicro DRV RCC APIs
  */
@@ -110,7 +125,7 @@ int wm_drv_clock_deinit(wm_device_t *dev);
  *
  * @param[in] dev  clock device pointer
  * @param[in] module_type config the indicate module clock, please refer to #wm_rcc_type_t
- * @param[in] MHz the clock setting, unit: MHz
+ * @param[in] clk_mhz the clock setting, unit: MHz
  *
  * @return
  *    - WM_ERR_SUCCESS: succeed
@@ -125,7 +140,7 @@ int wm_drv_clock_deinit(wm_device_t *dev);
  *       The RSA clock should be 80MHz or 160MHz;
  *       No need to config APB clock, used for query;
  */
-int wm_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t MHz);
+int wm_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t clk_mhz);
 
 /**
  * @brief Get the rcc clock
@@ -152,7 +167,33 @@ int wm_drv_rcc_get_config_clock(wm_device_t *dev, wm_rcc_type_t module_type);
  *    - module clock: succeed
  *    - others: failed
  */
-int32_t wm_drv_rcc_set_i2s_clock(wm_device_t *dev, bool extal_en, bool mclk_en, uint32_t mclk_div, uint32_t bclk_div);
+int wm_drv_rcc_set_i2s_clock(wm_device_t *dev, bool extal_en, bool mclk_en, uint32_t mclk_div, uint32_t bclk_div);
+
+/**
+ * @brief register callback for cpu and wlan bus be changed
+ *
+ * @param[in] dev  clock device pointer
+ * @param[in] dev_idx  device index, please refer wm_rcc_dev_t
+ * @param[in] cb cpu or wlan clock be changed will call this function
+ * @param[in] usr_arg the argument for call back
+ *
+ * @return
+ *    - WM_ERR_SUCCESS: succeed
+ *    - others: failed
+*/
+int wm_drv_rcc_register_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx, wm_bus_clock_change_cb cb, void *usr_arg);
+
+/**
+ * @brief unregister callback for cpu and wlan bus be changed
+ *
+ * @param[in] dev  clock device pointer
+ * @param[in] dev_idx  device index, please refer wm_rcc_dev_t
+ *
+ * @return
+ *    - WM_ERR_SUCCESS: succeed
+ *    - others: failed
+*/
+int wm_drv_rcc_unregister_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx);
 
 /**
  * @}

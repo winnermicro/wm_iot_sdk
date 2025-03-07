@@ -125,21 +125,21 @@ ATTRIBUTE_INLINE bool wm_ll_i2s_is_mute_enabled(wm_i2s_reg_t *reg)
 /**
  * @brief          Set the transmission word length
  * @param[in]      reg Pointer to I2S register structure.
- * @param[in]      fmt i2s word width,type of  @arg enum wm_i2s_fmt
+ * @param[in]      fmt i2s word width,type of  @arg enum wm_i2s_bits
  */
-ATTRIBUTE_INLINE void wm_ll_i2s_set_data_fmt(wm_i2s_reg_t *reg, enum wm_i2s_fmt fmt)
+ATTRIBUTE_INLINE void wm_ll_i2s_set_data_bits(wm_i2s_reg_t *reg, enum wm_i2s_bits bits)
 {
-    reg->control.wdwidth = fmt;
+    reg->control.wdwidth = (bits / 8) - 1;
 }
 
 /**
  * @brief          Get the transmission word length
  * @param[in]      reg Pointer to I2S register structure.
- * @retval         type of  @ref enum wm_i2s_fmt
+ * @retval         type of  @ref enum wm_i2s_bits
  */
-ATTRIBUTE_INLINE enum wm_i2s_fmt wm_ll_i2s_get_data_fmt(wm_i2s_reg_t *reg)
+ATTRIBUTE_INLINE enum wm_i2s_bits wm_ll_i2s_get_data_bits(wm_i2s_reg_t *reg)
 {
-    return reg->control.wdwidth;
+    return (reg->control.wdwidth + 1) * 8;
 }
 
 /**
@@ -332,6 +332,7 @@ ATTRIBUTE_INLINE bool wm_ll_i2s_is_rx_dma_enabled(wm_i2s_reg_t *reg)
 ATTRIBUTE_INLINE void wm_ll_i2s_set_chan_type(wm_i2s_reg_t *reg, enum wm_i2s_chan_type ctype)
 {
     reg->control.mono_stereo = (ctype == WM_I2S_CHAN_TYPE_STEREO ? 0 : 1);
+    reg->control.rxlch       = (ctype == WM_I2S_CHAN_TYPE_MONO_LEFT ? 1 : 0);
 }
 
 /**
@@ -341,7 +342,9 @@ ATTRIBUTE_INLINE void wm_ll_i2s_set_chan_type(wm_i2s_reg_t *reg, enum wm_i2s_cha
  */
 ATTRIBUTE_INLINE enum wm_i2s_chan_type wm_ll_i2s_get_chan_type(wm_i2s_reg_t *reg)
 {
-    return reg->control.mono_stereo;
+    return (reg->control.mono_stereo == 0 ?
+                WM_I2S_CHAN_TYPE_STEREO :
+                (reg->control.rxlch == 1 ? WM_I2S_CHAN_TYPE_MONO_LEFT : WM_I2S_CHAN_TYPE_MONO_RIGHT));
 }
 
 /**

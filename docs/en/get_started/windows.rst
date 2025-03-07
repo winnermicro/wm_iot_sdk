@@ -13,7 +13,7 @@ The installation path must not contain special characters such as spaces, and th
 .. important::
     - Before installing the integrated compilation environment, you need to download the WM IoT SDK in advance.
     - When using the integrated compilation environment, you must always launch it through the shortcuts provided by the installer (desktop shortcut, Start menu shortcut, or context menu shortcut). Do not directly launch CMD or PowerShell that come with the Windows system.
-    - For users who enjoy DIY, please refer to the manual setup for the compilation environment on Linux or macOS systems.
+    - For users who enjoy DIY, please refer to the manual setup for the compilation environment on Linux systems.
     - If you encounter an issue where wm.py is missing when using the integrated compilation environment, it may have been deleted by certain antivirus software as a threat. It is recommended to adjust your antivirus software settings accordingly.
     - Currently, Ccache is used to accelerate the compilation process. Some antivirus software may take a long time to detect this mechanism, causing compilation to lag. If this happens, it is recommended to adjust your antivirus software settings to improve compilation speed. Alternatively, you can choose to disable the Ccache feature in menuconfig.
     - When using the CMD compilation environment, there may be situations where the window becomes stuck. If this occurs, you can try pressing the Enter key to continue execution. To avoid this issue, it is recommended to use the PowerShell environment.

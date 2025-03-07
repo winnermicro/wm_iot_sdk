@@ -198,7 +198,7 @@ if COMPONENT_FATFS_ENABLED
         config FATFS_MAX_LFN
             int "Maximum length of long file name"
             depends on !FATFS_LFN_NONE
-            default 255
+            default 128
             range 12 255
             help
                 The maximum length of a file name, configuring a smaller maximum file name length can reduce resource consumption.

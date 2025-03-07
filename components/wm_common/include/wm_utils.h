@@ -49,7 +49,7 @@ extern "C" {
 #define WM_MAC_ADDR_LEN (6) /**< MAC Address Len*/
 #define WM_DEFAULT_BASE_MAC_ADDRESS        \
     {                                      \
-        0x00, 0x25, 0x08, 0x09, 0x01, 0x0F \
+        0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF \
     } /**< Default MAC Addr*/
 
 #if (CONFIG_COMPONENT_EVENT_ENABLED && CONFIG_FREERTOS_ENABLE_RUN_TIME_STATS)

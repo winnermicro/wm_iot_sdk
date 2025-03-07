@@ -222,6 +222,7 @@ An example of the initialization command table is as follows:
        + Among them, ``len = cmd + data``. When the parsing function encounters a line with ``len`` = 0, it is considered an end symbol and exits execution.
        + When cmd type is ``LCD_CMD_TYPE_8BIT``, cmd is 1 byte.
        + When cmd type is ``LCD_CMD_TYPE_16BIT``, cmd is 2 bytes.
+       + The unit of ``delay`` is millisecond.
 
     - The initialization commands and sequences of each TFT LCD device may be different. Refer to the specification sheet or driver code of the LCD device manufacturer to set them.
     - The parsing function of the command initialization table is placed in ``lcd_init_cmd()``. The new LCD device driver can continue to use it.
@@ -243,7 +244,7 @@ Generally speaking, only the following places need to be mainly changed:
 
 Fourth step: Improve configuration files.
 
-There are two configuration files here, which are used to be able to select the newly added LCD Device through the menuconfig UI during compilation.
+There are two configuration files here. After adding the new screen driver, you also need to add information to these files. This is to ensure that the newly added LCD Device can be selected through the menuconfig UI during compilation.
 
 - File 1: ``wm_drv_tft_lcd_cfg.h``
 
@@ -273,13 +274,15 @@ There are two configuration files here, which are used to be able to select the 
     //List all lcd device's resoultion and rotation info
     #if defined(CONFIG_COMPONENT_DRIVER_LCD_NV3041A_SPI)
     #define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_NV3041A_SPI
-    #define WM_CFG_TFT_LCD_X_RESOLUTION 480
-    #define WM_CFG_TFT_LCD_Y_RESOLUTION 272
-    #define WM_CFG_TFT_LCD_ROTATION     0
+    #define WM_CFG_TFT_LCD_X_RESOLUTION 480  //Horizontal display resolution in LCD spec,independent of WM_CFG_TFT_LCD_ROTATION.
+    #define WM_CFG_TFT_LCD_Y_RESOLUTION 272  //Vertical display resolution in LCD spec, independent of WM_CFG_TFT_LCD_ROTATION.
+    #define WM_CFG_TFT_LCD_ROTATION     0    //The rotation to be used.
+    #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2    //The pixel width to be used, RGB565(2 Bytes).
 
     #elif defined(CONFIG_COMPONENT_DRIVER_LCD_ST7735_SPI)
     #define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_ST7735_SPI
     #define WM_CFG_TFT_LCD_X_RESOLUTION 128
     #define WM_CFG_TFT_LCD_Y_RESOLUTION 160
     #define WM_CFG_TFT_LCD_ROTATION     0
+    #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2
     #endif

@@ -60,7 +60,7 @@ Firmware Package Configuration
 Use the developer tool to compile the latest firmware file (.img file), then upload the compiled firmware file to the OTA server or a network-accessible storage location (such as FTP server, HTTP server, etc.). There are two types of generated OTA img files, as shown in the table below:
 
 =================== ===========================
-    Filename             Type            
+Filename            Type
 =================== ===========================
 ``xxxxx.img``        Full update package
 ``xxxxx_ota.img``    Compressed update package
@@ -70,22 +70,26 @@ During the download process, the device will perform data verification (such as 
 
 **Introduction to OTA Header Format**
 
-================================= =============================================
-Struct Member                     Description
-================================= =============================================
-``uint32_t magic_no;``             Magic number for identifying OTA firmware
-``wm_img_attr_t img_attr``         Bit field of firmware attributes
-``uint32_t img_addr``              Address of the executable firmware
-``uint32_t img_len``               Length of the binary firmware
-``uint32_t img_header_addr``       Address of the image header
-``uint32_t upgrade_img_addr``      Address of the upgrade image
-``uint32_t org_checksum``          Original checksum of the firmware
-``uint32_t upd_no``                Update version tracking number
-``unsigned char ver[16]``          Version string, 16 bytes long
-``uint32_t _reserved0``            Reserved for future use
-``uint32_t _reserved1``            Reserved for future use
-``struct wm_ota_header_t *next``   Pointer to the next OTA header
-================================= =============================================
+====================================== =============================================
+Struct Member                          Description
+====================================== =============================================
+``uint32_t magic_no``                  Magic number for identifying OTA firmware
+``wm_img_attr_t img_attr``             Bit field of firmware attributes
+``uint32_t img_addr``                  Address of the executable firmware
+``uint32_t img_len``                   Length of the binary firmware
+``uint32_t img_header_addr``           Address of the image header
+``uint32_t upgrade_img_addr``          Address of the upgrade image
+``uint32_t org_checksum``              Original checksum of the firmware
+``uint32_t upd_no``                    Update version tracking number
+``unsigned char ver[16]``              Version string, 16 bytes long
+``uint32_t log_level : 3``             Log level
+``uint32_t skip_esc_check : 1``        Skip escape check
+``uint32_t skip_upgrade_check : 1``    Skip upgrade check
+``uint32_t skip_integrity_check : 1``  Skip firmware integrity check
+``uint32_t _reserved0 : 26``           Reserved for future use
+``uint32_t _reserved1``                Reserved for future use
+``struct wm_ota_header_t *next``       Pointer to the next OTA header
+====================================== =============================================
 
 Network Communication Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -165,3 +169,37 @@ API Reference
     For OTA-related APIs, please refer to:
 
     :ref:`label-api-ota_ops` and :ref:`label-api-ota_http`
+
+OTA's meunconfig configuration
+--------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_COMPONENT_OTA_ENABLED
+    - Whether to enable OTA components
+    - N
+
+  * - CONFIG_COMPONENT_OTA_HTTP_ENABLED
+    - Whether to enable OTA HTTP
+    - N
+
+  * - CONFIG_OTA_BLOCK_SIZE
+    - Configure the OTA block size
+    - 4096
+
+  * - CONFIG_OTA_RETRY_TIMEOUT
+    - The retry timeout period is specified
+    - 120000
+
+  * - CONFIG_OTA_SOCKET_RECONNECT_TIMES 
+    - The number of ota socket reconnections was set
+    - 5

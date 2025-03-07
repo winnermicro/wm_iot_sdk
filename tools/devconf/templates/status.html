@@ -420,18 +420,6 @@ if (element) {
     {% endif %}
 }
 
-element = document.getElementById("dev_gdc0689");
-if (element) {
-    {% if data.dev_name == 'GDC0689' %}
-        element.classList.add("active");
-        if (inputElement) {
-            inputElement.value = 'GDC0689';
-        }
-    {% else %}
-        element.classList.remove("active");
-    {% endif %}
-}
-
 element = document.getElementById("dev_pwm");
 if (element) {
     {% if data.dev_name == 'PWM' %}

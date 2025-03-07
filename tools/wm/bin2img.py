@@ -7,20 +7,21 @@ import getopt
 import struct
 import binascii
 
-my_version            = "1.0.0"
+my_version                  = "1.0.0"
 
-magic_no              = 0xA0FFFF9F
+magic_no                    = 0xA0FFFF9F
 
-arg_image_type        = 0
-arg_compress_type     = 0 # 1:gzip, 1<<4:xz
-arg_run_address       = 0x80D0400
-arg_image_header      = 0x80D0000
-arg_update_address    = 0x8010000
-arg_upd_no            = 0
-arg_version_string    = "G03.00.00"
-arg_next_image_header = 0
-arg_input_binary      = None
-arg_output_name       = None
+arg_image_type              = 0
+arg_compress_type           = 0 # 1:gzip, 1<<4:xz
+arg_run_address             = 0x80D0400
+arg_image_header            = 0x80D0000
+arg_update_address          = 0x8010000
+arg_upd_no                  = 0
+arg_version_string          = "G03.00.00"
+arg_bootloader_config_flags = 0
+arg_next_image_header       = 0
+arg_input_binary            = None
+arg_output_name             = None
 
 help_usage = '''
 Usage:
@@ -28,22 +29,23 @@ Usage:
         bin2img.py [options]
 
 options:
-    -h,--help                        = print usage information and exit.
-    -v,--version                     = print version number and exit.
-    -i,--input-binary <file>         = original binary file.
-    -o,--output-name <file>          = output firmware file.
-    -c,--compress-type <type>        = compress type , <0 | 1(gzip) | 1<<4(xz)>.
-    -I,--image-type <type>           = firmware image layout type, <0 | 1>.
-    -H,--image-header <address>      = image header storage location (hexadecimal).
-    -r,--run-address <address>       = runtime position (hexadecimal).
-    -u,--update-address <address>    = upgrade storage location (hexadecimal).
-    -n,--next-image-header <address> = next image header storage location (hexadecimal).
-    -U,--upd-no <number>             = upd no version number (hexadecimal).
-    -V,--version-string <version>    = firmware version string, cannot exceed 16 bytes.
+    -h,--help                             = print usage information and exit.
+    -v,--version                          = print version number and exit.
+    -i,--input-binary <file>              = original binary file.
+    -o,--output-name <file>               = output firmware file.
+    -c,--compress-type <type>             = compress type , <0 | 1(gzip) | 1<<4(xz)>.
+    -I,--image-type <type>                = firmware image layout type, <0 | 1>.
+    -H,--image-header <address>           = image header storage location (hexadecimal).
+    -r,--run-address <address>            = runtime position (hexadecimal).
+    -u,--update-address <address>         = upgrade storage location (hexadecimal).
+    -n,--next-image-header <address>      = next image header storage location (hexadecimal).
+    -U,--upd-no <number>                  = upd no version number (hexadecimal).
+    -V,--version-string <version>         = firmware version string, cannot exceed 16 bytes.
+    -B,--bootloader-config-flags <flags>  = bootloader config flags (hexadecimal).
 '''
 
 def prase_argv(argv):
-    opts,args = getopt.getopt(argv[1:],'-h-v-i:-o:-c:-I:-H:-r:-u:-n:-U:-V:',['help','version','input-binary=','output-name=','compress-type=','image-type=','image-header=','run-address=','update-address=','next-image-header=','upd-no=','version-string='])
+    opts,args = getopt.getopt(argv[1:],'-h-v-i:-o:-c:-I:-H:-r:-u:-n:-U:-V:-B:',['help','version','input-binary=','output-name=','compress-type=','image-type=','image-header=','run-address=','update-address=','next-image-header=','upd-no=','version-string=','bootloader-config-flags='])
 
     global arg_input_binary
     global arg_output_name
@@ -55,6 +57,7 @@ def prase_argv(argv):
     global arg_next_image_header
     global arg_upd_no
     global arg_version_string
+    global arg_bootloader_config_flags
 
     for opt_name,opt_value in opts:
         if opt_name in ('-h','--help'):
@@ -83,6 +86,9 @@ def prase_argv(argv):
             arg_upd_no = int(opt_value, 16)
         if opt_name in ('-V','--version-string'):
             arg_version_string = opt_value
+        if opt_name in ('-B','--bootloader-config-flags'):
+            arg_bootloader_config_flags = int(opt_value, 16)
+
 
 def safety_crc32(indata):
     result = binascii.crc32(indata)
@@ -147,13 +153,13 @@ def main(argv):
     run_org_checksum = struct.pack('<I', bin_crc)
     upd_no           = struct.pack('<I', arg_upd_no)
     ver_name         = newversion.encode('utf-8')
-    reserved0        = struct.pack('<I', 0)
+    bootloader_flags = struct.pack('<I', arg_bootloader_config_flags)
     reserved1        = struct.pack('<I', 0)
     next_boot        = struct.pack('<I', arg_next_image_header)
 
     image_header = magic + img_type + compress_type + run_img_addr + run_img_len \
                  + img_header_addr + upd_img_addr + run_org_checksum + upd_no \
-                 + ver_name + reserved0 + reserved1 + next_boot
+                 + ver_name + bootloader_flags + reserved1 + next_boot
 
     header_crc = safety_crc32(image_header) ^ (0xFFFFFFFF)
     hd_checksum = struct.pack('<I', header_crc)

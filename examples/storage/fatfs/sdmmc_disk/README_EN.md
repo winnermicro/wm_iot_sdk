@@ -31,7 +31,7 @@ This example uses the SDMMC disk as the storage medium, demonstrating how to use
 
 Example location: `examples\storage\fatfs\sdmmc_disk`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Results
 

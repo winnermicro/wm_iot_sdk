@@ -54,12 +54,13 @@ static int gen_onoff_status(struct bt_mesh_model *model,
 
 	if (cli->op_pending != OP_GEN_ONOFF_STATUS) {
 		LOG_WRN("Unexpected Generic OnOff Status message");
-		return -ENOENT;
+		//latency response message, 3s;
+		//return -ENOENT;
 	}
 
 	param = cli->op_param;
 
-	if (param->state) {
+	if (param && param->state) {
 		*param->state = state;
 	}
 
@@ -161,7 +162,7 @@ static int cli_wait(struct bt_mesh_gen_model_cli *cli, void *param, uint32_t op)
 	cli->op_param = param;
 	cli->op_pending = op;
 
-	err = k_sem_take(&cli->op_sync, K_SECONDS(1));
+	err = k_sem_take(&cli->op_sync, K_SECONDS(5));
 
 	cli->op_pending = 0;
 	cli->op_param = NULL;

@@ -3,23 +3,23 @@
 ## 功能概述
 这个例子展示了如何使用 Wi-Fi 的省电模式。
 
-省电模式仅适用于 station 模式。如果 modem 休眠模式被启用，在连接 AP 成功后，站点将周期性地在活动状态和休眠状态之间切换。在睡眠状态下，关闭 RF、PHY 和 BBP 以降低功耗。在 modem 休眠模式下，station 可以与 AP 保持连接。
+省电模式仅适用于 station 模式。如果 modem 休眠模式被启用，在连接 AP 成功后，station 将周期性地在活动状态和休眠状态之间切换。在睡眠状态下，关闭 RF、PHY 和 BBP 以降低功耗。在 modem 休眠模式下，station 可以与 AP 保持连接。
 
 - none: 这是默认模式。可以全功率工作。
-- Minimum modem:在调制解调器最低休眠模式下，station 唤醒每个DTIM以接收信标。广播数据是在 DTIM 之后传输的，不会丢失。
-- Maximum modem :在最大调制解调器休眠模式下，station 每隔一段时间就会唤醒一次，以接收信标。由于 station 在 DTIM 时间可能处于休眠状态，可能导致广播数据丢失。监听间隔越长，节省的电量越多，但广播数据更容易丢失。
+- Minimum modem:在调制解调器最低休眠模式下，station 会被每个 DTIM 唤醒以接收信标。广播数据是在 DTIM 之后传输的，不会丢失。
+- Maximum modem :在最大调制解调器休眠模式下，station 会被每隔 listen_interval 唤醒以接收信标帧。由于 station 在 DTIM 时间可能处于休眠状态，可能导致广播数据丢失。监听间隔越长，节省的电量越多，但广播数据更容易丢失。
 
 ## 环境要求
 
 1.  在 menuconfig 中配置 WiFi SSID 和 WiFi Password
-1.  在 menuconfig  中配置 WiFi listen interval 和 WiFi beacon timeout
-1.  在 menuconfig  中配置 power save mode
+2.  在 menuconfig  中配置 WiFi listen interval 和 WiFi beacon timeout
+3.  在 menuconfig  中配置 power save mode
 
 ## 编译和烧录
 
 示例位置：`examples/wifi/power_save`
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## 运行结果
 

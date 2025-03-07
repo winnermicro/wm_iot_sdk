@@ -14,7 +14,7 @@ After starting this application, perform the following actions:
 
 Example Location： `examples/peripheral/rtc`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

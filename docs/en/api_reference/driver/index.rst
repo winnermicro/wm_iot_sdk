@@ -31,8 +31,5 @@ Driver API Reference
    hash
    rng
    rsa
-
-.. i2s
-  
-
-
+   i2s
+   codec_i2s

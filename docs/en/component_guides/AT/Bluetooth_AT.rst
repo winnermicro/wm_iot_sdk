@@ -164,7 +164,7 @@ Query Command
 
 ::
 
-   +BLEADDR:<BLE_public_addr>
+   +BLEADDR:<addr_type>,<addr>
    OK 
                         
 Set Command
@@ -1282,6 +1282,7 @@ Note
 ^^^^^^^^^^^^
 
 -   When a characteristic's property is configured for write operations without acknowledgment, the permission cannot be configured as encrypted write, authorized write, or Le security write (unless the connection is already in encryption mode).
+-   Firmware does not verify the property and permission, user should ensure to input the reasonable values. 
 
 Explanation
 ^^^^^^^^^^^^

@@ -18,9 +18,13 @@
 
 #define HCI_BT_HCI_TIMEOUT K_MSEC(2000)
 
+#if !defined(CONFIG_BT_TX_POWER_LEVEL_INDEX)
+#define CONFIG_BT_TX_POWER_LEVEL_INDEX   (2)
+#endif
+
 static K_SEM_DEFINE(hci_wait_available_sem, 0, 1);
 static volatile uint32_t hci_available_pkts_buffer = 0;
-
+static struct k_mutex k_controller_mutex;
 static bool is_hci_event_discardable(const uint8_t *evt_data)
 {
 	uint8_t evt_type = evt_data[0];
@@ -264,8 +268,9 @@ static int drv_bt_send(struct net_buf *buf)
             }
         }
     }
-
+    k_mutex_lock(6, &k_controller_mutex, K_FOREVER);
     wm_bt_host_send_packet(buf->data, buf->len);
+    k_mutex_unlock(&k_controller_mutex);
 
 #if 0
     //if(hci_available_pkts_buffer>0)
@@ -294,6 +299,8 @@ static int bt_ble_init(void)
     wm_bt_hci_if_t hci_if;
     wm_bt_status_t status;
 
+    k_mutex_init(&k_controller_mutex);
+
     status = wm_bt_ctrl_if_register(&vuart_hci_cb);
 
     if (status != WM_BT_STATUS_SUCCESS) {
@@ -308,7 +315,7 @@ static int bt_ble_init(void)
         LOG_ERR("tls_bt_ctrl_enable error");
         return WM_BT_STATUS_CTRL_ENABLE_FAILED;
     }
-
+    wm_ble_set_tx_power(WM_BLE_PWR_TYPE_DEFAULT, CONFIG_BT_TX_POWER_LEVEL_INDEX);
     return 0;
 }
 
@@ -316,7 +323,7 @@ static int drv_bt_close(void)
 {
     wm_bt_ctrl_disable();
     wm_bt_ctrl_if_unregister();
-
+    k_mutex_deinit(&k_controller_mutex);
     LOG_DBG("HCI BT closed");
 
     return 0;

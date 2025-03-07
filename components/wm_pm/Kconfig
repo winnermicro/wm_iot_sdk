@@ -1,0 +1,72 @@
+menu "Power Manager"
+
+    config COMPONENT_PM_ENABLED
+        bool "Enable power management"
+        default n
+        select FREERTOS_USE_TICKLESS_IDLE
+        select COMPONENT_DRIVER_TIMER_ENABLED
+
+    if COMPONENT_PM_ENABLED
+            choice PM_WAKEUP_TIMER
+            prompt "wake-up timer"
+            default PM_WAKEUP_TIMER5
+            help
+                Choose which timed wakeup to use.
+
+            config PM_WAKEUP_TIMER0
+                bool "Timer0"
+                help
+                    Use timer0.
+
+            config PM_WAKEUP_TIMER1
+                bool "Timer1"
+                help
+                    Use timer1.
+
+            config PM_WAKEUP_TIMER2
+                bool "Timer2"
+                help
+                    Use timer2.
+
+            config PM_WAKEUP_TIMER3
+                bool "Timer3"
+                help
+                    Use timer3.
+
+            config PM_WAKEUP_TIMER4
+                bool "Timer4"
+                help
+                    Use timer4.
+
+            config PM_WAKEUP_TIMER5
+                bool "Timer5"
+                help
+                    Use timer5.
+        endchoice
+
+        config PM_WAKEUP_TIMER_INDEX
+            int
+            default 0 if PM_WAKEUP_TIMER0
+            default 1 if PM_WAKEUP_TIMER1
+            default 2 if PM_WAKEUP_TIMER2
+            default 3 if PM_WAKEUP_TIMER3
+            default 4 if PM_WAKEUP_TIMER4
+            default 5 if PM_WAKEUP_TIMER5
+            help
+                This option will be automatically assigned a specific value based on the selection of the "PM_WAKEUP_TIMERx".
+                Internal use, any modification is not allowed.
+
+        config PM_WAKEUP_TIMER_DEVICE
+            string
+            default "timer0" if PM_WAKEUP_TIMER0
+            default "timer1" if PM_WAKEUP_TIMER1
+            default "timer2" if PM_WAKEUP_TIMER2
+            default "timer3" if PM_WAKEUP_TIMER3
+            default "timer4" if PM_WAKEUP_TIMER4
+            default "timer5" if PM_WAKEUP_TIMER5
+            help
+                This option will be automatically assigned a specific value based on the selection of the "PM_WAKEUP_TIMERx".
+                Internal use, any modification is not allowed.
+    endif
+
+endmenu

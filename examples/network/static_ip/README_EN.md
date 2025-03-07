@@ -12,7 +12,7 @@ This example demonstrates how to set the Station mode static IP address.
 
 Example Location： `examples/network/static_ip`
 
-compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

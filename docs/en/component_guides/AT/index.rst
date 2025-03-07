@@ -290,6 +290,64 @@ AT Return Value
    WM_AT_RESULT_PARSE_FAIL,      /* AT command parse  error */     Indicates an AT instruction parsing error.
    AT_RESULT_MAX     List the maximum value
 
+The meunconfig configuration of the AT command
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_COMPONENT_WM_ATCMD_ENABLED
+    - Whether to enable the AT command component
+    - N
+
+  * - CONFIG_WM_ATCMD_BT_ENABLE
+    - Whether to enable the Bluetooth AT command
+    - N
+
+  * - CONFIG_WM_ATCMD_SYS_ENABLE
+    - Whether to enable the system AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_TCP_ENABLE
+    - Whether to enable the TCP AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_MQTT_ENABLE
+    - Whether to enable the MQTT AT command
+    - N
+
+  * - CONFIG_WM_ATCMD_HTTP_ENABLE
+    - Whether to enable the HTTP AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_OTA_ENABLE
+    - Whether to enable the OTA AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_FS_ENABLE 
+    - Whether to enable the file system AT command
+    - Y  
+
+  * - CONFIG_WM_ATCMD_PWM_ENABLE
+    - Whether to enable the PWM AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_I2C_ENABLE
+    - Whether to enable the I2C AT command
+    - Y
+
+  * - CONFIG_WM_ATCMD_SPIM_ENABLE
+    - Whether to enable the SPI Master AT command
+    - Y
+
 API Introduction
 ^^^^^^^^^^^^^^^^^^
 

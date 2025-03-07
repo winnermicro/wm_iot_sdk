@@ -9,6 +9,9 @@
 #include "wm_netif.h"
 #endif
 #include "wm_wifi_drv.h"
+#if CONFIG_COMPONENT_PM_ENABLED
+#include "wm_pm.h"
+#endif
 
 #define LOG_TAG "wifi"
 #include "wm_log.h"
@@ -55,6 +58,9 @@ static void wifi_event_default_callback(wm_event_group_t group, int event, wm_wi
         }
         case WM_EVENT_WIFI_STA_DISCONNECTED:
         {
+#if CONFIG_COMPONENT_PM_ENABLED
+            wm_pm_lock_release();
+#endif
             wm_log_debug("sta disconnected reason %d", data->sta_disconnected_info.reason);
 #ifndef CONFIG_COMPONENT_NET_MANAGER_ENABLED
             wm_netif_stop_dhcpc(WM_NETIF_TYPE_WIFI_STA);
@@ -118,10 +124,6 @@ static void wifi_event_default_callback(wm_event_group_t group, int event, wm_wi
 #ifndef CONFIG_COMPONENT_NET_MANAGER_ENABLED
 static void wifi_lwip_event_default_callback(wm_event_group_t group, int event, wm_lwip_event_data_t *data, void *priv)
 {
-#ifdef CONFIG_WIFI_API_ENABLED
-    //wm_wifi_ps_type_t type = WM_WIFI_PS_NONE;
-#endif
-
     wm_log_debug("distribution event %d", event);
 
     switch (event) {
@@ -132,8 +134,10 @@ static void wifi_lwip_event_default_callback(wm_event_group_t group, int event, 
             char ip[16];
             ipaddr_ntoa_r((ip_addr_t *)&data->sta_got_ip_info.ip, ip, sizeof(ip));
             wm_log_debug("sta got ip %s", ip);
-            //wm_wifi_get_ps(&type);
-            //wm_wifi_set_ps(type);
+
+#if CONFIG_COMPONENT_PM_ENABLED
+            wm_pm_lock_release();
+#endif
             break;
         }
         case WM_EVENT_WIFI_STA_LOST_IP:
@@ -147,8 +151,10 @@ static void wifi_lwip_event_default_callback(wm_event_group_t group, int event, 
             char ip[64];
             ip6addr_ntoa_r((ip6_addr_t *)&data->sta_got_ip6_info.ip, ip, sizeof(ip));
             wm_log_debug("sta got ip6 %s (index %hhu)", ip, data->sta_got_ip6_info.index);
-            //wm_wifi_get_ps(&type);
-            //wm_wifi_set_ps(type);
+
+#if CONFIG_COMPONENT_PM_ENABLED
+            wm_pm_lock_release();
+#endif
             break;
         }
         case WM_EVENT_WIFI_STA_LOST_IP6:

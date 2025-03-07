@@ -7,6 +7,14 @@ SEG_LCD API 参考
 API 参考
 ------------------
 
+Structures
+----------------------
+
+.. doxygengroup:: WM_DRV_SEG_LCD_Structures
+    :project: wm-iot-sdk-apis
+    :content-only:
+    :members:
+
 Functions
 ----------------------
 

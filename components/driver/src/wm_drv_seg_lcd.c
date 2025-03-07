@@ -115,3 +115,49 @@ int wm_drv_seg_lcd_display(wm_device_t *dev, uint8_t com_id, uint32_t seg_mask, 
 
     return ret;
 }
+
+int wm_drv_seg_lcd_register_table(wm_device_t *dev, const seg_lcd_table_t *seg_table, uint32_t seg_count)
+{
+    int ret                   = WM_ERR_SUCCESS;
+    wm_drv_seg_lcd_ops_t *ops = NULL;
+
+    if (dev == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    if (dev->state != WM_DEV_ST_INITED) {
+        return WM_ERR_NO_INITED;
+    }
+
+    ops = dev->ops;
+    if (ops && ops->register_table) {
+        ret = ops->register_table(dev, seg_table, seg_count);
+    } else {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    return ret;
+}
+
+int wm_drv_seg_lcd_display_seg(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display, uint32_t seg_count)
+{
+    int ret                   = WM_ERR_SUCCESS;
+    wm_drv_seg_lcd_ops_t *ops = NULL;
+
+    if (dev == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    if (dev->state != WM_DEV_ST_INITED) {
+        return WM_ERR_NO_INITED;
+    }
+
+    ops = dev->ops;
+    if (ops && ops->display_seg) {
+        ret = ops->display_seg(dev, seg_lcd_display, seg_count);
+    } else {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    return ret;
+}

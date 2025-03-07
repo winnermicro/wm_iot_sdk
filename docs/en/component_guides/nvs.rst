@@ -81,6 +81,54 @@ Use the following functions for related operations:
 
 In summary, all iterators obtained through ``wm_nvs_entry_find()`` (including NULL iterators) must be released using  ``wm_nvs_release_iterator()`` .
 
+In the following example, all data records in the EXAMPLE_NVS_GROP group are traversed. When wm_nvs_entry_find is initially called,
+the internal Context of the iterator points to the first record that matches the conditions. After processing one record in the loop,
+wm_nvs_entry_next is called to jump to the next record. When the iterator returned by wm_nvs_entry_next is NULL, it indicates that
+the processing is completed.
+
+.. code:: C
+
+    /*Traversal items using iterators*/
+    void example_nvs_iterator(wm_nvs_handle_t handle)
+    {
+        wm_nvs_iterator_t iterator;
+        unsigned char buf[32];
+        size_t len;
+        wm_nvs_entry_t info;
+
+        wm_log_info("Start iterator.");
+
+        /* Get item iterator by group name */
+        if (wm_nvs_entry_find(WM_NVS_DEF_PARTITION, EXAMPLE_NVS_GROUP, WM_NVS_TYPE_ANY, &iterator) != WM_ERR_SUCCESS) {
+            return;
+        }
+
+        /* Processing items */
+        while (iterator) {
+
+            /* Get item name, type, data length */
+            wm_nvs_entry_info(iterator, &info);
+
+            len = sizeof(buf);
+
+            /* Read item data */
+            if (wm_nvs_entry_data(iterator, buf, &len) == WM_ERR_SUCCESS) {
+                wm_log_info("%s,len=%d", info.key, (int)len);
+            }
+
+            /* Goto next item*/
+            wm_nvs_entry_next(&iterator);
+        }
+
+        wm_nvs_release_iterator(iterator);
+    }
+
+
+.. note::
+    The iterator interface is mainly used when it is necessary to traverse all or certain group data.
+    If the data record name and type are already known at the time of calling, it is recommended
+    to use the corresponding API interface to obtain them.
+
 
 Functional Implementation
 -----------------------------
@@ -89,7 +137,7 @@ To accommodate diverse user needs, we can implement multiple functions:
 - NVS Initialization:
 
     ``wm_nvs_init``, ``wm_nvs_deinit``
-    
+
     ``wm_nvs_init`` is used to initialize the NVS (Non-Volatile Storage) partition, and it is necessary to ensure that the partition to be initialized already exists in the partition table.
 
      Calling ``wm_nvs_deinit`` performs de-initialization, which releases all resources, including any open handles. Once de-initialized, any previously opened handles cannot be used again. If you need to re-initialize NVS, you must close or invalidate any existing handles before calling ``wm_nvs_deinit`` again.

@@ -14,6 +14,9 @@
 #include "wm_wifi.h"
 #include "wm_wifi_event.h"
 #endif /** CONFIG_COMPONENT_WIFI_ENABLED */
+#if CONFIG_COMPONENT_PM_ENABLED
+#include "wm_pm.h"
+#endif
 
 #include "wm_nm_api.h"
 #include "wm_nm_wifi.h"
@@ -88,19 +91,21 @@ static void wm_nm_wifi_ap_start_handle(void)
         wm_log_error("DHCP server set option failed");
     }
 
-    if (!s_nm_param.dhcps_disabled) {
+    if (s_nm_param.dhcps_enabled) {
         ret = wm_net_stack_dhcps_start(netif->netif);
         if (ret != WM_ERR_SUCCESS) {
             wm_log_error("DHCP server startup failed");
         }
     }
 
-    if (!s_nm_param.dnss_disabled) {
+#if CONFIG_LWIP_ENABLE_DNS_SERVER
+    if (s_nm_param.dnss_enabled) {
         ret = wm_net_stack_dnss_start(netif->netif);
         if (ret != WM_ERR_SUCCESS) {
             wm_log_error("DNS server startup failed");
         }
     }
+#endif
 
     wm_nm_event_post(WM_NM_WIFI_AP_READY, NULL, 0);
 }
@@ -188,6 +193,10 @@ static void wm_lwip_event_callback(wm_event_group_t group, int event, void *data
             wm_nm_set_wifi_station_state_internal(WM_NM_WIFI_STA_GOT_IP);
 #endif
             wm_nm_event_post(WM_NM_WIFI_STA_GOT_IP, NULL, 0);
+
+#if CONFIG_COMPONENT_PM_ENABLED
+            wm_pm_lock_release();
+#endif
             break;
         }
         case WM_EVENT_WIFI_STA_LOST_IP:
@@ -208,6 +217,10 @@ static void wm_lwip_event_callback(wm_event_group_t group, int event, void *data
 
             ip6addr_ntoa_r((ip6_addr_t *)&event_data->sta_got_ip6_info.ip, ip, sizeof(ip));
             wm_log_info("sta got ip6: %s", ip);
+
+#if CONFIG_COMPONENT_PM_ENABLED
+            wm_pm_lock_release();
+#endif
             break;
         }
         case WM_EVENT_WIFI_STA_LOST_IP6:
@@ -283,6 +296,9 @@ static int wm_nm_core_init(void)
     s_nm_param.dhcps_option.gateway.u_addr.ip4.addr   = inet_addr(CONFIG_NM_DHCPS_GATEWAY);
     s_nm_param.dhcps_option.dns1.u_addr.ip4.addr      = inet_addr(CONFIG_NM_DHCPS_IP);
     s_nm_param.dhcps_option.lease_time                = CONFIG_NM_DHCPS_LEASE_TIME;
+
+    s_nm_param.dhcps_enabled = true; /** Default DHCP server startup */
+    s_nm_param.dnss_enabled  = true; /** Default DNS server startup */
 #endif
 
     wm_os_internal_mutex_create(&s_nm_param.mutex);

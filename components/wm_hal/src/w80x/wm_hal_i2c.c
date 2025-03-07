@@ -118,7 +118,7 @@ int wm_hal_i2c_deinit(wm_hal_i2c_dev_t *dev)
     }
 }
 
-int wm_hal_i2c_set_speed(wm_hal_i2c_dev_t *dev, uint32_t speed_hz)
+int wm_hal_i2c_set_speed(wm_hal_i2c_dev_t *dev, wm_i2c_speed_t speed_hz)
 {
     wm_hal_i2c_ctx_t *ctx;
     uint32_t div;
@@ -137,7 +137,7 @@ int wm_hal_i2c_set_speed(wm_hal_i2c_dev_t *dev, uint32_t speed_hz)
     return WM_ERR_SUCCESS;
 }
 
-int wm_hal_i2c_get_speed(wm_hal_i2c_dev_t *dev, uint32_t *speed_hz)
+int wm_hal_i2c_get_speed(wm_hal_i2c_dev_t *dev, wm_i2c_speed_t *speed_hz)
 {
     wm_hal_i2c_ctx_t *ctx;
 

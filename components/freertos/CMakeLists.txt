@@ -1,5 +1,5 @@
 list(APPEND ADD_INCLUDE "include"
-                        "port/${chip_family_type}/include"
+                        "port/${CONFIG_CHIP_FAMILY_NAME}/include"
                         )
 
 #list(APPEND ADD_PRIVATE_INCLUDE "include/freertos")
@@ -11,8 +11,8 @@ list(APPEND ADD_SRCS "src/croutine.c"
                      "src/stream_buffer.c"
                      "src/tasks.c"
                      "src/timers.c"
-                     "port/${chip_family_type}/port.c"
-                     "port/${chip_family_type}/cpu_task_sw.S"
+                     "port/${CONFIG_CHIP_FAMILY_NAME}/port.c"
+                     "port/${CONFIG_CHIP_FAMILY_NAME}/cpu_task_sw.S"
                      )
 
 if (CONFIG_UNIT_TEST_ENABLE_CODE_COVERAGE)

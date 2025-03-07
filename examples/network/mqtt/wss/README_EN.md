@@ -23,7 +23,7 @@ which then could be extracted with text operation.
 
 Example Location： `examples/network/mqtt/wss`
 
-compile, burn, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running result

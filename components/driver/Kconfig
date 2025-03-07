@@ -185,7 +185,7 @@ menu "PERIPHERALS"
     endif
 
     config COMPONENT_DRIVER_I2S_ENABLED
-        bool
+        bool "I2S"
         default n
         help
             Enable i2s driver module.
@@ -197,7 +197,7 @@ menu "PERIPHERALS"
             Enable i2c driver module.
 
     config COMPONENT_DRIVER_CODEC_ES8374_ENABLED
-        bool
+        bool "CODEC ES8374"
         default n
         select COMPONENT_DRIVER_I2S_ENABLED
         select COMPONENT_DRIVER_I2C_ENABLED

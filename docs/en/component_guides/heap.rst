@@ -92,3 +92,25 @@ RAM  Description
    - When memory is insufficient, calling any of the above allocation interfaces will return NULL to indicate allocation failure.
    - The HEAP management provided by the ``WM IOT SDK`` is similar to ``heap_4`` provided by FreeRTOS, equipped with a memory fragmentation recovery mechanism. However, when memory blocks of different sizes are frequently allocated and released, memory fragmentation may still occur.
    - On the W80X platform, the memory attribute of pSRAM cannot be declared as ``WM_HEAP_CAP_DEFAULT``. The reason is that simultaneous access by the CPU and DMA will cause a bus conflict, which will further lead to a system crash. For the specific usage of pSRAM, please refer to :ref:`pSRAM<drv_psram>`.
+
+Meunconfig configuration of heap memory
+-----------------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_HEAP_USE_ASSERT
+    - Whether to enable heap assertion checking
+    - Y 
+
+  * - CONFIG_HEAP_USE_TRACING
+    - Whether to enable the heap allocation record debugging function
+    - Y

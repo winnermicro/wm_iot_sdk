@@ -95,18 +95,27 @@ void example_nvs_iterator(wm_nvs_handle_t handle)
 
     wm_log_info("Start iterator.");
 
+    /* Get item iterator by group name */
     if (wm_nvs_entry_find(WM_NVS_DEF_PARTITION, EXAMPLE_NVS_GROUP, WM_NVS_TYPE_ANY, &iterator) != WM_ERR_SUCCESS) {
         return;
     }
 
+    /* Processing items */
     while (iterator) {
+        /* Get item name, type, data length */
         wm_nvs_entry_info(iterator, &info);
+
         len = sizeof(buf);
+
+        /* Read item data */
         if (wm_nvs_entry_data(iterator, buf, &len) == WM_ERR_SUCCESS) {
             wm_log_info("%s,len=%d", info.key, (int)len);
         }
+
+        /* Goto next item*/
         wm_nvs_entry_next(&iterator);
     }
+
     wm_nvs_release_iterator(iterator);
 }
 

@@ -14,13 +14,13 @@
 
 2. 通过 `wm.py menuconfig` 或 `wm.py guiconfig` 配置 `EXPLLE_WIFI_SSID` 、 `EXPLLE_WIFI_PASSWORD` 和 `OTA_IMAGE_URI`
 
-3. 该工程使用到的分区表必须包含 `app_ota` 分区，分区表可参考[分区表机制](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/partition_table.html)
+3. 该工程使用到的分区表必须包含 `app_ota` 分区，分区表可参考[分区表机制](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/partition_table.html)
 
 ## 编译和烧录
 
 示例位置：`examples\ota\ota_http`
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## 运行结果
 

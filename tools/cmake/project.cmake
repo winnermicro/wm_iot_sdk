@@ -35,7 +35,9 @@ macro(project name)
     # include confiurations
     include("${SDK_PATH}/tools/cmake/menuconfig.cmake")
     include("${wmsdk_config_dir}/wmsdk_config.cmake")
-    include("${SDK_PATH}/tools/cmake/kconfig.cmake")
+
+    message(STATUS "CHIP_TYPE: ${CONFIG_CHIP_NAME}")
+    string(TOLOWER ${CONFIG_CHIP_NAME} chip_type)
 
     # config toolchain
     include("${SDK_PATH}/tools/cmake/toolchain.cmake")
@@ -50,6 +52,7 @@ macro(project name)
 
     # partition table confiurations
     include("${SDK_PATH}/tools/cmake/partition.table.cmake")
+    # reload partition table confiurations
     include("${wmsdk_config_dir}/wmsdk_config.cmake")
 
     include("${SDK_PATH}/tools/cmake/device.table.cmake")
@@ -88,7 +91,7 @@ macro(project name)
     endif()
 
     # add ld file
-    #execute_process(COMMAND ${CMAKE_C_COMPILER} -E -P -I ${CMAKE_BINARY_DIR}/config -I ${SDK_PATH}/components/wm_system/ld ${SDK_PATH}/components/wm_soc/${chip_family_type}/ld/chip_layout.ld.h -o ${CMAKE_BINARY_DIR}/project/chip_layout.ld)
+    #execute_process(COMMAND ${CMAKE_C_COMPILER} -E -P -I ${CMAKE_BINARY_DIR}/config -I ${SDK_PATH}/components/wm_system/ld ${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/ld/chip_layout.ld.h -o ${CMAKE_BINARY_DIR}/project/chip_layout.ld)
     target_link_libraries(${project_elf} "-Wl,-T \"project/chip_layout.ld\"")
 
 

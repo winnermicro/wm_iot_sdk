@@ -1,6 +1,3 @@
-set (DEFINE_MACRO -DCONFIG_PROJECT_NAME=\\"${PROJECT_NAME}\\"
-                  )
-
 set(CMAKE_C_FLAGS -Wall
                   -mcpu=ck804ef
                   ${compiler_optimization}

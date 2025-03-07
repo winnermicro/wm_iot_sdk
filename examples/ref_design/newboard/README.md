@@ -17,12 +17,12 @@
 
    1.1. 所用的 SoC 型号是什么? 该 SoC 所含的 Memory 及 内置/外置 Flash， Interrupt, Timer， IO 等硬件资源有多少?
 
-   对应的芯片手册资料可参考 [SoC指南-芯片手册](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/soc_guides/index.html)
+   对应的芯片手册资料可参考 [SoC指南-芯片手册](https://doc.winnermicro.net/w800/zh_CN/latest/soc_guides/index.html)
 
    1.2. 所搭配的外设有哪些，比如：UART, SPI-Master, I2S 等？需要用到 SoC 的多少引脚？ 此项目对每个外设的性能要求及对应的参数配置要求？
         可对比当前所选型 SoC 的 pinmux 来确认引脚是否符合 项目需求。
         
-   文档可参考 [SoC-PINMUX](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/pinmux.html)
+   文档可参考 [SoC-PINMUX](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/pinmux.html)
 
 ### 2:梳理项目整体的软件功能需求
 
@@ -39,11 +39,11 @@
    3.1. 直接在 SDK 中，选择一个基准工程，比如 'hello_world' 或 此处的 'newboard' 工程，将其拷贝到 example 的其他目录 并重命名为自己的工程名，比如 'project_a'
         需要注意的是，工程名请用英文字母，可以加数字，但不能包含空格或其他语言文字。
 
-   文档可参考 [构建系统-快速创建工程](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/build_system.html)
+   文档可参考 [构建系统-快速创建工程](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/build_system.html)
 
    3.2. 基于 vscode IDE 环境创建工程
 
-   文档可参考 [IDE-创建工程](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/ide.html)
+   文档可参考 [IDE-创建工程](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/ide.html)
 
 ### 4:创建新工程对应的设备表 (Device Table)
 
@@ -53,7 +53,7 @@
    通过 1.2 的调查，开发者基本上应该可以确定，是否新工程也需要创建其独有的 Device Table。
    如果需要，则可参考本示例进行创建。
    
-   文档可参考 [设备表](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/device_table.html)
+   文档可参考 [设备表](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/device_table.html)
    
 ### 5：创建新工程对应的分区表 (Partition Table)
 
@@ -64,7 +64,7 @@
    通过 2.1 的调查，开发者基本上应该可以确定，是否新工程也需要创建其独有的 分区，并单独管理其分区表文件。
    如果需要，则可参考本示例进行创建。
    
-   文档可参考 [分区表](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/partition_table.html)
+   文档可参考 [分区表](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/partition_table.html)
 
 ### 6:基于业务需求，配置功能开关
 
@@ -75,7 +75,7 @@
 
    修改后可通过 menuconfig 界面，查看此工程 所需要的各项 功能开关是否被正确设定。
    
-   文档可参考 [Kconfig配置](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/kconfig.html)
+   文档可参考 [Kconfig配置](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/kconfig.html)
 
    需要注意的是，设备相关的功能开关 会与 设备表中的配置有关。 打开相关设备功能时，原生设备表的内容也需要复制到新工厂的设备表中，否则会产生编译错误。
    
@@ -84,14 +84,14 @@
 
    创建自己的应用任务时，需要考虑到对其他任务的影响，所以需要查询系统其他任务的优先级整体分配情况来定应用任务优先级。
 
-   可参考 [开发助手](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/component_guides/dev_asst.html)
+   可参考 [开发助手](https://doc.winnermicro.net/w800/zh_CN/latest/component_guides/dev_asst.html)
 
 
 ## 编译和烧录
 
 示例位置：`examples/ref_design/newboard`
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## 运行结果
 

@@ -90,22 +90,22 @@ typedef struct {
 } wm_dt_hw_i2s_cfg_t;
 
 typedef struct {
-    bool jack_output_gpio1;  /**< GPIO1 is used to output when jack source detect active */
-    bool jack_output_gpio2;  /**< GPIO1 is used to output when jack source detect active */
-    bool jack_output_level;  /**< the level output when detect active, should match the SOC GPIO */
-    bool jack_detect_rin1;   /**< jack detect source from RIN1 */
-    bool jack_detect_gpio1;  /**< The variable is mutually exclusive with the dmic clock */
-    bool dmic_clk_out_gpio1; /**< set GPIO1 to DMIC clock output, is mutually exclusive with the jack */
-    bool dmic;               /**< true if input with digital mic */
-    bool lin1;               /**< true if input with LIN1, also need RIN1 to set */
-    bool rin1;               /**< true if input with RIN1, also need LIN1 to set */
-    bool lin2;               /**< true if input with LIN2, also need RIN2 to set */
-    bool rin2;               /**< true if input with RIN2, also need LIN2 to set */
-    bool monoout;            /**< if output with phonejack avaliable */
-    bool spkout;             /**< if output with classD speaker avaliable */
-    bool i2c;                /**< true if use i2c to control, else SPI */
-    uint8_t address;         /**< the I2C address of es8374 */
-} wm_dt_hw_codec_es8374_cfg_t;
+    uint8_t i2c_address;    /**< I2C address of the codec chip                                       */
+    uint8_t in_port;        /**< input port;  1 :  port1,   2: port2,     3: port1 + port2           */
+    uint8_t out_port;       /**< output port; 1 :  speaker, 2: headphone, 3:speaker + headphone      */
+    wm_gpio_num_t jack_pin; /**< pin for detect headphone instert, set WM_GPIO_NUM_MAX if not use    */
+    wm_gpio_num_t pa_pin;   /**< gpio pin for control speaker output, set WM_GPIO_NUM_MAX if not use */
+    float max_gain;         /**< max gain = Audio mixer gain + Codec DAC volume + power amplifie
+                            To ensure the speaker PA output is not over saturated, max gain can be calculated by the following formula
+                            max_gain = 20 * log(VPA/VDAC)
+                            VPA  : The voltage of the speaker power amplifier
+                            VDAC : The voltage of the Codec DAC
+
+                            VPA = 3.3V , VDAC = 3.3V , max_gain = 20 * log(3.3/3.3) = 0 dB (Recommended)
+                            VPA = 5.0V , VDAC = 3.3V , max_gain = 20 * log(5.0/3.3) = 3.61 dB
+                            VPA = 4.2V , VDAC = 3.3V , max_gain = 20 * log(4.2/3.3) = 2.09 dB
+                            */
+} wm_dt_hw_codec_i2s_cfg_t;
 
 typedef struct {
     int baudrate;      /**< @ref wm_uart_baudrate_t */
@@ -115,7 +115,6 @@ typedef struct {
     uint8_t flow_ctrl; /**< @ref wm_uart_flowctrl_t */
 } wm_dt_hw_uart_cfg_t;
 
-#if CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED
 typedef struct {
     uint8_t duty_sel; /**< @ref wm_seg_lcd_duty_sel_t */
     uint8_t vlcd_cc;  /**< @ref wm_seg_lcd_vlcd_cc_t */
@@ -124,7 +123,6 @@ typedef struct {
     uint32_t frame_freq;
     uint8_t com_num; /**< @ref wm_seg_lcd_com_id_t */
 } wm_dt_hw_seg_lcd_cfg_t;
-#endif
 
 typedef struct {
     uint32_t clock_hz; /*< Clock frequency supports 1/2, 1/4, 1/6, 1/8, 1/10, 1/12, 1/14, 1/16 of the CPU clock,
@@ -261,27 +259,22 @@ typedef struct {
 
 typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
-    wm_dt_hw_codec_es8374_cfg_t es8374_cfg;
+    wm_dt_hw_codec_i2s_cfg_t codec_cfg;
     char *i2s_device_name;
-    char *gpio_device_name;
     char *i2c_device_name;
-    uint8_t gpio1;
-    uint8_t gpio2;
 } wm_dt_hw_codec_i2s_t;
 
-#if CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED
 typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
     uint32_t reg_base;
     wm_dt_hw_seg_lcd_cfg_t seg_lcd_cfg;
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
     char *rcc_device_name;
 } wm_dt_hw_seg_lcd_t;
-#endif
 
 typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
-    uint8_t pin_cfg_count;
-    wm_dt_hw_pin_cfg_t *pin_cfg;
     char *seg_lcd_device_name;
 } wm_dt_hw_gdc0689_t;
 

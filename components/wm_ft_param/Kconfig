@@ -1,6 +1,14 @@
-config COMPONENT_FT_PARAM_ENABLED
-    bool
+menuconfig COMPONENT_FT_PARAM_ENABLED
+    bool "FT Param"
     default y
     select COMPONENT_DRIVER_CRC_ENABLED
     help
         Internal use, any modification is not allowed.
+
+if COMPONENT_FT_PARAM_ENABLED
+    config WM_FT_PARAM_ENABLE_DATA_RESET_WHEN_GET
+        bool "Enable data reset when data get"
+        default n
+        help
+            enalbe data reset when ft param get
+endif

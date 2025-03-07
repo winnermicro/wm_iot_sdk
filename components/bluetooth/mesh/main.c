@@ -414,6 +414,10 @@ void bt_mesh_reset(void)
 	if (IS_ENABLED(CONFIG_BT_MESH_PROXY_SOLICITATION)) {
 		bt_mesh_sol_reset();
 	}
+
+	k_sleep(K_MSEC(2500)); //waiting mesh param clear
+
+	wm_system_reboot();
 }
 
 bool bt_mesh_is_provisioned(void)

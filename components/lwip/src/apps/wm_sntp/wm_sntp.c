@@ -29,10 +29,26 @@ static void get_time_event_porc(wm_event_group_t group, int event, void *data, v
     }
 }
 
+static bool wm_network_is_ready(void)
+{
+    wm_ip_addr_t ip      = { 0 };
+    wm_ip_addr_t netmask = { 0 };
+    wm_ip_addr_t gw      = { 0 };
+
+    wm_netif_get_ipaddr(WM_NETIF_TYPE_WIFI_STA, &ip, &netmask, &gw);
+
+    return ip.u_addr.ip4.addr ? true : false;
+}
+
 void wm_sntp_start(void)
 {
     ip_addr_t temp_addr = { 0 };
     ip_addr_t is_addr   = { 0 };
+
+    if (wm_network_is_ready() == false) {
+        wm_log_error("network is not ready, NTP start fail!");
+        return;
+    }
 
     if (s_wm_sntp.sem == NULL) {
         wm_os_internal_sem_create(&s_wm_sntp.sem, 0);
@@ -148,17 +164,6 @@ const char *wm_sntp_getservername(u8_t idx)
 {
     const char *result = sntp_getservername(idx);
     return result;
-}
-
-static bool wm_network_is_ready(void)
-{
-    wm_ip_addr_t ip      = { 0 };
-    wm_ip_addr_t netmask = { 0 };
-    wm_ip_addr_t gw      = { 0 };
-
-    wm_netif_get_ipaddr(WM_NETIF_TYPE_WIFI_STA, &ip, &netmask, &gw);
-
-    return ip.u_addr.ip4.addr ? true : false;
 }
 
 struct tm *wm_get_time_sync(int tick_wait)

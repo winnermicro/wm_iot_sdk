@@ -1,8 +1,3 @@
-set(DEFINE_MACRO -DCONFIG_PROJECT_NAME="\\"${PROJECT_NAME}\\""
-                 -DMBEDTLS_CONFIG_FILE="\\"wm_mbedtls_config.h\\""
-                 -DCONFIG_COMPILER_OPTS="\\"${compiler_optimization}\\""
-                 )
-
 if(HIGH_VERSION_GCC)
     set(DEFINE_MACRO ${DEFINE_MACRO}
                      -D__clockid_t_defined

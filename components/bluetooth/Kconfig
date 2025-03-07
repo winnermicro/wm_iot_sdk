@@ -131,6 +131,49 @@ if COMPONENT_BT_ENABLED
 	  Internal use, any modification is not allowed.
 	  
 	rsource "porting/Kconfig"
+	
+	choice BLUETOOTH_TX_POWER_LEVEL
+		prompt "Bluetooth transmit power"
+		default BT_TX_POWER_LEVEL2
+		help
+			Choose bluetooth transmit power level.
+
+		config BT_TX_POWER_LEVEL1
+			bool "1dBm"
+			help
+				Transmit power level with 1 dBm.
+
+		config BT_TX_POWER_LEVEL2
+			bool "4dBm"
+			help
+				Transmit power level with 4 dBm.
+
+		config BT_TX_POWER_LEVEL3
+			bool "7dBm"
+			help
+				Transmit power level with 7 dBm.
+
+		config BT_TX_POWER_LEVEL4
+			bool "10dBm"
+			help
+				Transmit power level with 10 dBm.
+
+		config BT_TX_POWER_LEVEL5
+			bool "13dBm"
+			help
+				Transmit power level with 13 dBm.
+	endchoice
+
+	config BT_TX_POWER_LEVEL_INDEX
+            int
+            default 1 if BT_TX_POWER_LEVEL1
+            default 2 if BT_TX_POWER_LEVEL2
+            default 3 if BT_TX_POWER_LEVEL3
+            default 4 if BT_TX_POWER_LEVEL4
+            default 5 if BT_TX_POWER_LEVEL5
+            help
+                This option will be automatically assigned a specific value based on the selection of the "BT_TX_POWER_LEVELx".
+                Internal use, any modification is not allowed.
 	config BT_PRINT_DEBUG_LEVEL
 		depends on COMPONENT_LOG_ENABLED
 		int "Print debug level, 0: nothing, 1: error, 2: warning, 3: information, 4: debug, 5: verbose"

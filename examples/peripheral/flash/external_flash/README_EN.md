@@ -15,7 +15,7 @@ In advance, connect an external Flash memory. This example demonstrates connecti
 
 code path：`wm_iot_sdk/examples/peripheral/flash/external_flash`
 
-For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

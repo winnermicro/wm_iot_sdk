@@ -1,5 +1,5 @@
 /**
- * @file wm_osal.c
+ * @file wm_osal.h
  *
  * @brief WM OS abstraction layer(for internal use only)
  *

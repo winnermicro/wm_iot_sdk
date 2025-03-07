@@ -90,4 +90,28 @@ W800 的内存分成三块：160Kbyte SRAM、 128Kbyte DRAM 和 最大 8Mbyte �
    - 如果不关心从哪申请内存，则调用 ``wm_heap_caps_alloc(size, WM_HEAP_CAP_DEFAULT)``，这和使用 ``malloc`` 是一样的效果
    - 若内存不足时，调用上述所有分配接口将返回 NULL 表示分配失败
    - 当前 SDK 提供的 ``HEAP`` 管理与 FreeRTOS 提供的 ``heap_4`` 类似，具备内存碎片回收机制，但若频繁分配和释放不同大小的内存块时，仍有可能出现内存碎片
-   - 在 W80X 平台上pSRAM 的内存属性不能声明成 ``WM_HEAP_CAP_DEFAULT`` ， 原因是 CPU 与 DMA 同时访问会造成总线冲突，进而引起系统宕机。pSRAM具体用法可参考 :ref:`pSRAM<drv_psram>`
+   - 在 W80X 平台上 pSRAM 的内存属性不能声明成 ``WM_HEAP_CAP_DEFAULT`` ， 原因是 CPU 与 DMA 同时访问会造成总线冲突，进而引起系统宕机。pSRAM 具体用法可参考 :ref:`pSRAM<drv_psram>`
+
+
+堆内存的 meunconfig 配置
+---------------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_HEAP_USE_ASSERT
+     - 是否启用堆断言检查
+     - Y 
+
+   * - CONFIG_HEAP_USE_TRACING
+     - 是否启用堆分配记录调试功能
+     - Y
+

@@ -29,3 +29,38 @@ FreeRTOS-Plus-POSIX includes the implementation of the following POSIX thread he
 * time.h
 * unistd.h
 * utils.h
+
+
+POSIX meunconfig configuration
+---------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+
+  * - CONFIG_COMPONENT_POSIX_ENABLED
+    - Whether to enable POSIX components
+    - N
+
+  * - CONFIG_POSIX_TASK_NAME_DEFAULT 
+    - Configure the default name of the thread
+    - pthread 
+
+  * - CONFIG_POSIX_TIMER_NAME_DEFAULT 
+    - Set the default name of the timer
+    - timer
+
+  * - CONFIG_POSIX_MQ_MAX_MESSAGES
+    - Configures the default maximum number of messages
+    - 10
+
+  * - CONFIG_POSIX_MQ_MAX_SIZE
+    - Configures the maximum byte size of the message
+    - 128

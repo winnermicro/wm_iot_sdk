@@ -29,7 +29,7 @@ Hardware
 
 * A development board
 * USB cable
-* Computer (Windows, Linux, or macOS)
+* Computer (Windows, or Linux)
 
 .. only:: w800
 
@@ -69,7 +69,7 @@ Set Up the Compilation Environment
 .. hint::
 
     Since different users may use different operating systems, we have provided steps for setting up the environments for several commonly used operating systems
-    (:ref:`Windows system<windows-system>`、:ref:`Linux system<linux-system>` and :ref:`macOS system<macos-system>`).Users can choose one according to their actual situation.
+    (:ref:`Windows system<windows-system>` and :ref:`Linux system<linux-system>`).Users can choose one according to their actual situation.
 
 
 .. _shell-compiling-environment:
@@ -82,7 +82,6 @@ Set up a Command-Line Compilation Environment
 
    windows
    linux
-   macos
 
 Build a Compilation Environment Using IDE
 -----------------------------------------------
@@ -148,7 +147,7 @@ Run the following command to flash, where PORT is the serial port to which the d
 
     wm.py flash -p PORT
 
-Replace PORT with the actual serial port name in your system (for example, COM1 on Windows, /dev/ttyUSB0 on Linux, or /dev/cu.usbserial-1401 on macOS).
+Replace PORT with the actual serial port name in your system (for example, COM1 on Windows, or /dev/ttyUSB0 on Linux).
 If you omit the -p option, wm.py flash will try to use the first available serial port for flashing. If you want to erase the entire flash and then flash again, please run ``wm.py flash -e -p PORT`` .
 By default, the device will automatically restart after flashing. If you want to prevent the device from automatically restarting after flashing, please run ``wm.py flash -m -p PORT`` .
 

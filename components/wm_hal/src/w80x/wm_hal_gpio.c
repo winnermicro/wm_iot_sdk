@@ -205,6 +205,8 @@ int wm_hal_gpio_init(wm_gpio_num_t pin, const wm_hal_gpio_config_t *cfg)
         }
     }
 
+    wm_ll_gpio_rw_enable(gpio_reg, pin);
+
     return WM_ERR_SUCCESS;
 }
 

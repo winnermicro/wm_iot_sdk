@@ -92,3 +92,37 @@ The effect of opening a serial port is as follows：
 .. figure:: ../../_static/component-guides/cli/putty_main.png
     :align: center
     :alt: Using PuTTY to Operate the Serial Port
+
+CLI meunconfig configuration
+-------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values 
+
+  * - CONFIG_COMPONENT_CLI_ENABLED
+    - Whether to enable the CLI component
+    - N
+
+  * - CONFIG_CLI_LINE_SIZE 
+    - Configure the single-line input size
+    - 64 
+
+  * - CONFIG_CLI_CMD_PARAS_NUM
+    - This section describes how to configure the number of CLI input parameters
+    - 8
+    
+  * - CONFIG_CLI_CMD_HISTORY_NUM
+    - The number of historical commands was set
+    - 5
+
+  * - CONFIG_CLI_ENABLE_LONG_USAGE
+    - Configure a CLI port
+    - Uart0

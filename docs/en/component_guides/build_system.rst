@@ -1,4 +1,3 @@
-
 .. _Build_system:
 
 WM-IOS Building System Programming Manual
@@ -100,13 +99,24 @@ After adding all source code in the `src` folder,if you want to exclude a specif
   list(REMOVE_ITEM ADD_SRCS "src/test2.c"
                             )
 
-The `ADD_DEFINITIONS` list variable defines the options that need to be added during compilation, such as adding macro definitions `AAABBB=1` and `BBBBDDDD=2`:
+The `ADD_DEFINITIONS` list variable defines the options that need to be added during compilation, such as adding macro definitions `AAABBB`、`AAACCC=1` and `BBBBDDDD="abc"`:
 
 ::
 
-  list(APPEND ADD_DEFINITIONS -DAAABBB=1
-                              -DBBBBDDDD=2
+  list(APPEND ADD_DEFINITIONS -DAAABBB
+                              -DAAACCC=1
+                              -DBBBBDDDD="abc"
                               )
+
+The `ADD_GDEFINITIONS` list variable defines the options that need to be added globally at compile time (each component is added at compile time), 
+such as adding macro definitions `AAABBB2`、`AAACCC2=1` and `BBBBDDDD2="abc"`:
+
+::
+
+  list(APPEND ADD_GDEFINITIONS -DAAABBB2
+                               -DAAACCC2=1
+                               -DBBBBDDDD2="abc"
+                               )
 
 The `ADD_LINK_SEARCH_PATH`  list variable defines the paths to search for libraries during linking, such as:
 
@@ -285,3 +295,63 @@ Using the custom files added above as an example:
 For details on custom partition tables, please refer to :ref:`Partition Table Mechanism <partition_table>`
 
 .. attention:: The Offset and size in the partition table need to be 4K-aligned. Ensure that when configuring the partition table, the Offset and size of each partition are multiples of 4K.
+
+
+.. _ADD_FATFS_FILES_TO_IMG:
+
+Adding FATFS Filesystem Image to Firmware
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can add a FATFS filesystem image to the firmware during compilation to be burned to a specified Flash partition (CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME, by default a partition named fatfs). This feature allows packaging files and folders into a FATFS filesystem image during compilation and burning it to Flash.
+
+Configure the files or folders to be added to the FATFS filesystem image in the `CMakeLists.txt` file in the project's `main` folder before `register_component()`, then modify the partition table to specify the burning location.
+
+**1. Adding Files or Folders to FATFS Filesystem Image in Firmware:**
+----------------------------------------------------------------------------------
+
+Use the `ADD_FATFS_FILES` list variable to specify files or folders to be added to the FATFS filesystem image. You can add multiple items, one path per line, as shown in the example:
+
+  ::
+
+    list(APPEND ADD_FATFS_FILES "../fatfs_folder/"
+                                "../fatfs_file.txt"
+                                    )
+
+Notes:
+
+- `"../fatfs_folder/"` - Adds all contents under the specified folder to the filesystem image, but not including the `fatfs_folder` itself
+- `"../fatfs_file.txt"` - Adds a single file to the root directory of the filesystem image
+
+**2. Configuring the Partition Table:**
+------------------------------------------
+
+You need to add a partition for storing the FATFS filesystem in the partition table. The default partition name is fatfs, which can be modified through the CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME configuration item.
+
+Example partition table configuration:
+
+.. list-table::
+   :align: center
+
+   * - # name
+     - offset
+     - size
+     - flag
+
+   * - fatfs
+     - 0x131000
+     - 0xAF000
+     - 0x0
+
+For more information:
+
+- For a complete example of using FATFS in internal Flash, please refer to :ref:`examples/storage/fatfs/internal_flash_disk<storage_example>`
+- For detailed explanation of the partition table, please refer to :ref:`Partition Table Mechanism <partition_table>`
+
+.. attention::
+
+  - The Offset and size in the partition table need to be 4K-aligned. Ensure that when configuring the partition table, the Offset and size of each partition are multiples of 4K.
+  - The fatfs partition size must be ≥ 96KB;
+  - The generated FATFS filesystem image size equals the fatfs partition size. If the files are too large and exceed the fatfs partition size, it will result in compilation error and build failure;
+  - By default, 8.3 format filenames are used (8 characters filename + 3 characters extension). To support long filenames, configure `CONFIG_FATFS_LFN_HEAP=y` in menuconfig and set the maximum length via `CONFIG_FATFS_MAX_LFN` (default 128 characters);
+  - The generated fatfs image will be saved in `build/fatfs_bin`. When executing `wm.py flash`, this image will be automatically flashed, and it will also be packaged with the `app` into the project's `xxx.fls` file. You can also flash the fatfs image separately using the `wm.py flash -i` command or `Upgrade Tools <http://isme.fun/?log=blog&id=34>`_;
+  - For external flash, you can also use `tools/wm/mkfs2img.py` to package into a fatfs binary image file. Usage instructions can be found via the `python tools/wm/mkfs2img.py --help` command. The generated image file can be flashed to external flash by developer's own application, for example: creating an xmodem to receive image files from PC via UART and flash to specified location in external flash, or creating an http client to download and flash to specified location in external flash.

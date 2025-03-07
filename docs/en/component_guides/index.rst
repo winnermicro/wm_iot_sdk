@@ -24,12 +24,15 @@ Component Guide
    TCP/IP <tcp_ip>
    HTTP Client <http_client>
    MQTT Client <mqtt_client>
+   Cloud <cloud/index>
    OTA <ota>
    AT Command <AT/index>
    CLI <cli>
    POSIX <posix>
    LVGL <lvgl>
    DSP <csi_dsp>
+   FreeRTOS <freertos>
+   Low Power Modes <low_power>
    Error Code Management <errors>
    Debugging Method <debugging_method>
    Performance Optimization <performance_optimization>

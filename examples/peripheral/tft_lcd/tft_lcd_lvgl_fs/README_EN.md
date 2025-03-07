@@ -152,7 +152,7 @@ CONFIG_CLI_COMMANDS_SYSTEM=y
 Explanation:
 CLI is used for debugging purposes. The running state of the project can be queried through CLI. In the mass production version of the user project, it can be considered to be closed.
 
-compile, burn, and more, see: [get started](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, see: [get started](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Results

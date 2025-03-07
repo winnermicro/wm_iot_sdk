@@ -20,7 +20,7 @@ Touch sensor keys are connected in the following table:
 
 Example Location： `examples/peripheral/touch_sensor/touch_interrupt`
 
-For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

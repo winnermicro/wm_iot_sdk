@@ -59,7 +59,7 @@ OTA 升级配置
     使用开发者工具编译最新的固件文件（.img 文件），然后将编译好的固件文件上传到 OTA 服务器或通过网络可访问的存储位置（如 FTP 服务器、HTTP 服务器等。生成的 OTA img 文件有两个类型，下表是生成 OTA 文件说明：
 
     =================== =====================
-    文件名               类型            
+    文件名               类型
     =================== =====================
     ``xxxxx.img``       全量升级包
     ``xxxxx_ota.img``   压缩升级包
@@ -69,22 +69,26 @@ OTA 升级配置
 
     **OTA header 格式简介**
 
-    ================================= ==============================
-    结构体成员                           说明
-    ================================= ==============================
-    ``uint32_t magic_no;``             用于识别 OTA 固件的魔术字
-    ``wm_img_attr_t img_attr``         固件属性的位字段
-    ``uint32_t img_addr``              执行固件的地址
-    ``uint32_t img_len``               二进制固件长度
-    ``uint32_t img_header_addr``       图文件头部的地址
-    ``uint32_t upgrade_img_addr``      升级图文件的地址
-    ``uint32_t org_checksum``          固件的原始校验和
-    ``uint32_t upd_no``                更新版本跟踪号
-    ``unsigned char ver[16]``          版本字符串，长度为 16 字节。
-    ``uint32_t _reserved0``            保留用于将来使用
-    ``uint32_t _reserved1``            保留用于将来使用
-    ``struct wm_ota_header_t *next``   指向下一 OTA header 的指针
-    ================================= ==============================
+    ====================================== =======================================
+    结构体成员                              说明
+    ====================================== =======================================
+    ``uint32_t magic_no;``                 用于识别 OTA 固件的魔术字
+    ``wm_img_attr_t img_attr``             固件属性的位字段
+    ``uint32_t img_addr``                  执行固件的地址
+    ``uint32_t img_len``                   二进制固件长度
+    ``uint32_t img_header_addr``           图文件头部的地址
+    ``uint32_t upgrade_img_addr``          升级图文件的地址
+    ``uint32_t org_checksum``              固件的原始校验和
+    ``uint32_t upd_no``                    更新版本跟踪号
+    ``unsigned char ver[16]``              版本字符串，长度为 16 字节。
+    ``uint32_t log_level : 3``             日志级别
+    ``uint32_t skip_esc_check : 1``        跳过 ESC 检查
+    ``uint32_t skip_upgrade_check : 1``    跳过升级检查
+    ``uint32_t skip_integrity_check : 1``  跳过固件完整性检查
+    ``uint32_t _reserved0 : 26``           保留用于将来使用
+    ``uint32_t _reserved1``                保留用于将来使用
+    ``struct wm_ota_header_t *next``       指向下一 OTA header 的指针
+    ====================================== =======================================
 
 
 网络通信配置
@@ -165,3 +169,37 @@ API 参考
     查找 OTA 相关 API 请参考:
 
     :ref:`label-api-ota_ops` 和 :ref:`label-api-ota_http`
+
+OTA 的 meunconfig 配置
+------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_OTA_ENABLED
+     - 是否启用 OTA 组件
+     - N
+
+   * - CONFIG_COMPONENT_OTA_HTTP_ENABLED
+     - 是否启用 OTA HTTP
+     - N
+
+   * - CONFIG_OTA_BLOCK_SIZE
+     - 配置 OTA 块大小
+     - 4096
+
+   * - CONFIG_OTA_RETRY_TIMEOUT
+     - 配置重试超时时间
+     - 120000
+
+   * - CONFIG_OTA_SOCKET_RECONNECT_TIMES 
+     - 配置 ota socket 重连次数
+     - 5

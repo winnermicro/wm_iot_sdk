@@ -121,6 +121,35 @@ HTTPS
 
 The HTTP Client supports SSL connections using ``mbedtls`` , which can be used by starting the URL with  ``https`` .
 
+Menuconfig configuration of HTTP Client
+----------------------------------------
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration Name
+    - Config Discriptors
+    - Default Values
+     
+  * - CONFIG_COMPONENT_HTTP_CLIENT_ENABLED
+    - Whether to enable the HTTP Client component
+    - N
+
+  * - CONFIG_WM_HTTP_CLIENT_SECURE
+    - Whether security functions are supported
+    - N
+
+  * - CONFIG_WM_HTTP_CLIENT_PROXY
+    - Whether the proxy function is supported
+    - N
+
+  * - CONFIG_WM_HTTP_CLIENT_DEBUG 
+    - Whether to display debugging messages
+    - N
 
 Attention
 ----------

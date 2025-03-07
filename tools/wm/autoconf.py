@@ -29,6 +29,7 @@ component_list = [["cJSON",                 "cJSON/cJSON",          "COMPONENT_C
                   ["wm_nvs",                "wm_nvs.h",             "COMPONENT_NVS_ENABLED",                "wm_nvs"],
                   ["wm_ota",                "wm_ota_",              "COMPONENT_OTA_ENABLED",                "wm_ota"],
                   ["wm_wifi",               "wm_wifi_",             "COMPONENT_WIFI_ENABLED",               "wm_wifi"],
+                  ["wm_pm",                 "wm_pm.h",              "COMPONENT_PM_ENABLED",                 "wm_pm"],
                   ["ff.h",                  "wm_diskio",            "COMPONENT_FATFS_ENABLED",              "fatfs"],
                   ["yaml",                  "yaml.h",               "COMPONENT_YAML_ENABLED",               "yaml"]]
 

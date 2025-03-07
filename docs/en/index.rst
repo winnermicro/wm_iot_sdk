@@ -6,7 +6,7 @@ WM IoT SDK is the official Internet of Things(IoT) system launched by WinnerMicr
 .. image:: ../_static/architecture_en.svg
    :align: center
 
-It supports Windows, Linux, and macOS operating systems, and serves as the official development framework for the ``W80X`` series of chips.
+It supports Windows, and Linux operating systems, and serves as the official development framework for the ``W80X`` series of chips.
 
 .. toctree::
    :hidden:

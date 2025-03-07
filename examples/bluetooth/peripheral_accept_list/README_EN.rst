@@ -40,7 +40,7 @@ Building and Running
 
 Example Location：``examples/bluetooth/peripheral_accept_list``
 
-compile, burn, and more, see：`Quick Start Guide <https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html>`_
+compile, burn, and more, see：`Quick Start Guide <https://doc.winnermicro.net/w800/en/latest/get_started/index.html>`_
 
 Running Result
 **************

@@ -6,7 +6,7 @@ WM IoT SDK 是 WinnerMicro 官方推出的物联网系统，
 .. image:: ../_static/architecture.svg
    :align: center
 
-支持 Windows、Linux 和 macOS 操作系统，是 ``W80X`` 系列芯片的官方开发框架。
+支持 Windows 和 Linux 操作系统，是 ``W80X`` 系列芯片的官方开发框架。
 
 .. toctree::
    :hidden:

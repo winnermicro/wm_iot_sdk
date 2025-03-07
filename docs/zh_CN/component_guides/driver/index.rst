@@ -67,7 +67,132 @@
    HASH <drv_hash>
    RNG <drv_rng>
    RSA <drv_rsa>
-.. I2S <drv_i2s>
+   I2S <drv_i2s>
+   CODEC I2S <drv_codec_i2s>
+
+
+外设驱动的 menuconfig 配置
+-----------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 50 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_DRIVER_RCC_ENABLED
+     - 是否启用 RCC 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_PMU_ENABLED
+     - 是否启用 PMU 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_IRQ_ENABLED 
+     - 是否启用 IRQ 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_DMA_ENABLED 
+     - 是否启用 DMA 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_INTERNAL_FLASH_ENABLED
+     - 是否启用 Flash 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_EXTERNAL_FLASH_ENABLED
+     - 是否启用 FLASH 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_TIMER_ENABLED 
+     - 是否启用 Timer 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_UART_ENABLED
+     - 是否启用 UART 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_GPIO_ENABLED 
+     - 是否启用 GPIO 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_PSRAM_ENABLED
+     - 是否启用 PSRAW 驱动
+     - N     
+
+   * - CONFIG_COMPONENT_DRIVER_PWM_ENABLED 
+     - 是否启用 PWM 驱动
+     - N     
+
+   * - CONFIG_COMPONENT_DRIVER_RTC_ENABLED  
+     - 是否启用 RTC 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_SDMMC_ENABLED 
+     - 是否启用 SDIO Host (SDMMC) 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_SDSPI_ENABLED 
+     - 是否启用 SDIO Host (SPI Mode) 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_SDSPI_ENABLED
+     - 是否启用 SPI Master 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_WDT_ENABLED
+     - 是否启用 WATCH Dog 驱动
+     - Y 
+
+   * - CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED
+     - 是否启用 TFT LCD 驱动
+     - N  
+
+   * - CONFIG_COMPONENT_DRIVER_ADC_ENABLED
+     - 是否启用 ADC 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_CRC_ENABLED
+     - 是否启用 CRC 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_CRYPTO_ENABLED 
+     - 是否启用 CRYPTO 驱动
+     - N
+
+   * - CONFIG_COMPONENT_DRIVER_HASH_ENABLED 
+     - 是否启用 HASH 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_RNG_ENABLED
+     - 是否启用 RNG 驱动
+     - Y
+
+   * - CONFIG_COMPONENT_DRIVER_RSA_ENABLED    
+     - 是否启用 RSA 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED    
+     - 是否启用 SEG LCD 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_TOUCH_SENSOR_ENABLED   
+     - 是否启用 Touch Sensor 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_I2C_ENABLED   
+     - 是否启用 I2C 驱动
+     - N 
+
+   * - CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED 
+     - 是否启用 SDIO Slave 驱动
+     - N 
+
 
 如何添加一个新的设备驱动
 ^^^^^^^^^^^^^^^^^^^^^^^^^

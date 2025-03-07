@@ -16,10 +16,8 @@ if(CONFIG_COMPONENT_MQTT_ENABLED)
                               )
 
     list(APPEND ADD_DEFINITIONS -DNO_PERSISTENCE=1
-                                -DUSE_SELECT=1
                                 -DHIGH_PERFORMANCE=1
                                 -DUSE_MBEDTLS=1
                                 )
-
     register_component()
 endif()

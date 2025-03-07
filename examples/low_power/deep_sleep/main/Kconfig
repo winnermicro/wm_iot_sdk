@@ -1,0 +1,29 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config EXAMPLE_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+    config EXAMPLE_WIFI_LISTEN_INTERVAL
+        int "WiFi listen interval"
+        default 10
+        help
+            Interval for station to listen to beacon from AP. The unit of listen interval is one beacon interval.
+            For example, if beacon interval is 100 ms and listen interval is 10, the interval for station to listen
+            to beacon is 1000 ms.
+
+endmenu

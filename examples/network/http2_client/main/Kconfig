@@ -1,0 +1,32 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_IS_OPEN_NETWORK
+            bool "Wi-Fi is open network"
+            default n
+
+        if !EXAMPLE_WIFI_IS_OPEN_NETWORK
+            config EXAMPLE_WIFI_PASSWORD
+                string "Wi-Fi Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (WPA or WPA2) for the example to use.
+        endif
+
+    config EXAMPLE_DEFAULT_HOST
+        string "Host"
+        default "myhost"
+        help
+            Target Host for http2 server.
+
+    config EXAMPLE_DEFAULT_PORT
+        int "Port"
+        default 443
+        help
+            Target port for http2 server.
+endmenu

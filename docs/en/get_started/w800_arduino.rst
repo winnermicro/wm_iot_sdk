@@ -12,7 +12,7 @@ Preparation
 
 - USB Serial Driver （`Click to download the CH34X driver <https://doc.winnermicro.net/download/tools/all/CH341SER.zip>`_）
 
-- PC (Windows, Linux, or mac OS)
+- PC (Windows, or Linux)
 
 You can skip the introduction and proceed directly to the :ref:`Application development<application-program>` section.
 

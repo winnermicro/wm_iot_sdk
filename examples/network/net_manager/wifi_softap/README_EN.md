@@ -12,7 +12,7 @@ This example demonstrates how to quickly start Wi-Fi softAP through Net Manager.
 
 Example Location：`examples/network/net_manager/wifi_softap`
 
-compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

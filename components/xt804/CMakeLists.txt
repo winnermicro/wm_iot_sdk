@@ -12,8 +12,8 @@ if(${CONFIG_CHIP_W80X})
                           "src/vectors.S"
                           )
 
-    list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libcsi_math.a"
-                               "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libcsi_dsp2_nn.a"
+    list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libcsi_math.a"
+                               "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libcsi_dsp2_nn.a"
                                )
 
     register_component()

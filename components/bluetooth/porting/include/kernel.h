@@ -38,7 +38,6 @@ extern "C" {
  * @}
  */
 
-
 struct k_mutex;
 struct k_sem;
 struct k_queue;
@@ -56,7 +55,12 @@ typedef struct k_thread *k_tid_t;
 typedef int ssize_t;
 typedef uint32_t _stack_element_t;
 typedef sys_dlist_t _wait_q_t;
+
+#if !defined(__off_t_defined) && !defined(_OFF_T_DECLARED)
 typedef int off_t;
+#define __off_t_defined
+#define _OFF_T_DECLARED
+#endif
 
 //#define KERNEL_MEMORY_DEBUG
 //#define KERNEL_MEMORY_LEAKAGE
@@ -83,7 +87,6 @@ typedef int off_t;
  * @ingroup kernel_apis
  * @{
  */
-
 
 #endif /* !_ASMLANGUAGE */
 
@@ -399,7 +402,6 @@ extern bool k_is_in_isr(void);
 /**
  * @}
  */
-
 
 /**
  * @cond INTERNAL_HIDDEN
@@ -1088,8 +1090,6 @@ int k_mutex_unlock(struct k_mutex *mutex);
  * @}
  */
 
-
-
 /**
  * @cond INTERNAL_HIDDEN
  */
@@ -1205,7 +1205,6 @@ unsigned int k_sem_count_get(struct k_sem *sem);
 
 /** @} */
 
-
 struct k_work_queue_config {
     /** The name to be given to the work queue thread.
 	 *
@@ -1238,7 +1237,7 @@ enum {
 };
 
 enum {
- /**
+    /**
  * @cond INTERNAL_HIDDEN
  */
 
@@ -1249,32 +1248,32 @@ enum {
     /* Bits that represent the work item states.  At least nine of the
 	 * combinations are distinct valid stable states.
 	 */
-    K_WORK_RUNNING_BIT = 0,
+    K_WORK_RUNNING_BIT   = 0,
     K_WORK_CANCELING_BIT = 1,
-    K_WORK_QUEUED_BIT = 2,
-    K_WORK_DELAYED_BIT = 3,
+    K_WORK_QUEUED_BIT    = 2,
+    K_WORK_DELAYED_BIT   = 3,
 
     K_WORK_MASK = BIT(K_WORK_DELAYED_BIT) | BIT(K_WORK_QUEUED_BIT) | BIT(K_WORK_RUNNING_BIT) | BIT(K_WORK_CANCELING_BIT),
 
     /* Static work flags */
     K_WORK_DELAYABLE_BIT = 8,
-    K_WORK_DELAYABLE = BIT(K_WORK_DELAYABLE_BIT),
+    K_WORK_DELAYABLE     = BIT(K_WORK_DELAYABLE_BIT),
 
     /* Dynamic work queue flags */
     K_WORK_QUEUE_STARTED_BIT = 0,
-    K_WORK_QUEUE_STARTED = BIT(K_WORK_QUEUE_STARTED_BIT),
-    K_WORK_QUEUE_BUSY_BIT = 1,
-    K_WORK_QUEUE_BUSY = BIT(K_WORK_QUEUE_BUSY_BIT),
-    K_WORK_QUEUE_DRAIN_BIT = 2,
-    K_WORK_QUEUE_DRAIN = BIT(K_WORK_QUEUE_DRAIN_BIT),
+    K_WORK_QUEUE_STARTED     = BIT(K_WORK_QUEUE_STARTED_BIT),
+    K_WORK_QUEUE_BUSY_BIT    = 1,
+    K_WORK_QUEUE_BUSY        = BIT(K_WORK_QUEUE_BUSY_BIT),
+    K_WORK_QUEUE_DRAIN_BIT   = 2,
+    K_WORK_QUEUE_DRAIN       = BIT(K_WORK_QUEUE_DRAIN_BIT),
     K_WORK_QUEUE_PLUGGED_BIT = 3,
-    K_WORK_QUEUE_PLUGGED = BIT(K_WORK_QUEUE_PLUGGED_BIT),
+    K_WORK_QUEUE_PLUGGED     = BIT(K_WORK_QUEUE_PLUGGED_BIT),
 
     /* Static work queue flags */
     K_WORK_QUEUE_NO_YIELD_BIT = 8,
-    K_WORK_QUEUE_NO_YIELD = BIT(K_WORK_QUEUE_NO_YIELD_BIT),
+    K_WORK_QUEUE_NO_YIELD     = BIT(K_WORK_QUEUE_NO_YIELD_BIT),
 
- /**
+    /**
  * INTERNAL_HIDDEN @endcond
  */
     /* Transient work flags */
@@ -1505,7 +1504,7 @@ struct k_work_delayable {
     {                                              \
         .work = {                                  \
             .handler = work_handler,               \
-            .flags = K_WORK_DELAYABLE,             \
+            .flags   = K_WORK_DELAYABLE,           \
         },                                         \
     }
 
@@ -1780,8 +1779,6 @@ bool k_work_cancel_delayable_sync(struct k_work_delayable *dwork, struct k_work_
 
 /** @} */
 
-
-
 /**
  * @defgroup heap_apis Heap APIs
  * @ingroup kernel_apis
@@ -1827,8 +1824,6 @@ extern void k_free(void *ptr);
 extern void *k_calloc(size_t nmemb, size_t size);
 
 /** @} */
-
-
 
 /* polling API - PRIVATE */
 
@@ -2191,8 +2186,7 @@ struct k_mem_slab {
     STRUCT_SECTION_ITERABLE(k_mem_slab, name) =                               \
         Z_MEM_SLAB_INITIALIZER(name, _k_mem_slab_buf_##name, WB_UP(slab_block_size), slab_num_blocks)
 #else
-#define K_MEM_SLAB_DEFINE(name, slab_block_size, slab_num_blocks, slab_align) \
-    static struct k_mem_slab name;
+#define K_MEM_SLAB_DEFINE(name, slab_block_size, slab_num_blocks, slab_align) static struct k_mem_slab name;
 
 #endif
 /**

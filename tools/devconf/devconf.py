@@ -592,28 +592,6 @@ def wmdt_index():
             data['com_num'] = int(request.form.get("com_num"))
             data['dev_name'] = dev_name
             configHelper.set_seg_lcd_config(data)
-        elif dev_name.startswith('GDC0689'):
-            #data = {'initlevel':0, 'initpriority':0}
-            data = configHelper.get_gdc0689_config(dev_name)
-            try:
-                data['initlevel'] = int(request.form.get("initlevel"))
-            except TypeError:
-                data['initlevel'] = 0
-            try:
-                data['initpriority'] = int(request.form.get("initpriority"))
-            except TypeError:
-                data['initpriority'] = 0
-            for i in range(0, 46):
-                try:
-                    data['enable'][i] = int(request.form.get("enable" + str(i)))
-                except TypeError:
-                    data['enable'][i] = 0
-                try:
-                    data['pinnum'][i] = int(request.form.get("pinnum" + str(i)))
-                except TypeError:
-                    data['pinnum'][i] = 0
-            data['dev_name'] = dev_name
-            configHelper.set_gdc0689_config(data)
         elif dev_name.startswith('ADC'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_adc_config(dev_name)
@@ -796,8 +774,6 @@ def wmdt_index():
         return render_template('index.html', data=configHelper.get_i2s_config(dev_name))
     elif dev_name.startswith('SEG_LCD'):
         return render_template('index.html', data=configHelper.get_seg_lcd_config(dev_name))
-    elif dev_name.startswith('GDC0689'):
-        return render_template('index.html', data=configHelper.get_gdc0689_config(dev_name))
     elif dev_name.startswith('ADC'):
         return render_template('index.html', data=configHelper.get_adc_config(dev_name))
     elif dev_name.startswith('GPIO'):

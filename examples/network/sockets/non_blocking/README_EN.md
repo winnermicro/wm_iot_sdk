@@ -34,7 +34,7 @@ It resumes to listening for new connections when the client's socket gets closed
 
 Example Location： `examples/network/sockets/non_blocking`
 
-compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+compile, burn, and more, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

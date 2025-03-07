@@ -21,6 +21,7 @@
  *  limitations under the License.
  */
 
+#include "wmsdk_config.h"
 #include <assert.h>
 #include "wm_types.h"
 #include "wm_error.h"
@@ -155,7 +156,9 @@ int wm_hal_irq_enable(wm_irq_no_t irq)
     wm_hal_irq_set_critical();
     NVIC_ClearPendingIRQ(irq);
     NVIC_EnableIRQ(irq);
+#if !defined(CONFIG_COMPONENT_PM_ENABLED)
     NVIC_SetWakeupIRQ(irq);
+#endif
     wm_hal_irq_release_critical();
 
     return WM_ERR_SUCCESS;
@@ -169,7 +172,10 @@ int wm_hal_irq_disable(wm_irq_no_t irq)
 
     wm_hal_irq_set_critical();
     NVIC_DisableIRQ(irq);
+    NVIC_ClearPendingIRQ(irq);
+#if !defined(CONFIG_COMPONENT_PM_ENABLED)
     NVIC_ClearWakeupIRQ(irq);
+#endif
     wm_hal_irq_release_critical();
 
     return WM_ERR_SUCCESS;
@@ -209,6 +215,19 @@ int wm_hal_irq_set_wakeup(wm_irq_no_t irq)
 
     wm_hal_irq_set_critical();
     NVIC_SetWakeupIRQ(irq);
+    wm_hal_irq_release_critical();
+
+    return WM_ERR_SUCCESS;
+}
+
+int wm_hal_irq_clear_wakeup(wm_irq_no_t irq)
+{
+    if (irq >= WM_IRQ_MAX) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    wm_hal_irq_set_critical();
+    NVIC_ClearWakeupIRQ(irq);
     wm_hal_irq_release_critical();
 
     return WM_ERR_SUCCESS;

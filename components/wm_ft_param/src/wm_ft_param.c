@@ -130,10 +130,54 @@ static int ft_param_init(uint32_t ft_addr, wm_ft_param_t *pft)
     return WM_ERR_FAILED;
 }
 
+static int wm_ft_param_reset_internal_data(void)
+{
+    int ret            = 0;
+    wm_ft_param_t *pft = NULL;
+
+    pft = wm_os_internal_malloc(sizeof(wm_ft_param_ver_t));
+    if (pft == NULL) {
+        return WM_ERR_NO_MEM;
+    }
+
+    memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
+
+    ret = ft_param_init(g_ft_addr_0, pft);
+    if (ret < 0) {
+        wm_log_debug("ft init too");
+        memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
+        ret = ft_param_init(g_ft_addr_1, pft);
+    }
+
+    if (1 == ret) {
+        memcpy((uint8_t *)g_ft_param, (uint8_t *)pft, sizeof(wm_ft_param_ver_t));
+        ret = WM_ERR_SUCCESS;
+        wm_log_debug("ft init 1");
+    } else if (2 == ret) {
+        memcpy((uint8_t *)g_ft_param, (uint8_t *)pft, sizeof(wm_ft_param_t));
+        ret = WM_ERR_SUCCESS;
+        wm_log_debug("ft init 2");
+    } else {
+        ret = WM_ERR_FAILED;
+        wm_log_debug("ft init error");
+    }
+
+    wm_os_internal_free(pft);
+
+    return WM_ERR_SUCCESS;
+}
+
 static int wm_ft_param_get(uint32_t opnum, void *data, uint32_t rdlen)
 {
     int ret                = 0;
     wm_device_t *flash_dev = NULL;
+
+#if CONFIG_WM_FT_PARAM_ENABLE_DATA_RESET_WHEN_GET
+    if (WM_ERR_SUCCESS != (ret = wm_ft_param_reset_internal_data())) {
+        wm_log_error("ft param set err when data get");
+        return ret;
+    }
+#endif
 
     flash_dev = wm_dt_get_device_by_name("iflash");
 
@@ -249,14 +293,14 @@ static int wm_ft_param_set(uint32_t opnum, void *data, uint32_t len)
     flash_dev = wm_dt_get_device_by_name("iflash");
 
     memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
-    ret = ft_param_init(g_ft_addr_1, pft);
+    ret = ft_param_init(g_ft_addr_0, pft);
     if (ret != WM_ERR_FAILED) {
         memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
-        ret = ft_param_init(g_ft_addr_0, pft);
+        ret = ft_param_init(g_ft_addr_1, pft);
         if (WM_ERR_FAILED == ret || memcmp(pft, g_ft_param, sizeof(wm_ft_param_ver_t))) {
-            wm_drv_iflash_wr_with_erase_private(flash_dev, g_ft_addr_0, (uint8_t *)g_ft_param, sizeof(wm_ft_param_ver_t));
+            wm_drv_iflash_wr_with_erase_private(flash_dev, g_ft_addr_1, (uint8_t *)g_ft_param, sizeof(wm_ft_param_ver_t));
             memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
-            ret = ft_param_init(g_ft_addr_0, pft);
+            ret = ft_param_init(g_ft_addr_1, pft);
             if (WM_ERR_FAILED == ret || memcmp(pft, g_ft_param, sizeof(wm_ft_param_ver_t))) {
                 memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
                 wm_os_internal_free(pft);
@@ -375,8 +419,7 @@ static int wm_ft_param_set(uint32_t opnum, void *data, uint32_t len)
 
 int wm_ft_param_init(void)
 {
-    int ret            = 0;
-    wm_ft_param_t *pft = NULL;
+    int ret = 0;
     wm_drv_flash_info_t fls_info;
     wm_device_t *flash_dev = NULL;
     wm_partition_item_t partition;
@@ -403,34 +446,9 @@ int wm_ft_param_init(void)
 
     memset(g_ft_param, 0xFF, sizeof(wm_ft_param_ver_t));
 
-    pft = wm_os_internal_malloc(sizeof(wm_ft_param_ver_t));
-    if (pft == NULL) {
-        return WM_ERR_NO_MEM;
+    if (WM_ERR_SUCCESS != (ret = wm_ft_param_reset_internal_data())) {
+        wm_log_error("ft data set err");
     }
-
-    memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
-
-    ret = ft_param_init(g_ft_addr_1, pft);
-    if (ret < 0) {
-        wm_log_debug("ft init too");
-        memset(pft, 0xFF, sizeof(wm_ft_param_ver_t));
-        ret = ft_param_init(g_ft_addr_0, pft);
-    }
-
-    if (1 == ret) {
-        memcpy((uint8_t *)g_ft_param, (uint8_t *)pft, sizeof(wm_ft_param_ver_t));
-        ret = WM_ERR_SUCCESS;
-        wm_log_debug("ft init 1");
-    } else if (2 == ret) {
-        memcpy((uint8_t *)g_ft_param, (uint8_t *)pft, sizeof(wm_ft_param_t));
-        ret = WM_ERR_SUCCESS;
-        wm_log_debug("ft init 2");
-    } else {
-        ret = WM_ERR_FAILED;
-        wm_log_debug("ft init error");
-    }
-
-    wm_os_internal_free(pft);
 
     return ret;
 }

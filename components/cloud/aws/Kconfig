@@ -1,0 +1,47 @@
+menu "AWS"
+
+    config AWS_CORE_MQTT
+        bool "Using coreMQTT"
+        default n
+        help
+            Select this option to enable coreMQTT.
+
+    config AWS_CORE_HTTP
+        bool "Using coreHTTP"
+        select COMPONENT_HTTP_CLIENT_ENABLED
+        select WM_HTTP2_CLIENT_ENABLED
+        select WM_HTTP2_CLIENT_LLHTTP
+        default n
+        help
+            Select this option to enable coreHTTP.
+
+    config AWS_CORE_JSON
+        bool "Using coreJSON"
+        default n
+        help
+            Select this option to enable coreJSON.
+
+    config AWS_DEVICE_SHADOW
+        bool "Using device shadow"
+        select AWS_CORE_JSON
+        select AWS_CORE_MQTT
+        default n
+        help
+            Select this option to enable device shadow.
+
+    config AWS_JOB
+        bool "Using job for aws"
+        select AWS_CORE_JSON
+        select AWS_CORE_MQTT
+        default n
+        help
+            Select this option to enable job for aws.
+
+    config AWS_OTA
+        bool "Using OTA for aws"
+        select AWS_JOB
+        default n
+        help
+            Select this option to enable OTA for aws.
+
+endmenu

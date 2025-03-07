@@ -29,3 +29,37 @@ FreeRTOS-Plus-POSIX 包括以下 POSIX 线程标头文件的实现：
 * time.h
 * unistd.h
 * utils.h
+
+POSIX 的 meunconfig 配置
+---------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_POSIX_ENABLED
+     - 是否启用 POSIX 组件
+     - N
+
+   * - CONFIG_POSIX_TASK_NAME_DEFAULT 
+     - 配置线程的默认名称
+     - pthread 
+
+   * - CONFIG_POSIX_TIMER_NAME_DEFAULT 
+     - 配置定时器的默认名称
+     - timer
+
+   * - CONFIG_POSIX_MQ_MAX_MESSAGES
+     - 配置消息的默认最大数量
+     - 10
+
+   * - CONFIG_POSIX_MQ_MAX_SIZE
+     - 配置消息的最大字节大小
+     - 128

@@ -143,7 +143,7 @@ int wm_drv_timer_stop(wm_device_t *dev);
   * @brief Set timer period. Timer will restart for this
   *
   * @param [in] dev: device handle, use @arg wm_device_t    
-  * @param [in] period: timer period  
+  * @param [in] period: timer period, unit decided by @arg wm_drv_timer_cfg_t
   *
   * @return
   *    - WM_ERR_SUCCESS: succeed
@@ -167,7 +167,7 @@ int wm_drv_timer_set_auto_reload(wm_device_t *dev, bool auto_reload);
   * @brief Get timer counter.
   *
   * @param [in] dev: device handle, use @arg wm_device_t
-  * @param [out] counter: timer counter  
+  * @param [out] counter: timer counter, unit decided by @arg wm_drv_timer_cfg_t
   *
   * @return
   *    - WM_ERR_SUCCESS: succeed

@@ -256,6 +256,33 @@ Direct 输出模式
         浮点数格式化中，支持 %f 和 %lf , 不支持 %e, %E, %g, %G。另外，整数格式化不支持 %zu, %zi, %zd。
 
 
+LOG 的 meunconfig 配置
+--------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_LOG_PRINT_UART_MODE 
+     - 配置输出端口
+     - Uart0
+
+   * - CONFIG_LOG_DEFAULT_LEVEL
+     - 配置输出级别
+     - INFO 级别
+
+   * - CONFIG_LOG_USE_COLOR
+     - 配置输出 LOG 支持颜色
+     - N
+
+
 API 参考
 ---------
 

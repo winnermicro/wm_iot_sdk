@@ -946,7 +946,8 @@ end:
 void bt_mesh_net_init(void)
 {
 
-    k_mem_slab_init(&loopback_buf_pool, loopback_buf_pool.buffer, loopback_buf_pool.block_size, loopback_buf_pool.num_blocks);
+	k_mem_slab_init(&loopback_buf_pool, NULL, sizeof(struct loopback_buf),
+		CONFIG_BT_MESH_LOOPBACK_BUFS);
 
 	k_work_init_delayable(&bt_mesh.ivu_timer, ivu_refresh);
 

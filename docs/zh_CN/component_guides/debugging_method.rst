@@ -205,7 +205,7 @@ ramdump分析主要包括两个步骤：
 
 其中 ``port`` 为端口号，只有一个串口时可不填写该参数。执行完成后就可以使用下面的命令。
 
-1. 使用 ``wm.py debug`` 分析导出的 ramdump
+2. 使用 ``wm.py debug`` 分析导出的 ramdump
 
 导出 ramdump 后输入 ``wm.py debug`` 进入 debug 模式，接下来的调试方法与 gdb 命令行在线调试完全一样，此处不再介绍。
 
@@ -243,7 +243,6 @@ gdb 调试，使用 ``bt`` 命令。可以看到如下信息：
 .. hint:: 
     
     * 当前 ramdump 分析功能不支持查看外设寄存器（register）中的数据。
-    * 当前 ramdump 分析功能只支持在 windows 系统和 Linux 系统下直接使用，如想在 macOS 系统下使用需要自行构建 `gdbstub_ck804 <https://github.com/wdyichen/mini-gdbstub-ck804>`_，然后重命名为 ``mac_gdb.stub`` 并放置于 ``tools/wm`` 路径下。
 
 .. _bootreason:
 

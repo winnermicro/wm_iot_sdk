@@ -185,8 +185,8 @@ static void *heap_alloc(wm_memory_layout_t *memory, size_t wanted_size, wm_heap_
                 block->caps = caps;
 
                 wm_heaps.free_bytes_remaining -= block->block_size;
-                if (wm_heaps.minimum_ever_free_bytes_remaining < memory->heap.minimum_ever_free_bytes_remaining) {
-                    wm_heaps.minimum_ever_free_bytes_remaining = memory->heap.minimum_ever_free_bytes_remaining;
+                if (wm_heaps.free_bytes_remaining < wm_heaps.minimum_ever_free_bytes_remaining) {
+                    wm_heaps.minimum_ever_free_bytes_remaining = wm_heaps.free_bytes_remaining;
                 }
 
 #if defined(CONFIG_HEAP_POISONING_LIGHT) || defined(CONFIG_HEAP_POISONING_COMPREHENSIVE)
@@ -343,11 +343,17 @@ static inline void wm_heap_print_stats_internal(void)
     size_t remain;
     float remain_k;
 
+    size_t min_remain;
+    float min_remain_k;
+
     remain   = wm_heaps.free_bytes_remaining;
     remain_k = remain / 1024.0;
 
-    wm_printf_direct("heap remain %u (%0.2f%s):\r\n", remain, (size_t)remain_k > 1024 ? remain_k / 1024 : remain_k,
-                     (size_t)remain_k > 1024 ? "MB" : "KB");
+    min_remain   = wm_heaps.minimum_ever_free_bytes_remaining;
+    min_remain_k = min_remain / 1024.0;
+
+    wm_printf_direct("    Type     Current Size       \tMinimum Size\r\n");
+    wm_printf_direct("    %-8s %-7u (%0.2fKB)\t\t%-7u (%0.2fKB)\r\n", "Total", remain, remain_k, min_remain, min_remain_k);
 
     for (i = 0; i < wm_soc_memory_count; i++) {
         wm_memory_layout_t *memory = &wm_soc_memory[i];
@@ -355,8 +361,12 @@ static inline void wm_heap_print_stats_internal(void)
         if (!(WM_HEAP_CAP_INVALID & memory->caps)) {
             remain   = memory->heap.free_bytes_remaining;
             remain_k = remain / 1024.0;
-            wm_printf_direct("    %-8s remain %-7u (%0.2f%s)\r\n", memory->mem_name, remain,
-                             (size_t)remain_k > 1024 ? remain_k / 1024 : remain_k, (size_t)remain_k > 1024 ? "MB" : "KB");
+
+            min_remain   = memory->heap.minimum_ever_free_bytes_remaining;
+            min_remain_k = min_remain / 1024.0;
+
+            wm_printf_direct("    %-8s %-7u (%0.2fKB)\t\t%-7u (%0.2fKB)\r\n", memory->mem_name, remain, remain_k, min_remain,
+                             min_remain_k);
         }
     }
 }

@@ -6,7 +6,7 @@ This project demonstrates how to configure the Device Table based on the W800_AR
 
 It should be noted that:：
 WM IOT SDK v2.x currently does not support Arduino IDE.
-For the development environment supported by WM IOT SDK v2.x, please refer to: [Setup compiling environment](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html#compiling-environment)
+For the development environment supported by WM IOT SDK v2.x, please refer to: [Setup compiling environment](https://doc.winnermicro.net/w800/en/latest/get_started/index.html#compiling-environment)
 
 
 ## Environmental Requirements
@@ -30,7 +30,7 @@ For example, directly entering "help" will display a list of all supported Cli c
 
 Example Location: `examples/ref_design/w800_arduino`
 
-For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Results

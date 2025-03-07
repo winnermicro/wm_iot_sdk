@@ -18,7 +18,7 @@ the demo project will do the following two things
 
 Demo project path：`examples/peripheral/spi_master/transceive_sync`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

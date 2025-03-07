@@ -48,24 +48,31 @@ VS Code
 
 其中 ``WM IoT SDK Path``:
 
+- 若已经下载 wm_iot_sdk 源码，可直接选择 ``Browse`` 进行配置
+
 ::
 
   WM IoT SDK 源码下载存放路径\wm_iot_sdk
 
+- 若没有下载 wm_iot_sdk 源码，可点击 ``Download`` 并选择下载路径进行自动下载安装
+
+.. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_iot_sdk_download.svg
+   :align: center
+
 其中 ``WM Dev Suite Path``:
 
-若已经参考 :ref:`Windows 搭建命令行编译环境<windows-system>` 下载安装了集成开发环境，可直接进行配置
+- 若已经参考 :ref:`Windows 搭建命令行编译环境<windows-system>` 下载安装了集成开发环境，可直接选择 ``Browse`` 进行配置
 
 ::
 
   集成开发环境安装路径\winnermicro\wmclics
 
-若没有安装 :ref:`Windows 搭建命令行编译环境<windows-system>` 集成开发环境，可点击 ``Install`` 并选择安装路径进行自动安装配置
+- 若没有安装 :ref:`Windows 搭建命令行编译环境<windows-system>` 集成开发环境，可点击 ``Install`` 并选择安装路径进行自动安装配置
 
 .. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_config_install.svg
    :align: center
 
-若不希望采用集成开发环境的方式，还可以点击 ``Advance`` 进行高级配置,单独配置每一项
+- 若不希望采用集成开发环境的方式，还可以点击 ``Advance`` 进行高级配置,单独配置每一项
 
 .. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_config2.svg
    :align: center
@@ -101,6 +108,12 @@ VS Code
   3、选择 `flash` 烧录固件
 
 也可以在底部的状态栏中的 WM IoT SDK 菜单中选择对应命令进行操作。
+
+.. hint::
+
+   `devconfig` 命令用于配置设备表，请参考 :ref:`设备表<lable_device_table>`
+   `clean` 命令用于清除编译目录下的所有编译产生的文件，保留配置文件
+   `debug` 命令用于调试，请参考 :ref:`使用调试器在线调试 <debug>`
 
 成功烧录固件后，可点击 `串口监行器` -> `更改端口号(与芯片端口号一致)` -> `更改波特率` -> `运行` 查看运行结果。
 

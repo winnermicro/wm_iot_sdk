@@ -29,7 +29,7 @@ WinnerMicro 为用户提供完整的软、硬件资源，进行硬件设备的�
 
 * 一款开发板
 * USB 数据线
-* 电脑（Windows、Linux 或 macOS）
+* 电脑（Windows 或 Linux）
 
 .. only:: w800
 
@@ -66,8 +66,7 @@ WinnerMicro 为用户提供完整的软、硬件资源，进行硬件设备的�
 
 .. hint::
 
-    由于不同用户使用的操作系统可能不同，于是我们针对市面上常用的几种操作系统（:ref:`Windows 系统<windows-system>`、:ref:`Linux 系统<linux-system>`
-    和 :ref:`macOS 系统<macos-system>`）分别提供了搭建环境的步骤，用户可以根据自己的实际情况任选其一即可。
+    由于不同用户使用的操作系统可能不同，于是我们针对市面上常用的几种操作系统（:ref:`Windows 系统<windows-system>` 和 :ref:`Linux 系统<linux-system>`）分别提供了搭建环境的步骤，用户可以根据自己的实际情况任选其一即可。
 
 
 .. _shell-compiling-environment:
@@ -80,7 +79,6 @@ WinnerMicro 为用户提供完整的软、硬件资源，进行硬件设备的�
 
    windows
    linux
-   macos
 
 使用 IDE 搭建编译环境
 ---------------------------
@@ -147,8 +145,7 @@ WinnerMicro 为用户提供完整的软、硬件资源，进行硬件设备的�
 
     wm.py flash -p PORT
 
-其中的 PORT 需替换为系统中实际串口的名字（比如 Windows 下的 COM1，Linux 下的 /dev/ttyUSB0，
-或者 macOS 下的 /dev/cu.usbserial-1401）。
+其中的 PORT 需替换为系统中实际串口的名字（比如 Windows 下的 COM1，或者 Linux 下的 /dev/ttyUSB0）。
 如果省略 -p 选项，wm.py flash 会尝试使用第一个可用的串口进行烧写。
 如果想擦除整块 flash 然后重新烧写，请运行 ``wm.py flash -e -p PORT`` 。
 默认完成烧录之后会自动重启设备，如果想在烧录之后不自动重启设备，请运行 ``wm.py flash -m -p PORT`` 。

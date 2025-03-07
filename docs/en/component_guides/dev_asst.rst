@@ -112,7 +112,7 @@ The MAC management mechanism of the WM IOT SDK follows the following principles:
 
   + NVStore stores three different types of MAC addresses including Wifi Station, WiFi SoftAP, and BT.
   + FT Region only stores two types of MAC addresses including WiFi and BT.
-  + There is also a Default MAC in the code, which is used for MAC address import in scenarios where the  
+  + There is also a Default MAC in the code, the Default MAC is "FF:FF:FF:FF:FF:FF",users can motidy it by themselves, which is used for MAC address import in scenarios where the  
     contents of NVStore and FT Region are unreliable.
 
 - Read operation flow of native MAC API:

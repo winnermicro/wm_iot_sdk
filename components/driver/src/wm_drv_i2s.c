@@ -42,311 +42,262 @@
 
 #include "wm_drv_ops_i2s.c"
 
-int wm_drv_i2s_ioctl(wm_device_t *device, wm_drv_i2s_ioctl_args_t *arg)
+#define WM_DRV_I2S_LOCK(device)                                                                    \
+    do {                                                                                           \
+        if (i2s_mutex_lock(((wm_drv_i2s_data_t *)((device)->drv))->ctx.mutex) != WM_ERR_SUCCESS) { \
+            return WM_ERR_FAILED;                                                                  \
+        }                                                                                          \
+    } while (0)
+
+#define WM_DRV_I2S_UNLOCK(device) wm_os_internal_mutex_release(((wm_drv_i2s_data_t *)(device)->drv)->ctx.mutex)
+
+static int i2s_mutex_lock(wm_os_mutex_t *mutex)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    if (wm_os_internal_get_isr_count() > 0) {
+        wm_log_debug("can't call in interrupt context");
+        return WM_ERR_NO_SUPPORT;
+    }
+
+    return wm_os_internal_mutex_acquire(mutex, WM_OS_WAIT_TIME_MAX);
+}
+
+int wm_drv_i2s_ioctl(wm_device_t *device, wm_drv_i2s_ioctl_cmd_t cmd, bool enable, uint32_t arg)
+{
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->ioctl(device, arg);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->ioctl(device, cmd, enable, arg);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
-#if WM_DRV_I2S_USE_WRITE_EXT_API
-int wm_drv_i2s_write_async_ext(wm_device_t *device, void *buf, int len, i2s_free_buf_cb_t cb)
+int wm_drv_i2s_set_format(wm_device_t *device, uint32_t sample_rate_hz, enum wm_i2s_bits bits, enum wm_i2s_chan_type channel)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (buf == NULL || len == 0) {
-        WM_DRV_I2S_LOG_MARKER;
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->set_format(device, sample_rate_hz, bits, channel);
 
-    ret = WM_DRV_I2S_OPS(device)->write_async(device, buf, len, cb);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    WM_DRV_I2S_UNLOCK(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
-
-    return ret;
+    return err;
 }
-#endif /* WM_DRV_I2S_USE_WRITE_EXT_API */
+
+int wm_drv_i2s_set_mclk(wm_device_t *device, uint32_t mclk_hz)
+{
+    int err;
+
+    if (!(device && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    WM_DRV_I2S_LOCK(device);
+
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->set_mclk(device, mclk_hz);
+
+    WM_DRV_I2S_UNLOCK(device);
+
+    return err;
+}
 
 int wm_drv_i2s_write_async(wm_device_t *device, void *buf, int len)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (buf == NULL || len <= 0) {
-        WM_DRV_I2S_LOG_MARKER;
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->write_async(device, buf, len);
 
-    ret = WM_DRV_I2S_OPS(device)->write_async(device, buf, len, NULL);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    WM_DRV_I2S_UNLOCK(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
-
-    return ret;
+    return err;
 }
 
-/* clear buffer cached and stop HW transfer */
 int wm_drv_i2s_write_stop(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->write_stop(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->write_stop(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
 int wm_drv_i2s_write_pause(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->write_pause(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->write_pause(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return WM_ERR_SUCCESS;
+    return err;
 }
 
 int wm_drv_i2s_write_resume(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->write_resume(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->write_resume(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return WM_ERR_SUCCESS;
+    return err;
 }
 
-int wm_drv_i2s_read_async(wm_device_t *device)
+int wm_drv_i2s_read_async(wm_device_t *device, void *buf, int len)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->read_async(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->read_async(device, buf, len);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
 int wm_drv_i2s_read_stop(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->read_stop(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->read_stop(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
 int wm_drv_i2s_read_pause(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->read_pause(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->read_pause(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
 int wm_drv_i2s_read_resume(wm_device_t *device)
 {
-    int ret;
-    if (!WM_I2S_PRE_VALID()) {
+    int err;
+
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->read_resume(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->read_resume(device);
 
-lerr:
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    return ret;
+    return err;
 }
 
-int wm_drv_i2s_register_write_cb(wm_device_t *device, i2s_tx_done_cb_t cb)
+int wm_drv_i2s_register_write_cb(wm_device_t *device, wm_drv_i2s_callback_t callback)
 {
-    wm_drv_i2s_data_t *data = NULL;
-    if (!WM_I2S_PRE_VALID()) {
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    data = device->drv;
+    ((wm_drv_i2s_data_t *)(device->drv))->ctx.tx_callback = callback;
 
-    wm_drv_i2s_ctx_t *ctx = &data->ctx;
-
-    ctx->user_tx_cb = cb;
-
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
     return WM_ERR_SUCCESS;
 }
 
-int wm_drv_i2s_register_read_cb(wm_device_t *device, i2s_rx_ready_cb_t cb)
+int wm_drv_i2s_register_read_cb(wm_device_t *device, wm_drv_i2s_callback_t callback)
 {
-    wm_drv_i2s_data_t *data = NULL;
-    if (!WM_I2S_PRE_VALID()) {
+    if (!(device && device->drv)) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
-        return WM_ERR_FAILED;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    data = device->drv;
+    ((wm_drv_i2s_data_t *)(device->drv))->ctx.rx_callback = callback;
 
-    wm_drv_i2s_ctx_t *ctx = &data->ctx;
-
-    ctx->user_rx_cb = cb;
-
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
     return WM_ERR_SUCCESS;
 }
 
 wm_device_t *wm_drv_i2s_init(const char *name, wm_drv_i2s_cfg_t *cfg)
 {
-    int ret               = WM_ERR_SUCCESS;
-    wm_drv_i2s_ctx_t *ctx = NULL;
+    int err                 = WM_ERR_SUCCESS;
+    wm_device_t *device     = NULL;
+    wm_drv_i2s_ctx_t *ctx   = NULL;
+    wm_drv_i2s_data_t *data = NULL;
 
     if (name == NULL || cfg == NULL) {
-        WM_DRV_I2S_LOG_MARKER;
+        wm_log_debug("init:bad param");
         return NULL;
     }
 
-    if (cfg->tx_ready_th > WM_DRV_I2S_NBC_TDEPTH) {
-        WM_DRV_I2S_LOG_MARKER;
-        return NULL;
-    }
-
-    if (cfg->rx_ready_th > WM_DRV_I2S_NBC_RDEPTH) {
-        WM_DRV_I2S_LOG_MARKER;
-        return NULL;
-    }
-
-    wm_device_t *device = wm_dt_get_device_by_name(name);
+    device = wm_dt_get_device_by_name(name);
     if (device == NULL) {
-        WM_DRV_I2S_LOG_MARKER;
+        wm_log_debug("init: no such device");
         return NULL;
     }
 
     if (device->drv || device->state != WM_DEV_ST_UNINIT) {
-        WM_DRV_I2S_LOG_E("The driver has already been initialized.");
+        wm_log_debug("already initialized.");
         return NULL;
     }
 
@@ -357,40 +308,36 @@ wm_device_t *wm_drv_i2s_init(const char *name, wm_drv_i2s_cfg_t *cfg)
         return NULL;
     }
 
-    wm_drv_i2s_data_t *data = wm_os_internal_calloc(1, sizeof(*data));
-    if (device == NULL) {
+    data = WM_DRV_I2S_CALLOC(1, sizeof(*data));
+    if (data == NULL) {
         device->state = WM_DEV_ST_UNINIT;
         return NULL;
     }
 
-    device->drv  = data;
-    ctx          = &data->ctx;
-    ctx->cfg     = *cfg;
-    ctx->i2s_dev = device;
+    device->drv = data;
+    ctx         = &data->ctx;
+    ctx->cfg    = *cfg;
 
-    ret = wm_os_internal_mutex_create(&ctx->lock);
-    if (ret != WM_ERR_SUCCESS) {
-        WM_DRV_I2S_LOG_MARKER;
+    err = wm_os_internal_mutex_create(&ctx->mutex);
+    if (err != WM_ERR_SUCCESS) {
         goto fail_mutex;
     }
 
-    ret = WM_DRV_I2S_OPS(device)->init(device, &ctx->cfg);
-    if (ret != WM_ERR_SUCCESS) {
-        WM_DRV_I2S_LOG_MARKER;
-        goto fail_ops;
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->init(device, &ctx->cfg);
+    if (err != WM_ERR_SUCCESS) {
+        goto fail_init;
     }
 
     device->state = WM_DEV_ST_INITED;
 
     return device;
 
-fail_ops:
-    wm_os_internal_mutex_delete(ctx->lock);
+fail_init:
+    wm_os_internal_mutex_delete(ctx->mutex);
 
 fail_mutex:
-    memset(ctx, 0x0, sizeof(*ctx));
-    wm_os_internal_free(data);
 
+    WM_DRV_I2S_FREE(data);
     device->drv   = NULL;
     device->state = WM_DEV_ST_UNINIT;
 
@@ -399,114 +346,84 @@ fail_mutex:
 
 int wm_drv_i2s_deinit(wm_device_t *device)
 {
-    int ret                 = WM_ERR_FAILED;
+    int err                 = WM_ERR_FAILED;
     wm_drv_i2s_data_t *data = device->drv;
 
-    if (!WM_I2S_PRE_VALID()) {
+    if (!(device && device->drv)) {
+        wm_log_debug("bad param.");
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!WM_DRV_I2S_TRY_LOCK()) {
+    if (device->state != WM_DEV_ST_INITED) {
+        wm_log_debug("not init.");
         return WM_ERR_FAILED;
     }
 
-    if (device->drv == NULL || device->state != WM_DEV_ST_INITED) {
-        WM_DRV_I2S_LOG_E("The driver has not been initialized yet.");
-        goto lerr;
-    }
+    WM_DRV_I2S_LOCK(device);
 
-    ret = WM_DRV_I2S_OPS(device)->deinit(device);
-    if (ret != WM_ERR_SUCCESS) {
-        goto lerr;
-    }
+    err = ((wm_drv_i2s_ops_t *)(device->ops))->deinit(device);
 
     /* unlock mutex */
-    WM_DRV_I2S_UNLOCK();
+    WM_DRV_I2S_UNLOCK(device);
 
-    /* free mutex */
-    wm_os_internal_mutex_delete(data->ctx.lock);
+    /* delete mutex */
+    wm_os_internal_mutex_delete(data->ctx.mutex);
 
     /* free data */
-    memset(device->drv, 0x0, sizeof(wm_drv_i2s_data_t));
-    wm_os_internal_free(device->drv);
+    WM_DRV_I2S_FREE(device->drv);
 
     device->drv   = NULL;
     device->state = WM_DEV_ST_UNINIT;
 
-    WM_DRV_I2S_LOG_I("I2S driver de-initialized!");
+    wm_log_debug("I2S driver de-initialized!");
 
-    return WM_ERR_SUCCESS;
-
-lerr:
-    WM_DRV_I2S_UNLOCK();
-
-    return ret;
+    return err;
 }
 
-void wm_drv_i2s_dump_cfgs(wm_device_t *device)
+int wm_drv_i2s_dump_info(wm_device_t *device)
 {
-    extern int wm_hal_i2s_dump_desc(wm_hal_i2s_dev_t * dev);
+    wm_hal_i2s_dev_t *dev    = NULL;
+    wm_drv_i2s_cfg_t *cfg    = NULL;
+    wm_drv_i2s_format_t *fmt = NULL;
+    wm_drv_i2s_data_t *data  = NULL;
+    wm_drv_i2s_ctx_t *ctx    = NULL;
 
-    wm_hal_i2s_dev_t *dev   = NULL;
-    wm_hal_i2s_cfg_t *cfg   = NULL;
-    wm_drv_i2s_data_t *data = NULL;
-    if (device == NULL) {
-        return;
+    if (!(device && device->drv)) {
+        return WM_ERR_INVALID_PARAM;
     }
+
+    if (device->state != WM_DEV_ST_INITED) {
+        wm_log_debug("not init.");
+        return WM_ERR_FAILED;
+    }
+
+    WM_DRV_I2S_LOCK(device);
+
     data = device->drv;
     dev  = &data->dev;
-    cfg  = dev->cfg;
-    if (cfg == NULL) {
-        return;
-    }
+    ctx  = &data->ctx;
+    cfg  = &ctx->cfg;
+    fmt  = &ctx->fmt;
 
-    wm_drv_i2s_ctx_t *ctx     = &data->ctx;
-    wm_drv_i2s_rxbuf_t *rnode = ctx->rnbc.rx_ready_head;
-
-    wm_log_info("cfg.irq_num      :%d", dev->irq_num);
-    wm_log_info("cfg.reg_dev      :%p", dev->reg_dev);
-    wm_log_info("cfg.cfg          :%p", dev->cfg);
-    wm_log_info("cfg.dma_dev      :%p", dev->dma_dev);
     wm_log_info("cfg.mode         :%d", cfg->mode);
     wm_log_info("cfg.dir          :%d", cfg->dir);
     wm_log_info("cfg.std          :%d", cfg->std);
-    wm_log_info("cfg.fmt          :%d", cfg->fmt);
-    wm_log_info("cfg.ch_type      :%d", cfg->ctype);
+    wm_log_info("fmt.bits          :%d", fmt->bits);
+    wm_log_info("fmt.ch_type      :%d", fmt->ctype);
     wm_log_info("cfg.xtype        :%d", cfg->xtype);
-    wm_log_info("cfg.sample_rate  :%u", ctx->cfg.sample_rate_hz);
-    wm_log_info("cfg.dma_ch_tx    :%d", cfg->dma_ch[WM_HAL_I2S_TR_TX]);
-    wm_log_info("cfg.dma_ch_rx    :%d", cfg->dma_ch[WM_HAL_I2S_TR_RX]);
-    wm_log_info("cfg.node_depth_tx:%d", cfg->desc_node_depth[WM_HAL_I2S_TR_TX]);
-    wm_log_info("cfg.node_depth_rx:%d", cfg->desc_node_depth[WM_HAL_I2S_TR_RX]);
-    wm_log_info("cfg.buf_size_rx  :%d", cfg->desc_rxbuf_size);
-    wm_log_info("cfg.des_alloc_cb :%p", cfg->desc_calloc);
-    wm_log_info("cfg.des_free_cb  :%p", cfg->desc_free);
-    wm_log_info("cfg.drv_tx_cb    :%p", cfg->cb[WM_HAL_I2S_TR_TX]);
-    wm_log_info("cfg.drv_rx_cb    :%p", cfg->cb[WM_HAL_I2S_TR_RX]);
+    wm_log_info("fmt.sample_rate  :%u", fmt->sample_rate_hz);
+    wm_log_info("cfg.rx_pkt_size  :%u", ctx->cfg.rx_pkt_size);
+    wm_log_info("cfg.rx_pkt_num  :%u", ctx->cfg.rx_pkt_num);
+    wm_log_info("cfg.tx_pkt_num  :%u", ctx->cfg.tx_pkt_num);
 
-    wm_log_info("tx DMA restart   :%d", dev->priv.desc_start_cnt[WM_HAL_I2S_TR_TX]);
-    wm_log_info("tx total pkts    :%d", dev->priv.xfer_cnt[WM_HAL_I2S_TR_TX]);
-    wm_log_info("tx desc push pkts:%d", dev->priv.desc_push_cnt[WM_HAL_I2S_TR_TX]);
+    wm_log_info("ctx.mclk_hz  :%u", ctx->mclk_hz);
+    wm_log_info("ctx.bitrates  :%u", ctx->bitrates);
+    wm_log_info("ctx.bclk_div  :%u", ctx->bclk_div);
+    wm_log_info("ctx.mclk_div  :%u", ctx->mclk_div);
 
-    wm_log_info("tx pkt threshd   :%d", ctx->cfg.tx_ready_th);
-    wm_log_info("tx valid cached  :%d", wm_drv_i2s_w800_trnb_valid_count(&ctx->tnbc.nbi, WM_DRV_I2S_NBC_TDEPTH));
-    wm_log_info("tx ready cached  :%d", wm_drv_i2s_w800_trnb_ready_count(&ctx->tnbc.nbi, WM_DRV_I2S_NBC_TDEPTH));
+    wm_hal_i2s_dump_info(dev);
 
-    wm_log_info("rx DMA restart   :%d", dev->priv.desc_start_cnt[WM_HAL_I2S_TR_RX]);
-    wm_log_info("rx pkt bufsize   :%d", ctx->cfg.rx_pkt_size);
-    wm_log_info("rx pkt threshd   :%d", ctx->cfg.rx_ready_th);
-    wm_log_info("rx buf online    :%d", wm_drv_i2s_w800_rnb_online_cnt(&ctx->rnbc));
-    wm_log_info("rx buf oncache   :%d", ctx->rnbc.rx_buf_oncache);
-    wm_log_info("rx total_bytes   :%llu", ctx->rnbc.rx_total_bytes);
-    wm_log_info("rx total pkts    :%d", dev->priv.xfer_cnt[WM_HAL_I2S_TR_RX]);
-    wm_log_info("rx desc push pkts:%d", dev->priv.desc_push_cnt[WM_HAL_I2S_TR_RX]);
-    wm_log_info("rx flush total   :%d", dev->priv.rx_flush_total);
-    wm_log_info("rx flush valid   :%d", dev->priv.rx_flush_valid);
-    wm_log_info("rx flush bytes   :%d", dev->priv.rx_flush_bytes);
+    WM_DRV_I2S_UNLOCK(device);
 
-    for (; rnode; rnode = rnode->next) {
-        wm_log_info("\tcached:%p, len:%d, magic:0x%08x", rnode->data, rnode->len, rnode->magic);
-    }
-
-    wm_hal_i2s_dump_desc(dev);
+    return WM_ERR_SUCCESS;
 }

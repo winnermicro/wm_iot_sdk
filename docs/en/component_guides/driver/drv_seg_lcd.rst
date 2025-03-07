@@ -44,16 +44,26 @@ seg_lcd Configuration (pre-configured)
 
 | Configured via Device Tree (DT) modifications.
 
-gdc0689 Configuration (pre-configured)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-| Configured via Device Tree (DT) modifications.
-
 Main Functions
 ----------------
 
-Display Time Function
-^^^^^^^^^^^^^^^^^^^^^^^^
+SEG_LCD Driver Layer Functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Starting Conditions:
+
+- Initialize the seg_lcd driver before use
+
+Related APIs:
+
+- Call ``wm_drv_seg_lcd_init`` to initialize the seg_lcd driver
+- Call ``wm_drv_seg_lcd_register_table`` to register the seg_lcd display table
+- Call ``wm_drv_seg_lcd_display_seg`` to control the display state of specified segments
+- Call ``wm_drv_seg_lcd_clear`` to clear all display content
+- Call ``wm_drv_seg_lcd_deinit`` to deinitialize the seg_lcd driver
+
+GDC0689 Display Time Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Starting Conditions:
 
@@ -68,8 +78,8 @@ Result:
 
 - The current time is displayed on the segmented LCD
 
-Display Numeric Function
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GDC0689 Display Numeric Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Starting Conditions:
 
@@ -85,8 +95,8 @@ Result:
 
 - Numbers are displayed on the segmented LCD
 
-Display Unit Function
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GDC0689 Display Unit Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Starting Conditions:
 
@@ -101,8 +111,8 @@ Result:
 
 - Measurement Units are displayed on the segmented LCD
 
-Display Icon Function
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+GDC0689 Display Icon Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Starting Conditions:
 
@@ -122,8 +132,15 @@ Result:
 Notes
 -------------
 
-| 1. The DT configuration should be set according to the actual parameters of the segmented LCD.
-| 2. If a non-GDC0689 segmented LCD is used, you need to refer to the seg_lcd driver, base it on the GDC0689 device driver, and complete the corresponding device driver in combination with the segmented LCD data manual.
+1. DT configuration needs to be set according to the actual parameters of the segmented LCD;
+
+2. If using a non-GDC0689 segmented LCD, you need to refer to ``examples/peripheral/seg_lcd/sample`` based on the seg_lcd driver and complete the corresponding content display in combination with the segmented LCD datasheet:
+
+   * Step 1. Configure the seg_lcd pins and related parameters through :ref:`lable_device_table`
+   * Step 2. Call ``wm_drv_seg_lcd_init("seg_lcd");`` to initialize the seg_lcd driver
+   * Step 3. Define the seg_lcd display table ``g_seg_lcd_table`` according to the screen's datasheet
+   * Step 4. Call ``wm_drv_seg_lcd_register_table(dev, g_seg_lcd_table, sizeof(g_seg_lcd_table) / sizeof(g_seg_lcd_table[0]));`` to register the seg_lcd display table
+   * Step 5. Call ``wm_drv_seg_lcd_display_seg`` to encapsulate display functions for various content, you can refer to the implementation in ``components\driver\src\display\seg_lcd\wm_gdc0689.c``
 
 Application Example
 ------------------------

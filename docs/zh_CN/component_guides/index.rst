@@ -24,12 +24,15 @@
    TCP/IP <tcp_ip>
    HTTP Client <http_client>
    MQTT Client <mqtt_client>
+   Cloud <cloud/index>
    OTA <ota>
    AT 命令 <AT/index>
    CLI <cli>
    POSIX <posix>
    LVGL <lvgl>
    DSP <csi_dsp>
+   FreeRTOS <freertos>
+   低功耗模式 <low_power>
    错误码管理 <errors>
    调试方法 <debugging_method>
    性能优化 <performance_optimization>

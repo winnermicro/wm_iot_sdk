@@ -48,24 +48,32 @@ Complete the configurations shown in the diagram, including ``WM IoT SDK Path`` 
 
 For ``WM IoT SDK Path``:
 
+- If you have already downloaded the wm_iot_sdk source code, you can directly select ``Browse`` to configure
+
 ::
 
-  The download and storage path for WM IoT SDK source code \wm_iot_sdk
+  WM IoT SDK source code download storage path\wm_iot_sdk
+
+- If you haven't downloaded the wm_iot_sdk source code, you can click ``Download`` and select the download path for automatic download and installation
+
+.. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_iot_sdk_download.svg
+   :align: center
+
 
 For ``WM Dev Suite Path``:
 
-If you have already installed the Integrated Development Environment(IDE) by referring to :ref:`Set up command line compilation environment in Windows<windows-system>`, you can directly configure it.
+- If you have already installed the Integrated Development Environment(IDE) by referring to :ref:`Set up command line compilation environment in Windows<windows-system>`, you can directly configure it.
 
 ::
 
   Installation path of the Integrated Development Environment(IDE)\winnermicro\wmclics
 
-If you have not installed the Integrated Development Environment(IDE) by referring to :ref:`Setting up command line compilation environment in Windows<windows-system>`, you can click ``Install`` and select the installation path for automatic installation configuration.
+- If you have not installed the Integrated Development Environment(IDE) by referring to :ref:`Setting up command line compilation environment in Windows<windows-system>`, you can click ``Install`` and select the installation path for automatic installation configuration.
 
 .. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_config_install.svg
    :align: center
 
-If you do not wish to use the Integrated Development Environment(IDE), you can also click ``Advance`` for advanced configuration and configure each item separately.
+- If you do not wish to use the Integrated Development Environment(IDE), you can also click ``Advance`` for advanced configuration and configure each item separately.
 
 .. figure:: ../../_static/get_started/ide/wm_vscode_ide_win_config2.svg
    :align: center
@@ -99,6 +107,12 @@ Follow the steps in the above picture:
   3. Select `flash` to burn the firmware.
 
 You can also select the corresponding command from the WM IoT SDK menu in the status bar at the bottom.
+
+.. hint::
+
+   `devconfig` command is used to configure the device table, please refer to :ref:`Device Table<lable_device_table>`
+   `clean` command is used to clear all compilation generated files in the compilation directory while keeping configuration files
+   `debug` command is used for debugging, please refer to :ref:`Online Debugging with Debugger<debug>`
 
 After successfully burning the firmware, you can click `Serial Monitor` -> `Change Port Number` (consistent with the chip port number) -> `Change Baud Rate` -> `Run` to view the running results.
 

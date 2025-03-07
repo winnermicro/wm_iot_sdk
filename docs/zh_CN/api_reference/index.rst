@@ -22,3 +22,4 @@ A P I 参考
     NET Manager <net_mgr>
     OTA_OPS <ota_ops>
     OTA_HTTP <ota_http>
+    Low Power <low_power>

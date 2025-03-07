@@ -1,5 +1,6 @@
 #include "wmsdk_config.h"
 #include <stdio.h>
+#include <stdarg.h>
 #include <csi_config.h>
 #include "wm_utils.h"
 #include "wm_dt.h"
@@ -32,7 +33,7 @@ __attribute__((weak)) void cxx_system_init(void)
 /**
  * @brief uart output, for libc printf
  */
-static void wm_put_data(int is_direct,const char *data, int len)
+static void wm_put_data(int is_direct, const char *data, int len)
 {
     if (!g_log_uart) {
         return;
@@ -55,20 +56,20 @@ static void wm_put_data(int is_direct,const char *data, int len)
 /**
  * @brief vprintf by direct or not
  */
-static int wm_vprintf_by_type(int is_direct,const char *fmt, va_list args)
+static int wm_vprintf_by_type(int is_direct, const char *fmt, va_list args)
 {
     int len;
     char buf[CONFIG_LOG_FORMAT_BUF_SIZE];
 
     len = vsnprintf(buf, sizeof(buf), fmt, args);
     if (len < sizeof(buf)) {
-        wm_put_data(is_direct,buf, len);
+        wm_put_data(is_direct, buf, len);
     } else {
-        if(len <= WM_PRINTF_MAX_STR_LEN){
+        if (len <= WM_PRINTF_MAX_STR_LEN) {
             char *ptr = malloc(len + 2);
             if (ptr) {
                 len = vsnprintf(ptr, len + 1, fmt, args);
-                wm_put_data(is_direct,ptr, len);
+                wm_put_data(is_direct, ptr, len);
                 free(ptr);
             } else {
                 len = 0;
@@ -83,7 +84,7 @@ static int wm_vprintf_by_type(int is_direct,const char *fmt, va_list args)
  */
 int vprintf(const char *fmt, va_list args)
 {
-    return wm_vprintf_by_type(0,fmt,args);
+    return wm_vprintf_by_type(0, fmt, args);
 }
 
 /**
@@ -95,7 +96,7 @@ int printf(const char *fmt, ...)
     va_list list;
     va_start(list, fmt);
     if (fmt) {
-        len = wm_vprintf_by_type(0,fmt, list);
+        len = wm_vprintf_by_type(0, fmt, list);
     }
     va_end(list);
     return len;
@@ -110,7 +111,7 @@ int wm_printf_direct(const char *fmt, ...)
     va_list list;
     va_start(list, fmt);
     if (fmt) {
-        len = wm_vprintf_by_type(1,fmt, list);
+        len = wm_vprintf_by_type(1, fmt, list);
     }
     va_end(list);
     return len;
@@ -140,7 +141,7 @@ int fprintf(FILE *fp, const char *fmt, ...)
 int puts(const char *str)
 {
     int len = strlen(str);
-    wm_put_data(0,str, len);
+    wm_put_data(0, str, len);
     return len;
 }
 
@@ -153,7 +154,7 @@ int fputs(const char *str, FILE *fp)
 
     (void)fp;
     len = strlen(str);
-    wm_put_data(0,str, len);
+    wm_put_data(0, str, len);
 
     return len;
 }
@@ -164,7 +165,7 @@ int fputs(const char *str, FILE *fp)
 int putchar(int ch)
 {
     char c = (char)ch;
-    wm_put_data(0,&c, 1);
+    wm_put_data(0, &c, 1);
     return ch;
 }
 
@@ -175,7 +176,7 @@ int fputc(int ch, FILE *fp)
 {
     (void)fp;
     char byte = (char)ch;
-    wm_put_data(0,&byte, 1);
+    wm_put_data(0, &byte, 1);
 
     return ch;
 }
@@ -194,10 +195,65 @@ int fgetc(FILE *fp)
  */
 __attribute__((weak)) void __assert_fail(const char *file, int line, const char *func, const char *failedexpr)
 {
-    wm_printf_direct("assertion \"%s\" failed: file \"%s\", line %d%s%s\r\n", failedexpr, file, line, func ? ", function: " : "",
-           func ? func : "");
+    wm_printf_direct("assertion \"%s\" failed: file \"%s\", line %d%s%s\r\n", failedexpr, file, line,
+                     func ? ", function: " : "", func ? func : "");
     asm("trap 0");
     while (1) {
         ;
     }
 }
+
+#if __GNUC__ >= 13
+int _open_r(struct _reent *r, const char *path, int flag, int mode)
+{
+    return 0;
+}
+
+int _close_r(struct _reent *r, int fd)
+{
+    return 0;
+}
+
+int _fstat_r(struct _reent *r, int fd, struct stat *buf)
+{
+    return 0;
+}
+
+pid_t _getpid_r(struct _reent *r)
+{
+    return 0;
+}
+
+int _isatty_r(struct _reent *r, int fd)
+{
+    return 0;
+}
+
+int _kill_r(struct _reent *r, pid_t pid, int sig)
+{
+    return 0;
+}
+
+off_t _lseek_r(struct _reent *r, int fd, off_t offset, int whence)
+{
+    return 0;
+}
+
+ssize_t _read_r(struct _reent *r, int fd, void *buff, size_t count)
+{
+    return 0;
+}
+
+int _write_r(struct _reent *r, int fd, const void *buff, size_t count)
+{
+    size_t i;
+    char *p;
+
+    p = (char *)buff;
+
+    for (i = 0; i < count; i++) {
+        (void)fputc(*p++, (FILE *)r); /* r: ignore warning */
+    }
+    return count;
+}
+#endif

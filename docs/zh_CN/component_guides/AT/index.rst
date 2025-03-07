@@ -294,6 +294,64 @@ AT返回值
    WM_AT_RESULT_PARSE_FAIL,      /* AT command parse  error */     表示AT指令解析错误。
    AT_RESULT_MAX     枚举最大值
 
+AT 命令的 meunconfig 配置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_WM_ATCMD_ENABLED
+     - 是否启用 AT 命令组件
+     - N
+
+   * - CONFIG_WM_ATCMD_BT_ENABLE
+     - 是否启用蓝牙 AT 命令
+     - N
+
+   * - CONFIG_WM_ATCMD_SYS_ENABLE
+     - 是否启用系统 AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_TCP_ENABLE
+     - 是否启用 TCP AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_MQTT_ENABLE
+     - 是否启用 MQTT AT 命令
+     - N
+
+   * - CONFIG_WM_ATCMD_HTTP_ENABLE
+     - 是否启用 HTTP AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_OTA_ENABLE
+     - 是否启用 OTA AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_FS_ENABLE 
+     - 是否启用文件系统 AT 命令
+     - Y  
+
+   * - CONFIG_WM_ATCMD_PWM_ENABLE
+     - 是否启用 PWM AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_I2C_ENABLE
+     - 是否启用 I2C AT 命令
+     - Y
+
+   * - CONFIG_WM_ATCMD_SPIM_ENABLE
+     - 是否启用 SPI Master AT 命令
+     - Y
+
 API介绍
 ^^^^^^^^^^^^^^^^^^
 

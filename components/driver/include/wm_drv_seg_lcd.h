@@ -32,6 +32,44 @@ extern "C" {
 #endif
 
 /**
+ * @defgroup WM_DRV_SEG_LCD_Structures WM DRV_SEG_LCD Structures
+ * @brief WinnerMicro DRV_SEG_LCD Structures
+ */
+
+/**
+ * @addtogroup WM_DRV_SEG_LCD_Structures
+ * @{
+ */
+
+/**
+ * @brief Defines a mapping between segment names and their corresponding hardware identifiers.
+ *
+ * This structure is used to relate the logical names of segments to their
+ * actual hardware configuration identifiers, including the COM address and the
+ * segment bit representation.
+ */
+typedef struct {
+    char seg_name[8];        /**< The logical name of the segment */
+    wm_seg_lcd_com_id_t com; /**< The hardware COM identifier for the segment */
+    wm_seg_lcd_seg_id_t seg; /**< The hardware SEG identifier for the segment */
+} seg_lcd_table_t;
+
+/**
+ * @brief Represents the display state of a segment on the LCD.
+ *
+ * This structure is used to define whether a particular segment should be turned on
+ * or off for display purposes.
+ */
+typedef struct {
+    char seg_name[8]; /**< The logical name of the segment */
+    bool is_on;       /**< Boolean indicating whether the segment is on or off */
+} seg_lcd_display_t;
+
+/**
+ * @}
+ */
+
+/**
  * @defgroup WM_DRV_SEG_LCD_Functions WM DRV_SEG_LCD Functions
  * @brief WinnerMicro DRV_SEG_LCD Functions
  */
@@ -105,6 +143,36 @@ int wm_drv_seg_lcd_clear(wm_device_t *dev);
  *    - Other error codes may be returned based on the specific failure.
  */
 int wm_drv_seg_lcd_display(wm_device_t *dev, uint8_t com_id, uint32_t seg_mask, uint32_t seg_data);
+
+/**
+ * @brief Registers the segment table for the segment LCD device.
+ *
+ * This function is used to register the segment table for the segment LCD device.
+ *
+ * @param[in] dev Pointer to the device structure of the segment LCD.
+ * @param[in] seg_table Pointer to the segment table to be registered.
+ * @param[in] seg_count The number of segments to register.
+ *
+ * @return
+ *    - WM_ERR_SUCCESS if the segment table is successfully registered.
+ *    - WM_ERR_INVALID_PARAM if the provided device pointer is NULL or invalid.
+ */
+int wm_drv_seg_lcd_register_table(wm_device_t *dev, const seg_lcd_table_t *seg_table, uint32_t seg_count);
+
+/**
+ * @brief Displays the segments on the segment LCD device.
+ *
+ * This function is used to display the segments on the segment LCD device.
+ *
+ * @param[in] dev Pointer to the device structure of the segment LCD.
+ * @param[in] seg_lcd_display Pointer to the segment display structure.
+ * @param[in] seg_count The number of segments to display.
+ *
+ * @return
+ *    - WM_ERR_SUCCESS if the segments are successfully displayed.
+ *    - WM_ERR_INVALID_PARAM if the provided device pointer is NULL or invalid.
+ */
+int wm_drv_seg_lcd_display_seg(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display, uint32_t seg_count);
 
 /**
  * @}

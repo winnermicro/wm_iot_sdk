@@ -15,11 +15,11 @@ Either the official development board from Winner Micro can be used, or the deve
    Obtain the schematic diagram of the development board or the hardware requirement specification from the hardware engineer or the development board supplier. Based on this, the software engineer can clearly know the following in this project:
 
    1.1. What is the model of the SoC used? How much hardware resources such as Memory, built-in/external Flash, Interrupt, Timer, and IO does the SoC contain?
-   The corresponding chip manual materials can be referred to at [SoC Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/soc_guides/index.html)
+   The corresponding chip manual materials can be referred to at [SoC Guide](https://doc.winnermicro.net/w800/en/latest/soc_guides/index.html)
 
    1.2. What peripherals are paired with it, such as UART, SPI-Master, I2S, etc.? How many pins of the SOC are needed? What are the performance requirements and corresponding parameter configuration requirements for each peripheral in this project?
         
-   The documentation can be referred to at [SoC-PINMUX](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/pinmux.html)
+   The documentation can be referred to at [SoC-PINMUX](https://doc.winnermicro.net/w800/en/latest/component_guides/pinmux.html)
 
 ### 2:Sort out the Overall Software Function Requirements of the Project
 
@@ -36,11 +36,11 @@ Either the official development board from Winner Micro can be used, or the deve
    3.1. Directly in the SDK, select a base project, such as the 'hello_world' or the 'newboard' project here, copy it to another directory of examples and rename it to your own project name, such as 'project_a'.
    It should be noted that the project name should be in English letters, numbers can be added, but it should not contain spaces or characters of other languages.
 
-   The documentation can be referred to at [Build System-Quick Project Creation](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/build_system.html)
+   The documentation can be referred to at [Build System-Quick Project Creation](https://doc.winnermicro.net/w800/en/latest/component_guides/build_system.html)
 
    3.2. Create a project based on the vscode IDE environment.
 
-   The documentation can be referred to at [IDE-Creat Project](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/ide.html)
+   The documentation can be referred to at [IDE-Creat Project](https://doc.winnermicro.net/w800/en/latest/get_started/ide.html)
 
 ### 4:Create the Device Table Corresponding to the New Project
 
@@ -49,7 +49,7 @@ Either the official development board from Winner Micro can be used, or the deve
    Through the investigation in 1.2, the developer should basically be able to determine whether a unique Device Table also needs to be created for the new project.
    If so, it can be created with reference to this example.
    
-   The documentation can be referred to at [Device Table](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/device_table.html)
+   The documentation can be referred to at [Device Table](https://doc.winnermicro.net/w800/en/latest/component_guides/device_table.html)
    
 ### 5：Create the Partition Table Corresponding to the New Project
 
@@ -58,7 +58,7 @@ Either the official development board from Winner Micro can be used, or the deve
    Through the investigation in 2.1, the developer should basically be able to determine whether a unique partition also needs to be created for the new project and manage its partition table file separately.
    If so, it can be created with reference to this example.
    
-   The documentation can be referred to at [Partition Table](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/partition_table.html)
+   The documentation can be referred to at [Partition Table](https://doc.winnermicro.net/w800/en/latest/component_guides/partition_table.html)
 
 ### 6:Configure the Function Switches Based on Business Requirements
 
@@ -67,7 +67,7 @@ Either the official development board from Winner Micro can be used, or the deve
    This can avoid affecting other projects in this SDK.
    After modification, you can use the menuconfig interface to check whether all the function switches required by this project are correctly set.
    
-   The documentation can be referred to at [Kconfig](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/kconfig.html)
+   The documentation can be referred to at [Kconfig](https://doc.winnermicro.net/w800/en/latest/component_guides/kconfig.html)
 
    It should be noted that the function switches related to devices will be related to the configuration in the device table. When opening the relevant device functions, the contents of the original device table also need to be copied to the device table of the new project, otherwise compilation errors will occur.
    
@@ -76,14 +76,14 @@ Either the official development board from Winner Micro can be used, or the deve
 
    When creating your own application tasks, you need to consider the impact on other tasks. Therefore, you need to query the overall priority allocation situation of other tasks in the system to determine the priority of the application task.
 
-   The documentation can be referred to at [Development Assistant](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/dev_asst.html)
+   The documentation can be referred to at [Development Assistant](https://doc.winnermicro.net/w800/en/latest/component_guides/dev_asst.html)
 
 
 ## Compilation and Burnol
 
 Example Location: `examples/ref_design/newboard`
 
-For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Results
 

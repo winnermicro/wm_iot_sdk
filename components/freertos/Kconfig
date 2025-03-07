@@ -51,6 +51,23 @@ menu "FreeRTOS"
         help
             If enabled, thread runtime will be counted.
 
+        config FREERTOS_USE_TICKLESS_IDLE
+            bool "Enable FreeRTOS tickless"
+            default n
+            help
+                If power management support is enabled, FreeRTOS will be able to put the system into light sleep mode
+                when no tasks need to run for a number of ticks. This number can be set using
+                FREERTOS_IDLE_TIME_BEFORE_SLEEP option.
+
+        config FREERTOS_IDLE_TIME_BEFORE_SLEEP
+            int "FreeRTOS tickless idle time"
+            depends on FREERTOS_USE_TICKLESS_IDLE
+            default 3
+            range 2 4294967295
+            # Minimal value is 2 because of a check in FreeRTOS.h (search configEXPECTED_IDLE_TIME_BEFORE_SLEEP)
+            help
+                FreeRTOS will enter light sleep mode if no tasks need to run for this number of ticks.
+
     config FREERTOS_ENABLE_IDLE_HOOK
         bool "Enable FreeRTOS idle hook"
         default y

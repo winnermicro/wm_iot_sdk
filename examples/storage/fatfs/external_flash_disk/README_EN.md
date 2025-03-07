@@ -33,7 +33,7 @@ This example uses external Flash as the storage medium, demonstrating how to use
 
 Example location: `examples\storage\fatfs\external_flash_disk`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## Running Results
 

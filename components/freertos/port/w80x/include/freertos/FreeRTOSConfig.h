@@ -1,6 +1,6 @@
 /*
     FreeRTOS V7.0.2 - Copyright (C) 2011 Real Time Engineers Ltd.
-	
+
 
     ***************************************************************************
      *                                                                       *
@@ -64,7 +64,7 @@
  * application requirements.
  *
  * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE
- * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE. 
+ * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE.
  *
  * See http://www.freertos.org/a00110.html.
  *----------------------------------------------------------*/
@@ -75,6 +75,17 @@
 #define configUSE_IDLE_HOOK 1
 #else
 #define configUSE_IDLE_HOOK 0
+#endif
+
+#if CONFIG_FREERTOS_USE_TICKLESS_IDLE
+#define configUSE_TICKLESS_IDLE               1
+#define configEXPECTED_IDLE_TIME_BEFORE_SLEEP CONFIG_FREERTOS_IDLE_TIME_BEFORE_SLEEP
+void vApplicationSleep(unsigned int xExpectedIdleTime);
+#define portSUPPRESS_TICKS_AND_SLEEP(xExpectedIdleTime) vApplicationSleep(xExpectedIdleTime)
+#else
+#define configUSE_TICKLESS_IDLE               0
+#define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 2
+#define portSUPPRESS_TICKS_AND_SLEEP(xExpectedIdleTime)
 #endif
 
 #if CONFIG_FREERTOS_ENABLE_TICK_HOOK
@@ -167,13 +178,13 @@ extern void vPortCleanUpTCB(void *pxTCB);
 #if !CONFIG_FREERTOS_ASSERT_DISABLE
 extern int wm_printf_direct(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 #if CONFIG_FREERTOS_ASSERT_FAIL_ABORT
-#define configASSERT(a)  assert(a)
+#define configASSERT(a) assert(a)
 #elif CONFIG_FREERTOS_ASSERT_FAIL_PRINT_CONTINUE
-#define configASSERT(a)                                       \
-    do {                                                      \
-        if ((a) == 0) {                                       \
+#define configASSERT(a)                                                 \
+    do {                                                                \
+        if ((a) == 0) {                                                 \
             wm_printf_direct("Assert : %s %d\r\n", __FILE__, __LINE__); \
-        }                                                     \
+        }                                                               \
     } while (0)
 #endif
 #endif

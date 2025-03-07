@@ -328,6 +328,45 @@ const static wm_dt_hw_i2s_t dt_hw_i2s = {
 #endif
 
 #if CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED
+const static wm_dt_hw_pin_cfg_t dt_hw_seg_lcd_pin_cfg[] = {
+    { .pin_num = WM_GPIO_NUM_41, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< COM00 */
+    { .pin_num = WM_GPIO_NUM_37, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< COM01 */
+    { .pin_num = WM_GPIO_NUM_38, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< COM02 */
+    { .pin_num = WM_GPIO_NUM_43, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< COM03 */
+
+    { .pin_num = WM_GPIO_NUM_42, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG01 */
+    { .pin_num = WM_GPIO_NUM_40, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG02 */
+    { .pin_num = WM_GPIO_NUM_7,  .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG03 */
+    { .pin_num = WM_GPIO_NUM_8,  .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG04 */
+    { .pin_num = WM_GPIO_NUM_9,  .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG05 */
+    { .pin_num = WM_GPIO_NUM_10, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG06 */
+    { .pin_num = WM_GPIO_NUM_11, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG07 */
+    { .pin_num = WM_GPIO_NUM_12, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG08 */
+    { .pin_num = WM_GPIO_NUM_13, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG09 */
+    { .pin_num = WM_GPIO_NUM_14, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG10 */
+    { .pin_num = WM_GPIO_NUM_15, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG11 */
+    { .pin_num = WM_GPIO_NUM_16, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG12 */
+    { .pin_num = WM_GPIO_NUM_17, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG13 */
+    { .pin_num = WM_GPIO_NUM_18, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG14 */
+    { .pin_num = WM_GPIO_NUM_19, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG15 */
+    { .pin_num = WM_GPIO_NUM_20, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG16 */
+    { .pin_num = WM_GPIO_NUM_21, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG17 */
+    { .pin_num = WM_GPIO_NUM_22, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG18 */
+    { .pin_num = WM_GPIO_NUM_23, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG19 */
+    { .pin_num = WM_GPIO_NUM_24, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG20 */
+    { .pin_num = WM_GPIO_NUM_25, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG21 */
+    { .pin_num = WM_GPIO_NUM_26, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG22 */
+    { .pin_num = WM_GPIO_NUM_27, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG23 */
+    { .pin_num = WM_GPIO_NUM_28, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG24 */
+    { .pin_num = WM_GPIO_NUM_29, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG25 */
+    { .pin_num = WM_GPIO_NUM_30, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG26 */
+    { .pin_num = WM_GPIO_NUM_31, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG27 */
+    { .pin_num = WM_GPIO_NUM_32, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG28 */
+    { .pin_num = WM_GPIO_NUM_33, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG29 */
+    { .pin_num = WM_GPIO_NUM_34, .pin_mux = WM_GPIO_IOMUX_FUN6 }, /**< SEG30 */
+    { .pin_num = WM_GPIO_NUM_6,  .pin_mux = WM_GPIO_IOMUX_FUN6 }  /**< SEG31 */
+};
+
 const static wm_dt_hw_seg_lcd_t dt_hw_seg_lcd = {
     .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base = 0x40011C00,
@@ -339,57 +378,21 @@ const static wm_dt_hw_seg_lcd_t dt_hw_seg_lcd = {
         .frame_freq = 60,
         .com_num = 4,
     },
+    .pin_cfg_count       = sizeof(dt_hw_seg_lcd_pin_cfg) / sizeof(dt_hw_seg_lcd_pin_cfg[0]),
+    .pin_cfg             = (wm_dt_hw_pin_cfg_t *)dt_hw_seg_lcd_pin_cfg,
     .rcc_device_name = "rcc",
 };
 
-const static wm_dt_hw_pin_cfg_t dt_hw_gdc0689_pin_cfg[] = {
-    { .pin_num = WM_GPIO_NUM_42, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_40, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_7,  .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_8,  .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_9,  .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_10, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_11, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_12, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_13, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_14, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_15, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_41, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_37, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_38, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_43, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_16, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_17, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_18, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_19, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_20, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_21, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_22, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_23, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_24, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_25, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_26, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_27, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_28, .pin_mux = WM_GPIO_IOMUX_FUN6 },
-    { .pin_num = WM_GPIO_NUM_29, .pin_mux = WM_GPIO_IOMUX_FUN6 }
-};
-
-const static wm_dt_hw_gdc0689_t dt_hw_gdc0689 = {
-    .init_cfg            = { .init_level = 0, .init_priority = 0 },
-    .seg_lcd_device_name = "seg_lcd",
-    .pin_cfg_count       = sizeof(dt_hw_gdc0689_pin_cfg) / sizeof(dt_hw_gdc0689_pin_cfg[0]),
-    .pin_cfg             = (wm_dt_hw_pin_cfg_t *)dt_hw_gdc0689_pin_cfg,
-};
 #endif /* CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED */
 
 #if CONFIG_COMPONENT_DRIVER_SDMMC_ENABLED
 const static wm_dt_hw_pin_cfg_t dt_hw_sdh_sdmmc_pin_cfg[] = {
-    { .pin_num = WM_GPIO_NUM_9,  .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< CLK */
-    { .pin_num = WM_GPIO_NUM_10, .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< CMD */
-    { .pin_num = WM_GPIO_NUM_11, .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< DAT0 */
-    { .pin_num = WM_GPIO_NUM_12, .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< DAT1 */
-    { .pin_num = WM_GPIO_NUM_13, .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< DAT2 */
-    { .pin_num = WM_GPIO_NUM_14, .pin_mux = WM_GPIO_IOMUX_FUN1 }, /**< CD/DAT3 */
+    { .pin_num = WM_GPIO_NUM_22, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< CLK */
+    { .pin_num = WM_GPIO_NUM_23, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< CMD */
+    { .pin_num = WM_GPIO_NUM_24, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< DAT0 */
+    { .pin_num = WM_GPIO_NUM_25, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< DAT1 */
+    { .pin_num = WM_GPIO_NUM_26, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< DAT2 */
+    { .pin_num = WM_GPIO_NUM_27, .pin_mux = WM_GPIO_IOMUX_FUN2 }, /**< CD/DAT3 */
 };
 
 const static wm_dt_hw_sdh_t dt_hw_sdh_sdmmc = {
@@ -651,7 +654,6 @@ const static wm_dt_hw_pin_cfg_t dt_hw_spim_pin_cfg[] = {
 const static wm_dt_hw_spim_t dt_hw_spim = {
     .init_cfg        = {.init_level = 0, .init_priority = 50},
     .reg_base        = 0x40010400,
-    .spi_master = true,
     .pin_cfg_count = sizeof(dt_hw_spim_pin_cfg) / sizeof(dt_hw_spim_pin_cfg[0]),
     .pin_cfg = (wm_dt_hw_pin_cfg_t*)dt_hw_spim_pin_cfg,
     .irq_cfg = {
@@ -694,7 +696,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_w25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 20 * 1000000, //20M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -710,7 +712,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_gd25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 20 * 1000000, //20M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -726,7 +728,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_xt25f = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 10 * 1000000, //10M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -742,7 +744,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_th25q = {
     .spi_device_name = "spim",
     .spi_cfg = {
         .mode = 0, //(CPOL=0,CPHA=0),
-        .freq = 2 * 1000000, //2M clock
+        .freq = 10 * 1000000, //10M clock
         .pin_cs = {
             .pin_num = WM_GPIO_NUM_26,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
@@ -822,21 +824,17 @@ const static wm_dt_hw_rsa_t dt_hw_rsa = {
 #endif
 
 #if CONFIG_COMPONENT_DRIVER_CODEC_ES8374_ENABLED
-const wm_dt_hw_codec_i2s_t dt_hw_es8374 = {
+const static wm_dt_hw_codec_i2s_t dt_hw_es8374 = {
     .init_cfg                 = { .init_level = 0, .init_priority = 49 },
-    .gpio_device_name = "gpio",
     .i2s_device_name = "i2s",
     .i2c_device_name = "i2c",
-    .es8374_cfg = {
-        .dmic = false,
-        .lin1 = false,
-        .rin1 = false,
-        .lin2 = true,
-        .rin2 = true,
-        .monoout = true,
-        .spkout = true,
-        .i2c = true,
-        .address = 0x10,
+    .codec_cfg = {
+        .i2c_address = 0x10,
+        .in_port = 2,
+        .out_port = 3,
+        .jack_pin = WM_GPIO_NUM_MAX,
+        .pa_pin = WM_GPIO_NUM_MAX,
+        .max_gain = 0,
     },
 };
 #endif
@@ -887,7 +885,6 @@ const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #endif  /* CONFIG_COMPONENT_DRIVER_I2S_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED
     { .dev_name = "seg_lcd",      .hw_addr = (void *)&dt_hw_seg_lcd,      .ops_addr = (void *)&wm_drv_seg_lcd_ops          },
-    { .dev_name = "gdc0689",      .hw_addr = (void *)&dt_hw_gdc0689,      .ops_addr = (void *)NULL                         },
 #endif  /* CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_SDMMC_ENABLED
     { .dev_name = "sdmmc",        .hw_addr = (void *)&dt_hw_sdh_sdmmc,    .ops_addr = (void *)&wm_drv_sdh_sdmmc_ops        },

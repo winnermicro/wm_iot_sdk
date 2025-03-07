@@ -12,7 +12,7 @@ Preparation
 
 - USB convert to serial drive（`Click to download the CH34X driver <https://doc.winnermicro.net/download/tools/all/CH341SER.zip>`_）
 
-- PC（Windows、Linux or macOS）
+- PC (Windows, or Linux)
 
 You can skip the introductory section and go directly to the :ref:`Application Development<application-program-w803>` section.
 

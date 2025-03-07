@@ -2,6 +2,12 @@ menu "XT804"
     visible if CHIP_W80X
 
     if CHIP_W80X
+        config FLASH_BASE_ADDR
+            hex
+            default 0x8000000
+            help
+                Internal use, any modification is not allowed.
+
         config SRAM_BASE_ADDR
             hex
             default 0x20000000

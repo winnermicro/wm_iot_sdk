@@ -143,8 +143,8 @@ DWORD get_fattime(void)
         return 0;
     }
 
-    return ((DWORD)(tm.tm_year) << 25) | ((DWORD)(tm.tm_mon + 1) << 21) | ((DWORD)tm.tm_mday << 16) | (WORD)(tm.tm_hour << 11) |
-           (WORD)(tm.tm_min << 5) | (WORD)(tm.tm_sec >> 1);
+    return ((DWORD)(tm.tm_year - 80) << 25) | ((DWORD)(tm.tm_mon + 1) << 21) | ((DWORD)tm.tm_mday << 16) |
+           (WORD)(tm.tm_hour << 11) | (WORD)(tm.tm_min << 5) | (WORD)(tm.tm_sec >> 1);
 }
 
 int wm_diskio_componen_init(void)

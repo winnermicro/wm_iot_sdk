@@ -31,7 +31,7 @@ This sample demonstrates Bluetooth mesh functionality.
 	"Idle ", "Low", "Low", "High-low switching, 1000ms interval"
 
 
-- If you are using `W800-Arduino Development Board <https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/w800_arduino.html>`_, the mesh node's operating state and the color of the tri-color LEDs correspond to the following table (make sure the tri-color LED toggle switch is ON)
+- If you are using `W800-Arduino Development Board <https://doc.winnermicro.net/w800/en/latest/get_started/w800_arduino.html>`_, the mesh node's operating state and the color of the tri-color LEDs correspond to the following table (make sure the tri-color LED toggle switch is ON)
 
 .. csv-table:: Correspondence between node operating status and LED colors
     :header: "Node operating status", "Tri-color LED light"
@@ -68,7 +68,7 @@ Building and Running
 
 Example Location：``examples/bluetooth/mesh_switch_and_light``
 
-compile, burn, and more, see：`Quick Start Guide <https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html>`_
+compile, burn, and more, see：`Quick Start Guide <https://doc.winnermicro.net/w800/en/latest/get_started/index.html>`_
 
 Running Result
 ***************

@@ -58,18 +58,18 @@ int wm_drv_clock_reset(wm_device_t *dev, uint32_t module_type)
     return ret;
 }
 
-int wm_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t MHz)
+int wm_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t clk_mhz)
 {
     wm_drv_clock_ops_t *ops = NULL;
     int ret                 = WM_ERR_INVALID_PARAM;
 
-    if (dev == NULL || !MHz) {
+    if (dev == NULL || !clk_mhz) {
         return WM_ERR_INVALID_PARAM;
     }
 
     ops = (wm_drv_clock_ops_t *)dev->ops;
     if (ops && ops->config_clock) {
-        ret = ops->config_clock(dev, module_type, MHz);
+        ret = ops->config_clock(dev, module_type, clk_mhz);
     }
 
     return ret;
@@ -147,6 +147,40 @@ int wm_drv_rcc_set_i2s_clock(wm_device_t *dev, bool extal_en, bool mclk_en, uint
     ops = (wm_drv_clock_ops_t *)dev->ops;
     if (ops && ops->ioctl) {
         ret = ops->ioctl(dev, &arg);
+    }
+
+    return ret;
+}
+
+int wm_drv_rcc_register_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx, wm_bus_clock_change_cb cb, void *usr_arg)
+{
+    wm_drv_clock_ops_t *ops = NULL;
+    int ret                 = WM_ERR_INVALID_PARAM;
+
+    if (dev == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    ops = (wm_drv_clock_ops_t *)dev->ops;
+    if (ops && ops->reg_cb_clock_change) {
+        ret = ops->reg_cb_clock_change(dev, dev_idx, cb, usr_arg);
+    }
+
+    return ret;
+}
+
+int wm_drv_rcc_unregister_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx)
+{
+    wm_drv_clock_ops_t *ops = NULL;
+    int ret                 = WM_ERR_INVALID_PARAM;
+
+    if (dev == NULL) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    ops = (wm_drv_clock_ops_t *)dev->ops;
+    if (ops && ops->unreg_cb_clock_change) {
+        ret = ops->unreg_cb_clock_change(dev, dev_idx);
     }
 
     return ret;

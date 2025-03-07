@@ -2,6 +2,7 @@
 #define __WM_SOC_H__
 
 #include "wm_types.h"
+#include "wm_soc_cfgs.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -25,15 +25,17 @@ Environmental Requirements:
 2. Internal Flash Disk
    - Requires proper configuration of the wm_drv_flash driver.
    - Use user-defined partition partition_table_custom.csv and add CONFIG_FATFS_INTERNAL_FLASH_PARTITION_NAME (default name is fatfs) partition , partition size must be at least 0x18000 (96KB), otherwise formatting will fail
+   - To add files or folders to the FATFS filesystem image, please refer to the :ref:`Build System <ADD_FATFS_FILES_TO_IMG>` section
 
 3. External Flash Disk
    - Requires proper configuration of the wm_drv_flash driver.
    - Requires a hardware environment that supports external Flash devices, with an external Flash device connected.
+   - Provides tools/wm/mkfs2img.py tool for packaging files and folders from PC into FATFS images
    - Requires proper configuration of the following parameters:
 
       - CONFIG_FATFS_EXTERNAL_FLASH_DEVICE_NAME: The name of the external External Flash Device Name
       - CONFIG_FATFS_EXTERNAL_FLASH_START_ADDRESS: The starting address of the external Flash for FATFS use.
-      - CONFIG_FATFS_EXTERNAL_FLASH_SIZE: Size for FATFS on external Flash, partition size must be at least 0x18000 (96KB), otherwise formatting will fail
+      - CONFIG_FATFS_EXTERNAL_FLASH_SIZE: Size for FATFS on external Flash, partition size needs to be ≥ 0x18000 (96KB), otherwise formatting will fail
 
 
 Set Command
@@ -124,6 +126,7 @@ Description
 -  If the length of data read is greater than the actual file size, only the actual length of data will be returned.
 -  When ``<operation>`` is ``write``, the system will return ``>`` after receiving this command, and you need to input the data to be written within 6 seconds, with the data length matching ``<length>``.
 -  When mounting a disk, if it is not formatted, it will be formatted automatically. FATFS will automatically select the most suitable file system type based on disk capacity, as follows:
+
    - FAT12: Suitable for small capacity storage (≤ 2MB, maximum 4,085 clusters, MAX_FAT12 = 0xFF5 = 4,085 clusters = 2,042,560 Bytes ≈ 2MB)
    - FAT16: Suitable for medium capacity storage (≤ 32MB, maximum 65,493 clusters, MAX_FAT16 = 0xFFF5 = 65,493 clusters = 33,516,032 Bytes ≈ 32MB)
    - FAT32: Suitable for large capacity storage (≤ 128GB, maximum 268,435,445 clusters, MAX_FAT32 = 0x0FFFFFF5 = 268,435,445 clusters = 137,438,947,840 Bytes ≈ 128GB)

@@ -7,8 +7,8 @@
 1. 注册外部 Flash 磁盘：将外部 Flash 磁盘注册到 FATFS 系统；
 2. 挂载文件系统：将外部 Flash 磁盘挂载到文件系统中。
    如果磁盘未格式化，需先进行格式化。FATFS 会根据磁盘容量自动选择最合适的文件系统类型，具体如下：
-   - FAT12：适用于小容量存储（≤ 2MB，最大支持 4085 个簇，MAX_FAT12 = 0xFF5 = 4085 簇 = 2042560 Bytes ≈ 2MB）
-   - FAT16：适用于中等容量存储（≤ 32MB，最大支持 65493 个簇，MAX_FAT16 = 0xFFF5 = 65493 簇 = 33516032 Bytes ≈ 32MB）
+   - FAT12：适用于小容量存储（≤ 2MB，最大支持 4085 个簇，MAX_FAT12 = 0xFF5 = 4085 簇 = 2091520 Bytes ≈ 2MB）
+   - FAT16：适用于中等容量存储（≤ 32MB，最大支持 65525 个簇，MAX_FAT16 = 0xFFF5 = 65525 簇 = 33548800 Bytes ≈ 32MB）
    - FAT32：适用于大容量存储（≤ 128GB，最大支持 268435445 个簇，MAX_FAT32 = 0x0FFFFFF5 = 268435445 簇 = 137438947840 Bytes ≈ 128GB）
    - EXFAT：适用于超大容量存储（≤ 1TB，最大支持 2147483645 个簇，MAX_EXFAT = 0x7FFFFFFD = 2147483645 簇 = 1099511626240 Bytes ≈ 1TB）
    - 注意：文件系统类型的选择会影响后续 API 的使用方式。
@@ -33,7 +33,7 @@
 
 示例位置：`examples\storage\fatfs\external_flash_disk`
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 ## 运行结果
 

@@ -1,0 +1,118 @@
+menuconfig COMPONENT_COAP_ENABLED
+    depends on CHIP_HAVE_WIFI
+    bool "CoAP"
+    default n
+    select COMPONENT_LWIP_ENABLED
+    help
+        Select this option to enable Coap and show the submenu.
+
+if COMPONENT_COAP_ENABLED
+        choice COAP_DEBUGGING_LEVEL
+            prompt "Set CoAP debugging level"
+            default COAP_LOG_NONE
+            help
+                Choice CoAP debugging functions at compile time for the example code.
+
+                If this option isn't none, call coap_set_log_level()
+                at runtime in order to enable CoAP debug output via the WM
+                log mechanism.
+
+                Note: The Mbed TLS library logging is controlled by the mbedTLS
+                configuration, but logging level mbedTLS must be set for CoAP
+                to log it.
+
+        config COAP_LOG_NONE
+            bool "No output"
+            help
+                Don't output log.
+        config COAP_LOG_ERROR
+            bool "Error"
+            help
+                Output error level log.
+        config COAP_LOG_WARN
+            bool "Warn"
+            help
+                Output log above warning level.
+        config COAP_LOG_INFO
+            bool "Info"
+            help
+                Output log above info level.
+        config COAP_LOG_DEBUG
+            bool "Debug"
+            help
+                Output log above debug level.
+        config COAP_LOG_VERBOSE
+            bool "Verbose"
+            help
+                Output log above verbose level.
+
+        endchoice
+
+        config COAP_LOG_DEFAULT_LEVEL
+            int
+            default 0 if COAP_LOG_NONE
+            default 3 if COAP_LOG_ERROR
+            default 4 if COAP_LOG_WARN
+            default 7 if COAP_LOG_DEBUG
+            default 8 if COAP_LOG_VERBOSE
+            help
+                This option will be automatically assigned a specific value based on the selection of the "COAP_DEBUGGING_LEVEL".
+                Internal use, any modification is not allowed.
+
+    config COAP_TCP_SUPPORT
+        bool "Enable TCP within CoAP"
+        default y
+        help
+            Enable TCP functionality for CoAP. This is required if TLS sessions
+            are to be used.
+
+            If this option is disabled, redundant CoAP TCP code is removed.
+
+    config COAP_OSCORE_SUPPORT
+        bool "Enable OSCORE support within CoAP"
+        default n
+        help
+            Enable OSCORE (Object Security for Constrained RESTful Environments) functionality for CoAP.
+
+            If this option is disabled, redundant CoAP OSCORE code is removed.
+
+    config COAP_OBSERVE_PERSIST
+        bool "Enable Server Observe Persist support within CoAP"
+        default n
+        help
+            Enable Server Observe Persist support for CoAP.
+
+            If this option is disabled, redundant CoAP Observe Persist code is removed.
+
+    config COAP_WEBSOCKETS
+        bool "Enable WebSockets support within CoAP"
+        default n
+        help
+            Enable WebSockets support for CoAP.
+
+            If this option is disabled, redundant CoAP WebSocket code is removed.
+
+    config COAP_CLIENT_SUPPORT
+        bool "Enable Client functionality within CoAP"
+        default n
+        help
+            Enable client functionality (ability to make requests and receive
+            responses) for CoAP. If the server is going to act as a proxy, then
+            this needs to be enabled to support the ongoing session going to
+            the next hop.
+
+            If this option is disabled, redundant CoAP client only code is removed.
+            If both this option and COAP_SERVER_SUPPORT are disabled, then both
+            are automatically enabled for backwards compatability.
+
+    config COAP_SERVER_SUPPORT
+        bool "Enable Server functionality within CoAP"
+        default n
+        help
+            Enable server functionality (ability to receive requests and send
+            responses) for CoAP.
+
+            If this option is disabled, redundant CoAP server only code is removed.
+            If both this option and COAP_CLIENT_SUPPORT are disabled, then both
+            are automatically enabled for backwards compatability.
+endif

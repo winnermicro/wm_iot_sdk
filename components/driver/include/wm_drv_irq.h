@@ -186,6 +186,17 @@ int wm_drv_irq_clear_pending(wm_irq_no_t irq);
 int wm_drv_irq_set_wakeup(wm_irq_no_t irq);
 
 /**
+ * @brief Clear wakeup interrupt.
+ *
+ * @param [in] irq irq number
+ *
+ * @return
+ *    - WM_ERR_SUCCESS: succeed
+ *    - others: failed
+ */
+int wm_drv_irq_clear_wakeup(wm_irq_no_t irq);
+
+/**
  * @}
  */
 

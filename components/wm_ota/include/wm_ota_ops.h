@@ -140,19 +140,23 @@ typedef union {
  * addresses, lengths, version strings, and checksums.
  */
 typedef struct {
-    uint32_t magic_no;            /**< Magic number to identify the OTA image */
-    wm_img_attr_t img_attr;       /**< Bitfields for image attributes */
-    uint32_t img_addr;            /**< Address where the image will be executed */
-    uint32_t img_len;             /**< Length of the binary image in bytes */
-    uint32_t img_header_addr;     /**< Address of the image header */
-    uint32_t upgrade_img_addr;    /**< Address of the upgrade image */
-    uint32_t org_checksum;        /**< Original checksum of the image for verification */
-    uint32_t upd_no;              /**< Update number for version tracking */
-    unsigned char ver[16];        /**< Version string, 16 bytes long */
-    uint32_t _reserved0;          /**< Reserved for future use */
-    uint32_t _reserved1;          /**< Reserved for future use */
-    struct wm_ota_header_t *next; /**< Pointer to the next header for a possible linked list */
-    uint32_t hd_checksum;         /**< Checksum of the header for integrity verification */
+    uint32_t magic_no;                  /**< Magic number to identify the OTA image */
+    wm_img_attr_t img_attr;             /**< Bitfields for image attributes */
+    uint32_t img_addr;                  /**< Address where the image will be executed */
+    uint32_t img_len;                   /**< Length of the binary image in bytes */
+    uint32_t img_header_addr;           /**< Address of the image header */
+    uint32_t upgrade_img_addr;          /**< Address of the upgrade image */
+    uint32_t org_checksum;              /**< Original checksum of the image for verification */
+    uint32_t upd_no;                    /**< Update number for version tracking */
+    unsigned char ver[16];              /**< Version string, 16 bytes long */
+    uint32_t log_level            : 3;  /**< Log level */
+    uint32_t skip_esc_check       : 1;  /**< Skip escape check */
+    uint32_t skip_upgrade_check   : 1;  /**< Skip upgrade check */
+    uint32_t skip_integrity_check : 1;  /**< Skip integrity check */
+    uint32_t _reserved0           : 26; /**< Reserved for future use */
+    uint32_t _reserved1;                /**< Reserved for future use */
+    struct wm_ota_header_t *next;       /**< Pointer to the next header for a possible linked list */
+    uint32_t hd_checksum;               /**< Checksum of the header for integrity verification */
 } wm_ota_header_t;
 
 /**

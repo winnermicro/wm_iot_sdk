@@ -48,7 +48,7 @@ Demo 场景的选择 是在 `menuconfig -> LVGL -> Demos` 中选中所需的 Dem
 编译时，请注意选择 `CONFIG_BUILD_TYPE_XXX` 以及 确认所引用的 Device Table 需要与所实验的开发板相匹配。
 为了更高的画面显示效率，用户可通过 device table 将 RCC CPU Clock 设定成较高的值，比如：240MHz。
 
-编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[快速入门](https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html)
 
 
 ## 运行结果

@@ -22,7 +22,7 @@ if(CONFIG_COMPONENT_WM_ATCMD_ENABLED)
         if(USE_CMAKE_BUILD_DEBUG)
             message(STATUS "atcmd use lib")
         endif()
-        list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libatcmd.a"
+        list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libatcmd.a"
                                    )
     endif()
 

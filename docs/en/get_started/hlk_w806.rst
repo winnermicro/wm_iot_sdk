@@ -14,7 +14,7 @@ Hardware:
 
 - USB to Serial Driver (`Click to download CH34X driver <https://doc.winnermicro.net/download/tools/all/CH341SER.zip>`_)
 
-- PC（Windows、Linux 或 macOS）
+- PC (Windows, or Linux)
 
 You can skip the introduction and go directly to the :ref:`Application Development<application-program-w806>` section.
 

@@ -31,7 +31,7 @@ mesh_switch_and_light
 	"入网后空闲 ", "低", "低", "高低切换，间隔 1000ms"
 
 
-- 如果您正在使用 `W800-Arduino 开发板 <https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/w800_arduino.html>`_，Mesh 节点的工作状态和三色 LED 灯的颜色对应关系如下表格所示（确认三色 LED 灯的拨钮开关处于 ON 状态）
+- 如果您正在使用 `W800-Arduino 开发板 <https://doc.winnermicro.net/w800/zh_CN/latest/get_started/w800_arduino.html>`_，Mesh 节点的工作状态和三色 LED 灯的颜色对应关系如下表格所示（确认三色 LED 灯的拨钮开关处于 ON 状态）
 
 .. csv-table:: 节点工作状态和 LED 灯颜色的对应关系
     :header: "节点工作状态", "三色 LED 灯"
@@ -67,7 +67,7 @@ mesh_ctrl:
 
 示例位置：``examples/bluetooth/mesh_switch_and_light``   
 
-编译、烧录等操作请参考：`快速入门 <https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/get_started/index.html>`_
+编译、烧录等操作请参考：`快速入门 <https://doc.winnermicro.net/w800/zh_CN/latest/get_started/index.html>`_
 
 
 运行结果

@@ -53,7 +53,7 @@
 #ifdef CONFIG_BT_MESH_SETTINGS_WORKQ_STACK_SIZE
 #define SETTINGS_WORKQ_STACK_SIZE CONFIG_BT_MESH_SETTINGS_WORKQ_STACK_SIZE
 #else
-#define SETTINGS_WORKQ_STACK_SIZE 0
+#define SETTINGS_WORKQ_STACK_SIZE 1280
 #endif
 
 static struct k_work_q settings_work_q;
@@ -141,11 +141,11 @@ SETTINGS_STATIC_HANDLER_DEFINE(bt_mesh, "ms", NULL, NULL, mesh_commit,
 void bt_mesh_settings_store_schedule(enum bt_mesh_settings_flag flag)
 {
 	uint32_t timeout_ms, remaining_ms;
-#if 1
+
 	atomic_set_bit(pending_flags, flag);
 
 	if (atomic_get(pending_flags) & NO_WAIT_PENDING_BITS) {
-		timeout_ms = 2 * MSEC_PER_SEC;
+        timeout_ms = 2*MSEC_PER_SEC;
 	} else if (IS_ENABLED(CONFIG_BT_MESH_RPL_STORAGE_MODE_SETTINGS) && RPL_STORE_TIMEOUT >= 0 &&
 		   (atomic_test_bit(pending_flags, BT_MESH_SETTINGS_RPL_PENDING) ||
 		     atomic_test_bit(pending_flags, BT_MESH_SETTINGS_SRPL_PENDING)) &&
@@ -154,41 +154,7 @@ void bt_mesh_settings_store_schedule(enum bt_mesh_settings_flag flag)
 	} else {
 		timeout_ms = CONFIG_BT_MESH_STORE_TIMEOUT * MSEC_PER_SEC;
 	}
-	remaining_ms = k_ticks_to_ms_floor32(k_work_delayable_remaining_get(&pending_store));
-	LOG_DBG("Waiting %u ms vs rem %u ms", timeout_ms, remaining_ms);
 
-	/* If the new deadline is sooner, override any existing
-	 * deadline; otherwise schedule without changing any existing
-	 * deadline.
-	 */
-	if (timeout_ms < remaining_ms) {
-		if (IS_ENABLED(CONFIG_BT_MESH_SETTINGS_WORKQ)) {
-			k_work_reschedule_for_queue(&settings_work_q, &pending_store,
-						    K_MSEC(timeout_ms));
-		} else {
-			k_work_reschedule(&pending_store, K_MSEC(timeout_ms));
-		}
-	} else {
-		if (IS_ENABLED(CONFIG_BT_MESH_SETTINGS_WORKQ)) {
-			k_work_schedule_for_queue(&settings_work_q, &pending_store,
-						  K_MSEC(timeout_ms));
-		} else {
-			k_work_schedule(&pending_store, K_MSEC(timeout_ms));
-		}
-	}
-#else
-    pending_setting_flags = flag;
-
-    if ((atomic_get(pending_flags) & NO_WAIT_PENDING_BITS) ) {
-        timeout_ms = 0;
-    } else if (IS_ENABLED(CONFIG_BT_MESH_RPL_STORAGE_MODE_SETTINGS) && RPL_STORE_TIMEOUT >= 0 &&
-           (atomic_test_bit(pending_flags, BT_MESH_SETTINGS_RPL_PENDING) ||
-             atomic_test_bit(pending_flags, BT_MESH_SETTINGS_SRPL_PENDING)) &&
-           !(atomic_get(pending_flags) & GENERIC_PENDING_BITS)) {
-        timeout_ms = RPL_STORE_TIMEOUT * MSEC_PER_SEC;
-    } else {
-        timeout_ms = CONFIG_BT_MESH_STORE_TIMEOUT * MSEC_PER_SEC;
-    }
     remaining_ms = k_ticks_to_ms_floor32(k_work_delayable_remaining_get(&pending_store));
     LOG_DBG("Waiting %u ms vs rem %u ms", timeout_ms, remaining_ms);
 
@@ -211,9 +177,6 @@ void bt_mesh_settings_store_schedule(enum bt_mesh_settings_flag flag)
             k_work_schedule(&pending_store, K_MSEC(timeout_ms));
         }
     }
-
-
-#endif
 }
 
 void bt_mesh_settings_store_cancel(enum bt_mesh_settings_flag flag)
@@ -302,16 +265,7 @@ static void store_pending(struct k_work *work)
 		bt_mesh_sseq_pending_store();
 	}
 }
-static int pending_period_freq = 0;
-void store_pending_evt_end(void)
-{
-    pending_period_freq++;
-    if(pending_period_freq > 50)
-    {
-        //store_pending(NULL);
-        pending_period_freq = 0;
-    }
-}
+
 void bt_mesh_settings_init(void)
 {
 	if (IS_ENABLED(CONFIG_BT_MESH_SETTINGS_WORKQ)) {
@@ -323,10 +277,7 @@ void bt_mesh_settings_init(void)
 	}
 
 	k_work_init_delayable(&pending_store, store_pending);
-
-    wm_bt_register_pending_process_callback(store_pending_evt_end);
 }
-
 
 void bt_mesh_settings_store_pending(void)
 {

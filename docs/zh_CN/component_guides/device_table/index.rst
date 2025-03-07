@@ -11,6 +11,11 @@
     * 使用 C 语言文件配置，这是传统的使用方式
 
 对于这两种方式，使用者任选其一即可，默认使用 TOML 文件配置。
+当前的设备表配置流程说明如下图：
+
+.. figure:: ../../../_static/component-guides/device_table/wm_device_table.svg
+    :align: center
+    :alt: 设备表配置
 
 使用 TOML 文件配置
 -------------------
@@ -1001,3 +1006,21 @@ API 参考
 -------------
 
 可参考 :ref:`label_api_device_table`
+
+设备表的 meunconfig 配置
+-------------------------------------------
+
+主要配置如下：
+
+.. list-table::
+   :widths: 25 45 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_DT_USE_C_STYLE_CONF
+     - 是否使用 C 语言文件配置
+     - N

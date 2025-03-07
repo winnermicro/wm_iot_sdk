@@ -130,10 +130,6 @@
     {% include 'seg_lcd.html' %}
     {% endif %}
 
-    {% if data.dev_name[:'GDC0689'|length] == 'GDC0689' %}
-    {% include 'gdc0689.html' %}
-    {% endif %}
-
     {% if data.dev_name[:'PWM'|length] == 'PWM' %}
     {% include 'pwm.html' %}
     {% endif %}

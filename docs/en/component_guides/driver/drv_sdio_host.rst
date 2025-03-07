@@ -98,7 +98,7 @@ SDH SPI Device Data Transmission / Reception
 Notes
 --------------------
 
-- For SDH SDMMC memory card read/write, the single block data length is 512 bytes, and the maximum transmission data block is 127 blocks.
+- For SDH SDMMC memory card read/write, the single block data length is 512 bytes, and the maximum transmission data block is 127 blocks, buffer address needs to be 4-byte aligned.
 - For SDH SPI, the maximum synchronous transmission data length is 65535 bytes, and the maximum asynchronous transmission data length is 65532 bytes. Asynchronous transmission data needs to be 4-byte aligned.
 - SDH SDMMC and SDH SPI use related underlying hardware, so they cannot be used simultaneously.
 

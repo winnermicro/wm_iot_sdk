@@ -129,6 +129,9 @@ static int wm_w800_drv_crc_deinit(wm_device_t *device)
         return WM_ERR_NO_INITED;
     }
 
+    /* disable cryp clock */
+    wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_GPSEC_GATE_EN);
+
     /*free driver layer device */
     free(dev->drv);
     dev->drv = NULL;
@@ -174,9 +177,6 @@ static int wm_w800_drv_crc_update(wm_device_t *device, wm_drv_crc_cfg_t *ctx, un
 
     /* update state */
     ctx->state = hal_dev->crc_cfg.state;
-
-    /* disable cryp clock */
-    wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_GPSEC_GATE_EN);
 
     /* release gpsec mutex */
     if (wm_drv_release_gpsec_mutex() != WM_OS_STATUS_SUCCESS) {

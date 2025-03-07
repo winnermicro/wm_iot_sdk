@@ -148,7 +148,7 @@ typedef void *wm_nvs_handle_t;
 /**
   * @brief  iterator , handle for poll all nvs items
   */
-typedef struct wm_nvs_entry_iterator_t *wm_nvs_iterator_t;
+typedef struct wm_nvs_iterator_info_t *wm_nvs_iterator_t;
 
 /**
  * @struct  wm_nvs_entry_t

@@ -79,7 +79,77 @@ typedef struct {
     int (*config_clock)(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t MHz);
     int (*get_config_clock)(wm_device_t *dev, wm_rcc_type_t module_type);
     int (*ioctl)(wm_device_t *device, wm_drv_rcc_ioctl_args_t *args);
+    int (*reg_cb_clock_change)(wm_device_t *dev, uint8_t dev_idx, wm_bus_clock_change_cb cb, void *usr_arg);
+    int (*unreg_cb_clock_change)(wm_device_t *dev, uint8_t dev_idx);
 } wm_drv_clock_ops_t;
+
+typedef enum {
+    WM_RCC_DEV_CPU,
+    WM_RCC_DEV_ROM,
+    WM_RCC_DEV_DMA,
+    WM_RCC_DEV_RAM,
+    WM_RCC_DEV_HSDIO,
+    WM_RCC_DEV_PSRAM,
+    WM_RCC_DEV_WLAN_BT,
+    WM_RCC_DEV_SSDIO,
+    WM_RCC_DEV_HSPI,
+    WM_RCC_DEV_WATCHDOG,
+    WM_RCC_DEV_GPIO,
+    WM_RCC_DEV_TIMER,
+    WM_RCC_DEV_LCD,
+    WM_RCC_DEV_I2C,
+    WM_RCC_DEV_RFSPI,
+    WM_RCC_DEV_LSPI,
+    WM_RCC_DEV_UART,
+    WM_RCC_DEV_MAX,
+} wm_rcc_dev_t;
+
+typedef struct {
+    wm_rcc_dev_t parents_id;
+    wm_bus_clock_change_cb cb;
+    void *usr_arg;
+} wm_rcc_dev_tree_t;
+
+static wm_rcc_dev_tree_t g_rcc_dev_tree[WM_RCC_DEV_MAX];
+
+static void wm_w800_drv_rcc_init_dev_tree()
+{
+    memset(g_rcc_dev_tree, 0, sizeof(g_rcc_dev_tree));
+
+    g_rcc_dev_tree[WM_RCC_DEV_CPU].parents_id   = WM_RCC_DEV_MAX;
+    g_rcc_dev_tree[WM_RCC_DEV_ROM].parents_id   = WM_RCC_DEV_CPU;
+    g_rcc_dev_tree[WM_RCC_DEV_DMA].parents_id   = WM_RCC_DEV_CPU;
+    g_rcc_dev_tree[WM_RCC_DEV_RAM].parents_id   = WM_RCC_DEV_CPU;
+    g_rcc_dev_tree[WM_RCC_DEV_HSDIO].parents_id = WM_RCC_DEV_CPU;
+    g_rcc_dev_tree[WM_RCC_DEV_PSRAM].parents_id = WM_RCC_DEV_CPU;
+
+    g_rcc_dev_tree[WM_RCC_DEV_WLAN_BT].parents_id  = WM_RCC_DEV_MAX;
+    g_rcc_dev_tree[WM_RCC_DEV_SSDIO].parents_id    = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_HSPI].parents_id     = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_WATCHDOG].parents_id = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_GPIO].parents_id     = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_TIMER].parents_id    = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_LCD].parents_id      = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_I2C].parents_id      = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_RFSPI].parents_id    = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_LSPI].parents_id     = WM_RCC_DEV_WLAN_BT;
+    g_rcc_dev_tree[WM_RCC_DEV_UART].parents_id     = WM_RCC_DEV_WLAN_BT;
+}
+
+void wm_rcc_traverse_dev(uint8_t parent_value)
+{
+    if (parent_value == WM_RCC_DEV_MAX)
+        return;
+
+    for (int i = 0; i < WM_RCC_DEV_MAX; i++) {
+        if (g_rcc_dev_tree[i].parents_id == parent_value) {
+            if (g_rcc_dev_tree[i].cb) {
+                g_rcc_dev_tree[i].cb(g_rcc_dev_tree[i].usr_arg);
+            }
+            wm_rcc_traverse_dev(i);
+        }
+    }
+}
 
 /**
  * @brief Set the rcc clock enable
@@ -196,6 +266,9 @@ static int wm_w800_drv_clock_init(wm_device_t *dev)
                 wm_hal_rcc_config_clock(&drv_ctx->hal_dev, rcc_cfg->type, rcc_cfg->clock);
                 rcc_cfg++;
             }
+
+            wm_w800_drv_rcc_init_dev_tree();
+
             dev->drv   = drv_ctx;
             dev->state = WM_DEV_ST_INITED;
         } else {
@@ -249,8 +322,10 @@ static int wm_w800_drv_clock_deinit(wm_device_t *dev)
  *       The RSA clock should be 80MHz or 160MHz;
  *       No need to config APB clock, used for query;
  */
-static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t MHz)
+static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_type, uint16_t clk_mhz)
 {
+    uint8_t cur_clock           = 0;
+    uint8_t cpu_div             = 0;
     int ret                     = WM_ERR_SUCCESS;
     wm_hal_clock_dev_t *hal_dev = NULL;
     wm_drv_clock_ctx_t *drv_ctx = NULL;
@@ -262,7 +337,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
     hal_dev = &(drv_ctx->hal_dev);
 
-    if (WM_PLL_CLOCK % MHz != 0) {
+    if (WM_PLL_CLOCK % clk_mhz != 0) {
         wm_log_error("Invalid clock input,must be a divide of 480MHz.\r\n");
         return WM_ERR_INVALID_PARAM;
     }
@@ -274,7 +349,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
     switch (module_type) {
         case WM_RCC_TYPE_PERIPHERAL:
         {
-            if (MHz != WM_RCC_PERIPHERAL_CLK) {
+            if (clk_mhz != WM_RCC_PERIPHERAL_CLK) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -282,7 +357,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_WLAN:
         {
-            if (MHz != WM_RCC_WLAN_CLK) {
+            if (clk_mhz != WM_RCC_WLAN_CLK) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -290,7 +365,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_CPU:
         {
-            if (MHz < WM_RCC_CPU_CLK_MIN || MHz > WM_RCC_CPU_CLK_MAX) {
+            if (clk_mhz < WM_RCC_CPU_CLK_MIN || clk_mhz > WM_RCC_CPU_CLK_MAX) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -298,7 +373,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_SD_ADC:
         {
-            if (MHz != WM_RCC_SD_ADK_CLK) {
+            if (clk_mhz != WM_RCC_SD_ADK_CLK) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -306,7 +381,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_QFLASH:
         {
-            if (MHz != WM_RCC_QFLASH_CLK1 && MHz != WM_RCC_QFLASH_CLK2) {
+            if (clk_mhz != WM_RCC_QFLASH_CLK1 && clk_mhz != WM_RCC_QFLASH_CLK2) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -314,7 +389,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_GPSEC:
         {
-            if (MHz != WM_RCC_GPSEC_CLK1 && MHz != WM_RCC_GPSEC_CLK2) {
+            if (clk_mhz != WM_RCC_GPSEC_CLK1 && clk_mhz != WM_RCC_GPSEC_CLK2) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -322,7 +397,7 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
 
         case WM_RCC_TYPE_RSA:
         {
-            if (MHz != WM_RCC_RSA_CLK1 && MHz != WM_RCC_RSA_CLK2) {
+            if (clk_mhz != WM_RCC_RSA_CLK1 && clk_mhz != WM_RCC_RSA_CLK2) {
                 ret = WM_ERR_INVALID_PARAM;
             }
             break;
@@ -338,11 +413,28 @@ static int wm_w800_drv_rcc_config_clock(wm_device_t *dev, wm_rcc_type_t module_t
         return ret;
     }
 
+    cur_clock = wm_hal_rcc_get_clock_config(hal_dev, module_type);
+    if (cur_clock == clk_mhz) {
+        wm_log_info("current clock same as user set, do nothing\n");
+        return WM_ERR_SUCCESS;
+    }
+
     if (wm_os_internal_task_schedule_state() != WM_OS_SCHED_NOT_START) {
         ret = wm_os_internal_mutex_acquire(drv_ctx->lock, WM_OS_WAIT_TIME_MAX);
     }
     if (ret == WM_ERR_SUCCESS) {
-        ret = wm_hal_rcc_config_clock(hal_dev, module_type, MHz);
+        ret = wm_hal_rcc_config_clock(hal_dev, module_type, clk_mhz);
+        if (ret == WM_ERR_SUCCESS) {
+            if (module_type == WM_RCC_TYPE_CPU) {
+                //update system tick
+                cpu_div = WM_PLL_CLOCK / clk_mhz;
+                SysTick_Config(WM_PLL_CLOCK * UNIT_MHZ / cpu_div / HZ);
+
+                wm_rcc_traverse_dev(WM_RCC_DEV_CPU);
+            } else if (module_type == WM_RCC_TYPE_WLAN) {
+                wm_rcc_traverse_dev(WM_RCC_DEV_WLAN_BT);
+            }
+        }
         if (wm_os_internal_task_schedule_state() != WM_OS_SCHED_NOT_START) {
             wm_os_internal_mutex_release(drv_ctx->lock);
         }
@@ -433,14 +525,70 @@ static int wm_w800_drv_rcc_ioctl(wm_device_t *dev, wm_drv_rcc_ioctl_args_t *args
     return ret;
 }
 
+int wm_w800_drv_rcc_register_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx, wm_bus_clock_change_cb cb, void *usr_arg)
+{
+    int ret                     = WM_ERR_SUCCESS;
+    wm_drv_clock_ctx_t *drv_ctx = NULL;
+
+    drv_ctx = (wm_drv_clock_ctx_t *)dev->drv;
+    if (drv_ctx == NULL) {
+        ret = WM_ERR_NO_INITED;
+        goto out;
+    }
+
+    if (dev_idx >= WM_RCC_DEV_MAX) {
+        ret = WM_ERR_INVALID_PARAM;
+        goto out;
+    }
+
+    ret = wm_os_internal_mutex_acquire(drv_ctx->lock, WM_OS_WAIT_TIME_MAX);
+    if (ret == WM_ERR_SUCCESS) {
+        g_rcc_dev_tree[dev_idx].cb      = cb;
+        g_rcc_dev_tree[dev_idx].usr_arg = usr_arg;
+        wm_os_internal_mutex_release(drv_ctx->lock);
+    }
+
+out:
+    return ret;
+}
+
+int wm_w800_drv_rcc_unregister_cb_bus_clock_change(wm_device_t *dev, uint8_t dev_idx)
+{
+    int ret                     = WM_ERR_SUCCESS;
+    wm_drv_clock_ctx_t *drv_ctx = NULL;
+
+    drv_ctx = (wm_drv_clock_ctx_t *)dev->drv;
+    if (drv_ctx == NULL) {
+        ret = WM_ERR_NO_INITED;
+        goto out;
+    }
+
+    if (dev_idx >= WM_RCC_DEV_MAX) {
+        ret = WM_ERR_INVALID_PARAM;
+        goto out;
+    }
+
+    ret = wm_os_internal_mutex_acquire(drv_ctx->lock, WM_OS_WAIT_TIME_MAX);
+    if (ret == WM_ERR_SUCCESS) {
+        g_rcc_dev_tree[dev_idx].cb      = NULL;
+        g_rcc_dev_tree[dev_idx].usr_arg = NULL;
+        wm_os_internal_mutex_release(drv_ctx->lock);
+    }
+
+out:
+    return ret;
+}
+
 /*internal interface ops*/
 const wm_drv_clock_ops_t wm_drv_rcc_ops = {
-    .init             = wm_w800_drv_clock_init,
-    .deinit           = wm_w800_drv_clock_deinit,
-    .clock_enable     = wm_w800_drv_clock_enable,
-    .clock_disable    = wm_w800_drv_clock_disable,
-    .clock_reset      = wm_w800_drv_clock_reset,
-    .config_clock     = wm_w800_drv_rcc_config_clock,
-    .get_config_clock = wm_w800_drv_rcc_get_config_clock,
-    .ioctl            = wm_w800_drv_rcc_ioctl,
+    .init                  = wm_w800_drv_clock_init,
+    .deinit                = wm_w800_drv_clock_deinit,
+    .clock_enable          = wm_w800_drv_clock_enable,
+    .clock_disable         = wm_w800_drv_clock_disable,
+    .clock_reset           = wm_w800_drv_clock_reset,
+    .config_clock          = wm_w800_drv_rcc_config_clock,
+    .get_config_clock      = wm_w800_drv_rcc_get_config_clock,
+    .ioctl                 = wm_w800_drv_rcc_ioctl,
+    .reg_cb_clock_change   = wm_w800_drv_rcc_register_cb_bus_clock_change,
+    .unreg_cb_clock_change = wm_w800_drv_rcc_unregister_cb_bus_clock_change,
 };

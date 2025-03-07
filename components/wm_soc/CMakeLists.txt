@@ -1,7 +1,7 @@
 list(APPEND ADD_INCLUDE "include"
-                        "${chip_family_type}/include"
+                        "${CONFIG_CHIP_FAMILY_NAME}/include"
                         )
 
-aux_source_directory(${chip_family_type}/src ADD_SRCS)
+aux_source_directory(${CONFIG_CHIP_FAMILY_NAME}/src ADD_SRCS)
 
 register_component()

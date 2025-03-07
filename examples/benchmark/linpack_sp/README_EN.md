@@ -12,7 +12,7 @@ None.
 
 Example Location： `examples/benchmark/linpack_sp`
 
-For compiling, burning, and others, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compiling, burning, and others, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running result
 

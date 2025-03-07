@@ -105,7 +105,7 @@ extern "C" {
    the command header is defined by LCD_CMD_SEQ_HEADER_LEN
    len = cmd content + data content */
 const uint8_t st7735_init_seq[] = {
-    /*  len , delay, cmd_type,  cmd, data ... */
+    /*  len , delay(ms), cmd_type,  cmd, data ... */
     //0x03, 0x00, LCD_CMD_TYPE_16BIT, 0x12, 0x34, 0xBE, // Example:16bit command "0x1234" be used
     0x01, 0x00, LCD_CMD_TYPE_8BIT, ST7735_SWRESET,      // Software reset
     0x01, 0x00, LCD_CMD_TYPE_8BIT, ST7735_SLPOUT,       // Out of sleep mode

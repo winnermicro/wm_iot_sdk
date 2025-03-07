@@ -235,11 +235,10 @@ At this point, we use ``wm.py ramdump -p port`` to export the exception site, th
 
 It is clear that in the ``test_task`` function in ``main.c`` , an exception was triggered by calling the ``free`` function at line 11. 
 
-.. hint:: 
-    
+.. hint::
+
     * The current ramdump analysis function does not support viewing data in peripheral registers.
-    * The current ramdump analysis function only supports direct use on Windows and Linux systems. To use it on macOS, you need to build yourself `gdbstub_ck804 <https://github.com/wdyichen/mini-gdbstub-ck804>`_ , then rename it to ``mac_gdb.stub`` and place it in the ``tools/wm`` path.
-	
+
 .. _bootreason:
 
 :ref:`Obtaining the Reason for Reboot <debug>`

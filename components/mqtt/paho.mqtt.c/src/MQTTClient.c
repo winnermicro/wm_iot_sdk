@@ -1261,7 +1261,7 @@ static MQTTResponse MQTTClient_connectURIVersion(MQTTClient handle, MQTTClient_c
 		if (!running)
 		{
 			rc = SOCKET_ERROR;
-			run_flag = 0;
+			// run_flag = 0; // MQTTClient_run never quit
 			goto exit;
 		}
 	}

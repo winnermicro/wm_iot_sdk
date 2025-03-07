@@ -84,22 +84,60 @@ The WM IoT SDK supports the IPv6 protocol.
 Configuring LWIP with WM IoT SDK's menuconfig 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-Enter ``menuconfig`` using the compile command line, select  ``Components configuration``  to enter the component configuration and then select ``LWIP`` to view the relevant properties related to LWIP, such as:
+Enter ``menuconfig`` using the compile command line, 
+select  ``Components configuration``  to enter the component configuration and then select ``LWIP`` to view the relevant properties related to LWIP, 
+Main configuration parameters:
 
-- TCPIP task receive mail box size ：
-  
-  The mailbox size for receiving TCPIP tasks.
-
-- Maximum number of retransmissions of data segments ：
-  
-  The maximum number of retransmissions of data segments.
-
-- Default TCP receive mail box size ：
-  
-  The default size of the TCP receive mailbox.
-
-- Enable ipv6 ：
-  
-  Enable IPv6.
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
 
 
+  * - Configuration name
+    - Configuration description
+    - Default values
+
+  * - CONFIG_LWIP_TCP_MAXRTX
+    - Set the maximum number of retransmissions of a data segment
+    - 3
+
+  * - CONFIG_LWIP_TCP_SYNMAXRTX
+    - Set the maximum number of retransmissions of SYN packet segments
+    - 4
+
+  * - CONFIG_LWIP_TCP_MSS
+    - Set the maximum segment size for TCP transfers
+    - 1460
+
+  * - CONFIG_LWIP_TCP_WND_DEFAULT
+    - Set the default TCP receive window size
+    - 8
+
+  * - CONFIG_LWIP_TCP_SND_BUF_DEFAULT
+    - Set the default send buffer size.
+    - 6
+
+  * - CONFIG_LWIP_IP_FORWARD
+    - Whether packets are allowed to be forwarded across multiple
+    - N
+
+  * - CONFIG_LWIP_ENABLE_NAPT
+    - Whether napt is enabled or not
+    - N
+
+  * - CONFIG_LWIP_ENABLE_IPV4
+    - Whether IPv4 is enabled or not.
+    - Y
+
+  * - CONFIG_LWIP_ENABLE_IPV6
+    - Whether IPv6 is enabled
+    - N
+
+  * - CONFIG_LWIP_IPV6_AUTOCONFIG
+    - See RFC 4862 for details on whether devices are allowed to have IPV6 stateless addresses
+    - Y
+
+  * - CONFIG_LWIP_IPV6_DHCP6
+    - Whether to enable IPv6 stateless address auto-configuration of DHCPv6
+    - Y

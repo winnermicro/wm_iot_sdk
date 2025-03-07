@@ -33,4 +33,10 @@ menu "Commands configuration"
         help
             Select this option to enable HTTP cmd.
 
+    config CLI_COMMANDS_NTP
+        bool "Enable Network Time Protocol cmd"
+        default n
+        help
+            Select this option to enable NTP cmd.
+
 endmenu

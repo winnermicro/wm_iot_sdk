@@ -11,7 +11,7 @@ This example demonstrates how to utilize the Wi-Fi station feature.
 
 Example Location： `examples/wifi/station`
 
-For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

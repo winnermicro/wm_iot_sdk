@@ -22,7 +22,6 @@
  */
 #include "wm_gdc0689.h"
 #include "wm_drv_seg_lcd.h"
-#include "wm_drv_gpio.h"
 #include "wm_dt_hw.h"
 
 #define LOG_TAG "example"
@@ -74,140 +73,115 @@ typedef struct {
 } wm_drv_gdc0689_drv_t;
 
 /**
- * @brief Defines a mapping between segment names and their corresponding hardware identifiers.
- *
- * This structure is used to relate the logical names of segments to their
- * actual hardware configuration identifiers, including the COM address and the
- * segment bit representation.
- */
-typedef struct {
-    char seg_name[5];        /**< The logical name of the segment */
-    wm_seg_lcd_com_id_t com; /**< The hardware COM identifier for the segment */
-    uint32_t seg;            /**< The hardware segment bit representation */
-} seg_lcd_table_t;
-
-/**
- * @brief Represents the display state of a segment on the LCD.
- *
- * This structure is used to define whether a particular segment should be turned on
- * or off for display purposes.
- */
-typedef struct {
-    char seg_name[5]; /**< The logical name of the segment */
-    bool is_on;       /**< Boolean indicating whether the segment is on or off */
-} seg_lcd_display_t;
-
-/**
  * @brief Defines the mapping of segment names to their respective COM and bit mask.
  *
  * This table is used to associate each segment with a specific COM line and bit
  * mask for easy manipulation of the segments on the LCD.
  */
-static const seg_lcd_table_t g_seg_lcd_table[] = {
-    // COM0
-    { "1D",   0, (1 << 1)  },
-    { "DP1",  0, (1 << 2)  },
-    { "2D",   0, (1 << 3)  },
-    { "DP2",  0, (1 << 4)  },
-    { "3D",   0, (1 << 5)  },
-    { "DP3",  0, (1 << 6)  },
-    { "4D",   0, (1 << 7)  },
-    { "COL1", 0, (1 << 8)  },
-    { "COL2", 0, (1 << 9)  },
-    { "W5",   0, (1 << 10) },
-    { "L1",   0, (1 << 11) },
-    { "5F",   0, (1 << 12) },
-    { "5A",   0, (1 << 13) },
-    { "6F",   0, (1 << 14) },
-    { "6A",   0, (1 << 15) },
-    { "7F",   0, (1 << 16) },
-    { "7A",   0, (1 << 17) },
-    { "S4",   0, (1 << 18) },
-    { "S5",   0, (1 << 19) },
-    { "8F",   0, (1 << 20) },
-    { "8A",   0, (1 << 21) },
-    { "9F",   0, (1 << 22) },
-    { "9A",   0, (1 << 23) },
-    { "10F",  0, (1 << 24) },
-    { "10A",  0, (1 << 25) },
-    // COM1
-    { "1E",   1, (1 << 1)  },
-    { "1C",   1, (1 << 2)  },
-    { "2E",   1, (1 << 3)  },
-    { "2C",   1, (1 << 4)  },
-    { "3E",   1, (1 << 5)  },
-    { "3C",   1, (1 << 6)  },
-    { "4E",   1, (1 << 7)  },
-    { "4C",   1, (1 << 8)  },
-    { "COL3", 1, (1 << 9)  },
-    { "W4",   1, (1 << 10) },
-    { "L2",   1, (1 << 11) },
-    { "5G",   1, (1 << 12) },
-    { "5B",   1, (1 << 13) },
-    { "6G",   1, (1 << 14) },
-    { "6B",   1, (1 << 15) },
-    { "7G",   1, (1 << 16) },
-    { "7B",   1, (1 << 17) },
-    { "S3",   1, (1 << 18) },
-    { "S6",   1, (1 << 19) },
-    { "8G",   1, (1 << 20) },
-    { "8B",   1, (1 << 21) },
-    { "9G",   1, (1 << 22) },
-    { "9B",   1, (1 << 23) },
-    { "10G",  1, (1 << 24) },
-    { "10B",  1, (1 << 25) },
-    // COM2
-    { "1G",   2, (1 << 1)  },
-    { "1B",   2, (1 << 2)  },
-    { "2G",   2, (1 << 3)  },
-    { "2B",   2, (1 << 4)  },
-    { "3G",   2, (1 << 5)  },
-    { "3B",   2, (1 << 6)  },
-    { "4G",   2, (1 << 7)  },
-    { "4B",   2, (1 << 8)  },
-    { "T1",   2, (1 << 9)  },
-    { "W3",   2, (1 << 10) },
-    { "L3",   2, (1 << 11) },
-    { "5E",   2, (1 << 12) },
-    { "5C",   2, (1 << 13) },
-    { "6E",   2, (1 << 14) },
-    { "6C",   2, (1 << 15) },
-    { "7E",   2, (1 << 16) },
-    { "7C",   2, (1 << 17) },
-    { "S2",   2, (1 << 18) },
-    { "S7",   2, (1 << 19) },
-    { "8E",   2, (1 << 20) },
-    { "8C",   2, (1 << 21) },
-    { "9E",   2, (1 << 22) },
-    { "9C",   2, (1 << 23) },
-    { "10E",  2, (1 << 24) },
-    { "10C",  2, (1 << 25) },
-    // COM3
-    { "1F",   3, (1 << 1)  },
-    { "1A",   3, (1 << 2)  },
-    { "2F",   3, (1 << 3)  },
-    { "2A",   3, (1 << 4)  },
-    { "3F",   3, (1 << 5)  },
-    { "3A",   3, (1 << 6)  },
-    { "4F",   3, (1 << 7)  },
-    { "4A",   3, (1 << 8)  },
-    { "W1",   3, (1 << 9)  },
-    { "W2",   3, (1 << 10) },
-    { "L4",   3, (1 << 11) },
-    { "5D",   3, (1 << 12) },
-    { "DP5",  3, (1 << 13) },
-    { "6D",   3, (1 << 14) },
-    { "DP6",  3, (1 << 15) },
-    { "7D",   3, (1 << 16) },
-    { "DP7",  3, (1 << 17) },
-    { "S1",   3, (1 << 18) },
-    { "S8",   3, (1 << 19) },
-    { "8D",   3, (1 << 20) },
-    { "DP8",  3, (1 << 21) },
-    { "9D",   3, (1 << 22) },
-    { "DP9",  3, (1 << 23) },
-    { "10D",  3, (1 << 24) },
-    { "S9",   3, (1 << 25) }
+static const seg_lcd_table_t gdc0689_seg_lcd_table[100] = {
+    { "1D",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG1  },
+    { "DP1",  WM_SEG_LCD_COM0, WM_SEG_LCD_SEG2  },
+    { "2D",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG3  },
+    { "DP2",  WM_SEG_LCD_COM0, WM_SEG_LCD_SEG4  },
+    { "3D",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG5  },
+    { "DP3",  WM_SEG_LCD_COM0, WM_SEG_LCD_SEG6  },
+    { "4D",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG7  },
+    { "COL1", WM_SEG_LCD_COM0, WM_SEG_LCD_SEG8  },
+    { "COL2", WM_SEG_LCD_COM0, WM_SEG_LCD_SEG9  },
+    { "W5",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG10 },
+    { "L1",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG11 },
+    { "5F",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG12 },
+    { "5A",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG13 },
+    { "6F",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG14 },
+    { "6A",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG15 },
+    { "7F",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG16 },
+    { "7A",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG17 },
+    { "S4",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG18 },
+    { "S5",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG19 },
+    { "8F",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG20 },
+    { "8A",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG21 },
+    { "9F",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG22 },
+    { "9A",   WM_SEG_LCD_COM0, WM_SEG_LCD_SEG23 },
+    { "10F",  WM_SEG_LCD_COM0, WM_SEG_LCD_SEG24 },
+    { "10A",  WM_SEG_LCD_COM0, WM_SEG_LCD_SEG25 },
+
+    { "1E",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG1  },
+    { "1C",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG2  },
+    { "2E",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG3  },
+    { "2C",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG4  },
+    { "3E",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG5  },
+    { "3C",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG6  },
+    { "4E",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG7  },
+    { "4C",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG8  },
+    { "COL3", WM_SEG_LCD_COM1, WM_SEG_LCD_SEG9  },
+    { "W4",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG10 },
+    { "L2",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG11 },
+    { "5G",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG12 },
+    { "5B",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG13 },
+    { "6G",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG14 },
+    { "6B",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG15 },
+    { "7G",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG16 },
+    { "7B",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG17 },
+    { "S3",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG18 },
+    { "S6",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG19 },
+    { "8G",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG20 },
+    { "8B",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG21 },
+    { "9G",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG22 },
+    { "9B",   WM_SEG_LCD_COM1, WM_SEG_LCD_SEG23 },
+    { "10G",  WM_SEG_LCD_COM1, WM_SEG_LCD_SEG24 },
+    { "10B",  WM_SEG_LCD_COM1, WM_SEG_LCD_SEG25 },
+
+    { "1G",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG1  },
+    { "1B",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG2  },
+    { "2G",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG3  },
+    { "2B",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG4  },
+    { "3G",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG5  },
+    { "3B",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG6  },
+    { "4G",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG7  },
+    { "4B",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG8  },
+    { "T1",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG9  },
+    { "W3",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG10 },
+    { "L3",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG11 },
+    { "5E",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG12 },
+    { "5C",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG13 },
+    { "6E",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG14 },
+    { "6C",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG15 },
+    { "7E",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG16 },
+    { "7C",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG17 },
+    { "S2",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG18 },
+    { "S7",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG19 },
+    { "8E",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG20 },
+    { "8C",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG21 },
+    { "9E",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG22 },
+    { "9C",   WM_SEG_LCD_COM2, WM_SEG_LCD_SEG23 },
+    { "10E",  WM_SEG_LCD_COM2, WM_SEG_LCD_SEG24 },
+    { "10C",  WM_SEG_LCD_COM2, WM_SEG_LCD_SEG25 },
+
+    { "1F",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG1  },
+    { "1A",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG2  },
+    { "2F",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG3  },
+    { "2A",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG4  },
+    { "3F",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG5  },
+    { "3A",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG6  },
+    { "4F",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG7  },
+    { "4A",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG8  },
+    { "W1",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG9  },
+    { "W2",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG10 },
+    { "L4",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG11 },
+    { "5D",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG12 },
+    { "DP5",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG13 },
+    { "6D",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG14 },
+    { "DP6",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG15 },
+    { "7D",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG16 },
+    { "DP7",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG17 },
+    { "S1",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG18 },
+    { "S8",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG19 },
+    { "8D",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG20 },
+    { "DP8",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG21 },
+    { "9D",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG22 },
+    { "DP9",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG23 },
+    { "10D",  WM_SEG_LCD_COM3, WM_SEG_LCD_SEG24 },
+    { "S9",   WM_SEG_LCD_COM3, WM_SEG_LCD_SEG25 }
 };
 
 /**
@@ -237,133 +211,53 @@ static const uint8_t g_seg_lcd_num[10] = {
  */
 static const char g_number_seg_name[7][2] = { "A", "B", "C", "D", "E", "F", "G" };
 
-static int wm_gdc0689_display(wm_device_t *dev, seg_lcd_display_t *seg_lcd_display, uint32_t seg_num)
-{
-    int ret                        = WM_ERR_SUCCESS;
-    wm_drv_gdc0689_drv_t *drv_data = NULL;
-    uint32_t seg_val               = 0;
-
-    if (dev == NULL) {
-        return WM_ERR_INVALID_PARAM;
-    }
-
-    drv_data = (wm_drv_gdc0689_drv_t *)dev->drv;
-    if (drv_data == NULL) {
-        return WM_ERR_INVALID_PARAM;
-    }
-
-    for (uint32_t i = 0; i < seg_num; i++) {
-        for (uint32_t j = 0; j < (sizeof(g_seg_lcd_table) / sizeof(g_seg_lcd_table[0])); j++) {
-            if (!(strcmp(seg_lcd_display[i].seg_name, g_seg_lcd_table[j].seg_name))) {
-                seg_val = (seg_lcd_display[i].is_on) ? g_seg_lcd_table[j].seg : 0;
-                ret     = wm_drv_seg_lcd_display(drv_data->drv_ctx.seg_lcd_dev, g_seg_lcd_table[j].com, g_seg_lcd_table[j].seg,
-                                                 seg_val);
-                if (ret != WM_ERR_SUCCESS) {
-                    return ret;
-                }
-            }
-        }
-    }
-
-    return ret;
-}
-
 wm_device_t *wm_gdc0689_init(char *dev_name)
 {
-    int ret                        = WM_ERR_SUCCESS;
-    wm_device_t *gdc0689_dev       = NULL;
-    wm_device_t *seg_lcd_dev       = NULL;
-    wm_dt_hw_gdc0689_t *hw_gdc0689 = NULL;
-    wm_drv_gdc0689_drv_t *drv_data = NULL;
+    int ret                  = WM_ERR_SUCCESS;
+    wm_device_t *seg_lcd_dev = NULL;
 
-    gdc0689_dev = wm_dt_get_device_by_name(dev_name);
-    if (!gdc0689_dev) {
+    if (dev_name == NULL) {
         return NULL;
     }
 
-    hw_gdc0689 = (wm_dt_hw_gdc0689_t *)gdc0689_dev->hw;
-    for (uint8_t i = 0; i < hw_gdc0689->pin_cfg_count; i++) {
-        ret = wm_drv_gpio_iomux_func_sel(hw_gdc0689->pin_cfg[i].pin_num, hw_gdc0689->pin_cfg[i].pin_mux);
-        if (ret != WM_ERR_SUCCESS) {
-            return NULL;
-        }
+    seg_lcd_dev = wm_drv_seg_lcd_init(dev_name);
+    if (seg_lcd_dev == NULL) {
+        return NULL;
     }
-    seg_lcd_dev = wm_drv_seg_lcd_init(hw_gdc0689->seg_lcd_device_name);
-
-    if (seg_lcd_dev) {
-        drv_data = (wm_drv_gdc0689_drv_t *)wm_os_internal_malloc(sizeof(wm_drv_gdc0689_drv_t));
-        if (!drv_data) {
-            return NULL;
-        }
-        memset(drv_data, 0x00, sizeof(wm_drv_gdc0689_drv_t));
-        drv_data->drv_ctx.seg_lcd_dev = seg_lcd_dev;
-        gdc0689_dev->drv              = drv_data;
+    ret = wm_drv_seg_lcd_register_table(seg_lcd_dev, gdc0689_seg_lcd_table,
+                                        sizeof(gdc0689_seg_lcd_table) / sizeof(gdc0689_seg_lcd_table[0]));
+    if (ret != WM_ERR_SUCCESS) {
+        return NULL;
     }
-    gdc0689_dev->state = WM_DEV_ST_INITED;
 
-    return gdc0689_dev;
+    return seg_lcd_dev;
 }
 
 int wm_gdc0689_deinit(wm_device_t *dev)
 {
-    int ret                        = WM_ERR_SUCCESS;
-    wm_drv_gdc0689_drv_t *drv_data = NULL;
-    wm_dt_hw_gdc0689_t *hw_gdc0689 = NULL;
+    int ret = WM_ERR_SUCCESS;
 
     if (dev == NULL) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
-    }
-
-    drv_data   = (wm_drv_gdc0689_drv_t *)dev->drv;
-    hw_gdc0689 = (wm_dt_hw_gdc0689_t *)dev->hw;
-    if (drv_data == NULL || hw_gdc0689 == NULL) {
-        return WM_ERR_INVALID_PARAM;
-    }
-
-    ret = wm_drv_seg_lcd_deinit(drv_data->drv_ctx.seg_lcd_dev);
+    ret = wm_drv_seg_lcd_deinit(dev);
     if (ret != WM_ERR_SUCCESS) {
         return ret;
     }
-
-    for (uint8_t i = 0; i < hw_gdc0689->pin_cfg_count; i++) {
-        ret = wm_drv_gpio_iomux_func_sel(hw_gdc0689->pin_cfg[i].pin_num, WM_GPIO_IOMUX_FUN5);
-        if (ret != WM_ERR_SUCCESS) {
-            return ret;
-        }
-    }
-
-    if (dev->drv != NULL) {
-        wm_os_internal_free(dev->drv);
-        dev->drv = NULL;
-    }
-    dev->state = WM_DEV_ST_UNINIT;
 
     return ret;
 }
 
 int wm_gdc0689_clear(wm_device_t *dev)
 {
-    int ret                        = WM_ERR_SUCCESS;
-    wm_drv_gdc0689_drv_t *drv_data = NULL;
+    int ret = WM_ERR_SUCCESS;
 
     if (dev == NULL) {
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
-    }
-
-    drv_data = (wm_drv_gdc0689_drv_t *)dev->drv;
-    if (drv_data == NULL) {
-        return WM_ERR_INVALID_PARAM;
-    }
-
-    ret = wm_drv_seg_lcd_clear(drv_data->drv_ctx.seg_lcd_dev);
+    ret = wm_drv_seg_lcd_clear(dev);
 
     return ret;
 }
@@ -382,10 +276,6 @@ int wm_gdc0689_display_service_icon(wm_device_t *dev, wm_gdc0689_service_icon_t 
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
-    }
-
     switch (service_icon) {
         case WM_GDC0689_SERVICE_ICON_OFF:
             seg_lcd_display[0].is_on = false;
@@ -399,14 +289,15 @@ int wm_gdc0689_display_service_icon(wm_device_t *dev, wm_gdc0689_service_icon_t 
             break;
     }
 
-    ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+    ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
 
     return ret;
 }
 
 int wm_gdc0689_display_battery_level(wm_device_t *dev, wm_gdc0689_battery_level_t battery_level)
 {
-    int ret                             = WM_ERR_SUCCESS;
+    int ret = WM_ERR_SUCCESS;
+
     seg_lcd_display_t seg_lcd_display[] = {
         {
          .seg_name = "W1",
@@ -432,10 +323,6 @@ int wm_gdc0689_display_battery_level(wm_device_t *dev, wm_gdc0689_battery_level_
 
     if (dev == NULL || battery_level >= WM_GDC0689_BATTERY_LEVEL_MAX) {
         return WM_ERR_INVALID_PARAM;
-    }
-
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
     }
 
     switch (battery_level) {
@@ -486,14 +373,15 @@ int wm_gdc0689_display_battery_level(wm_device_t *dev, wm_gdc0689_battery_level_
             break;
     }
 
-    ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+    ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
 
     return ret;
 }
 
 int wm_gdc0689_display_signal_level(wm_device_t *dev, wm_gdc0689_signal_level_t signal_level)
 {
-    int ret                             = WM_ERR_SUCCESS;
+    int ret = WM_ERR_SUCCESS;
+
     seg_lcd_display_t seg_lcd_display[] = {
         {
          .seg_name = "L1",
@@ -515,10 +403,6 @@ int wm_gdc0689_display_signal_level(wm_device_t *dev, wm_gdc0689_signal_level_t 
 
     if (dev == NULL || signal_level >= WM_GDC0689_SIGNAL_LEVEL_MAX) {
         return WM_ERR_INVALID_PARAM;
-    }
-
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
     }
 
     switch (signal_level) {
@@ -557,14 +441,15 @@ int wm_gdc0689_display_signal_level(wm_device_t *dev, wm_gdc0689_signal_level_t 
             break;
     }
 
-    ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+    ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
 
     return ret;
 }
 
 int wm_gdc0689_display_unit(wm_device_t *dev, wm_gdc0689_unit_t unit)
 {
-    int ret                             = WM_ERR_SUCCESS;
+    int ret = WM_ERR_SUCCESS;
+
     seg_lcd_display_t seg_lcd_display[] = {
         {
          .seg_name = "S1",
@@ -608,15 +493,11 @@ int wm_gdc0689_display_unit(wm_device_t *dev, wm_gdc0689_unit_t unit)
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
-    }
-
     if (unit > 0) {
         seg_lcd_display[unit - 1].is_on = true;
     }
 
-    ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+    ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
 
     return ret;
 }
@@ -629,10 +510,6 @@ int wm_gdc0689_display_time(wm_device_t *dev, int tm_hour, int tm_min)
 
     if (dev == NULL || tm_hour > 23 || tm_hour < 0 || tm_min > 59 || tm_min < 0) {
         return WM_ERR_INVALID_PARAM;
-    }
-
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
     }
 
     number[0] = tm_hour / 10;
@@ -649,7 +526,7 @@ int wm_gdc0689_display_time(wm_device_t *dev, int tm_hour, int tm_min)
             seg_lcd_display[i].is_on = g_seg_lcd_num[number[j]] & (1 << i);
             // wm_log_info("seg_name: %s, is_on: %d", seg_lcd_display[i].seg_name, seg_lcd_display[i].is_on);
         }
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
         if (ret != WM_ERR_SUCCESS) {
             return ret;
         }
@@ -663,7 +540,7 @@ int wm_gdc0689_display_time(wm_device_t *dev, int tm_hour, int tm_min)
             { "DP3",  false }
         };
 
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
     } while (0);
 
     return ret;
@@ -677,10 +554,6 @@ int wm_gdc0689_display_integer(wm_device_t *dev, uint32_t value)
 
     if (dev == NULL || value > 999999) {
         return WM_ERR_INVALID_PARAM;
-    }
-
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
     }
 
     number[0] = (value / 100000) % 10;
@@ -699,7 +572,7 @@ int wm_gdc0689_display_integer(wm_device_t *dev, uint32_t value)
             seg_lcd_display[i].is_on = g_seg_lcd_num[number[j]] & (1 << i);
             // wm_log_info("seg_name: %s, is_on: %d", seg_lcd_display[i].seg_name, seg_lcd_display[i].is_on);
         }
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
         if (ret != WM_ERR_SUCCESS) {
             return ret;
         }
@@ -716,7 +589,7 @@ int wm_gdc0689_display_integer(wm_device_t *dev, uint32_t value)
             { "DP9",  false }
         };
 
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
     } while (0);
 
     return ret;
@@ -731,10 +604,6 @@ int wm_gdc0689_display_decimal(wm_device_t *dev, float value)
 
     if (dev == NULL || display_value > 999999 || value < 0) {
         return WM_ERR_INVALID_PARAM;
-    }
-
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
     }
 
     number[0] = (display_value / 100000) % 10;
@@ -753,7 +622,7 @@ int wm_gdc0689_display_decimal(wm_device_t *dev, float value)
             seg_lcd_display[i].is_on = g_seg_lcd_num[number[j]] & (1 << i);
             // wm_log_info("seg_name: %s, is_on: %d", seg_lcd_display[i].seg_name, seg_lcd_display[i].is_on);
         }
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
         if (ret != WM_ERR_SUCCESS) {
             return ret;
         }
@@ -770,7 +639,7 @@ int wm_gdc0689_display_decimal(wm_device_t *dev, float value)
             { "DP9",  false }
         };
 
-        ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+        ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
     } while (0);
 
     return ret;
@@ -784,18 +653,14 @@ int wm_gdc0689_display_all(wm_device_t *dev)
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (dev->state != WM_DEV_ST_INITED) {
-        return WM_ERR_NO_INITED;
-    }
+    seg_lcd_display_t seg_lcd_display[sizeof(gdc0689_seg_lcd_table) / sizeof(gdc0689_seg_lcd_table[0])] = { 0 };
 
-    seg_lcd_display_t seg_lcd_display[sizeof(g_seg_lcd_table) / sizeof(g_seg_lcd_table[0])] = { 0 };
-
-    for (uint32_t i = 0; i < (sizeof(g_seg_lcd_table) / sizeof(g_seg_lcd_table[0])); i++) {
-        strcpy(seg_lcd_display[i].seg_name, g_seg_lcd_table[i].seg_name);
+    for (uint32_t i = 0; i < (sizeof(gdc0689_seg_lcd_table) / sizeof(gdc0689_seg_lcd_table[0])); i++) {
+        strcpy(seg_lcd_display[i].seg_name, gdc0689_seg_lcd_table[i].seg_name);
         seg_lcd_display[i].is_on = true;
     }
 
-    ret = wm_gdc0689_display(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
+    ret = wm_drv_seg_lcd_display_seg(dev, seg_lcd_display, sizeof(seg_lcd_display) / sizeof(seg_lcd_display[0]));
 
     return ret;
 }

@@ -37,6 +37,38 @@ WiFi 的连接配置主要由以下几部分构成：
 
 这是 WiFi MAC 层的接收缓冲区的个数，主要是用来存放 ``MAC`` 层接收到的还没发往应用层的数据，用户可以根据实际需要进行修改。
 
+
+WiFi 的 meunconfig 配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+主要配置如下：
+
+.. list-table::
+   :widths: 45 50 25 
+   :header-rows: 0
+   :align: center
+
+   * - 配置名称
+     - 配置描述
+     - 默认值
+
+   * - CONFIG_COMPONENT_WIFI_ENABLED
+     - 是否启用 WiFi 组件
+     - N
+
+   * - CONFIG_WIFI_MASCW_TX_BUF_NUM 
+     - 配置 WiFi MAC 层发送缓冲区个数
+     - 7
+
+   * - CONFIG_WIFI_MASCW_RX_BUF_NUM 
+     - 配置 WiFi MAC 层接收缓冲区个数
+     - 3
+
+   * - CONFIG_WIFI_API_ENABLED 
+     - 是否启用 WiFi API
+     - Y
+
+
 WiFi 初始化
 -------------------
 
@@ -46,6 +78,7 @@ WiFi 扫描模式
 ------------------
 
 仅 station 或 station/AP 共存模式支持 ``wm_wifi_scan_start()`` API。
+使用时需注意，当 station 联网过程中执行扫描，可能会失败。
 
 扫描类型
 ~~~~~~~~~~~~~~~
@@ -180,7 +213,7 @@ STA 连接配置
    * - pmf_cfg
      - 配置保护管理框架。将在 RSN IE 中的 RSN 功能中发布。
 
-通常情况下在建立 WiFi 连接之前都要进行配置。但如果已经在: ref:`NVS <nvs>` 中保存过配置，或者想要保存配置，在下一次连接的时候不用进行配置，这也是可以的。
+通常情况下在建立 WiFi 连接之前都要进行配置。但如果已经在 :ref:`NVS <nvs>` 中保存过配置，或者想要保存配置，在下一次连接的时候不用进行配置，这也是可以的。
 
 STA 连接
 ~~~~~~~~~~~~~
@@ -245,7 +278,7 @@ SoftAP 配置
    * - pairwise_cipher
      - SoftAP 的成对密码，组密码将由此导出。
 
-通常情况下在创建 SoftAP 之前都要进行配置。但如果已经在: ref:`NVS <nvs>` 中保存过配置，或者想要保存配置，在下一次连接的时候不用进行配置，这也是可以的。
+通常情况下在创建 SoftAP 之前都要进行配置。但如果已经在 :ref:`NVS <nvs>` 中保存过配置，或者想要保存配置，在下一次连接的时候不用进行配置，这也是可以的。
 
 SoftAP 开启
 ~~~~~~~~~~~~~

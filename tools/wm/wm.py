@@ -48,7 +48,7 @@ ramdump   : save the ramdump file
 debug     : start the gdb analysis ramdump file
 '''
 
-cmd_list = ["set-soc", "devconfig", "menuconfig", "build", "clean", "flash", "monitor", "distclean", "config", "guiconfig", "saveconfig", "guiflash", "gdb", "ramdump", "debug", "coverage", "lib"]
+cmd_list = ["set-soc", "devconfig", "menuconfig", "build", "clean", "flash", "monitor", "distclean", "config", "guiconfig", "saveconfig", "guiflash", "gdb", "ramdump", "debug", "coverage", "lib", "set-config"]
 
 project_parser = argparse.ArgumentParser(usage="""[%(prog)s] is build tool for winnermicro sdk, it implements function to config, build and flash sdk image.""",
                                          prog="wmsdk",
@@ -104,6 +104,9 @@ for command in project_args.commands:
     if command in cmd_list:
         if command == "set-soc":
             skip_next_command = True
+        elif command == "set-config":
+            # Skip all remaining arguments as they are config values
+            break
         continue
     else:
         project_parser.print_help()
@@ -139,6 +142,7 @@ image_partition_table_path = os.path.join(binary_path, "partition_table", "parti
 image_bootloader_path = os.path.join(binary_path, "bootloader", "bootloader.img")
 image_app_path = os.path.join(binary_path, project_name + ".img")
 custom_image_path = os.path.join(binary_path, "custom_bin")
+fatfs_image_path = os.path.join(binary_path, "fatfs_bin")
 elf_path = os.path.join(binary_path, project_name + ".elf")
 ramdump_path = os.path.join(binary_path, project_name + ".ramdump")
 
@@ -330,7 +334,7 @@ def check_project_build_path():
                         prj_path = line[index + len(prj_path_prefix):]
                         prj_path = prj_path.strip()
                         rules_path = os.path.normpath(prj_path)
-                        if project_path != rules_path:
+                        if os.path.relpath(project_path) != os.path.relpath(rules_path):
                             print(Fore.RED + "\nThe current rules path may be different the project path.")
                             print("current rules   path: " + rules_path)
                             print("current project path: " + project_path)
@@ -414,7 +418,15 @@ def do_build():
     if os.path.exists(project_src):
         with open(project_src, 'a'):
             os.utime(project_src, None)
-    build_cmd = ["cmake", "--build", ".", "--target", "update_ld", "--target", "show_pt", "--target", "update_dt", "--target", "all"]
+    build_cmd = ["cmake", "--build", ".", "--target", "update_ld", "--target", "show_pt", "--target", "update_dt"]
+    if project_args.verbose:
+        build_cmd.append("--verbose")
+    res = subprocess.call(build_cmd)
+    if res != 0:
+        print(Fore.RED + "WM IoT SDK build failed")
+        sys.exit(1)
+
+    build_cmd = ["cmake", "--build", ".", "--target", "all"]
     if project_args.verbose:
         build_cmd.append("--verbose")
     res = subprocess.call(build_cmd)
@@ -506,6 +518,13 @@ def do_flash():
                     custom_image = os.path.join(custom_image_path, bin_file)
                     new_argvs.append('-i')
                     new_argvs.append(custom_image)
+        if os.path.exists(fatfs_image_path):
+            bin_files = os.listdir(fatfs_image_path)
+            for bin_file in bin_files:
+                if bin_file.endswith(".img"):
+                    fatfs_image = os.path.join(fatfs_image_path, bin_file)
+                    new_argvs.append('-i')
+                    new_argvs.append(fatfs_image)
         new_argvs.append('-i')
         new_argvs.append(image_partition_table_path)
         new_argvs.append('-i')
@@ -592,6 +611,73 @@ def do_lib():
     if res != 0:
         sys.exit(1)
 
+def do_set_config(config_items):
+    if not os.path.exists("build"):
+        os.makedirs("build/config")
+
+    config_file = sdk_config_file
+    config_content = ""
+
+    # Create initial config if not exists
+    if not os.path.exists(config_file):
+        do_kconfig(0)
+
+    # Load existing config content
+    if os.path.exists(config_file):
+        with open(config_file, 'r', encoding='utf-8') as f:
+            config_content = f.read()
+
+    # Process each config item
+    for item in config_items[0]:
+        try:
+            # Handle other commands
+            if item in cmd_list:
+                with open(config_file, "w", encoding="utf-8") as f:
+                    f.write(config_content)
+                do_kconfig(0)
+                return True
+
+            # Parse config name and value
+            config_name, value = item.split('=', 1)
+            config_name = config_name.strip()
+            value = value.strip()
+
+            # Validate config name
+            if not config_name.startswith("CONFIG_"):
+                print(Fore.RED + f"Error: Config name must start with CONFIG_: {config_name}")
+                continue
+
+            # Format config line based on value type
+            if value.lower() in ('y', 'yes', 'true', '1'):
+                config_line = f"{config_name}=y\n"
+            elif value.lower() in ('n', 'no', 'false', '0'):
+                config_line = f"# {config_name} is not set\n"
+            elif value.isdigit():
+                config_line = f"{config_name}={value}\n"
+            else:
+                config_line = f'{config_name}="{value}"\n'
+
+            # Update or append config
+            pattern = f"^{config_name}=.*$|^# {config_name} is not set$"
+            if config_content and re.search(pattern, config_content, re.MULTILINE):
+                config_content = re.sub(pattern, config_line.strip(), config_content, flags=re.MULTILINE)
+            else:
+                config_content += config_line
+
+            print(Fore.GREEN + f"Successfully set {config_name}={value}")
+
+        except ValueError:
+            print(Fore.RED + f"Error: Invalid config format: {item}. Expected CONFIG_NAME=VALUE")
+            continue
+
+    # Save updated config
+    with open(config_file, "w", encoding="utf-8") as f:
+        f.write(config_content)
+
+    # Regenerate config files
+    do_kconfig(0)
+    return True
+
 try:
     for command in project_args.commands:
         if command == "set-soc":
@@ -604,6 +690,15 @@ try:
                     sys.exit(1)
             do_set_soc(project_args.commands[1])
             break
+        elif command == "set-config":
+            if len(project_args.commands) < 2:
+                print(Fore.RED + "Missing config items")
+                sys.exit(1)
+            # Get all config items (skip the "set-config" command itself)
+            config_items = [project_args.commands[1:]]
+            if do_set_config(config_items):
+                continue  # Continue to process other commands if config successful
+            break  # Exit if config failed
         elif command == "build":
             if project_args.time:
                 time_start = time.time()
@@ -675,5 +770,5 @@ try:
             do_lib()
 except KeyboardInterrupt:
     pass
-except OSError:
-    print(Fore.RED + "operation failed")
+except OSError as e:
+    print(Fore.RED + f"operation failed: {str(e)}")

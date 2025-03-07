@@ -941,6 +941,10 @@ typedef struct {
 
     wm_dt_hw_seg_lcd_cfg_t seg_lcd_cfg;
 
+    uint8_t pin_cfg_count;
+
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+
     char *rcc_device_name;
 } wm_dt_hw_seg_lcd_t;
 '''
@@ -956,6 +960,7 @@ typedef struct {
             dev_name = item["dev_name"]
             if base_name == dev_name:
                 self.update_dt_table(dev_name, base_name, item)
+                self.update_dt_hw_c_pin_cfg(dev_name, item)
                 self.update_dt_hw_c_begin(base_name, dev_name)
                 self.update_dt_hw_c_init_cfg(item)
                 self.update_dt_hw_c_reg_base(item)
@@ -1014,10 +1019,9 @@ typedef struct {
                     f".frame_freq = {item['seg_lcd_cfg']['frame_freq']}, "
                     f".com_num = {item['seg_lcd_cfg']['com_num']} }},\n"
                 )
+                self.update_dt_hw_c_pin_cfg_link(dev_name, item)
                 self.update_dt_hw_c_rcc_device(item)
                 self.update_dt_hw_c_end()
-
-        self.generate_gdc0689()
 
     def generate_i2c(self):
         members = '''
@@ -1208,6 +1212,7 @@ typedef struct {
                 self.update_dt_hw_c_begin(base_name, dev_name)
                 self.update_dt_hw_c_init_cfg(item)
                 self.update_dt_hw_c_reg_base(item)
+                self.update_dt_hw_c_irq_cfg(item)
                 self.update_dt_hw_c_pin_cfg_link(dev_name, item)
                 self.update_dt_hw_c_rcc_device(item)
                 self.update_dt_hw_c_end()
@@ -1353,34 +1358,6 @@ typedef struct {
 
                     self.update_dt_hw_c_pin_cfg_link(dev_name, item)
                     self.update_dt_hw_c_end()
-
-    def generate_gdc0689(self):
-
-        members = '''
-typedef struct {
-    wm_dt_hw_init_cfg_t init_cfg;
-
-    uint8_t pin_cfg_count;
-    wm_dt_hw_pin_cfg_t *pin_cfg;
-
-    char *seg_lcd_device_name;
-} wm_dt_hw_gdc0689_t;
-'''
-        base_name = "gdc0689"
-
-        self.update_dt_hw_h(members)
-        #self.update_dt_hw_c_ops_def(base_name)
-
-        for item in self.config:
-            dev_name = item["dev_name"]
-            if base_name == dev_name:
-                self.update_dt_table(dev_name, None, item)
-                self.update_dt_hw_c_pin_cfg(dev_name, item)
-                self.update_dt_hw_c_begin(base_name, dev_name)
-                self.update_dt_hw_c_init_cfg(item)
-                self.update_dt_hw_c_pin_cfg_link(dev_name, item)
-                self.update_dt_hw_c_seg_lcd_device(item)
-                self.update_dt_hw_c_end()
 
     def generate_eflash(self):
         members = '''
@@ -1891,33 +1868,27 @@ typedef struct {
 
         members = '''
 typedef struct {
-    bool jack_output_gpio1;  /**< GPIO1 is used to output when jack source detect active */
-    bool jack_output_gpio2;  /**< GPIO1 is used to output when jack source detect active */
-    bool jack_output_level;  /**< the level output when detect active, should match the SOC GPIO */
-    bool jack_detect_rin1;   /**< jack detect source from RIN1 */
-    bool jack_detect_gpio1;  /**< The variable is mutually exclusive with the dmic clock */
-    bool dmic_clk_out_gpio1; /**< set GPIO1 to DMIC clock output, is mutually exclusive with the jack */
-    bool dmic;               /**< true if input with digital mic */
-    bool lin1;               /**< true if input with LIN1, also need RIN1 to set */
-    bool rin1;               /**< true if input with RIN1, also need LIN1 to set */
-    bool lin2;               /**< true if input with LIN2, also need RIN2 to set */
-    bool rin2;               /**< true if input with RIN2, also need LIN2 to set */
-    bool monoout;            /**< if output with phonejack avaliable */
-    bool spkout;             /**< if output with classD speaker avaliable */
-    bool i2c;                /**< true if use i2c to control, else SPI */
-    uint8_t address;         /**< the I2C address of es8374 */
-} wm_dt_hw_codec_es8374_cfg_t;
+    uint8_t i2c_address;    /**< I2C address of the codec chip                                       */
+    uint8_t in_port;        /**< input port;  1 :  port1,   2: port2,     3: port1 + port2           */
+    uint8_t out_port;       /**< output port; 1 :  speaker, 2: headphone, 3:speaker + headphone      */
+    wm_gpio_num_t jack_pin; /**< pin for detect headphone instert, set WM_GPIO_NUM_MAX if not use    */
+    wm_gpio_num_t pa_pin;   /**< gpio pin for control speaker output, set WM_GPIO_NUM_MAX if not use */
+    float max_gain;         /**< max gain = Audio mixer gain + Codec DAC volume + power amplifie
+                            To ensure the speaker PA output is not over saturated, max gain can be calculated by the following formula
+                            max_gain = 20 * log(VPA/VDAC)
+                            VPA  : The voltage of the speaker power amplifier
+                            VDAC : The voltage of the Codec DAC
+
+                            VPA = 3.3V , VDAC = 3.3V , max_gain = 20 * log(3.3/3.3) = 0 dB (Recommended)
+                            VPA = 5.0V , VDAC = 3.3V , max_gain = 20 * log(5.0/3.3) = 3.61 dB
+                            VPA = 4.2V , VDAC = 3.3V , max_gain = 20 * log(4.2/3.3) = 2.09 dB
+                            */
+} wm_dt_hw_codec_i2s_cfg_t;
 
 typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
-
-    wm_dt_hw_codec_es8374_cfg_t es8374_cfg;
-
-    uint8_t gpio1;
-    uint8_t gpio2;
-
+    wm_dt_hw_codec_i2s_cfg_t codec_cfg;
     char *i2s_device_name;
-    char *gpio_device_name;
     char *i2c_device_name;
 } wm_dt_hw_codec_i2s_t;
 '''
@@ -1937,7 +1908,12 @@ typedef struct {
                 self.update_dt_hw_c_init_cfg(item)
 
                 self.wm_dt_hw_c += (
-                    "    .es8374_cfg = { .dmic = " + str(item["es8374_cfg"]["dmic"]).lower() + ", \n                    .lin1 = " + str(item["es8374_cfg"]["lin1"]).lower() + ", \n                    .rin1 = " + str(item["es8374_cfg"]["rin1"]).lower() + ", \n                    .lin2 = " + str(item["es8374_cfg"]["lin2"]).lower() + ", \n                    .rin2 = " + str(item["es8374_cfg"]["rin2"]).lower() + ", \n                    .monoout = " + str(item["es8374_cfg"]["monoout"]).lower() + ", \n                    .spkout = " + str(item["es8374_cfg"]["spkout"]).lower() + ", \n                    .i2c = " + str(item["es8374_cfg"]["i2c"]).lower() + ", \n                    .address = " + hex(item["es8374_cfg"]["address"]) + " },\n"
+                    "    .codec_cfg = { .i2c_address = " + hex(item["codec_cfg"]["i2c_address"])
+                        + ", \n                    .in_port = " + str(item["codec_cfg"]["in_port"]).lower()
+                        + ", \n                    .out_port = " + str(item["codec_cfg"]["out_port"]).lower()
+                        + ", \n                    .jack_pin = " + str(item["codec_cfg"]["jack_pin"]).lower()
+                        + ", \n                    .pa_pin = " + str(item["codec_cfg"]["pa_pin"]).lower()
+                        + ", \n                    .max_gain = " + str(item["codec_cfg"]["max_gain"]).lower() + " },\n"
                 )
 
                 self.update_dt_hw_c_i2s_device(item)

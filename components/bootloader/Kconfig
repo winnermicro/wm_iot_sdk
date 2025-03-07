@@ -1,0 +1,73 @@
+menu "Bootloader"
+
+    choice BOOTLOADER_LOG_LEVEL
+        prompt "Bootloader log level"
+        default BOOTLOADER_LOG_LEVEL_INFO
+        help
+            Setting bootloader output log level.
+
+        config BOOTLOADER_LOG_LEVEL_NONE
+            bool "No output"
+            help
+                Not output any logs.
+        config BOOTLOADER_LOG_LEVEL_ERROR
+            bool "Error"
+            help
+                Records errors that occur within the bootloader, which may impact its functionality.
+                Only includes 'Error' log levels if this option be choice.
+        config BOOTLOADER_LOG_LEVEL_WARN
+            bool "Warn"
+            help
+                Indicates potential issues that may not cause errors but could affect the performance of the bootloader.
+                Includes 'Warn', and 'Error' log levels if this option be choice.
+        config BOOTLOADER_LOG_LEVEL_INFO
+            bool "Info"
+            help
+                Conveys general information about bootloader operations, used to track the normal running of the bootloader.
+                Includes 'Info', 'Warn', and 'Error' log levels if this option be choice.
+        config BOOTLOADER_LOG_LEVEL_DEBUG
+            bool "Debug"
+            help
+                In-depth information for issue diagnosis, essential for development and troubleshooting.
+                Includes 'Debug', 'Info', 'Warn', and 'Error' log levels if this option be choice
+        config BOOTLOADER_LOG_LEVEL_VERBOSE
+            bool "Verbose"
+            help
+                Provides detailed information, typically used for development to trace the execution of bootloader.
+                Includes All log levels if this option be choice. Not recommended for production use.
+    endchoice
+
+    config BOOTLOADER_LOG_LEVEL
+        int
+        default 0 if BOOTLOADER_LOG_LEVEL_NONE
+        default 1 if BOOTLOADER_LOG_LEVEL_ERROR
+        default 2 if BOOTLOADER_LOG_LEVEL_WARN
+        default 3 if BOOTLOADER_LOG_LEVEL_INFO
+        default 4 if BOOTLOADER_LOG_LEVEL_DEBUG
+        default 5 if BOOTLOADER_LOG_LEVEL_VERBOSE
+        help
+            This option will be automatically assigned a specific value based on the selection of the "BOOTLOADER_LOG_LEVEL_XX".
+
+    config BOOTLOADER_SKIP_ESC_CHECK
+        bool "Skip ESC check"
+        default n
+        help
+            Skip ESC check during boot to speed up boot time (saves ~68ms).
+            Note: If unable to flash program when pressing reset button, pull down the boot pin while holding the reset button
+
+    config BOOTLOADER_SKIP_UPGRADE_CHECK
+        bool "Skip upgrade check"
+        default n
+        help
+            Skip firmware upgrade check during boot to speed up boot time (saves ~60ms).
+            Note: If unable to flash program when pressing reset button, pull down the boot pin while holding the reset button
+
+    config BOOTLOADER_SKIP_FIRMWARE_INTEGRITY_CHECK
+        bool "Skip firmware integrity check"
+        default n
+        help
+            Skip firmware integrity check during boot. This will slightly speed up boot time but
+            disable firmware integrity verification.
+            Note: If unable to flash program when pressing reset button, pull down the boot pin while holding the reset button
+
+endmenu

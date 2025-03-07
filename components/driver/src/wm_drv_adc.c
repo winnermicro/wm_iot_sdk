@@ -109,7 +109,7 @@ int wm_drv_adc_register_callback(wm_device_t *dev, wm_adc_intr_type_t intr_type,
     return err;
 }
 
-int wm_drv_adc_oneshot(wm_device_t *dev, wm_adc_channel_t adc_channel, int32_t *result)
+int wm_drv_adc_oneshot(wm_device_t *dev, wm_adc_channel_t adc_channel, int *result)
 {
     if (!dev || !WM_ADC_CHANNEL_IS_VAILD(adc_channel) || !result) {
         return WM_ERR_INVALID_PARAM;

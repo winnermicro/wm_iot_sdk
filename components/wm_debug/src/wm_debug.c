@@ -8,12 +8,6 @@
 #include "wm_dt_hw.h"
 #include "wm_dt.h"
 
-#if CONFIG_BUILD_TYPE_W800 || CONFIG_BUILD_TYPE_W801 || CONFIG_BUILD_TYPE_W801S || CONFIG_BUILD_TYPE_W802 || \
-    CONFIG_BUILD_TYPE_W803 || CONFIG_BUILD_TYPE_W805 || CONFIG_BUILD_TYPE_W806
-/* Store reboot reason by RAM's Last Word */
-#define WM_REBOOT_PARA_ADDRESS (0x20047EFC)
-#endif
-
 void wm_set_reboot_reason(wm_reboot_reason_t reason)
 {
 #if CONFIG_BUILD_TYPE_W800 || CONFIG_BUILD_TYPE_W801 || CONFIG_BUILD_TYPE_W801S || CONFIG_BUILD_TYPE_W802 || \
@@ -36,17 +30,6 @@ wm_reboot_reason_t wm_get_reboot_reason(void)
     } else {
         return para.reboot_reason;
     }
-}
-
-void wm_set_boot_log_level(wm_boot_log_level_t level)
-{
-#if CONFIG_BUILD_TYPE_W800 || CONFIG_BUILD_TYPE_W801 || CONFIG_BUILD_TYPE_W801S || CONFIG_BUILD_TYPE_W802 || \
-    CONFIG_BUILD_TYPE_W803 || CONFIG_BUILD_TYPE_W805 || CONFIG_BUILD_TYPE_W806
-    wm_reboot_para_t para = { 0 };
-    para.val              = WM_REG32_READ(WM_REBOOT_PARA_ADDRESS);
-    para.boot_log_level   = level;
-    WM_REG32_WRITE(WM_REBOOT_PARA_ADDRESS, para.val);
-#endif
 }
 
 static void uart_ramdump(wm_hal_uart_dev_t *hal_uart, unsigned int *regs, unsigned int regs_len)

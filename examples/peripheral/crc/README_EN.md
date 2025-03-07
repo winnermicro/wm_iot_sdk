@@ -14,7 +14,7 @@ The board must have a W80x chip.
 
 Example Location： `examples/peripheral/crc`
 
-For compilation, burning, and more information, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more information, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## Running Result
 

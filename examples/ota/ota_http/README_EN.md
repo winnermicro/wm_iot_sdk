@@ -13,13 +13,13 @@ This application serves as a comprehensive example of Over-The-Air (OTA) firmwar
 
 2. Configure `EXPLLE_WIFI_SSID`, `EXPLLE_WIFI_PASSWORD`, and `OTA_IMAGE_URI` using `wm.py menuconfig` or `wm.py guiconfig`.
 
-3. The partition table used in this project must include the `app_ota` partition. For the partition table, please refer to [Partition Table Mechanism](https://doc.winnermicro.net/w800/en/2.2-beta.2/component_guides/partition_table.html)
+3. The partition table used in this project must include the `app_ota` partition. For the partition table, please refer to [Partition Table Mechanism](https://doc.winnermicro.net/w800/en/latest/component_guides/partition_table.html)
 
 ## Building and Flashing
 
 Example Location： `examples\ota\ota_http`
 
-For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For operations such as compiling and burning, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

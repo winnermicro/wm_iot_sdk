@@ -14,7 +14,7 @@ crc demo 中遍历了 W800 支持的 crc 类型，以及是否对输入输出数
 
 示例位置：`examples/peripheral/crc`
 
-编译、烧录等操作请参考：[get started](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+编译、烧录等操作请参考：[get started](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 ## 运行结果
 

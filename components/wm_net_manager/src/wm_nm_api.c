@@ -508,7 +508,7 @@ int wm_nm_start_netif_dhcps(wm_nm_netif_t netif)
     if (ret == WM_ERR_SUCCESS) {
         wm_nm_param_t *nm = wm_nm_get_core_param();
 
-        nm->dhcps_disabled = true;
+        nm->dhcps_enabled = true;
     }
     return ret;
 }
@@ -525,7 +525,7 @@ int wm_nm_stop_netif_dhcps(wm_nm_netif_t netif)
     if (ret == WM_ERR_SUCCESS) {
         wm_nm_param_t *nm = wm_nm_get_core_param();
 
-        nm->dhcps_disabled = false;
+        nm->dhcps_enabled = false;
     }
     return ret;
 }
@@ -585,7 +585,7 @@ int wm_nm_start_netif_dnss(wm_nm_netif_t netif)
     if (ret == WM_ERR_SUCCESS) {
         wm_nm_param_t *nm = wm_nm_get_core_param();
 
-        nm->dnss_disabled = true;
+        nm->dnss_enabled = true;
     }
     return ret;
 }
@@ -602,7 +602,7 @@ int wm_nm_stop_netif_dnss(wm_nm_netif_t netif)
     if (ret == WM_ERR_SUCCESS) {
         wm_nm_param_t *nm = wm_nm_get_core_param();
 
-        nm->dnss_disabled = false;
+        nm->dnss_enabled = false;
     }
     return ret;
 }

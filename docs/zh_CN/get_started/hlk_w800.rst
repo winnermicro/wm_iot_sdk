@@ -12,7 +12,7 @@ HLK-W800-KIT 入门指南
 
 - USB 转串口驱动（`点击下载 CH34X 驱动 <https://doc.winnermicro.net/download/tools/all/CH341SER.zip>`_）
 
-- PC（Windows、Linux 或 macOS）
+- PC（Windows 或 Linux）
 
 你可以跳过介绍部分，直接前往 :ref:`应用程序开发<application-program-w800>` 章节。
 

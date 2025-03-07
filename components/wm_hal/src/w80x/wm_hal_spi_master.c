@@ -1067,17 +1067,12 @@ int wm_hal_spim_rx_dma(wm_hal_spim_dev_t *dev, uint8_t *rx_buf, uint32_t rx_len)
     return ret;
 }
 
-static uint8_t wm_hal_spim_tx_handler_cmd_addr(wm_hal_spim_dev_t *dev)
+static void wm_hal_spim_tx_handler_cmd_addr(wm_hal_spim_dev_t *dev)
 {
-    uint8_t rx_invalid_bits = 0;
-    uint8_t *data_buf       = NULL;
-    uint8_t *tmp_buf        = NULL;
-    uint8_t data_len        = 0;
-    uint8_t fill_len        = 0;
-    uint8_t idx             = 0;
-    wm_spi_reg_t *spi_reg   = (wm_spi_reg_t *)dev->register_base;
-
-    rx_invalid_bits = dev->cmd_len * 8 + dev->addr_len * 8 + dev->dummy_bits;
+    uint8_t *data_buf = NULL;
+    uint8_t data_len  = 0;
+    uint8_t fill_len  = 0;
+    uint8_t idx       = 0;
 
     data_len = (dev->dummy_bits % 8 ? 1 : 0);
     data_len += dev->cmd_len + dev->addr_len + dev->dummy_bits / 8;
@@ -1087,12 +1082,8 @@ static uint8_t wm_hal_spim_tx_handler_cmd_addr(wm_hal_spim_dev_t *dev)
     }
 
     if (data_len) {
-        if ((tmp_buf = wm_os_internal_malloc(fill_len)) == NULL) {
-            return 0;
-        }
         if ((data_buf = wm_os_internal_malloc(fill_len)) == NULL) {
-            wm_os_internal_free(tmp_buf);
-            return 0;
+            return;
         }
         memset(data_buf, 0xFF, fill_len);
     }
@@ -1110,32 +1101,10 @@ static uint8_t wm_hal_spim_tx_handler_cmd_addr(wm_hal_spim_dev_t *dev)
     dev->cmd_len    = 0;
     dev->dummy_bits = 0;
 
-    wm_ll_spi_set_ch_cfg_rx_invalid_bit(spi_reg, rx_invalid_bits);
-
     if (data_buf) {
-        if (dev->big_endian) {
-            if (data_len < 4) { //for cmd+addr less 4byte in big endian
-                tmp_buf[0] = data_buf[3];
-                tmp_buf[1] = data_buf[2];
-                tmp_buf[2] = data_buf[1];
-                tmp_buf[3] = data_buf[0];
-            } else {
-                for (int i = 0; i < fill_len; i += 4) { //command must be in the first word if more than 4byte
-                    tmp_buf[i]     = data_buf[fill_len - i - 4];
-                    tmp_buf[i + 1] = data_buf[fill_len - i - 3];
-                    tmp_buf[i + 2] = data_buf[fill_len - i - 2];
-                    tmp_buf[i + 3] = data_buf[fill_len - i - 1];
-                }
-            }
-            wm_hal_spi_fill_tx_fifo(dev, tmp_buf, fill_len);
-        } else {
-            wm_hal_spi_fill_tx_fifo(dev, data_buf, fill_len);
-        }
+        wm_hal_spim_tx_polling(dev, data_buf, data_len, 1000);
         wm_os_internal_free(data_buf);
-        wm_os_internal_free(tmp_buf);
     }
-
-    return data_len;
 }
 
 int wm_hal_spim_tx_rx_polling(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_len, uint8_t *rx_buf, uint32_t rx_len,
@@ -1155,7 +1124,6 @@ int wm_hal_spim_tx_rx_polling(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t 
     uint32_t load_value     = 0;
     uint32_t cpu_clock      = 0;
     uint32_t start_tick = 0, cur_tick = 0;
-    uint8_t cmd_fill_len = 0;
 
     if (!dev) {
         return WM_ERR_INVALID_PARAM;
@@ -1174,6 +1142,8 @@ int wm_hal_spim_tx_rx_polling(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t 
         return WM_ERR_TIMEOUT;
     }
 
+    wm_hal_spim_tx_handler_cmd_addr(dev);
+
     wm_ll_spi_reset_int_mask(spi_reg, 0xFF); //disable all interrupt
     wm_ll_spi_set_ch_cfg_clr_fifo(spi_reg, 1);
     if (rx_len) {
@@ -1186,27 +1156,19 @@ int wm_hal_spim_tx_rx_polling(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t 
 
     wm_hal_irq_disable(dev->irq_no);
 
-    cmd_fill_len = wm_hal_spim_tx_handler_cmd_addr(dev);
-
     start_tick = csi_coret_get_load() / 2;
     turnaround_cnt += turnaround_cnt;
     cur_tick = csi_coret_get_value();
 
-    while (((tx_len || remain_rx_len > 0) && turnaround_cnt) || cmd_fill_len) {
+    while (((tx_len || remain_rx_len > 0) && turnaround_cnt)) {
         if (tx_len) {
             tx_fill_len = wm_hal_spi_fill_tx_fifo(dev, tx_buf, tx_len);
             tx_len -= tx_fill_len;
             tx_buf += tx_fill_len;
-            tx_rx_len = tx_fill_len + cmd_fill_len;
+            tx_rx_len = tx_fill_len;
         } else {
             tx_rx_len = (WM_SPI_TX_RX_FIFO_DEPTH < remain_rx_len) ? WM_SPI_TX_RX_FIFO_DEPTH : remain_rx_len;
-            if (tx_rx_len < cmd_fill_len) {
-                tx_rx_len = cmd_fill_len; //case: tx and rx is NULL
-            } else {
-                tx_rx_len += cmd_fill_len;
-            }
         }
-        cmd_fill_len = 0;
 
         if (!remain_rx_len) {
             wm_ll_spi_set_ch_cfg_rx_ch_on(spi_reg, 0); /// disable rx channel
@@ -1226,7 +1188,6 @@ int wm_hal_spim_tx_rx_polling(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t 
                 remain_rx_len = 0;
             }
             rx_buf += cur_rx_len;
-            wm_ll_spi_set_ch_cfg_rx_invalid_bit(spi_reg, 0);
             priv->rx_invalid_bit = 0;
         }
 
@@ -1266,7 +1227,6 @@ int wm_hal_spim_tx_rx_it(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_le
     uint32_t tx_fill_len    = 0;
     wm_spi_reg_t *spi_reg   = NULL;
     wm_spi_hal_priv_t *priv = (wm_spi_hal_priv_t *)dev->priv;
-    uint8_t cmd_fill_len    = 0;
 
     if (!dev) {
         return WM_ERR_INVALID_PARAM;
@@ -1278,6 +1238,8 @@ int wm_hal_spim_tx_rx_it(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_le
         return WM_ERR_TIMEOUT;
     }
 
+    wm_hal_spim_tx_handler_cmd_addr(dev);
+
     wm_ll_spi_set_ch_cfg_clr_fifo(spi_reg, 1);
     wm_ll_spi_set_mode_cfg_tx_trig_level(spi_reg, 1);
     wm_ll_spi_reset_int_mask(spi_reg, 0xFF);        //disable all interrupt
@@ -1286,8 +1248,6 @@ int wm_hal_spim_tx_rx_it(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_le
     wm_ll_spi_set_ch_cfg_tx_ch_on(spi_reg, 1);
     wm_ll_spi_set_ch_cfg_continue_mode(spi_reg, 1);
 
-    cmd_fill_len = wm_hal_spim_tx_handler_cmd_addr(dev);
-
     // enable SPI interrupt
     wm_hal_irq_enable(dev->irq_no);
 
@@ -1295,16 +1255,10 @@ int wm_hal_spim_tx_rx_it(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_le
         tx_fill_len         = wm_hal_spi_fill_tx_fifo(dev, tx_buf, tx_len);
         priv->remain_tx_len = tx_len - tx_fill_len;
         priv->tx_buf        = tx_buf + tx_fill_len;
-        tx_fill_len += cmd_fill_len;
     } else {
         priv->remain_tx_len = 0;
         priv->tx_buf        = NULL;
         tx_fill_len         = (WM_SPI_TX_RX_FIFO_DEPTH < rx_len) ? WM_SPI_TX_RX_FIFO_DEPTH : rx_len;
-        if (tx_fill_len < cmd_fill_len) {
-            tx_fill_len = cmd_fill_len; //case: tx and rx is NULL
-        } else {
-            tx_fill_len += cmd_fill_len;
-        }
     }
 
     wm_ll_spi_set_ch_cfg_tx_rx_len(spi_reg, tx_fill_len * 8);
@@ -1335,7 +1289,6 @@ int wm_hal_spim_tx_rx_dma(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_l
     bool rx_with_dma              = false;
     uint32_t rx_with_dma_len      = 0;
     uint32_t tx_with_dma_len      = 0;
-    uint8_t cmd_fill_len          = 0;
 
     if (!dev || (!tx_buf && !rx_buf) || (uint32_t)tx_buf % 4 || (uint32_t)rx_buf % 4) {
         return WM_ERR_INVALID_PARAM;
@@ -1358,13 +1311,13 @@ int wm_hal_spim_tx_rx_dma(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_l
         return WM_ERR_TIMEOUT;
     }
 
+    wm_hal_spim_tx_handler_cmd_addr(dev);
+
     wm_ll_spi_set_ch_cfg_clr_fifo(spi_reg, 1);
     wm_ll_spi_set_ch_cfg_rx_ch_on(spi_reg, 0);
     wm_ll_spi_set_ch_cfg_tx_ch_on(spi_reg, 1);
     wm_ll_spi_set_ch_cfg_continue_mode(spi_reg, 1);
     wm_ll_spi_reset_int_mask(spi_reg, 0xFF); //disable all interrupt
-
-    cmd_fill_len = wm_hal_spim_tx_handler_cmd_addr(dev);
 
     if (rx_buf && rx_len) {
         wm_ll_spi_set_ch_cfg_rx_ch_on(spi_reg, 1);
@@ -1426,7 +1379,7 @@ int wm_hal_spim_tx_rx_dma(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t tx_l
     }
 
     if (tx_rx_len) {
-        wm_ll_spi_set_ch_cfg_tx_rx_len(spi_reg, (tx_rx_len + cmd_fill_len) * 8);
+        wm_ll_spi_set_ch_cfg_tx_rx_len(spi_reg, tx_rx_len * 8);
         //start SPI
         wm_ll_spi_set_ch_cfg_start(spi_reg, 1);
     }
@@ -1450,7 +1403,6 @@ int wm_hal_spim_tx_rx_dma_sync(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t
     bool rx_with_dma                = false;
     uint32_t rx_with_dma_len        = 0;
     uint32_t tx_with_dma_len        = 0;
-    uint8_t cmd_fill_len            = 0;
 
     if (!dev || (!tx_buf && !rx_buf) || (uint32_t)tx_buf % 4 || (uint32_t)rx_buf % 4) {
         return WM_ERR_INVALID_PARAM;
@@ -1459,7 +1411,6 @@ int wm_hal_spim_tx_rx_dma_sync(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t
     if (tx_len > WM_SPI_MAX_TXRX_LEN || rx_len > WM_SPI_MAX_TXRX_LEN) {
         return WM_ERR_INVALID_PARAM;
     }
-
     tx_dma_cfg = &dev->tx_dma_cfg;
     memset(tx_dma_cfg, 0, sizeof(wm_hal_dma_desc_t));
     rx_dma_cfg = &dev->rx_dma_cfg;
@@ -1471,13 +1422,13 @@ int wm_hal_spim_tx_rx_dma_sync(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t
         return ret;
     }
 
+    wm_hal_spim_tx_handler_cmd_addr(dev);
+
     wm_ll_spi_set_ch_cfg_clr_fifo(spi_reg, 1);
     wm_ll_spi_set_ch_cfg_rx_ch_on(spi_reg, 0);
     wm_ll_spi_set_ch_cfg_tx_ch_on(spi_reg, 1);
     wm_ll_spi_set_ch_cfg_continue_mode(spi_reg, 1);
     wm_ll_spi_reset_int_mask(spi_reg, 0xFF); //disable all interrupt
-
-    cmd_fill_len = wm_hal_spim_tx_handler_cmd_addr(dev);
 
     if (rx_buf && rx_len) {
         wm_ll_spi_set_ch_cfg_rx_ch_on(spi_reg, 1);
@@ -1518,7 +1469,7 @@ int wm_hal_spim_tx_rx_dma_sync(wm_hal_spim_dev_t *dev, uint8_t *tx_buf, uint32_t
     }
 
     if (tx_rx_len) {
-        wm_ll_spi_set_ch_cfg_tx_rx_len(spi_reg, (tx_rx_len + cmd_fill_len) * 8);
+        wm_ll_spi_set_ch_cfg_tx_rx_len(spi_reg, tx_rx_len * 8);
     }
 
     if (tx_with_dma) {

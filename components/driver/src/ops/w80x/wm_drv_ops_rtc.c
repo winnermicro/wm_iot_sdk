@@ -122,7 +122,7 @@ static bool wm_drv_time_is_available(wm_drv_rtc_time_t *tm)
             }
             break;
         }
-        case 3:  //March
+        case 3:  //April
         case 5:  //June
         case 8:  //September
         case 10: //November

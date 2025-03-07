@@ -83,6 +83,51 @@ NVS迭代器
 总的来说，所有通过 ``wm_nvs_entry_find()`` 获得的迭代器（包括 NULL 迭代器）都必须使用 ``wm_nvs_release_iterator()`` 释放。
 
 
+下面 example 中，遍历 EXAMPLE_NVS_GROP 分组中全部数据记录。开始调用 wm_nvs_entry_find 时，iterator 内部 Context 指向满足条件的第一条记录，在循环中处理完一条记录后，
+调用 wm_nvs_entry_next 跳到下一条记录，当 wm_nvs_entry_next 返回的 iterator 为 NULL　时，表示已经处理完成。
+
+.. code:: C
+
+    /*Traversal items using iterators*/
+    void example_nvs_iterator(wm_nvs_handle_t handle)
+    {
+        wm_nvs_iterator_t iterator;
+        unsigned char buf[32];
+        size_t len;
+        wm_nvs_entry_t info;
+
+        wm_log_info("Start iterator.");
+
+        /* Get item iterator by group name */
+        if (wm_nvs_entry_find(WM_NVS_DEF_PARTITION, EXAMPLE_NVS_GROUP, WM_NVS_TYPE_ANY, &iterator) != WM_ERR_SUCCESS) {
+            return;
+        }
+
+        /* Processing items */
+        while (iterator) {
+
+            /* Get item name, type, data length */
+            wm_nvs_entry_info(iterator, &info);
+
+            len = sizeof(buf);
+
+            /* Read item data */
+            if (wm_nvs_entry_data(iterator, buf, &len) == WM_ERR_SUCCESS) {
+                wm_log_info("%s,len=%d", info.key, (int)len);
+            }
+
+            /* Goto next item*/
+            wm_nvs_entry_next(&iterator);
+        }
+
+        wm_nvs_release_iterator(iterator);
+    }
+
+
+.. note::
+    iterator 这套接口，主要用在需要遍历全部或者某个分组数据时使用。如果在调用时已经知道数据记录名称和类型时，建议使用对应的 API 接口去获取。
+
+
 实现功能
 --------------
 为了用户使用的多样性，我们能实现多种功能：

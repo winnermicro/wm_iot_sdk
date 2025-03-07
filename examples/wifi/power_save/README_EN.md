@@ -11,14 +11,14 @@ Power save mode is only applicable in station mode. If the modem sleep mode is e
 
 ## Requirements
 1. Configure WiFi SSID and WiFi Password in menuconfig
-2. Configure WiFi listen intervaland WiFi beacon timeout menuconfig
+2. Configure WiFi listen interval and WiFi beacon timeout in menuconfig
 3. Configure power save mode in menuconfig
 
 ## Building and Flashing
 
 Example Location： `examples/wifi/power_save`
 
-For compilation, burning, and more information, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/2.2-beta.2/get_started/index.html)
+For compilation, burning, and more information, see: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 
 
 ## Running Result

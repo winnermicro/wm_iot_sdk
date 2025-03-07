@@ -10,7 +10,7 @@ WM_IoT_SDK 是一个开源项目，我们欢迎并感谢社区成员的贡献。
 
 ## 💻 开发环境
 
-支持 Windows、Linux 和 macOS 系统进行开发。详细的环境搭建指南请参考[WM_IoT_SDK 编程指南](http://doc.winnermicro.net)。
+支持 Windows、和 Linux 系统进行开发。详细的环境搭建指南请参考[WM_IoT_SDK 编程指南](http://doc.winnermicro.net)。
 
 ## 📦 代码仓库
 
@@ -89,7 +89,7 @@ WM_IoT_SDK 是一个开源项目，我们欢迎并感谢社区成员的贡献。
 
 ## 🎨 代码风格
 
-为了保持代码的一致性和可读性，我们制定了详细的代码风格指南。请参考 WM_IoT_SDK 在线文档中的 [代码风格](https://doc.winnermicro.net/w800/zh_CN/2.2-beta.2/contribute/code_style.html) 章节了解完整规范。
+为了保持代码的一致性和可读性，我们制定了详细的代码风格指南。请参考 WM_IoT_SDK 在线文档中的 [代码风格](https://doc.winnermicro.net/w800/zh_CN/latest/contribute/code_style.html) 章节了解完整规范。
 
 ### 🛠️ 自动格式化工具
 

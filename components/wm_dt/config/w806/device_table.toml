@@ -143,6 +143,41 @@ dev_name = "seg_lcd"
 reg_base = 0x40011C00
 init_cfg = {init_level = "app", init_priority = 0}
 seg_lcd_cfg = {duty_sel = "1/4", vlcd_cc = "2.7v", bias = "1/3", hd = "low", frame_freq = 60, com_num = 4}
+pin_cfg = [{pin = 41, fun = "fun6"},
+           {pin = 37, fun = "fun6"},
+           {pin = 38, fun = "fun6"},
+           {pin = 43, fun = "fun6"},
+           {pin = 42, fun = "fun6"},
+           {pin = 40, fun = "fun6"},
+           {pin = 7,  fun = "fun6"},
+           {pin = 8,  fun = "fun6"},
+           {pin = 9,  fun = "fun6"},
+           {pin = 10, fun = "fun6"},
+           {pin = 11, fun = "fun6"},
+           {pin = 12, fun = "fun6"},
+           {pin = 13, fun = "fun6"},
+           {pin = 14, fun = "fun6"},
+           {pin = 15, fun = "fun6"},
+           {pin = 16, fun = "fun6"},
+           {pin = 17, fun = "fun6"},
+           {pin = 18, fun = "fun6"},
+           {pin = 19, fun = "fun6"},
+           {pin = 20, fun = "fun6"},
+           {pin = 21, fun = "fun6"},
+           {pin = 22, fun = "fun6"},
+           {pin = 23, fun = "fun6"},
+           {pin = 24, fun = "fun6"},
+           {pin = 25, fun = "fun6"},
+           {pin = 26, fun = "fun6"},
+           {pin = 27, fun = "fun6"},
+           {pin = 28, fun = "fun6"},
+           {pin = 29, fun = "fun6"},
+           {pin = 30, fun = "fun6"},
+           {pin = 31, fun = "fun6"},
+           {pin = 32, fun = "fun6"},
+           {pin = 33, fun = "fun6"},
+           {pin = 34, fun = "fun6"},
+           {pin = 6,  fun = "fun6"}]
 rcc_device = "rcc"
 
 [[dev]]
@@ -242,65 +277,31 @@ read_only         = false
 max_write_time_ms = 10
 
 [[dev]]
-dev_name = "gdc0689"
-init_cfg = {init_level = "app", init_priority = 0}
-pin_cfg = [{pin = 7, fun = "fun6"},
-           {pin = 8, fun = "fun6"},
-           {pin = 9, fun = "fun6"},
-           {pin = 10, fun = "fun6"},
-           {pin = 11, fun = "fun6"},
-           {pin = 12, fun = "fun6"},
-           {pin = 13, fun = "fun6"},
-           {pin = 14, fun = "fun6"},
-           {pin = 15, fun = "fun6"},
-           {pin = 16, fun = "fun6"},
-           {pin = 17, fun = "fun6"},
-           {pin = 18, fun = "fun6"},
-           {pin = 19, fun = "fun6"},
-           {pin = 20, fun = "fun6"},
-           {pin = 21, fun = "fun6"},
-           {pin = 22, fun = "fun6"},
-           {pin = 23, fun = "fun6"},
-           {pin = 24, fun = "fun6"},
-           {pin = 25, fun = "fun6"},
-           {pin = 26, fun = "fun6"},
-           {pin = 27, fun = "fun6"},
-           {pin = 28, fun = "fun6"},
-           {pin = 29, fun = "fun6"},
-           {pin = 37, fun = "fun6"},
-           {pin = 38, fun = "fun6"},
-           {pin = 40, fun = "fun6"},
-           {pin = 41, fun = "fun6"},
-           {pin = 42, fun = "fun6"},
-           {pin = 43, fun = "fun6"}]
-seg_lcd_device = "seg_lcd"
-
-[[dev]]
 dev_name = "flash_w25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 20000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_gd25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 20000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_xt25f"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 10000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
 dev_name = "flash_th25q"
 init_cfg = {init_level = "app", init_priority = 0}
 flash_cfg = {quad_spi = false}
-spi_cfg = {mode = 0, freq = 2000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
+spi_cfg = {mode = 0, freq = 10000000, pin_cs = {pin = 26, fun = "fun5", dir = "output", pupd = "float"}} #freq Mhz
 spi_device = "spim"
 
 [[dev]]
@@ -416,8 +417,7 @@ rcc_device = "rcc"
 [[dev]]
 dev_name = "es8374"
 init_cfg = {init_level = "app", init_priority = 0}
-es8374_cfg = {dmic = false, lin1 = false, rin1 = false, lin2 = true, rin2 = true, monoout = true, spkout = true, i2c = true, address = 0x10}
-gpio_device = "gpio"
+codec_cfg = {i2c_address = 0x10, in_port = 2, out_port = 3, jack_pin = -1, pa_pin = -1, max_gain = 0}
 i2s_device = "i2s"
 i2c_device = "i2c"
 
@@ -427,10 +427,10 @@ reg_base = 0x40002400
 wrapper_reg_base = 0x40002800
 init_cfg = {init_level = "app", init_priority = 0}
 irq_cfg = {irq_num = 0, irq_priority = 0}
-pin_cfg = [{pin = 22, fun = "fun2"}, #CLK
-           {pin = 23, fun = "fun2"}, #CMD
-           {pin = 24, fun = "fun2"}, #DAT0
-           {pin = 25, fun = "fun2"}, #DAT1
-           {pin = 26, fun = "fun2"}, #DAT2
-           {pin = 27, fun = "fun2"}] #CD/DAT3
+pin_cfg = [{pin = 22, fun = "fun4"}, #CLK
+           {pin = 23, fun = "fun4"}, #CMD
+           {pin = 24, fun = "fun4"}, #DAT0
+           {pin = 25, fun = "fun4"}, #DAT1
+           {pin = 26, fun = "fun4"}, #DAT2
+           {pin = 27, fun = "fun4"}] #CD/DAT3
 rcc_device = "rcc"

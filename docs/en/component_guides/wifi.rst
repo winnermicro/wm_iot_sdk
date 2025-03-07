@@ -36,6 +36,36 @@ This represents the number of transmit buffers at the WiFi MAC layer, primarily 
 
 This represents the number of receive buffers at the WiFi MAC layer, primarily used to store data received by the  ``MAC``  layer that has not yet been sent to the application layer. Users can modify this based on actual needs.
 
+Meunconfig configuration of WiFi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The main configurations are as follows:
+
+.. list-table::
+  :widths: 45 50 25 
+  :header-rows: 0
+  :align: center
+
+  * - Configuration name
+    - Configuration description
+    - Default values
+
+  * - CONFIG_COMPONENT_WIFI_ENABLED
+    - Whether to enable the WiFi component
+    - N
+
+  * - CONFIG_WIFI_MASCW_TX_BUF_NUM 
+    - The number of sending buffers at the WiFi MAC layer is specified
+    - 7
+
+  * - CONFIG_WIFI_MASCW_RX_BUF_NUM 
+    - The number of receiving buffers at the WiFi MAC layer is specified
+    - 3
+
+  * - CONFIG_WIFI_API_ENABLED 
+    - Whether to enable the WiFi API
+    - Y
+
 WiFi Initialization
 -------------------------------------
 
@@ -45,6 +75,7 @@ WiFi Scan Mode
 -------------------------------------
 
 The ``wm_wifi_scan_start()`` API is supported only in station mode or station/AP coexistence mode.
+Note that scanning may fail when the station is networked.
 
 Scan Type
 ~~~~~~~~~~~~~~~

@@ -224,6 +224,7 @@ TFT LCD 设备驱动的添加方法
       + 其中 ``len = cmd + data``， 当解析函数遇到 ``len`` = 0 的行, 即认为是结束符而退出执行。
       + 当 ``cmd type`` 为 ``LCD_CMD_TYPE_8BIT`` 时， ``cmd`` 为 1个Byte。
       + 当 ``cmd type`` 为 ``LCD_CMD_TYPE_16BIT`` 时， ``cmd`` 为 2个Byte。
+      + ``delay`` 的单位为毫秒(ms) 。
 
     - 每个 TFT LCD 设备的初始化命令和顺序可能存在差异，须参考 LCD 设备厂商的规格书或驱动代码来设定。
     - 命令初始化表 的解析函数放在了 ``lcd_init_cmd()`` 中，新的 LCD 设备驱动可以沿用。
@@ -244,7 +245,7 @@ TFT LCD 设备驱动的添加方法
 
 第四步： 配置文件完善
 
-这里有两个配置文件, 用于在编译时能通过 menuconfig UI 选择到新添加的 LCD Device。
+这里有两个配置文件, 新的屏幕驱动添加后，也需要添加信息到这些文件中。用于在编译时能通过 menuconfig UI 选择到新添加的 LCD Device。
 
 - 文件1： ``wm_drv_tft_lcd_cfg.h``
 - 
@@ -274,13 +275,15 @@ TFT LCD 设备驱动的添加方法
     //List all lcd device's resoultion and rotation info
     #if defined(CONFIG_COMPONENT_DRIVER_LCD_NV3041A_SPI)
     #define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_NV3041A_SPI
-    #define WM_CFG_TFT_LCD_X_RESOLUTION 480
-    #define WM_CFG_TFT_LCD_Y_RESOLUTION 272
-    #define WM_CFG_TFT_LCD_ROTATION     0
+    #define WM_CFG_TFT_LCD_X_RESOLUTION 480  //Horizontal display resolution in LCD spec,independent of WM_CFG_TFT_LCD_ROTATION.
+    #define WM_CFG_TFT_LCD_Y_RESOLUTION 272  //Vertical display resolution in LCD spec, independent of WM_CFG_TFT_LCD_ROTATION.
+    #define WM_CFG_TFT_LCD_ROTATION     0    //The rotation to be used.
+    #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2    //The pixel width to be used, RGB565(2 Bytes).
 
     #elif defined(CONFIG_COMPONENT_DRIVER_LCD_ST7735_SPI)
     #define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_ST7735_SPI
     #define WM_CFG_TFT_LCD_X_RESOLUTION 128
     #define WM_CFG_TFT_LCD_Y_RESOLUTION 160
     #define WM_CFG_TFT_LCD_ROTATION     0
+    #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2
     #endif

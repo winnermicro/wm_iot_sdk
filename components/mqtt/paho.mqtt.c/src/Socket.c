@@ -841,12 +841,20 @@ int Socket_close_only(SOCKET socket)
 	if ((rc = closesocket(socket)) == SOCKET_ERROR)
 		Socket_error("close", socket);
 #else
-	if (shutdown(socket, SHUT_WR) == SOCKET_ERROR)
-		Socket_error("shutdown", socket);
-	//if ((rc = recv(socket, NULL, (size_t)0, 0)) == SOCKET_ERROR)
-	//	Socket_error("shutdown", socket);
-	if ((rc = close(socket)) == SOCKET_ERROR)
-		Socket_error("close", socket);
+    if (shutdown(socket, SHUT_RDWR) == SOCKET_ERROR) {
+        Socket_error("shutdown", socket);
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+
+    if ((rc = recv(socket, NULL, (size_t)0, 0)) == SOCKET_ERROR) {
+        Socket_error("shutdown", socket);
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+
+    if ((rc = close(socket)) == SOCKET_ERROR) {
+        Socket_error("close", socket);
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 #endif
 	FUNC_EXIT_RC(rc);
 	return rc;

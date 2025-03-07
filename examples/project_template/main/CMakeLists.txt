@@ -48,9 +48,17 @@ list(REMOVE_ITEM ADD_SRCS "src/test2.c"
 ###############################################
 
 #### Add compile option for this component
-# list(APPEND ADD_DEFINITIONS -DAAABBB=1
-#                             -DBBBBDDDD=2
+# list(APPEND ADD_DEFINITIONS -DAAABBB
+#                             -DAAACCC=1
+#                             -DBBBBDDDD="abc"
 #                             )
+###############################################
+
+#### Add global compile option for this component
+# list(APPEND ADD_GDEFINITIONS -DAAABBB2
+#                              -DAAACCC2=1
+#                              -DBBBBDDDD2="abc"
+#                              )
 ###############################################
 
 ###### Add link search path for libs ######

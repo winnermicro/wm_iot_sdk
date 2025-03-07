@@ -1,0 +1,19 @@
+menuconfig COMPONENT_YAML_ENABLED
+    bool "YAML"
+    default n
+    help
+        Select this option to enable YAML and show the submenu.
+
+if COMPONENT_YAML_ENABLED
+    config YAML_INPUT_RAW_BUFFER_SIZE
+        int "input raw buffer size"
+        default 512
+        help
+            Set yaml input raw buffer size.
+            
+    config YAML_OUTPUT_BUFFER_SIZE
+        int "output buffer size"
+        default 512
+        help
+            Set yaml output buffer size.
+endif

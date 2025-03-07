@@ -18,6 +18,9 @@
 #if defined(CONFIG_CHIP_HAVE_WIFI) || defined(CONFIG_CHIP_HAVE_BT)
 #include "wm_ft_param.h"
 #endif
+#if CONFIG_CHIP_HAVE_RF
+#include "wm_rf.h"
+#endif
 #ifdef CONFIG_COMPONENT_NVS_ENABLED
 #include "wm_nvs.h"
 #include "wm_key_config.h"
@@ -327,6 +330,10 @@ static void wm_start_task(void *data)
     wm_ft_param_init();
 #endif
 
+#if CONFIG_CHIP_HAVE_RF
+    wm_rf_check();
+#endif
+
 #ifdef CONFIG_COMPONENT_NVS_ENABLED
     wm_nvs_init(WM_NVS_DEF_PARTITION);
 #endif
@@ -343,12 +350,7 @@ static void wm_start_task(void *data)
 
     main();
 
-#if __GNUC__ >= 13
-    while (1)
-        wm_os_internal_time_delay(0x10000000);
-#else
     wm_os_internal_task_del(NULL);
-#endif
 }
 
 void wm_start(void)

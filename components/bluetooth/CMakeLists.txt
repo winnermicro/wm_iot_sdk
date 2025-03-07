@@ -47,7 +47,7 @@ if(CONFIG_COMPONENT_BT_ENABLED)
 			if(USE_CMAKE_BUILD_DEBUG)
 				message(STATUS "bluetooth controller use lib")
 			endif()
-			list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${chip_family_type}/lib/libcontroller.a")
+			list(APPEND ADD_STATIC_LIB "${SDK_PATH}/components/wm_soc/${CONFIG_CHIP_FAMILY_NAME}/lib/libcontroller.a")
 		endif()
 
 		if(__exist_source_code)

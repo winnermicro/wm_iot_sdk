@@ -41,9 +41,9 @@ typedef struct {
     wm_nm_internal_netif_t *netif;               /**< root node*/
     wm_os_mutex_t *mutex;                        /**< mutex for net manager*/
     wm_nm_netif_param_t info[WM_NETIF_TYPE_MAX]; /**< netif parameter */
-    bool dhcps_disabled;                         /**< DHCP server is disabled? */
+    bool dhcps_enabled;                          /**< DHCP server is enabled? */
     wm_nm_dhcps_option_t dhcps_option;           /**< DHCP server option */
-    bool dnss_disabled;                          /**< DNS server is disabled? */
+    bool dnss_enabled;                           /**< DNS server is enabled? */
 } wm_nm_param_t;
 
 /**
