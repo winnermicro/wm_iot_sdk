@@ -21,7 +21,6 @@ The WM IoT SDK Bluetooth protocol stack adopts a layered architecture design, wi
     * :ref:`Standard Profiles <bluetooth_services>` include Battery Service, Heart Rate Service, Immediate Alert Service, and Object Transfer Service.
     * :ref:`BLE-Mesh <bluetooth_mesh>` includes basic functionalities of the Mesh protocol and several general model instances developed by WM IoT SDK .
     * :ref:`BLE Wi-Fi Prov <ble_wifi_provision_en>`  is an example implemented by WM IoT SDK to provide configuration parameters for Wi-Fi network provisioning via BLE, enabling the device to quickly connect to a router or soft AP. Details see :ref:`Wi-Fi Protocol <bluetooth-wifiprov-proto>`.
-    * :ref:`BLE OTA <ble_ota_sample_en>` is an example implemented by WM IoT SDK  to provide online firmware upgrade functionality for WM IoT SDK  devices via BLE.
 
 * Host
 

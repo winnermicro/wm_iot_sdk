@@ -21,7 +21,6 @@ WM IoT SDK 蓝牙协议栈采用分层架构设计，其分层结构如下图所
     * :ref:`标准的 Profiles <bluetooth_services>` 包含了电池服务、心率计服务、即时告警服务、对象传输服务。
     * :ref:`BLE Mesh <bluetooth_mesh>` 包含了 Mesh 协议的基础功能和 WM IoT SDK 实现的多个通用模型实例。
     * :ref:`BLE Wi-Fi Prov <ble_wifi_provision>` 是 WM IoT SDK 实现的通过 BLE 方式为 Wi-Fi 入网提供配置参数，使得设备能够快速连接到路由器或者软 AP 的示例。实现参考 :ref:`Wi-Fi 配网协议 <bluetooth-wifiprov-proto>`。
-    * :ref:`BLE OTA <ble_ota>` 是 WM IoT SDK 实现的通过 BLE 方式为设备提供在线固件升级功能的示例。
 
 * Host
 

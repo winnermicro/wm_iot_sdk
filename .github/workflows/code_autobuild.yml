@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       TOOLCHAIN_PATH: ${{ github.workspace }}/csky-elfabiv2-tools/bin
@@ -54,7 +54,6 @@ jobs:
     - name: Build
       run: |
         sed -i 's/wm.sh/wm.py/g' tools/autobuild/autobuild.py
-        pip install Cython
         python -m pip install --user -r ./tools/wm/requirements.txt
         wm.py --help
 
