@@ -85,7 +85,6 @@ jobs:
             else
                 # Build all examples for other devices
                 echo -e "\nBuilding all examples..."
-                sed -i 'internal_flash_disk' "./tools/autobuild/ignore_build.cfg"
                 python ./tools/autobuild/autobuild.py -w 1 -c true -p "./examples" -s "./" -d true
                 build_errors=$((build_errors + $?))
             fi
