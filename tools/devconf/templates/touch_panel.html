@@ -1,0 +1,197 @@
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <div class="property-item">
+                                    <label>if_dev_name：</label>
+                                    <input type="text" value="{{ data.ifdevname if data.ifdevname else '' }}" id="ifdevname" name="ifdevname">
+                                </div>
+                                <div class="property-item">
+                                    <label>width：</label>
+                                    <input type="number" value="{{ data.width if data.width else 0 }}" min="1" id="width" name="width">
+                                </div>
+                                <div class="property-item">
+                                    <label>height：</label>
+                                    <input type="number" value="{{ data.height if data.height else 0 }}" min="1" id="height" name="height">
+                                </div>
+
+                              {% if 'xpt2046' in data.dev_name|lower %}
+                                <div class="property-item">
+                                    <label>mirror image:</label>
+                                    <select id="image" name="image">
+                                        <option value="0" {% if data.image == 0 %}selected{% endif %}>0 (mirror Disabled)</option>
+                                        <option value="1" {% if data.image == 1 %}selected{% endif %}>1 (mirror Enabled)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>SPI mode:</label>
+                                    <select id="mode" name="mode">
+                                        <option value="0" {% if data.mode == 0 %}selected{% endif %}>0 (CPOL=0 CPHA=0)</option>
+                                        <option value="1" {% if data.mode == 1 %}selected{% endif %}>1 (CPOL=0 CPHA=1)</option>
+                                        <option value="2" {% if data.mode == 2 %}selected{% endif %}>2 (CPOL=1 CPHA=0)</option>
+                                        <option value="3" {% if data.mode == 3 %}selected{% endif %}>3 (CPOL=1 CPHA=1)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>SPI freq：</label>
+                                    <input type="number" value="{{ data.freq if data.freq else 1000000 }}" min="1" max="120000000" id="freq" name="freq"> &nbsp;HZ
+                                </div>
+                                <div class="property-item">
+                                    <label>IRQ Pin:</label>
+                                    <select id="irqpinnum" name="irqpinnum">
+                                      {% for i in range(0, 46) %}
+                                        {% set pin_valid = false %}
+                                        {% if i in [0,1,4,7,16,17,18,19,20,21,22,23,24,25,26,27,35,36] %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W802","W803","W805","W806"] %}
+                                          {% if i in [2,3,9,10,28,29,30,31,32,33,34,37,38,40,41,42] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W803","W805","W806"] %}
+                                          {% if i in [5,6,8,11,13,15,43] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type == "W802" and i == 45 %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if pin_valid %}
+                                          {% if i > 15 %}
+                                            <option value="{{i}}" {% if data.irqpinnum == i %}selected{% endif %}>PIN_{{i}} (PB{{i-16}})</option>
+                                          {% else %}
+                                            <option value="{{i}}" {% if data.irqpinnum == i %}selected{% endif %}>PIN_{{i}} (PA{{i}})</option>
+                                          {% endif %}
+                                        {% endif %}
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>SPI_CS Pin:</label>
+                                    <select id="cspinnum" name="cspinnum">
+                                      {% for i in range(0, 46) %}
+                                        {% set pin_valid = false %}
+                                        {% if i in [0,1,4,7,16,17,18,19,20,21,22,23,24,25,26,27,35,36] %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W802","W803","W805","W806"] %}
+                                          {% if i in [2,3,9,10,28,29,30,31,32,33,34,37,38,40,41,42] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W803","W805","W806"] %}
+                                          {% if i in [5,6,8,11,13,15,43] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type == "W802" and i == 45 %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if pin_valid %}
+                                          {% if i > 15 %}
+                                            <option value="{{i}}" {% if data.cspinnum == i %}selected{% endif %}>PIN_{{i}} (PB{{i-16}})</option>
+                                          {% else %}
+                                            <option value="{{i}}" {% if data.cspinnum == i %}selected{% endif %}>PIN_{{i}} (PA{{i}})</option>
+                                          {% endif %}
+                                        {% endif %}
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                              {% endif %}
+
+                              {% if 'ft6336' in data.dev_name|lower %}
+                                <div class="property-item">
+                                    <label>mirror image:</label>
+                                    <select id="image" name="image">
+                                        <option value="0" {% if data.image == 0 %}selected{% endif %}>0 (mirror Disabled)</option>
+                                        <option value="1" {% if data.image == 1 %}selected{% endif %}>1 (mirror Enabled)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Reset Pin:</label>
+                                    <select id="resetpinnum" name="resetpinnum">
+                                      {% for i in range(0, 46) %}
+                                        {% set pin_valid = false %}
+                                        {% if i in [0,1,4,7,16,17,18,19,20,21,22,23,24,25,26,27,35,36] %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W802","W803","W805","W806"] %}
+                                          {% if i in [2,3,9,10,28,29,30,31,32,33,34,37,38,40,41,42] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type in ["W801S","W803","W805","W806"] %}
+                                          {% if i in [5,6,8,11,13,15,43] %}
+                                            {% set pin_valid = true %}
+                                          {% endif %}
+                                        {% endif %}
+                                        {% if data.chip_type == "W802" and i == 45 %}
+                                          {% set pin_valid = true %}
+                                        {% endif %}
+                                        {% if pin_valid %}
+                                          {% if i > 15 %}
+                                            <option value="{{i}}" {% if data.resetpinnum == i %}selected{% endif %}>PIN_{{i}} (PB{{i-16}})</option>
+                                          {% else %}
+                                            <option value="{{i}}" {% if data.resetpinnum == i %}selected{% endif %}>PIN_{{i}} (PA{{i}})</option>
+                                          {% endif %}
+                                        {% endif %}
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Max Clock：</label>
+                                    <input type="number" value="{{ data.maxclock if data.maxclock else 1000000 }}" min="100000" max="10000000" id="maxclock" name="maxclock"> &nbsp;HZ
+                                </div>
+                                <div class="property-item">
+                                    <label>Address 10 bits:</label>
+                                    <select id="addr10bits" name="addr10bits">
+                                        <option value="0" {% if data.addr10bits == 0 %}selected{% endif %}>0 (Disabled)</option>
+                                        <option value="1" {% if data.addr10bits == 1 %}selected{% endif %}>1 (Enabled)</option>
+                                    </select>
+                                </div>
+                              {% endif %}
+
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
+
+                    <script>
+                      {% if 'xpt2046' in data.dev_name|lower %}
+                        document.getElementById("irqpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("cspinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("irqpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("cspinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+                      {% endif %}
+
+                      {% if 'ft6336' in data.dev_name|lower %}
+                        document.getElementById("resetpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("resetpinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+                      {% endif %}
+
+                        setPins();
+                    </script>

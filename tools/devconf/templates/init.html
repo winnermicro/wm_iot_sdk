@@ -1,35 +1,14 @@
-    <div class="card-header">
-	  <h5>Init</h5>
-	  <div class="row">
-      <label class="col-sm-3 text-right" for="initlevel">Init level:</label>
-      <select class="col-sm-6" id="initlevel" name="initlevel">
-        <option value="0" {% if data.initlevel == 0 %} selected {% endif %}>app</option>
-        <option value="1" {% if data.initlevel == 1 %} selected {% endif %}>system</option>
-      </select>
-	  </div>
-	  <br>
-	  <div class="row">
-      <label class="col-sm-3 text-right" for="initpriority">Init priority:</label>
-      <input type="number" min="0" max="100" class="col-sm-6" id="initpriority" name="initpriority" value="{{data.initpriority}}" {% if not data.initlevel %} disabled {% endif %}></input>
-	  </div>
-      </form>
-	</div>
-
-<script>
-    function check_init_config_status() {
-        const initlevel = document.getElementById('initlevel');
-
-        if (initlevel) {
-            initlevel.addEventListener('change', function() {
-                const initpriority = document.getElementById('initpriority');
-                if (this.value == 1) {
-                    initpriority.disabled = false;
-                } else {
-                    initpriority.disabled = true;
-                }
-            });
-        }
-    }
-
-    check_init_config_status();
-</script>
+<div class="properties-section" style="margin-bottom: 50px;">
+                                <h3>Init</h3>
+                                <div class="property-item">
+                                    <label>Init level:</label>
+                                    <select id="initlevel" name="initlevel" onchange="togglePriorityInput()">
+                                        <option value="0" {% if data.initlevel == 0 %} selected {% endif %}>app</option>
+                                        <option value="1" {% if data.initlevel == 1 %} selected {% endif %}>system</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Init priority：</label>
+                                    <input type="number" value="{{data.initpriority}}" min="0" max="100" id="initpriority" name="initpriority" {% if not data.initlevel %} disabled {% endif %} style="background-color: rgb(217, 217, 217);">
+                                </div>
+                            </div>

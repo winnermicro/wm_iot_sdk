@@ -150,6 +150,7 @@ html_context = {
         ("2.1.0rc1", "/" + language + "/2.1.0rc1/"),
         ("2.2-beta.2", "/" + language + "/2.2-beta.2/"),
         ("2.3-beta.2", "/" + language + "/2.3-beta.2/"),
+        ("2.4-rc", "/" + language + "/2.4-rc/"),
     ),
     "display_vcs_link": True
 }

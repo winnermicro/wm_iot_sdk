@@ -107,6 +107,8 @@ wm_http_client_t wm_http_client_open_request(const wm_http_client_config_t *clie
         http_flags |= HTTP_CLIENT_FLAG_KEEP_ALIVE;
     if (client_config->no_cache)
         http_flags |= HTTP_CLIENT_FLAG_NO_CACHE;
+    if (client_config->chunked)
+        http_flags |= HTTP_CLIENT_FLAG_SEND_CHUNKED;
 
     if (client_config->event_handler)
         seesion_handle = HTTPClientOpenRequestWithCb(http_flags, client_config->event_handler, client_config->priv);
@@ -393,11 +395,6 @@ int wm_http_client_send_request(wm_http_client_t session, char *url, void *data,
 ****************************************************************************/
 int wm_http_client_write_data(wm_http_client_t session, void *buffer, uint32_t buffer_len, uint32_t time_out)
 {
-    if (!buffer || !buffer_len) {
-        wm_log_error("input error");
-        return WM_ERR_INVALID_PARAM;
-    }
-
     int ret = HTTPClientWriteData(session, buffer, buffer_len, time_out);
 
     if (ret != HTTP_CLIENT_SUCCESS) {

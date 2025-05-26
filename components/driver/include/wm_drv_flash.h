@@ -86,6 +86,9 @@ int wm_drv_flash_write(wm_device_t *dev, uint32_t addr, uint8_t *wr_buf, uint32_
 
 /**
   * @brief     write data to flash with erase
+  *            The non-written data in the erased sector block will be read out first.
+  *            This data will be combined with the data to be written, and then they will
+  *            be written together after the sector is erased.
   *
   * @param[in] dev  flash driver device
   * @param[in] addr begin address in flash that will be write
@@ -98,7 +101,7 @@ int wm_drv_flash_write(wm_device_t *dev, uint32_t addr, uint8_t *wr_buf, uint32_
   *    - WM_ERR_INVALID_PARAM: invalid argument
   *    - others: failed
   *
-  * @warning, donot poweroff or reboot system when excecute this API, othewise flash data maybe lost
+  * @warning, Do not poweroff or reboot system when excecute this API, othewise flash data maybe lost
   */
 int wm_drv_flash_write_with_erase(wm_device_t *dev, uint32_t addr, uint8_t *wr_buf, uint32_t wr_len);
 

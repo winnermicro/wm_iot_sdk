@@ -16,31 +16,28 @@ static sys_sem_t g_sys_arch_protect_lock = NULL;
 
 sys_sem_t *sys_lwip_netconn_thread_sem_get(void)
 {
-	sys_sem_t *sem = (sys_sem_t *)pvTaskSemGet(NULL);
+    sys_sem_t *sem = (sys_sem_t *)pvTaskSemGet(NULL);
 
-	if (*sem == NULL)
-	{
-		if (sys_sem_new(sem, 0) != ERR_OK)
-		{
-			LWIP_ASSERT("invalid lwip_netconn_thread_sem!", (*sem != NULL));
-		}
+    if (*sem == NULL) {
+        if (sys_sem_new(sem, 0) != ERR_OK) {
+            LWIP_ASSERT("invalid lwip_netconn_thread_sem!", (*sem != NULL));
+        }
 
-		vTaskSemSet(NULL, (void *)(*sem));
-	}
+        vTaskSemSet(NULL, (void *)(*sem));
+    }
 
-	return sem;
+    return sem;
 }
 
 void sys_lwip_netconn_thread_sem_del(void *tcb)
 {
-	sys_sem_t * sem = (sys_sem_t *)pvTaskSemGet(tcb);
+    sys_sem_t *sem = (sys_sem_t *)pvTaskSemGet(tcb);
 
-	if (*sem != NULL)
-	{
-		sys_sem_free(sem);
+    if (*sem != NULL) {
+        sys_sem_free(sem);
 
-		vTaskSemSet(tcb, NULL);
-	}
+        vTaskSemSet(tcb, NULL);
+    }
 }
 #endif
 
@@ -61,7 +58,7 @@ void sys_deinit(void)
 
 u32_t sys_now(void)
 {
-	return xTaskGetTickCount() * portTICK_PERIOD_MS;
+    return xTaskGetTickCount() * portTICK_PERIOD_MS;
 }
 
 /**
@@ -87,7 +84,7 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
         (void)ret;
     }
 
-	return ERR_OK;
+    return ERR_OK;
 }
 
 /**
@@ -97,8 +94,10 @@ err_t sys_sem_new(sys_sem_t *sem, u8_t count)
  */
 void sys_sem_free(sys_sem_t *sem)
 {
-	vSemaphoreDelete(*sem);
-    *sem = SYS_SEM_NULL;
+    if (sem && *sem) {
+        vSemaphoreDelete(*sem);
+        *sem = SYS_SEM_NULL;
+    }
 }
 
 /**
@@ -108,10 +107,11 @@ void sys_sem_free(sys_sem_t *sem)
  */
 void sys_sem_signal(sys_sem_t *sem)
 {
-    BaseType_t ret = xSemaphoreGive(*sem);
-    LWIP_ASSERT("sys_sem_signal: sane return value",
-         (ret == pdTRUE) || (ret == errQUEUE_FULL));
-    (void)ret;
+    if (sem && *sem) {
+        BaseType_t ret = xSemaphoreGive(*sem);
+        LWIP_ASSERT("sys_sem_signal: sane return value", (ret == pdTRUE) || (ret == errQUEUE_FULL));
+        (void)ret;
+    }
 }
 
 /**
@@ -126,7 +126,7 @@ void sys_sem_signal(sys_sem_t *sem)
  * function should block before returning; if the function times out, it should
  * return SYS_ARCH_TIMEOUT. If timeout=0, then the function should block
  * indefinitely. If the function acquires the semaphore, it should return how
- * many milliseconds expired while waiting for the semaphore. 
+ * many milliseconds expired while waiting for the semaphore.
  *
  * \return SYS_ARCH_TIMEOUT if times out, ERR_MEM for semaphore erro otherwise
  * return the milliseconds expired while waiting for the semaphore.
@@ -135,6 +135,10 @@ u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
 {
     BaseType_t ret;
     //u32_t tick_start, tick_stop, tick_elapsed;
+
+    if ((SYS_SEM_NULL == sem) || (SYS_SEM_NULL == *sem)) {
+        return 0;
+    }
 
     //tick_start = wm_os_internal_get_time();
 
@@ -146,9 +150,9 @@ u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
         //if(timeout && timeout_ticks == 0)
         //    timeout_ticks = 1;
         ret = xSemaphoreTake(*sem, timeout_ticks);
-    if (ret == errQUEUE_EMPTY) {
-        return SYS_ARCH_TIMEOUT;
-    }
+        if (ret == errQUEUE_EMPTY) {
+            return SYS_ARCH_TIMEOUT;
+        }
         LWIP_ASSERT("taking semaphore failed", ret == pdTRUE);
     }
 
@@ -176,10 +180,10 @@ u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
  */
 int sys_sem_valid(sys_sem_t *sem)
 {
-	if (*sem == SYS_SEM_NULL)
-		return 0;
+    if ((SYS_SEM_NULL == sem) || (SYS_SEM_NULL == *sem))
+        return 0;
 
-	return 1;
+    return 1;
 }
 
 #endif
@@ -192,13 +196,14 @@ int sys_sem_valid(sys_sem_t *sem)
  */
 void sys_sem_set_invalid(sys_sem_t *sem)
 {
-	*sem = SYS_SEM_NULL;
+    if (SYS_SEM_NULL != sem)
+        *sem = SYS_SEM_NULL;
 }
 #endif
 
 /**
  * \brief Creates an empty mailbox for maximum "size" elements. Elements stored
- * in mailboxes are pointers. 
+ * in mailboxes are pointers.
  *
  * \param mBoxNew Pointer to the new mailbox.
  * \param size Maximum "size" elements.
@@ -227,10 +232,12 @@ err_t sys_mbox_new(sys_mbox_t *mbox, int size)
  */
 void sys_mbox_free(sys_mbox_t *mbox)
 {
-    LWIP_ASSERT( "sys_mbox_free ", *mbox != SYS_MBOX_NULL );      
+    LWIP_ASSERT("sys_mbox_free ", *mbox != SYS_MBOX_NULL);
 
-	vQueueDelete(*mbox);
-	*mbox = SYS_MBOX_NULL;
+    if (mbox && *mbox) {
+        vQueueDelete(*mbox);
+        *mbox = SYS_MBOX_NULL;
+    }
 }
 
 /**
@@ -242,7 +249,8 @@ void sys_mbox_free(sys_mbox_t *mbox)
  */
 void sys_mbox_post(sys_mbox_t *mbox, void *msg)
 {
-    xQueueSendToBack(*mbox, &msg, portMAX_DELAY);
+    if (mbox && *mbox)
+        xQueueSendToBack(*mbox, &msg, portMAX_DELAY);
 }
 
 /**
@@ -255,10 +263,12 @@ void sys_mbox_post(sys_mbox_t *mbox, void *msg)
  */
 err_t sys_mbox_trypost(sys_mbox_t *mbox, void *msg)
 {
-    if (pdTRUE == xQueueSend(*mbox, &msg, 0))
-        return ERR_OK;
+    if (mbox && *mbox) {
+        if (pdTRUE == xQueueSend(*mbox, &msg, 0))
+            return ERR_OK;
+    }
 
-    return ERR_MEM;    
+    return ERR_MEM;
 }
 
 /**
@@ -281,6 +291,10 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
     void *msg_dummy;
     //u32_t tick_start, tick_stop, tick_elapsed;
 
+    if ((SYS_MBOX_NULL == mbox) || (SYS_MBOX_NULL == *mbox)) {
+        return 0;
+    }
+
     if (msg == NULL) {
         msg = &msg_dummy;
     }
@@ -291,14 +305,14 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
         ret = xQueueReceive(*mbox, &(*msg), portMAX_DELAY);
         LWIP_ASSERT("mbox fetch failed", ret == pdTRUE);
     } else {
-    TickType_t timeout_ticks = timeout / portTICK_RATE_MS;
-    //if(timeout && timeout_ticks == 0)
-    //    timeout_ticks = 1;
-    ret = xQueueReceive(*mbox, &(*msg), timeout_ticks);
-    if (ret == errQUEUE_EMPTY) {
-        *msg = NULL;
-        return SYS_ARCH_TIMEOUT;
-    }
+        TickType_t timeout_ticks = timeout / portTICK_RATE_MS;
+        //if(timeout && timeout_ticks == 0)
+        //    timeout_ticks = 1;
+        ret = xQueueReceive(*mbox, &(*msg), timeout_ticks);
+        if (ret == errQUEUE_EMPTY) {
+            *msg = NULL;
+            return SYS_ARCH_TIMEOUT;
+        }
         LWIP_ASSERT("mbox fetch failed", ret == pdTRUE);
     }
 
@@ -326,9 +340,9 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
  */
 int sys_mbox_valid(sys_mbox_t *mbox)
 {
-    if (*mbox == SYS_MBOX_NULL)
+    if ((SYS_MBOX_NULL == mbox) || (SYS_MBOX_NULL == *mbox))
         return 0;
-    else 
+    else
         return 1;
 }
 #endif
@@ -341,7 +355,7 @@ int sys_mbox_valid(sys_mbox_t *mbox)
  */
 void sys_mbox_set_invalid(sys_mbox_t *mbox)
 {
-	*mbox = SYS_MBOX_NULL;
+    *mbox = SYS_MBOX_NULL;
 }
 
 #endif
@@ -357,8 +371,7 @@ void sys_mbox_set_invalid(sys_mbox_t *mbox)
  *
  * \return The id of the new thread.
  */
-sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg,
-		int stacksize, int prio)
+sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg, int stacksize, int prio)
 {
     wm_os_task_t task = NULL;
 
@@ -389,7 +402,7 @@ sys_prot_t sys_arch_protect(void)
 void sys_arch_unprotect(sys_prot_t pval)
 {
 #if 1
-    sys_sem_signal(&g_sys_arch_protect_lock);        
+    sys_sem_signal(&g_sys_arch_protect_lock);
 #else
     wm_os_internal_release_critical(pval);
 #endif

@@ -1,4 +1,10 @@
-    <div class="card-header">
-      <h5>Properties</h5>
-      {% include 'device_name.html' %}
-	</div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>

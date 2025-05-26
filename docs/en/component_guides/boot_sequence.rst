@@ -58,7 +58,7 @@ After a series of initializations, it runs the ``main`` function, which the user
 Automatic Initialization of Components
 ----------------------------------------
 
-In addition to manually initializing components before the ``mian`` function, we also provide a method for automatic component initialization.
+In addition to manually initializing components before the ``main`` function, we also provide a method for automatic component initialization.
 
 Each component that needs to execute initialization must use `WM_COMPONEN_INIT_*(component_init_function)` to annotate its component initialization function. The system will automatically call the component initialization function after startup to initialize the component.
 

@@ -500,7 +500,7 @@ static void hci_num_completed_packets(struct net_buf *buf)
 
 			k_work_submit(&conn->tx_complete_work);
 			k_sem_give(bt_conn_get_pkts(conn));
-            //k_sys_pool_sem_give(1);
+			k_sys_pool_sem_give(1);
 		}
 
 		bt_conn_unref(conn);

@@ -36,6 +36,7 @@
 #include "wm_atcmd_wifi.h"
 #include "wm_atcmd_spi_master.h"
 #include "wm_atcmd_fs.h"
+#include "wm_atcmd_ft.h"
 
 #if CONFIG_WM_ATCMD_WIFI_ENABLE
 extern void *__real_wm_atcmd_wifi_init(void *ctl);

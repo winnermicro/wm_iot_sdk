@@ -148,8 +148,11 @@ int wm_pm_set_config(wm_pm_config_t *config)
                 g_wm_pm_ctx.rcc = NULL;
                 return WM_ERR_FAILED;
             }
-
+#if defined(CONFIG_BT_LOW_POWER_CONTROLLER) || defined(CONFIG_BT_LOW_POWER_SYSTEM)
+            wm_drv_pmu_set_clock_source(g_wm_pm_ctx.pmu, WM_PMU_CLOCK_SRC_40M_DIV);
+#else
             wm_drv_pmu_set_clock_source(g_wm_pm_ctx.pmu, WM_PMU_CLOCK_SRC_32K);
+#endif
             wm_drv_pmu_register_irq_callback(g_wm_pm_ctx.pmu, WM_PMU_IRQ_TIMER, wm_pm_timer_callback, NULL);
         }
     }
@@ -193,7 +196,6 @@ int wm_pm_enter_sleep(uint32_t ticks)
     wm_hal_clock_dev_t *rcc_hal_dev   = NULL;
     wm_hal_timer_dev_t *timer_hal_dev = NULL;
     wm_hal_pmu_dev_t *pmu_hal_dev     = NULL;
-
     //check sleep mode
     if (!g_wm_pm_ctx.config.mode || !g_wm_pm_ctx.lock) {
         return WM_ERR_NOT_ALLOWED;
@@ -224,9 +226,7 @@ int wm_pm_enter_sleep(uint32_t ticks)
         if (WM_ERR_SUCCESS != ret) {
             return ret;
         }
-
         g_wm_pm_ctx.is_timer_wakeup = false;
-
         __WAIT();
     } else if ((WM_PM_MODE_DEEP_SLEEP == g_wm_pm_ctx.config.mode) || (WM_PM_MODE_STANDBY == g_wm_pm_ctx.config.mode)) {
 #if CONFIG_CHIP_W80X
@@ -234,7 +234,6 @@ int wm_pm_enter_sleep(uint32_t ticks)
            and if the time is too short it will not have time to sleep before it is already triggered */
         if (slee_time_ms <= 8)
             goto end;
-
         pmu_hal_dev = (wm_hal_pmu_dev_t *)g_wm_pm_ctx.pmu->drv;
         if (slee_time_ms >= WM_PMU_TIME1_MIN_TIME && slee_time_ms <= WM_PMU_TIME1_MAX_TIME) {
             wm_hal_pmu_abort_timer0(pmu_hal_dev);
@@ -256,6 +255,7 @@ int wm_pm_enter_sleep(uint32_t ticks)
             //after pmu sleep starts, it needs to wait for about 6 32k clock cycles
             udelay(185); //for (int j = 0; j < 1700; j++) __NOP();
         }
+
 #endif
 
         if (WM_ERR_SUCCESS != ret) {

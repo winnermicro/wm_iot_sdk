@@ -1,0 +1,14 @@
+menuconfig COMPONENT_WEBSOCKET_ENABLED
+    bool "websocket"
+    default n
+    help
+        Select this option to enable websocket.
+
+
+    if COMPONENT_WEBSOCKET_ENABLED
+        config WEBSOCKET_SECURITY
+            bool "Websocket Security"
+            default y
+            help
+                Websocket uses TLS as the transport layer.
+    endif

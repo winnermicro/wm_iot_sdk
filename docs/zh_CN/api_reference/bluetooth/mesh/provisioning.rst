@@ -121,6 +121,17 @@ Provisioning API 支持被调配者的以下身份验证方法：
 因为 AuthValue 可能是实时强制的。为了确保安全配置，应用程序应该使用静态 OOB 值和 OOB 公钥传输。
 
 API 参考
-*************
+===============
+
+头文件
+---------------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/main.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/main.h"
 
 .. doxygengroup:: bt_mesh_prov

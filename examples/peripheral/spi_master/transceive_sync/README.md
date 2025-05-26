@@ -12,7 +12,7 @@
 
 1. slave设备和spi master 引脚需提前连接好
 2. slave端需提前启动，等待接收且准备好要发送的数据
-3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI:21, mode 0, clock: 2M
+3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI: GPIO7, mode 0, clock: 2M
 
 
 ## 编译和烧录

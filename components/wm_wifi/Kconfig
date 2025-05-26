@@ -3,7 +3,6 @@ menuconfig COMPONENT_WIFI_ENABLED
     bool "WiFi"
     default n
     select COMPONENT_RF_ENABLED
-    select COMPONENT_NVS_ENABLED
     select COMPONENT_LWIP_ENABLED
     help
         Select this option to enable WiFi and show the submenu.
@@ -64,6 +63,13 @@ if COMPONENT_WIFI_ENABLED
             endmenu
 
         endif # WIFI_ENABLE_AP_FEATURE
+
+        config WIFI_NVS_ENABLED
+            bool "Enable WiFi NVS"
+            default y
+            select COMPONENT_NVS_ENABLED
+            help
+                Select this option to enable WiFi NVS.
 
     endif # WIFI_API_ENABLED
 

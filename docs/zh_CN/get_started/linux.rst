@@ -4,26 +4,26 @@
 Linux 搭建命令行编译环境
 ==========================
 
-**下载工具**
+所需工具及版本
+~~~~~~~~~~~~~~
 
-- CMake：推荐版本 3.25.1（版本不能低于3.20），`官方下载 <https://cmake.org/download/>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/cmake-3.25.1-linux-x86_64.sh>`__。
-- Ninja：推荐版本 1.11.1，`官方下载 <https://github.com/ninja-build/ninja/releases>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/ninja-linux.zip>`__。
-- Ccache（可选）：推荐版本 4.7.4，`官方下载 <https://ccache.dev/download.html>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/ccache-4.7.4-linux-x86_64.tar.xz>`__。
-- Python：推荐使用 Python3.8.10（版本不能低于3.8），`官方下载 <https://www.python.org/downloads/>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/Python-3.8.10.tar.xz>`__。
-- Toolchain：`官方下载 <https://occ.t-head.cn/community/my/download?id=3885366095506644992>`__，
-  `备用下载 <https://doc.winnermicro.net/download/tools/linux/csky-elfabiv2-tools-x86_64-minilibc-20210423.tar.gz>`__。
+- CMake：推荐版本 3.25.1（版本不能低于3.20）
+- Ninja：推荐版本 1.11.1
+- Ccache（可选）：推荐版本 4.7.4
+- Python：推荐使用 Python3.8.10（版本不能低于3.8）
+- Toolchain
+- DebugServer（可选）
 
-  - 工具链名字大致为 csky-elfabiv2-tools-\*.tar，名字中带 -mingw- 的为 Windows 系统下的工具链，其余为 Linux 系统下的。
+安装工具
+~~~~~~~~~~~
 
-  - Linux 系统下有些版本的工具链有可能依赖 ncurses，如提示 "error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory" 时，可安装libncurses5（如"sudo apt install libncurses5"），其它类似问题需自行研究解决。
-- DebugServer（可选）：`官方下载 <https://www.xrvm.cn/community/download?id=4313368247333359616>`__，
-  `备用下载 <https://doc.winnermicro.net/download/tools/linux/XuanTie-DebugServer-linux.zip>`__。
+安装工具有两种方式：  
+  - 1、使用类似 ``apt`` 、``yum``、``dnf`` 等之类包管理工具自动安装相关工具。
+  - 2、用户在各工具的官方网站或指定网站下载，然后手动配置环境变量。
 
-  - 详细安装方法请查看 `T-Head Debugger Server User Guide <../../../../download/debug_server/T-Head_Debugger_Server_User_Guide_ZH-CN.pdf>`_ 相关安装章节。
-- 除了在上述地址下载之外，通常 Linux 类系统也可以通过自带的包管理工具进行安装，此处不再细分阐述。
-- 如果系统中已经存在这些工具，版本满足要求的话可以直接使用，无需再次下载安装。
+**安装方式1：**
 
-在Linux 系统上更 **推荐** 使用类似 ``apt`` 、``yum``、``dnf`` 等之类包管理工具自动安装相关工具。以下是在 Ubuntu 系统上使用 apt 命令的示例，具体操作如下。
+这也是 **推荐** 的方式，因为用户使用命令（apt、yum）来安装相关工具，则环境变量可能已被加入，无需用户再次手动设置。
 
 - 安装 CMake
 
@@ -49,21 +49,43 @@ Linux 搭建命令行编译环境
 
   sudo apt-get install python3
 
-- Toolchain 工具仍需采用上面的手动方式安装。
+- **Toolchain 工具仍需采用下面的手动方式安装**。
+
 
 - 安装 Python 依赖包
 
-当前假设已经下载了 wm_iot_sdk，其名称为 ``wm_iot_sdk`` 。
+当前假设已经下载了 wm_iot_sdk，其名称为 ``wm_iot_sdk``，存放在 /home/wm 目录下。
 
 ::
 
   python -m pip install --user -r /home/wm/wm_iot_sdk/tools/wm/requirements.txt
 
+由于 Python 3.11 以上启用的保护机制（PEP 668），阻止了 pip 直接安装 python 包。执行上面命令
+可能会出现 error: externally-managed-environment 。需要添加 ``--break-system-packages`` 参数绕过保护机制。
+
 在 Linux 系统下还需要为 Python 安装 Tkinter 模块的支持。如 Ubuntu 系统可使用 ``sudo apt-get install python-tk`` （或 ``sudo apt-get install python3-tk`` ）来安装。
+
+**安装方式2：**
+
+用户在各工具的官方网站或指定网站下载，然后手动配置环境变量。
+
+- CMake：`官方下载 <https://cmake.org/download/>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/cmake-3.25.1-linux-x86_64.sh>`__。
+- Ninja：`官方下载 <https://github.com/ninja-build/ninja/releases>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/ninja-linux.zip>`__。
+- Ccache（可选）：`官方下载 <https://ccache.dev/download.html>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/ccache-4.7.4-linux-x86_64.tar.xz>`__。
+- Python：`官方下载 <https://www.python.org/downloads/>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/Python-3.8.10.tar.xz>`__。
+- Toolchain：`官方下载 <https://occ.t-head.cn/community/my/download?id=3885366095506644992>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/csky-elfabiv2-tools-x86_64-minilibc-20210423.tar.gz>`__。
+
+  - 工具链名字大致为 csky-elfabiv2-tools-\*.tar，名字中带 -mingw- 的为 Windows 系统下的工具链，其余为 Linux 系统下的。
+
+  - Linux 系统下有些版本的工具链有可能依赖 ncurses，如提示 "error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory" 时，可安装libncurses5（如"sudo apt install libncurses5"），其它类似问题需自行研究解决。
+
+- DebugServer（可选）：`官方下载 <https://www.xrvm.cn/community/download?id=4313368247333359616>`__，`备用下载 <https://doc.winnermicro.net/download/tools/linux/XuanTie-DebugServer-linux.zip>`__。
+
+  - 详细安装方法请查看 `T-Head Debugger Server User Guide <../../../../download/debug_server/T-Head_Debugger_Server_User_Guide_ZH-CN.pdf>`_ 相关安装章节。
 
 **设置工具的环境变量**
 
-如果用户使用命令（apt、yum）来安装相关工具，则环境变量可能已被加入，无需再次设置。
+当前假设各个工具都存放到 /home/wm/tools 目录下
 
 - 将 CMake 添加至环境变量
 

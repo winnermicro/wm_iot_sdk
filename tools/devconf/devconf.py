@@ -27,6 +27,9 @@ parser_args = parser.parse_args()
 configHelper = ConfigHelper(parser_args.toml, parser_args.config)
 
 app = Flask(__name__)
+
+app.jinja_env.filters['zip'] = zip
+
 app.config['STATIC_FOLDER'] = 'static'
 app.config['STATIC_URL'] = '/static/'
 
@@ -55,10 +58,10 @@ def wmdt_index():
             dev_name = request.form.get("dev_name2")
         if dev_name.startswith('Clock'):
             data = configHelper.get_clock_config(dev_name)
-            data['clk_div_cpu'] = int(request.form.get("clk_div_cpu"))
-            data['clk_div_wlan'] = int(request.form.get("clk_div_wlan"))
-            #data['clk_div_peri'] = int(request.form.get("clk_div_peri"))
-            #data['clk_div_adc'] = int(request.form.get("clk_div_adc"))
+            match = request.form.get("clk_div_cpu").split('/')
+            data['clk_div_cpu'] = int(match[1])
+            match = request.form.get("clk_div_wlan").split('/')
+            data['clk_div_wlan'] = int(match[1])
             data['dev_name'] = dev_name
             configHelper.set_clock_config(data)
             #return "success"
@@ -95,7 +98,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_uart_config(data)
         elif dev_name.startswith('Timer'):
@@ -108,10 +111,10 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_timer_config(data)
-        elif dev_name.startswith('Internal_flash'):
+        elif dev_name.startswith('iflash'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_iflash_config(dev_name)
             try:
@@ -121,7 +124,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             try:
                 data['quad_spi'] = int(request.form.get("quad_spi"))
             except TypeError:
@@ -145,7 +148,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             try:
                 data['quad_spi'] = int(request.form.get("quad_spi"))
             except TypeError:
@@ -172,7 +175,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_crypto_config(data)
         elif dev_name.startswith('CRC'):
@@ -185,7 +188,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_crc_config(data)
         elif dev_name.startswith('HASH'):
@@ -198,7 +201,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_hash_config(data)
         elif dev_name.startswith('RNG'):
@@ -211,7 +214,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_rng_config(data)
         elif dev_name.startswith('RSA'):
@@ -224,7 +227,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_rsa_config(data)
         elif dev_name.startswith('SDMMC'):
@@ -237,7 +240,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clock'] = int(request.form.get("clock"))
             data['bus_width'] = int(request.form.get("bus_width"))
             data['clkpinnum'] = int(request.form.get("clkpinnum"))
@@ -258,12 +261,12 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clkpinnum'] = int(request.form.get("clkpinnum"))
             data['cmdpinnum'] = int(request.form.get("cmdpinnum"))
             data['dev_name'] = dev_name
             configHelper.set_sdspi_config(data)
-        elif dev_name.startswith('NV3041A'):
+        elif dev_name.startswith('nv3041a'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_nv3041a_config(dev_name)
             try:
@@ -273,16 +276,20 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['mode'] = int(request.form.get("mode"))
             data['freq'] = int(request.form.get("freq"))
             data['cspinnum'] = int(request.form.get("cspinnum"))
             data['resetpinnum'] = int(request.form.get("resetpinnum"))
             data['ledpinnum'] = int(request.form.get("ledpinnum"))
             data['dcxpinnum'] = int(request.form.get("dcxpinnum"))
+            try:
+                data['tepinnum'] = int(request.form.get("tepinnum"))
+            except TypeError:
+                data['tepinnum'] = -1
             data['dev_name'] = dev_name
             configHelper.set_nv3041a_config(data)
-        elif dev_name.startswith('ST7735'):
+        elif dev_name.startswith('st7735'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_st7735_config(dev_name)
             try:
@@ -292,16 +299,20 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['mode'] = int(request.form.get("mode"))
             data['freq'] = int(request.form.get("freq"))
             data['cspinnum'] = int(request.form.get("cspinnum"))
             data['resetpinnum'] = int(request.form.get("resetpinnum"))
             data['ledpinnum'] = int(request.form.get("ledpinnum"))
             data['dcxpinnum'] = int(request.form.get("dcxpinnum"))
+            try:
+                data['tepinnum'] = int(request.form.get("tepinnum"))
+            except TypeError:
+                data['tepinnum'] = -1
             data['dev_name'] = dev_name
             configHelper.set_st7735_config(data)
-        elif dev_name.startswith('GZ035'):
+        elif dev_name.startswith('gz035'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_gz035_config(dev_name)
             try:
@@ -311,7 +322,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['mode'] = int(request.form.get("mode"))
             data['freq'] = int(request.form.get("freq"))
             data['cspinnum'] = int(request.form.get("cspinnum"))
@@ -324,6 +335,29 @@ def wmdt_index():
                 data['tepinnum'] = -1
             data['dev_name'] = dev_name
             configHelper.set_gz035_config(data)
+        elif dev_name.startswith('gc9a01'):
+            #data = {'initlevel':0, 'initpriority':0}
+            data = configHelper.get_gc9a01_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['mode'] = int(request.form.get("mode"))
+            data['freq'] = int(request.form.get("freq"))
+            data['cspinnum'] = int(request.form.get("cspinnum"))
+            data['resetpinnum'] = int(request.form.get("resetpinnum"))
+            data['ledpinnum'] = int(request.form.get("ledpinnum"))
+            data['dcxpinnum'] = int(request.form.get("dcxpinnum"))
+            try:
+                data['tepinnum'] = int(request.form.get("tepinnum"))
+            except TypeError:
+                data['tepinnum'] = -1
+            data['dev_name'] = dev_name
+            configHelper.set_gc9a01_config(data)
         elif dev_name.startswith('SDIO_Slave'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_sdio_slave_config(dev_name)
@@ -334,7 +368,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clkpinnum'] = int(request.form.get("clkpinnum"))
             data['cmdpinnum'] = int(request.form.get("cmdpinnum"))
             data['dat0pinnum'] = int(request.form.get("dat0pinnum"))
@@ -343,6 +377,24 @@ def wmdt_index():
             data['dat3pinnum'] = int(request.form.get("dat3pinnum"))
             data['dev_name'] = dev_name
             configHelper.set_sdio_slave_config(data)
+        elif dev_name.startswith('HSPI_Slave'):
+            #data = {'initlevel':0, 'initpriority':0}
+            data = configHelper.get_hspi_slave_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['clkpinnum'] = int(request.form.get("clkpinnum"))
+            data['intpinnum'] = int(request.form.get("intpinnum"))
+            data['cspinnum'] = int(request.form.get("cspinnum"))
+            data['mosipinnum'] = int(request.form.get("mosipinnum"))
+            data['misopinnum'] = int(request.form.get("misopinnum"))
+            data['dev_name'] = dev_name
+            configHelper.set_hspi_slave_config(data)
         elif dev_name.startswith('I2C'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_i2c_config(dev_name)
@@ -353,7 +405,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clock'] = int(request.form.get("clock"))
             try:
                 data['addr_10_bits'] = int(request.form.get("addr_10_bits"))
@@ -373,7 +425,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['speed_hz'] = int(request.form.get("speed_hz"))
             data['size'] = int(request.form.get("size"))
             data['i2c_addr'] = request.form.get("i2c_addr")
@@ -404,7 +456,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['speed_hz'] = int(request.form.get("speed_hz"))
             data['size'] = int(request.form.get("size"))
             data['i2c_addr'] = request.form.get("i2c_addr")
@@ -425,7 +477,22 @@ def wmdt_index():
                 data['wppinnum'] = 0
             data['dev_name'] = dev_name
             configHelper.set_eeprom1_config(data)
-        elif dev_name.startswith('SPI_Master'):
+        elif dev_name == 'spim_soft':
+            data = configHelper.get_spim_soft_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['clkpinnum'] = int(request.form.get("clkpinnum"))
+            data['dipinnum'] = int(request.form.get("dipinnum"))
+            data['dopinnum'] = int(request.form.get("dopinnum"))
+            data['dev_name'] = dev_name
+            configHelper.set_spim_soft_config(data)
+        elif dev_name == 'spim':
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_spim_config(dev_name)
             try:
@@ -435,12 +502,28 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clkpinnum'] = int(request.form.get("clkpinnum"))
             data['dipinnum'] = int(request.form.get("dipinnum"))
             data['dopinnum'] = int(request.form.get("dopinnum"))
             data['dev_name'] = dev_name
             configHelper.set_spim_config(data)
+        elif dev_name == 'spis':
+            data = configHelper.get_spis_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['clkpinnum'] = int(request.form.get("clkpinnum"))
+            data['dipinnum'] = int(request.form.get("dipinnum"))
+            data['dopinnum'] = int(request.form.get("dopinnum"))
+            data['cspinnum'] = int(request.form.get("cspinnum"))
+            data['dev_name'] = dev_name
+            configHelper.set_spis_config(data)
         elif dev_name.startswith('Touch_Sensor'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_touch_sensor_config(dev_name)
@@ -451,7 +534,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['cmodpinnum'] = int(request.form.get("cmodpinnum"))
             data['cdcpinnum'] = int(request.form.get("cdcpinnum"))
             data['dev_name'] = dev_name
@@ -466,7 +549,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             for i in range(1, 16):
                 try:
                     data['enable' + str(i)] = int(request.form.get("enable" + str(i)))
@@ -482,6 +565,47 @@ def wmdt_index():
                     data['pinnum' + str(i)] = 0
             data['dev_name'] = dev_name
             configHelper.set_touch_button_config(data)
+        elif dev_name.startswith('XPT2046'):
+            #data = {'initlevel':0, 'initpriority':0}
+            data = configHelper.get_xpt2046_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['ifdevname'] = request.form.get("ifdevname")
+            data['image'] = int(request.form.get("image"))
+            data['width'] = int(request.form.get("width"))
+            data['height'] = int(request.form.get("height"))
+            data['mode'] = int(request.form.get("mode"))
+            data['freq'] = int(request.form.get("freq"))
+            data['cspinnum'] = int(request.form.get("cspinnum"))
+            data['irqpinnum'] = int(request.form.get("irqpinnum"))
+            data['dev_name'] = dev_name
+            configHelper.set_xpt2046_config(data)
+        elif dev_name.startswith('FT6336'):
+            #data = {'initlevel':0, 'initpriority':0}
+            data = configHelper.get_ft6336_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                pass #data['initpriority'] = 0
+            data['ifdevname'] = request.form.get("ifdevname")
+            data['image'] = int(request.form.get("image"))
+            data['width'] = int(request.form.get("width"))
+            data['height'] = int(request.form.get("height"))
+            data['resetpinnum'] = int(request.form.get("resetpinnum"))
+            data['maxclock'] = int(request.form.get("maxclock"))
+            data['addr10bits'] = int(request.form.get("addr10bits"))
+            data['dev_name'] = dev_name
+            configHelper.set_ft6336_config(data)
         elif dev_name.startswith('PWM'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_pwm_config(dev_name)
@@ -492,7 +616,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             for j in range(0, 6):
                 for i in range(1, 16):
                     try:
@@ -515,7 +639,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['dev_name'] = dev_name
             configHelper.set_rtc_config(data)
         elif dev_name.startswith('PMU'):
@@ -528,7 +652,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['clk_src'] = int(request.form.get("clk_src"))
             data['dev_name'] = dev_name
             configHelper.set_pmu_config(data)
@@ -542,7 +666,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['extal_clock_en'] = int(request.form.get("extal_clock_en"))
             data['extal_clock_hz'] = int(request.form.get("extal_clock_hz"))
             try:
@@ -573,6 +697,36 @@ def wmdt_index():
                 data['dopinnum'] = 0
             data['dev_name'] = dev_name
             configHelper.set_i2s_config(data)
+            
+        elif dev_name.startswith("ES8374"):
+            data = configHelper.get_es8374_config(dev_name)
+            try:
+                data['initlevel'] = int(request.form.get("initlevel"))
+            except TypeError:
+                data['initlevel'] = 0
+            try:
+                data['initpriority'] = int(request.form.get("initpriority"))
+            except TypeError:
+                data['initpriority'] = 0
+        
+            data['i2c_address'] = request.form.get("i2c_address")
+            try:
+                data['in_port'] = int(request.form.get("in_port"))
+            except TypeError:
+                data['in_port'] = 1
+            try:
+                data['out_port'] = int(request.form.get("out_port"))
+            except TypeError:
+                data['out_port'] = 1
+            try:
+                data['max_gain'] = float(request.form.get("max_gain"))
+            except TypeError:
+                data['max_gain'] = 0.0
+            data['i2s_device'] = request.form.get("i2s_device") or ""
+            data['i2c_device'] = request.form.get("i2c_device") or ""
+            data['dev_name'] = dev_name
+            configHelper.set_es8374_config(data)
+
         elif dev_name.startswith('SEG_LCD'):
             #data = {'initlevel':0, 'initpriority':0}
             data = configHelper.get_seg_lcd_config(dev_name)
@@ -583,13 +737,22 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['duty_sel'] = int(request.form.get("duty_sel"))
             data['vlcd_cc'] = int(request.form.get("vlcd_cc"))
             data['bias'] = int(request.form.get("bias"))
             data['hd'] = int(request.form.get("hd"))
             data['frame_freq'] = int(request.form.get("frame_freq"))
             data['com_num'] = int(request.form.get("com_num"))
+            for i in range(0, 46):
+                try:
+                    data['enable'][i] = int(request.form.get("enable" + str(i)))
+                except TypeError:
+                    data['enable'][i] = 0
+                try:
+                    data['pinnum'][i] = int(request.form.get("pinnum" + str(i)))
+                except TypeError:
+                    data['pinnum'][i] = 0
             data['dev_name'] = dev_name
             configHelper.set_seg_lcd_config(data)
         elif dev_name.startswith('ADC'):
@@ -602,7 +765,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             for i in range(0, 6):
                 try:
                     data['enable'][i] = int(request.form.get("enable_" + str(i)))
@@ -648,7 +811,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             for i in range(0, 46):
                 try:
                     data['enable'][i] = int(request.form.get("enable" + str(i)))
@@ -682,7 +845,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['counter_value'] = int(request.form.get("counter_value"))
             data['dev_name'] = dev_name
             configHelper.set_wdt_config(data)
@@ -696,7 +859,7 @@ def wmdt_index():
             try:
                 data['initpriority'] = int(request.form.get("initpriority"))
             except TypeError:
-                data['initpriority'] = 0
+                pass #data['initpriority'] = 0
             data['mode'] = int(request.form.get("mode"))
             data['clock'] = int(request.form.get("clock"))
             data['ckpinnum'] = int(request.form.get("ckpinnum"))
@@ -708,7 +871,7 @@ def wmdt_index():
             data['dev_name'] = dev_name
             configHelper.set_psram_config(data)
 
-        return "<script>alert('Save successfully');window.history.back();location.reload();</script>"
+        return "Save successfully"
     elif method == 'GET':
         if request.args.get('dev_name'):
             dev_name = request.args.get('dev_name')
@@ -719,7 +882,7 @@ def wmdt_index():
         return render_template('index.html', data=configHelper.get_uart_config(dev_name))
     elif dev_name.startswith('Timer'):
         return render_template('index.html', data=configHelper.get_timer_config(dev_name))
-    elif dev_name.startswith('Internal_flash'):
+    elif dev_name.startswith('iflash'):
         return render_template('index.html', data=configHelper.get_iflash_config(dev_name))
     elif dev_name.startswith('External_flash_'):
         if dev_name.startswith('External_flash_w25q'):
@@ -744,26 +907,38 @@ def wmdt_index():
         return render_template('index.html', data=configHelper.get_sdmmc_config(dev_name))
     elif dev_name.startswith('SDSPI'):
         return render_template('index.html', data=configHelper.get_sdspi_config(dev_name))
-    elif dev_name.startswith('NV3041A'):
+    elif dev_name.startswith('nv3041a'):
         return render_template('index.html', data=configHelper.get_nv3041a_config(dev_name))
-    elif dev_name.startswith('ST7735'):
+    elif dev_name.startswith('st7735'):
         return render_template('index.html', data=configHelper.get_st7735_config(dev_name))
-    elif dev_name.startswith('GZ035'):
+    elif dev_name.startswith('gz035'):
         return render_template('index.html', data=configHelper.get_gz035_config(dev_name))
+    elif dev_name.startswith('gc9a01'):
+        return render_template('index.html', data=configHelper.get_gc9a01_config(dev_name))
     elif dev_name.startswith('SDIO_Slave'):
         return render_template('index.html', data=configHelper.get_sdio_slave_config(dev_name))
+    elif dev_name.startswith('HSPI_Slave'):
+        return render_template('index.html', data=configHelper.get_hspi_slave_config(dev_name))
     elif dev_name.startswith('I2C'):
         return render_template('index.html', data=configHelper.get_i2c_config(dev_name))
     elif dev_name.startswith('eeprom0'):
         return render_template('index.html', data=configHelper.get_eeprom0_config(dev_name))
     elif dev_name.startswith('eeprom1'):
         return render_template('index.html', data=configHelper.get_eeprom1_config(dev_name))
-    elif dev_name.startswith('SPI_Master'):
+    elif dev_name == 'spim_soft':
+        return render_template('index.html', data=configHelper.get_spim_soft_config(dev_name))
+    elif dev_name == 'spim':
         return render_template('index.html', data=configHelper.get_spim_config(dev_name))
+    elif dev_name == 'spis':
+        return render_template('index.html', data=configHelper.get_spis_config(dev_name))
     elif dev_name.startswith('Touch_Sensor'):
         return render_template('index.html', data=configHelper.get_touch_sensor_config(dev_name))
     elif dev_name.startswith('Touch_Button'):
         return render_template('index.html', data=configHelper.get_touch_button_config(dev_name))
+    elif dev_name.startswith('XPT2046'):
+        return render_template('index.html', data=configHelper.get_xpt2046_config(dev_name))
+    elif dev_name.startswith('FT6336'):
+        return render_template('index.html', data=configHelper.get_ft6336_config(dev_name))
     elif dev_name.startswith('PWM'):
         return render_template('index.html', data=configHelper.get_pwm_config(dev_name))
     elif dev_name.startswith('RTC'):
@@ -772,6 +947,8 @@ def wmdt_index():
         return render_template('index.html', data=configHelper.get_pmu_config(dev_name))
     elif dev_name.startswith('I2S'):
         return render_template('index.html', data=configHelper.get_i2s_config(dev_name))
+    elif dev_name.startswith("ES8374"):
+        return render_template('index.html', data=configHelper.get_es8374_config(dev_name))
     elif dev_name.startswith('SEG_LCD'):
         return render_template('index.html', data=configHelper.get_seg_lcd_config(dev_name))
     elif dev_name.startswith('ADC'):

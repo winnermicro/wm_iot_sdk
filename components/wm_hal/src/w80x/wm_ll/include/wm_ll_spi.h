@@ -32,7 +32,8 @@
 extern "C" {
 #endif
 
-#define WM_SPI_MAX_TXRX_LEN 8188 //unit is byte, [3:16] max length is 65535 bit
+#define WM_SPI_MAX_TXRX_LEN     8191  //unit is byte, [3:18] max length is 8191 bytes
+#define WM_SPI_MAX_DMA_TXRX_LEN 65535 //unit is byte, [8:23] max length is 65535 bytes
 
 /**
  * @brief Reset the value of the CH_CFG register.

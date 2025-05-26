@@ -4,18 +4,26 @@
 GDC0689 API 参考
 ===================
 
-API参考
-------------------
+头文件
+===================
 
-Enumerations
-----------------------
+- wm_iot_sdk/components/driver/include/display/seg_lcd/wm_gdc0689.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "wm_gdc0689.h"
+
+枚举
+===================
 
 .. doxygengroup:: WM_GDC0689_Enumerations
     :project: wm-iot-sdk-apis
     :content-only:
 
-Functions
-----------------------
+接口
+===================
 
 .. doxygengroup:: WM_GDC0689_Functions
     :project: wm-iot-sdk-apis

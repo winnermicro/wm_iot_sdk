@@ -1,0 +1,52 @@
+<div class="device">
+    <div class="device_left">
+        <div class="properties-section properties-section-common">
+            <h3>Properties</h3>
+            {% include 'device_name.html' %}
+            <div class="property-item">
+                <label>i2c address:</label>
+                <input type="text" id="i2c_address" name="i2c_address" value="{{ data.i2c_address or 0x10 }}">
+            </div>
+            <div class="property-item">
+                <label>in_port:</label>
+                <select id="in_port" name="in_port">
+                    <option value="1" {% if data.in_port == 1 %}selected{% endif %}>1 : port1</option>
+                    <option value="2" {% if data.in_port == 2 %}selected{% endif %}>2 : port2</option>
+                    <option value="3" {% if data.in_port == 3 %}selected{% endif %}>3 : port1 + port2</option>
+                </select>
+            </div>
+            <div class="property-item">
+                <label>out_port:</label>
+                <select id="out_port" name="out_port">
+                    <option value="1" {% if data.out_port == 1 %}selected{% endif %}>1 : speaker</option>
+                    <option value="2" {% if data.out_port == 2 %}selected{% endif %}>2 : headphone</option>
+                    <option value="3" {% if data.out_port == 3 %}selected{% endif %}>3 : speaker + headphone</option>
+                </select>
+            </div>
+            <div class="property-item">
+                <label>max_gain:</label>
+                <select id="max_gain" name="max_gain">
+                    <option value="0.0" {% if data.max_gain == 0.0 or data.max_gain == '0.0' %}selected{% endif %}>
+                        0.0 dB (VPA=3.3V, VDAC=3.3V)
+                    </option>
+                    <option value="2.09" {% if data.max_gain == 2.09 or data.max_gain == '2.09' %}selected{% endif %}>
+                        2.09 dB (VPA=4.2V, VDAC=3.3V)
+                    </option>
+                    <option value="3.61" {% if data.max_gain == 3.61 or data.max_gain == '3.61' %}selected{% endif %}>
+                        3.61 dB (VPA=5.0V, VDAC=3.3V)
+                    </option>
+                </select>
+            </div>
+            <div class="property-item">
+                <label>i2s Device Name:</label>
+                <input type="text" id="i2s_device" name="i2s_device" value="{{ data.i2s_device }}">
+            </div>
+            <div class="property-item">
+                <label>i2c Device Name:</label>
+                <input type="text" id="i2c_device" name="i2c_device" value="{{ data.i2c_device }}">
+            </div>
+        </div>
+        {% include 'init.html' %}
+    </div>
+    {% include 'pins.html' %}
+</div>

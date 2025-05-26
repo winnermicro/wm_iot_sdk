@@ -11,6 +11,8 @@ Driver API 参考
    flash
    rcc
    spi_master
+   spi_slave
+   hspi_slave
    gpio
    timer
    irq

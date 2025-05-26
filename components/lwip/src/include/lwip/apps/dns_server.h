@@ -111,5 +111,6 @@ void DNSS_RecvCb(void *Arg, struct udp_pcb *Pcb, struct pbuf *P, ip_addr_t *Addr
 INT8S DNSS_Config(INT8U * DnsName);
 INT8S DNSS_Start(struct netif *Netif, const char *DnsName);
 void DNSS_Stop(void);
+void DNSS_Force_local(INT8U on_off);
 
 #endif /* __DNS_SERVER_H_175233__ */

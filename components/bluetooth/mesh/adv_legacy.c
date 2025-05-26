@@ -214,7 +214,7 @@ static struct k_work_delayable adv_buf_cancel_work;
 
 void bt_mesh_adv_gatt_update(void)
 {
-	k_work_schedule(&adv_buf_cancel_work, K_MSEC(30));
+	k_work_schedule(&adv_buf_cancel_work, K_MSEC(300));
 }
 
 void bt_mesh_adv_init(void)

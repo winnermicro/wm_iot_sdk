@@ -13,8 +13,7 @@ if COMPONENT_WPA_SUPPLICANT_ENABLED
             Select this option to enable softap.
 
     config WPA_SUPPLICANT_ENABLE_SAE
-        #bool "Enable SAE"
-        bool
+        bool "Enable SAE"
         default y
         select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W800
         select COMPONENT_MBEDTLS_ENABLED if BUILD_TYPE_W801
@@ -28,11 +27,11 @@ if COMPONENT_WPA_SUPPLICANT_ENABLED
             Internal use, any modification is not allowed.
 
     config WPA_SUPPLICANT_HARD_CRYPTO_ENABLED
-        #bool "Enable HW encryption and decryption"
+        bool "Enable HW encryption and decryption"
         select COMPONENT_DRIVER_CRYPTO_ENABLED
         select COMPONENT_DRIVER_HASH_ENABLED
-        bool
-        default n
+        select COMPONENT_DRIVER_RNG_ENABLED
+        default y
         help
             Select this option to enable hard driver to encryption and decryption.
             Internal use, any modification is not allowed.

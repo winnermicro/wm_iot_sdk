@@ -62,7 +62,7 @@ uint32_t wm_nvs_item_crc_head(const wm_nvs_item_t *item)
 int wm_nvs_item_init(wm_nvs_item_t *item, uint8_t state, uint8_t group_id, wm_nvs_type_t type, const char *key,
                      const void *data, int size, uint8_t seg_id)
 {
-    int key_len = strlen(key);
+    int key_len = strnlen(key, WM_NVS_MAX_KEY_LEN);
 
     memset(item, 0xff, sizeof(*item));
 
@@ -101,7 +101,7 @@ int wm_nvs_item_init(wm_nvs_item_t *item, uint8_t state, uint8_t group_id, wm_nv
 void wm_nvs_item_print_item_head(wm_nvs_item_t *item)
 {
     WM_NVS_LOGD("state=0x%x", item->state);
-    WM_NVS_LOGD("grup_id=0x%x", item->group_id);
+    WM_NVS_LOGD("group_id=0x%x", item->group_id);
     WM_NVS_LOGD("seg_id=0x%x", item->seg_id);
     WM_NVS_LOGD("type=0x%x", item->type);
     WM_NVS_LOGD("length=0x%x", item->length);

@@ -15,8 +15,19 @@
 
 操作码聚合器服务器处理聚合的消息，并将它们发送到相应的模型及其消息处理程序。当前实现假设响应与接收的消息来自相同的执行上下文，并且不允许发送延迟的响应，例如从工作队列发送。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/op_agg_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/op_agg_srv.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_op_agg_srv
    :project: wm-iot-sdk-apis

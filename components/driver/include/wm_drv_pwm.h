@@ -50,11 +50,11 @@ extern "C" {
  * @{
  */
 
-#define WM_DRV_PWM_MUTEX_TIMEOUT       (1000)   /**< PWM driver's mutex access wait timeout time, unit ms */
-#define WM_DRV_PWM_DEADTIME_CLKDIV_MAX (3)      /**< PWM Dead Time Maximum Prescaler Factor */
-#define WM_DRV_PWM_FREQ_MAX            (160000) /**< Maximum PWM Output Frequency, unit Hertz (Hz) */
-#define WM_DRV_PWM_FREQ_MIN            (3)      /**< Minimum PWM Output Frequency, unit Hertz (Hz) */
-#define WM_DRV_PWM_CAP_CACHE_MAX       (20)     /**< Maximum number of capture cache data */
+#define WM_DRV_PWM_MUTEX_TIMEOUT       (1000)     /**< PWM driver's mutex access wait timeout time, unit ms */
+#define WM_DRV_PWM_DEADTIME_CLKDIV_MAX (3)        /**< PWM Dead Time Maximum Prescaler Factor */
+#define WM_DRV_PWM_FREQ_MAX            (20000000) /**< Maximum PWM Output Frequency, unit Hertz (Hz) */
+#define WM_DRV_PWM_FREQ_MIN            (3)        /**< Minimum PWM Output Frequency, unit Hertz (Hz) */
+#define WM_DRV_PWM_CAP_CACHE_MAX       (20)       /**< Maximum number of capture cache data */
 
 /**
  * @}

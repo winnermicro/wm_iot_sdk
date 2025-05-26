@@ -11,7 +11,7 @@ the demo project will do the following two things
 
 1. The slave device and spi master pins must be connected in advance
 2. Start the slave end in advance, wait for receiving and prepare the data to be sent
-3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI:GPIO21, mode 0, clock: 2MHz
+3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI: GPIO7, mode 0, clock: 2MHz
 
 
 ## Compile and Download

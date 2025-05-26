@@ -121,6 +121,7 @@ typedef enum {
     WM_HTTP_CLIENT_CONTENT_APPLICATION_JSON       = 2, /**< application/json. */
     WM_HTTP_CLIENT_CONTENT_MULTIPART_FORM_DATA    = 3, /**< multipart/form-data. */
     WM_HTTP_CLIENT_CONTENT_TEXT_XML               = 4, /**< text/xml. */
+    WM_HTTP_CLIENT_CONTENT_TYPE_MAX, /**< max content types. If you want to add an undefined type, you can use max and then add the header yourself */
 } wm_http_client_content_type_t;
 
 /**
@@ -214,9 +215,9 @@ typedef struct wm_http_client_config {
 
     wm_http_client_content_type_t content_type; /**< Format of HTTP data. */
 
-    bool keep_alive; /**< Set the keep alive header. */
-    bool no_cache;   /**< Set the no cache header. */
-
+    bool keep_alive;     /**< Set the keep alive header. */
+    bool no_cache;       /**< Set the no cache header. */
+    bool chunked;        /**< Set the chunk header. */
     bool use_proxy;      /**< Whether to use the HTTP proxy. */
     uint16_t proxy_port; /**< HTTP proxy port name. */
     char *proxy_host;    /**< HTTP proxy host name. */

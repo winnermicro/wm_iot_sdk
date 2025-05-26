@@ -10,14 +10,14 @@
 GATT 代理状态指示是否支持代理功能。
 
 专用代理服务器
-****************
+=================
 
 支持代理功能和 :func:`blueooth_mesh_models_priv_beacon_srv` 模型的节点可以使用专用网络标识和专用节点标识类型进行播发，这些类型由 :func:`blueooth _mesh_models_prif_beacon_cli` 控制。通过使用这组标识类型进行广告，节点允许传统设备通过 GATT 连接到网络，同时维护网络的隐私。
 
 Private GATT Proxy 状态指示是否支持 Private Proxy 功能。
 
 代理委托书的征求
-******************
+=================
 
 在节点上禁用 GATT 代理和专用 GATT Proxy 状态的情况下，传统设备无法连接到它
 然而，可以请求支持 :func:`blueooth_mesh_od_srv` 的节点来公布可连接的广告事件，
@@ -35,8 +35,19 @@ SRPL 通过存储节点处理的有效请求 PDU 的请求序列号（SSEQ）和
 请求 PDU RPL 配置模型 :func:`bluetooth_mesh_srpl_cli` 和 :func:`blueooth_mesh_srpl_srv` 提供保存和清除 srpl 条目的功能。支持请求 PDU RPL 配置客户端模型的节点可以通过调用 :func:`bt_mesh_sol_PDU_RPL_clear` 函数来清除目标上的 SRPL 部分。使用应用程序密钥加密请求 PDU RPL 配置客户端和服务器之间的通信，因此，可以在网络中的任何设备上实例化请求 PDU RPC 配置客户端。
 
 当节点接收到请求 PDU 并成功对其进行身份验证时，它将开始播发具有专用网络标识类型的可连接广告。播发的持续时间可以由按需专用代理客户端模型配置
-
+   
 API 参考
-*************
+===============
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/proxy.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/proxy.h"
 
 .. doxygengroup:: bt_mesh_proxy

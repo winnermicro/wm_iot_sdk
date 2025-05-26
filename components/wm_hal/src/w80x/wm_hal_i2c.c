@@ -123,7 +123,7 @@ int wm_hal_i2c_set_speed(wm_hal_i2c_dev_t *dev, wm_i2c_speed_t speed_hz)
     wm_hal_i2c_ctx_t *ctx;
     uint32_t div;
 
-    WM_HAL_I2C_CHECK_PARAM(dev && (ctx = dev->ctx) && (speed_hz >= WM_I2C_SPEED_STANDARD && speed_hz <= WM_I2C_SPEED_MAX));
+    WM_HAL_I2C_CHECK_PARAM(dev && (ctx = dev->ctx) && (speed_hz >= WM_I2C_SPEED_MIN && speed_hz <= WM_I2C_SPEED_MAX));
 
     /*
     Each clk will add half of the clock after frequency division (waiting for the slave to release),

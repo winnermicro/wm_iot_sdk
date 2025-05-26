@@ -20,9 +20,9 @@
 #include "wm_dt_hw.h"
 #include "wm_drv_rcc.h"
 #include "wm_drv_spi_master.h"
-#include "wm_drv_ops_spi_master.c"
+#include "wm_drv_ops_spi_master.h"
 
-#define LOG_TAG "drv_spi"
+#define LOG_TAG "drv_spim"
 #include "wm_log.h"
 
 // below is API for upper layer

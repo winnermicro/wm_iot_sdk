@@ -12,14 +12,25 @@
 如果存在，则只能在主元素上实例化请求 PDU RPL 配置客户端模型。
 
 配置
-**************
+===============
 
 可以使用传输超时选项 ``CONFIG_BT_MESH_SOL_PDU_RPL_CLI_timeout`` 配置请求 PDU RPL 配置客户端模型行为。
 ``CONFIG_BT_MESH_SOL_PDU_RPL_CLI_TIMEOUT`` 控制请求 PDU RPL 配置客户端等待响应消息到达的时间（以毫秒为单位）。
 可以在运行时使用 :c:struct:`bt_mesh_sol_pdu_rpl_cli_timeout_set` 更改该值。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/sol_pdu_rpl_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/sol_pdu_rpl_cli.h"
+   
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_sol_pdu_rpl_cli
    :project: wm-iot-sdk-apis

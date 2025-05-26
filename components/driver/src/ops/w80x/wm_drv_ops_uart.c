@@ -32,6 +32,7 @@
 
 #include "wm_osal.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "wm_irq.h"
 #include "wm_drv_rcc.h"
 #include "wm_drv_gpio.h"
@@ -1006,8 +1007,10 @@ static int uart_write(wm_device_t *device, const uint8_t *data, uint32_t size)
     ctx = &dev->drv->ctx;
 
     isr_count = wm_os_internal_get_isr_count();
-    if (isr_count > 0) {
-        /*in interrupt, mutex can't protect resource any more, so use polling mode*/
+
+    if (isr_count > 0 || xTaskGetSchedulerState() != taskSCHEDULER_RUNNING) {
+        /* In interrupt, mutex can't protect resource any more, so use polling mode;
+           Use polling if the scheduler is not running. */
         wm_hal_uart_tx_polling(&dev->drv->hal_dev, data, size);
         count = size;
     } else {

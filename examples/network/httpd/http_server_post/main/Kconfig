@@ -1,0 +1,35 @@
+menu "Example configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_IS_OPEN_NETWORK
+            bool "Wi-Fi is open network"
+            default n
+
+        if !EXAMPLE_WIFI_IS_OPEN_NETWORK
+            config EXAMPLE_WIFI_PASSWORD
+                string "Wi-Fi Password"
+                default "mypassword"
+                help
+                    Wi-Fi password (WPA or WPA2) for the example to use.
+        endif
+
+    config EXAMPLE_HTTPS
+        bool "Use https"
+        default n
+        help
+            Use web server with http security.
+
+    config EXAMPLE_PORT
+        int "Http server port"
+        default 80 if !EXAMPLE_HTTPS
+	    default 443 if EXAMPLE_HTTPS
+        range 0 65535
+        help
+            web server prot.
+
+endmenu

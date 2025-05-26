@@ -41,6 +41,7 @@
 #define FLASH_MAX_WAIT_SPI_TIME 1000
 #define FLASH_CMD_SIZE          1
 #define FLASH_ADDR_SIZE         3
+#define WM_FLS_BLOCK_SIZE       (64 * 1024)
 
 ATTRIBUTE_INLINE void swap_bytes(uint8_t *data, int len)
 {
@@ -347,7 +348,55 @@ int wm_spi_flash_read_sectors(wm_device_t *dev, const wm_eflash_t *fls, uint32_t
     return ret;
 }
 
-int wm_spi_flash_erase_sectors(wm_device_t *dev, const wm_eflash_t *fls, uint32_t flash_addr, uint32_t sector_num)
+int wm_spi_flash_erase_block64k(wm_device_t *dev, const wm_eflash_t *fls, uint32_t flash_addr, uint32_t block_num)
+{
+    wm_drv_eflash_ctx_t *drv_ctx = NULL;
+    const eflash_cmd_t *fls_cmd  = &(fls->cmd_set.hbe);
+    spim_transceive_ex_t desc_ex = { 0 };
+    wm_dt_hw_eflash_t *hw        = NULL;
+    int ret                      = 0;
+    uint32_t tmp_addr            = flash_addr;
+
+    desc_ex.cmd     = fls_cmd->commd_id;
+    desc_ex.cmd_len = FLASH_CMD_SIZE;
+    desc_ex.basic.flags |= SPI_TRANS_VARIABLE_CMD;
+    swap_bytes((uint8_t *)&tmp_addr, FLASH_ADDR_SIZE);
+    desc_ex.addr     = tmp_addr;
+    desc_ex.addr_len = FLASH_ADDR_SIZE;
+    desc_ex.basic.flags |= SPI_TRANS_VARIABLE_ADDR;
+    if (fls_cmd->dummy_bit) {
+        desc_ex.dummy_bits = fls_cmd->dummy_bit * 8;
+        desc_ex.basic.flags |= SPI_TRANS_DUMMY_BITS;
+    }
+    desc_ex.basic.tx_buf = NULL;
+    desc_ex.basic.tx_len = 0;
+    desc_ex.basic.rx_buf = NULL;
+    desc_ex.basic.rx_len = 0;
+    drv_ctx              = dev->drv;
+    hw                   = (wm_dt_hw_eflash_t *)dev->hw;
+
+    while (block_num) {
+        ret = wm_spi_flash_write_en(dev, fls);
+        if (ret != WM_ERR_SUCCESS) {
+            break;
+        }
+        ret = start_spi_xfer(drv_ctx->spi_device, &hw->spi_cfg, &desc_ex.basic);
+        ret = wm_spi_flash_wait_idle(dev, fls);
+        if (ret != WM_ERR_SUCCESS) {
+            break;
+        }
+
+        block_num--;
+        flash_addr += WM_FLS_BLOCK_SIZE;
+        tmp_addr = flash_addr;
+        swap_bytes((uint8_t *)&tmp_addr, FLASH_ADDR_SIZE);
+        desc_ex.addr = tmp_addr;
+    }
+
+    return ret;
+}
+
+static int wm_spi_flash_erase_by_sector(wm_device_t *dev, const wm_eflash_t *fls, uint32_t flash_addr, uint32_t sector_num)
 {
     wm_drv_eflash_ctx_t *drv_ctx = NULL;
     const eflash_cmd_t *fls_cmd  = &(fls->cmd_set.se);
@@ -392,6 +441,58 @@ int wm_spi_flash_erase_sectors(wm_device_t *dev, const wm_eflash_t *fls, uint32_
     }
 
     return ret;
+}
+
+int wm_spi_flash_erase_sectors(wm_device_t *dev, const wm_eflash_t *fls, uint32_t flash_addr, uint32_t sector_num)
+{
+    int err = WM_ERR_SUCCESS;
+
+    uint32_t start_addr = flash_addr;
+    uint32_t total_size = sector_num * fls->sector_size;
+    uint32_t end_addr   = start_addr + total_size;
+
+    uint32_t aligned_start;
+    uint32_t aligned_end;
+    uint32_t remaining_sectors;
+    uint32_t aligned_blocks;
+
+    /* Erase the begining unaligned sectors*/
+    uint32_t align_addr        = (start_addr + WM_FLS_BLOCK_SIZE - 1) & ~(WM_FLS_BLOCK_SIZE - 1);
+    uint32_t unaligned_sectors = ((end_addr > align_addr ? align_addr : end_addr) - start_addr) / fls->sector_size;
+
+    /* Check support 64K erase */
+    if (fls->cmd_set.hbe.commd_id != 0xFF) {
+        if (unaligned_sectors > 0) {
+            err = wm_spi_flash_erase_by_sector(dev, fls, start_addr, unaligned_sectors);
+            if (err != WM_ERR_SUCCESS) {
+                return err;
+            }
+        }
+
+        /* Erase 64K aligned blocks */
+        aligned_start  = align_addr;
+        aligned_end    = (end_addr / WM_FLS_BLOCK_SIZE) * WM_FLS_BLOCK_SIZE;
+        aligned_blocks = aligned_end > aligned_start ? ((aligned_end - aligned_start) / WM_FLS_BLOCK_SIZE) : 0;
+        aligned_end    = aligned_start + aligned_blocks * WM_FLS_BLOCK_SIZE;
+        if (aligned_blocks > 0) {
+            err = wm_spi_flash_erase_block64k(dev, fls, aligned_start, aligned_blocks);
+            if (err != WM_ERR_SUCCESS) {
+                return err;
+            }
+        }
+
+        /* Erase the remaining sectors*/
+        remaining_sectors = (end_addr > aligned_end ? (end_addr - aligned_end) : 0) / fls->sector_size;
+        if (remaining_sectors > 0) {
+            err = wm_spi_flash_erase_by_sector(dev, fls, aligned_end, remaining_sectors);
+            if (err != WM_ERR_SUCCESS) {
+                return err;
+            }
+        }
+    } else {
+        err = wm_spi_flash_erase_by_sector(dev, fls, start_addr, sector_num);
+    }
+    return err;
 }
 
 int wm_spi_flash_erase_chip(wm_device_t *dev, const wm_eflash_t *fls)
@@ -506,7 +607,7 @@ int wm_spi_flash_get_capacity(wm_device_t *dev, const wm_eflash_t *fls, uint32_t
 
     *flash_size = (1 << (read_data >> 16 & 0xFF)); // get capacity, it's only one byte
 
-    wm_log_info("%s size=%u", dev->name, *flash_size);
+    wm_log_info("%s size=%u Bytes", dev->name, *flash_size);
 
     return ret;
 }

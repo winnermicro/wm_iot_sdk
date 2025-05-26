@@ -470,9 +470,10 @@ typedef enum {
   * @brief i2c transfer speed mode
   */
 typedef enum {
-    WM_I2C_SPEED_STANDARD = 100000, /**< 100KHz */
-    WM_I2C_SPEED_FAST     = 400000, /**< 400KHz */
-    WM_I2C_SPEED_MAX      = 400000, /**< 400KHz */
+    WM_I2C_SPEED_MIN      = 1000,   /**<   1 KHz */
+    WM_I2C_SPEED_STANDARD = 100000, /**< 100 KHz */
+    WM_I2C_SPEED_FAST     = 400000, /**< 400 KHz */
+    WM_I2C_SPEED_MAX      = 400000, /**< 400 KHz */
 } wm_i2c_speed_t;
 /******************************************************************/
 /*                  I2C HW Capability   (End)                     */
@@ -1171,6 +1172,58 @@ typedef enum {
 
 /******************************************************************/
 /*                  I2S HW Capability   (End)                     */
+/******************************************************************/
+
+/******************************************************************/
+/*                  HSPI slave HW Capability   (Start)            */
+/******************************************************************/
+/**
+ * @brief     Clock Polarity Configuration
+ */
+typedef enum {
+    WM_HSPI_CPOL_LOW  = 0, /**< Clock polarity is low */
+    WM_HSPI_CPOL_HIGH = 1, /**< Clock polarity is high */
+    WM_HSPI_CPOL_MAX       /**< Maximum value for CPOL configuration */
+} wm_hspi_cpol_t;
+
+/**
+ * @brief     Clock Phase Configuration
+ */
+typedef enum {
+    WM_HSPI_CPHA_FIRST_EDGE  = 0, /**< Data captured on the first clock edge */
+    WM_HSPI_CPHA_SECOND_EDGE = 1, /**< Data captured on the second clock edge */
+    WM_HSPI_CPHA_MAX              /**< Maximum value for CPHA configuration */
+} wm_hspi_cpha_t;
+
+/**
+ * @brief     SPI Output Drive Configuration
+ */
+typedef enum {
+    WM_HSPI_OUTPUT_SELECTED = 0, /**< SPI output is active only when selected */
+    WM_HSPI_OUTPUT_ALWAYS   = 1, /**< SPI output is always active */
+    WM_HSPI_OUTPUT_MAX           /**< Maximum value for SPI output configuration */
+} wm_hspi_tx_pin_config_t;
+
+/**
+ * @brief     Byte Order Configuration
+ */
+typedef enum {
+    WM_HSPI_BYTE_ORDER_LOW_FIRST  = 0, /**< Low byte is transmitted first */
+    WM_HSPI_BYTE_ORDER_HIGH_FIRST = 1, /**< High byte is transmitted first */
+    WM_HSPI_BYTE_ORDER_MAX             /**< Maximum value for byte order configuration */
+} wm_hspi_byte_order_t;
+
+/**
+ * @brief     Burst Length Configuration
+ */
+typedef enum {
+    WM_HSPI_BURST_LENGTH_1_WORD  = 0, /**< Burst length is 1 word */
+    WM_HSPI_BURST_LENGTH_4_WORDS = 1, /**< Burst length is 4 words */
+    WM_HSPI_BURST_LENGTH_MAX          /**< Maximum value for burst length configuration */
+} wm_hspi_burst_length_t;
+
+/******************************************************************/
+/*                  HSPI slave HW Capability   (End)              */
 /******************************************************************/
 
 /******************************************************************/

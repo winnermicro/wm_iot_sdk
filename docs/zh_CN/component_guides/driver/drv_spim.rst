@@ -15,11 +15,11 @@ SPI Master
 功能列表
 -----------------
 
-1. :ref:`初始化 <spi_init>`——初始化 SPI 驱动。
-2. :ref:`数据同步传输 <spi_trans_sync>`——数据传输完成或传输超时，结束传输。
-3. :ref:`数据异步传输 <spi_trans_async>`——在数据传输完成后结束传输, 并进入回调函数。
+1. :ref:`初始化 <spim_init>`——初始化 SPI 驱动。
+2. :ref:`数据同步传输 <spim_trans_sync>`——数据传输完成或传输超时，结束传输。
+3. :ref:`数据异步传输 <spim_trans_async>`——在数据传输完成后结束传输, 并进入回调函数。
 4. :ref:`发送命令并获取结果<TX_CMD>`——发送指令给对端用户, 并获取执行结果。
-5. :ref:`大小端 <big_endian>`—— 硬件以 word 为单位发送数据，先发送 word 的高地址还是低地址的内容。
+5. :ref:`大小端 <spim_big_endian>`—— 硬件以 word 为单位发送数据，先发送 word 的高地址还是低地址的内容。
 
 
 功能概述
@@ -54,7 +54,7 @@ SPI Master 硬件连线
     :alt: SPI 连线示意图
 
 
-.. _spi_init:
+.. _spim_init:
 
 初始化 SPI
 -----------------
@@ -73,7 +73,7 @@ SPI Master 硬件连线
      2. SPI 相关配置在设备树中去更改
 
 
-.. _spi_trans_sync:
+.. _spim_trans_sync:
 
 SPI 同步传输
 ------------------
@@ -165,7 +165,7 @@ SPI 同步传输
     如不再需要使用 SPI 进行数据传输，则可调用 ``wm_drv_spim_deinit()`` 删除驱动程序，释放已分配的资源。
 
 
-.. _spi_trans_async:
+.. _spim_trans_async:
 
 SPI 异步传输
 ------------------
@@ -342,7 +342,7 @@ SPI 发送指令并获取结果
     2: 需要将 desc_ex.basic.flags 的 SPI_TRANS_VARIABLE_CMD 或者 SPI_TRANS_VARIABLE_ADDR 置位，cmd 以及addr 才会有效
 
 
-.. _big_endian:
+.. _spim_big_endian:
 
 大小端
 -----------------
@@ -370,7 +370,7 @@ TX 方向举例
 
     存储存储到 TX FIFO 的样式如下图
 
-.. figure:: ../../../_static/component-guides/driver/spim_endian_tx.svg
+.. figure:: ../../../_static/component-guides/driver/spi_endian_tx.svg
     :align: center
     :scale: 100%
     :alt: SPI 连线示意图
@@ -399,7 +399,7 @@ RX 方向举例
     1. 如果发送或者接收起始地址没有 4 字节对齐，底层不会使用 DMA 进行收发
     2. 发送的长度最好不小于接收长度， 不然对方可能接收到一些无效数据
     3. 支持只发送或者只接收
-    4. 收发长度没有限制
+    4. 非 4 字节对齐时，最大数据收发长度 8191；4 字节对齐时，最大数据收发长度 65535
     5. CLOCK, MISO, MOSI pin 脚在 SPI drvier 中进行配置，如果用户要修改默认的 pin 脚，可在 DT(Device Table) 里面进行修改
     6. CS pin 由用户在每次调用收发 API 的时候传入，driver 会管理 CS pin，如果用户传入的是一个无效的 CS pin（WM_GPIO_NUM_MAX），则 CS pin 由用户自己维护，除非特别用途。
        我们不推荐用户应用层来控制 CS Pin，特别是在 SPI Master 控制多个 Slave 设备的场景下， 若存在部分设备 被配置成用 Driver 控制 CS pin， 其他设备被配置成由用户应用来控制 CS pin， 容易造成使用混乱。

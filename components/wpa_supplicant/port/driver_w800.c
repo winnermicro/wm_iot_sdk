@@ -19,7 +19,6 @@
 
 #include "freertos/FreeRTOS.h"
 #include "wm_ft_param.h"
-#include "wm_nvs.h"
 #include "wm_key_config.h"
 #ifdef CONFIG_USE_EVENT_POST
 #include "wm_event.h"

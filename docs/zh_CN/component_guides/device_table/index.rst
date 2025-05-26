@@ -352,9 +352,14 @@ WM IoT SDK 使用的 ``device_table.toml`` 文件，其中内容由如下格式�
 
 对于 TFT LCD，包含如下选项：
 
-    * ``pin_lcd_reset`` 表示 TFT LCD 屏幕的复位引脚，选择用哪个引脚来重置显示模块，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``45``。
-    * ``pin_lcd_dcx`` 表示 TFT LCD 屏幕的数据/命令选择引脚，选择用哪个引脚来区分，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``45``。
-    * ``pin_lcd_led`` 表示  TFT LCD 屏幕的背光控制引脚，选择用哪个引脚来控制屏幕的背光亮灭，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``45``。
+    * ``pin_lcd_reset`` 表示 TFT LCD 屏幕的复位引脚，选择用哪个引脚来重置显示模块，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``WM_GPIO_NUM_MAX-1``。
+    * ``pin_lcd_dcx`` 表示 TFT LCD 屏幕的数据/命令选择引脚，选择用哪个引脚来区分，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``WM_GPIO_NUM_MAX-1``。
+    * ``pin_lcd_led`` 表示  TFT LCD 屏幕的背光控制引脚，选择用哪个引脚来控制屏幕的背光亮灭，取值为 GPIO 引脚编号，可取值为从 ``0`` 到 ``WM_GPIO_NUM_MAX-1``。
+
+.. hint::
+    程序构建时，构建脚本 ``wmdt.py`` 会先将 ``device_table.toml`` 转换成 ``wm_dt_hw.c``， ``device_table.toml`` 里面的内容  ``pin_lcd_*`` 会被转变成 ``io_lcd_*`` 存放到 ``wm_dt_hw.c``。
+    在 ``device_table.toml`` 中若 ``pin_lcd_*`` 设定成 ``-1`` ， 会被构建成  ``wm_dt_hw.c`` 中的 ``io_lcd_* = WM_GPIO_NUM_MAX``。
+    而 ``io_lcd_* = WM_GPIO_NUM_MAX`` 所指示的 io 在 TFT LCD 驱动初始化时 会被忽略，而不执行 io 初始化。
 
 .. _wdt_config_section:
 

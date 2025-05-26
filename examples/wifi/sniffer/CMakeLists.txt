@@ -13,9 +13,6 @@ if(NOT EXISTS ${SDK_PATH})
     message(FATAL_ERROR "SDK path Error, Please set WM_IOT_SDK_PATH variable")
 endif()
 
-## Add preprocessor definitions for whole project
-# add_definitions(-DAAAAA=1)
-
 # Call compile rules
 include(${SDK_PATH}/tools/cmake/project.cmake)
 

@@ -21,8 +21,19 @@
 可以使用 :c:macro:`BT_MESH_MODELS_METADATA_ENTRY` 宏创建条目。 :c:macro:`BT_MESH_MODELS_METADATA_END` 宏标记元数据列表的末尾，
 并且必须始终存在。如果模型没有元数据，则可以改用助手宏 :c:macro:`BT_MESH_MODELS_METADATA_NONE` 。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/large_comp_data_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/large_comp_data_srv.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_large_comp_data_srv
    :project: wm-iot-sdk-apis

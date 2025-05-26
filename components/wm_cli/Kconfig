@@ -8,7 +8,7 @@ menuconfig COMPONENT_CLI_ENABLED
 if COMPONENT_CLI_ENABLED
     config CLI_LINE_SIZE
         int "Command line size (Byte)"
-        range 16 256
+        range 16 1024
         default 64
         help
             command line max size.

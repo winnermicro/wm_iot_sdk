@@ -6,7 +6,7 @@
 访问层是应用程序与 Bluetooth Mesh 网络的接口。访问层提供了将节点行为划分为元素和模型的机制，这些元素和模型由应用程序实现。
 
 mesh 模型
-***********
+===========
 
 网格节点的功能由模型表示。模型实现节点支持的单个行为，如灯光、传感器或节温器。网格模型被分组为 *元素* ，每个元素都是分配了自己的单播地址，并且只能包含每种类型的模型。
 通常，每个元素表示网格的单个方面节点行为。例如，包含传感器、两个灯和电源插座将此功能扩展到四个元素，每个元素元素实例化的单个方面所需的所有模型支持的行为。
@@ -153,6 +153,17 @@ Bluetooth Mesh 规范允许网格模型彼此扩展。当一个模型扩展另�
 此功能是可选的，并通过 ``CONFIG_BT_MESH_DELAYABLE_PUBLICATION``  Kconfig 选项启用。启用后，每个模型都可以通过将 :c:member:`bt_mesh_model_pub.delayable` 位字段相应地设置为 ``1`` 或 ``0`` 来启用或禁用可延迟发布，该位字段可以随时更改。
 
 API 参考
-*************
+======================
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/access.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/access.h"
 
 .. doxygengroup:: bt_mesh_access

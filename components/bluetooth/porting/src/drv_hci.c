@@ -5,7 +5,8 @@
 
 #include "wm_component.h"
 #include "bluetooth/controller.h"
-
+#include "wm_pm.h"
+#include "wm_drv_pmu.h"
 #define LOG_LEVEL CONFIG_BT_HCI_DRIVER_LOG_LEVEL
 #define LOG_TAG "bt_hci_drv"
 #include <logging/log.h>
@@ -25,6 +26,7 @@
 static K_SEM_DEFINE(hci_wait_available_sem, 0, 1);
 static volatile uint32_t hci_available_pkts_buffer = 0;
 static struct k_mutex k_controller_mutex;
+
 static bool is_hci_event_discardable(const uint8_t *evt_data)
 {
 	uint8_t evt_type = evt_data[0];
@@ -256,7 +258,6 @@ static int drv_bt_send(struct net_buf *buf)
 		goto done;
 	}
 	net_buf_push_u8(buf, pkt_indicator);
-
 	LOG_HEXDUMP_DBG(buf->data, buf->len, "Final HCI buffer:");
     if (pkt_indicator != HCI_CMD) {
         while (!wm_bt_host_check_send_available()) {
@@ -294,6 +295,30 @@ done:
 	return err;
 }
 
+#if defined(CONFIG_BT_LOW_POWER_SYSTEM)
+
+//bluetooth controller callback
+static void bt_sleep_enter(uint32_t duration_ms)
+{
+    wm_pm_lock_release();
+}
+
+static void bt_sleep_exit(void)
+{
+    wm_pm_lock_acquire();
+}
+#endif
+
+void bt_lowpower_enable(void)
+{
+    wm_bt_ctrl_sleep(true);
+}
+
+void bt_lowpower_disable(void)
+{
+    wm_bt_ctrl_sleep(false);
+}
+
 static int bt_ble_init(void)
 {
     wm_bt_hci_if_t hci_if;
@@ -316,6 +341,24 @@ static int bt_ble_init(void)
         return WM_BT_STATUS_CTRL_ENABLE_FAILED;
     }
     wm_ble_set_tx_power(WM_BLE_PWR_TYPE_DEFAULT, CONFIG_BT_TX_POWER_LEVEL_INDEX);
+
+#if defined(CONFIG_BT_LOW_POWER_CONTROLLER) || defined(CONFIG_BT_LOW_POWER_SYSTEM)
+            wm_device_t *pmu = wm_dt_get_device_by_name("pmu");
+            if(!pmu) {
+                LOG_WRN("get device pmu failed");
+            } else {
+                int ret = wm_drv_pmu_set_clock_source(pmu, WM_PMU_CLOCK_SRC_40M_DIV);
+                
+                if(ret == WM_ERR_SUCCESS) {
+#if defined(CONFIG_BT_LOW_POWER_SYSTEM)
+                    wm_bt_register_sleep_callback(bt_sleep_enter, bt_sleep_exit);
+#endif
+                    //wm_bt_ctrl_sleep(true);
+                }
+            }
+
+#endif
+
     return 0;
 }
 
@@ -323,7 +366,11 @@ static int drv_bt_close(void)
 {
     wm_bt_ctrl_disable();
     wm_bt_ctrl_if_unregister();
+#if defined(CONFIG_BT_LOW_POWER_SYSTEM)
+    wm_bt_register_sleep_callback(NULL, NULL);
+#endif
     k_mutex_deinit(&k_controller_mutex);
+
     LOG_DBG("HCI BT closed");
 
     return 0;

@@ -15,16 +15,26 @@
 将触发 :c:struct:`bt_mesh_prov.reprovisioned` 回调。有关更多详细信息，请参阅 :ref:`bluetooth_mesh_models_rpr_cli` 一节。
 
 局限性
------------
+===============
 
 以下限制适用于远程配置服务器型号：
 
 * 不支持使用 PB-GATT 设置未配置的设备。
 * 支持所有节点配置协议接口（NPPI）过程。然而，如果设备的组成数据在设备固件更新后发生更改（请参阅固件效果 :c:struct:`blueooth_mesh_dfu_firmware_effect`），则设备不可能保持配置状态。如果设备的组成数据预计会更改，则应取消配置该设备。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/rpr_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/rpr_srv.h"
 
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_rpr_srv
    :project: wm-iot-sdk-apis

@@ -14,7 +14,7 @@
 如果存在，则必须在主元素上实例化远程配置客户端模型。
 
 扫描
-********
+===============
 
 扫描过程用于扫描远程配置服务器附近的未配置设备。远程配置客户端通过使用 :c:struct:`bt_mesh_rpr_scan_start` 调用启动扫描过程：
 
@@ -55,7 +55,7 @@
 远程配置服务器将使用活动扫描来请求来自未配置设备的扫描响应（如果未配置设备支持）。
 
 预配置
-************
+===============
 
 远程配置客户端通过使用 :c:struct:`bt_mesh_provision_Remote` 调用启动配置过程：
 
@@ -82,7 +82,7 @@
    在远程配置期间，将触发与普通配置相同的 :c:struct:`bt_mesh_prov` 回调。有关详细信息，请参阅节 :ref:`bluetooth_mesh_provisioning` 。
 
 重新配置
-***************
+===============
 
 除了扫描和配置功能外，远程配置客户端还提供了在支持 :ref:`bluetooth_mesh_models_rpr_srv` 模型。
 这是通过节点配置协议接口（NPPI）提供的，该接口支持以下三个过程：
@@ -114,8 +114,19 @@
 则该代码将触发节点合成刷新过程。如果这两个地址相同，并且 ``composition_changed`` 标志设置为 false，
 则该代码将触发设备密钥刷新过程。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/rpr_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/rpr_cli.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_rpr_cli
    :project: wm-iot-sdk-apis

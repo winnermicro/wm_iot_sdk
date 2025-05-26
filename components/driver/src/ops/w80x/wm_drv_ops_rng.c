@@ -170,6 +170,7 @@ uint32_t wm_w800_drv_rng_read(wm_device_t *device)
 
     /*disable clock*/
     wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_GPSEC_GATE_EN);
+    wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_TOUCH_GATE_EN);
 
     /* release gpsec mutex */
     if (wm_drv_release_gpsec_mutex() != WM_OS_STATUS_SUCCESS) {
@@ -211,6 +212,7 @@ int wm_w800_drv_rng_read_bytes(wm_device_t *device, void *buf, uint32_t len)
 
     /*disable clock*/
     wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_GPSEC_GATE_EN);
+    wm_drv_clock_disable(dev->drv->clock_dev, WM_RCC_TOUCH_GATE_EN);
 
     /* release gpsec mutex */
     if (wm_drv_release_gpsec_mutex() != WM_OS_STATUS_SUCCESS) {

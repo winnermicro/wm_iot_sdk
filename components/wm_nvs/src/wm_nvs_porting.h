@@ -73,6 +73,7 @@ extern "C" {
 
 int wm_nvs_port_init(void);
 int wm_nvs_port_deinit(void);
+int wm_nvs_port_is_init(void);
 int wm_nvs_port_mutex_lock(void);
 int wm_nvs_port_mutex_unlock(void);
 

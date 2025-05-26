@@ -32,8 +32,8 @@
 
 #define LWIP_SOCKET            1
 #define LWIP_NETCONN           1
-#define LWIP_TCP               1
-#define LWIP_UDP               1
+#define LWIP_TCP               CONFIG_LWIP_TCP
+#define LWIP_UDP               CONFIG_LWIP_UDP
 #define LWIP_ARP               1
 
 #define RECV_BUFSIZE_DEFAULT   65536
@@ -146,11 +146,14 @@
 #define LWIP_SOCKET_OFFSET             1
 
 #define LWIP_NETCONN_SEM_PER_THREAD    1
-#define LWIP_NETCONN_FULLDUPLEX        1
 
-#define LWIP_NO_INTTYPES_H             1
+#if LWIP_TCP
+#define LWIP_NETCONN_FULLDUPLEX 1
+#endif
 
-#define LWIP_TIMEVAL_PRIVATE           0
+#define LWIP_NO_INTTYPES_H   1
+
+#define LWIP_TIMEVAL_PRIVATE 0
 
 #ifdef CONFIG_COMPONENT_NET_MANAGER_ENABLED
 #define DNS_MAX_SERVERS 2

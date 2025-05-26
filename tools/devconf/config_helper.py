@@ -21,7 +21,7 @@ class ConfigHelper:
         self.timer4_config_data = {'chip_type':'W800', 'dev_name':'Timer4', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
         self.timer5_config_data = {'chip_type':'W800', 'dev_name':'Timer5', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
 
-        self.iflash_config_data = {'chip_type':'W800', 'dev_name':'Internal_flash', 'exist_in_config':[], 'quad_spi':1, 'initlevel':0, 'initpriority':0}
+        self.iflash_config_data = {'chip_type':'W800', 'dev_name':'iflash', 'exist_in_config':[], 'quad_spi':1, 'initlevel':0, 'initpriority':0}
 
         self.eflash_w25q_config_data = {'chip_type':'W800', 'dev_name':'External_flash_w25q', 'exist_in_config':[], 'quad_spi':0, 'freq':2000000, 'initlevel':0, 'initpriority':0}
         self.eflash_gd25q_config_data = {'chip_type':'W800', 'dev_name':'External_flash_gd25q', 'exist_in_config':[], 'quad_spi':0, 'freq':2000000, 'initlevel':0, 'initpriority':0}
@@ -37,19 +37,29 @@ class ConfigHelper:
         self.sdmmc_config_data = {'chip_type':'W800', 'dev_name':'SDMMC', 'exist_in_config':[], 'clkdiv':[2,4,6,8,10,12,14,16], 'clock':40000000, 'initlevel':0, 'initpriority':0}
         self.sdspi_config_data = {'chip_type':'W800', 'dev_name':'SDSPI', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
 
-        self.nv3041a_config_data = {'chip_type':'W800', 'dev_name':'NV3041A', 'exist_in_config':[], 'freq':60000000, 'initlevel':0, 'initpriority':0}
-        self.st7735_config_data = {'chip_type':'W800', 'dev_name':'ST7735', 'exist_in_config':[], 'freq':15000000, 'initlevel':0, 'initpriority':0}
-        self.gz035_config_data = {'chip_type':'W800', 'dev_name':'GZ035', 'exist_in_config':[], 'freq':60000000, 'initlevel':0, 'initpriority':0}
+        self.nv3041a_config_data = {'chip_type':'W800', 'dev_name':'nv3041a_spi', 'exist_in_config':[], 'freq':60000000, 'initlevel':0, 'initpriority':0}
+        self.gc9a01_config_data = {'chip_type':'W800', 'dev_name':'gc9a01_spi', 'exist_in_config':[], 'freq':15000000, 'initlevel':0, 'initpriority':0}
+        self.st7735_config_data = {'chip_type':'W800', 'dev_name':'st7735_spi', 'exist_in_config':[], 'freq':15000000, 'initlevel':0, 'initpriority':0}
+        self.gz035_config_data = {'chip_type':'W800', 'dev_name':'gz035_spi', 'exist_in_config':[], 'freq':15000000, 'initlevel':0, 'initpriority':0}
 
         self.sdio_slave_config_data = {'chip_type':'W800', 'dev_name':'SDIO_Slave', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
+        self.hspi_slave_config_data = {'chip_type':'W800', 'dev_name':'HSPI_Slave', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
 
         self.i2c_config_data = {'chip_type':'W800', 'dev_name':'I2C', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'addr_10_bits':0}
         self.eeprom0_config_data = {'chip_type':'W800', 'dev_name':'eeprom0', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'size':256, 'i2c_addr':'0x50', 'page_size':16, 'addr_width':8, 'read_only':0, 'max_write_time_ms':5}
         self.eeprom1_config_data = {'chip_type':'W800', 'dev_name':'eeprom1', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'size':256, 'i2c_addr':'0x52', 'page_size':16, 'addr_width':8, 'read_only':0, 'max_write_time_ms':10}
 
-        self.spim_config_data = {'chip_type':'W800', 'dev_name':'SPI_Master', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
+        self.spim_config_data = {'chip_type':'W800', 'dev_name':'spim', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
+
+        self.spis_config_data = {'chip_type':'W800', 'dev_name':'spis', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
+
+        self.spim_soft_config_data = {'chip_type':'W800', 'dev_name':'spim_soft', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
 
         self.touch_sensor_config_data = {'chip_type':'W800', 'dev_name':'Touch_Sensor', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
+
+        self.xpt2046_config_data = {'chip_type':'W800', 'dev_name':'XPT2046', 'exist_in_config':[], 'freq':2000000, 'initlevel':0, 'initpriority':0}
+
+        self.ft6336_config_data = {'chip_type':'W800', 'dev_name':'FT6336', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
 
         self.touch_button_config_data = {'chip_type':'W800', 'dev_name':'Touch_Button', 'exist_in_config':[], 'initlevel':0, 'initpriority':0, 'channel':[]}
         for i in range(1, 16):
@@ -59,7 +69,8 @@ class ConfigHelper:
         self.rtc_config_data = {'chip_type':'W800', 'dev_name':'RTC', 'exist_in_config':[], 'initlevel':0, 'initpriority':0}
         self.pmu_config_data = {'chip_type':'W800', 'dev_name':'PMU', 'exist_in_config':[], 'clk_src':0, 'initlevel':0, 'initpriority':0}
         self.i2s_config_data = {'chip_type':'W800', 'dev_name':'I2S', 'exist_in_config':[], 'extal_clock_en':0, 'extal_clock_hz':0, 'initlevel':0, 'initpriority':0}
-
+        self.es8374_config_data = {'chip_type': 'W800','dev_name': 'ES8374','exist_in_config': [],'initlevel': 0,'initpriority': 0}
+        
         self.seg_lcd_config_data = {'chip_type':'W800', 'dev_name':'SEG_LCD', 'exist_in_config':[], 'frame_freq':0, 'com_num':0, 'initlevel':0, 'initpriority':0, 'pinnum':[], 'enable':[]}
         for i in range(0, 48):
             self.seg_lcd_config_data['enable'].append(0)
@@ -335,10 +346,27 @@ class ConfigHelper:
                         config_data["resetpinnum"] = item["pin_lcd_reset"]
                         config_data["ledpinnum"] = item["pin_lcd_led"]
                         config_data["dcxpinnum"] = item["pin_lcd_dcx"]
+                        config_data["tepinnum"] = item["pin_lcd_te"]
 
                         self.load_init_cfg(item, config_data)
 
                         self.nv3041a_config_data = config_data
+
+                    elif dev_name == "gc9a01_spi":
+                        config_data = self.gc9a01_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["mode"] = item["spi_cfg"]["mode"]
+                        config_data["freq"] = item["spi_cfg"]["freq"]
+                        config_data["cspinnum"] = item["spi_cfg"]["pin_cs"]["pin_num"]
+                        config_data["resetpinnum"] = item["pin_lcd_reset"]
+                        config_data["ledpinnum"] = item["pin_lcd_led"]
+                        config_data["dcxpinnum"] = item["pin_lcd_dcx"]
+                        config_data["tepinnum"] = item["pin_lcd_te"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.gc9a01_config_data = config_data
 
                     elif dev_name == "st7735_spi":
                         config_data = self.st7735_config_data
@@ -350,6 +378,7 @@ class ConfigHelper:
                         config_data["resetpinnum"] = item["pin_lcd_reset"]
                         config_data["ledpinnum"] = item["pin_lcd_led"]
                         config_data["dcxpinnum"] = item["pin_lcd_dcx"]
+                        config_data["tepinnum"] = item["pin_lcd_te"]
 
                         self.load_init_cfg(item, config_data)
 
@@ -385,6 +414,20 @@ class ConfigHelper:
                         self.load_init_cfg(item, config_data)
 
                         self.sdio_slave_config_data = config_data
+
+                    elif dev_name == "hspi_slave":
+                        config_data = self.hspi_slave_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["clkpinnum"] = item["pin_cfg"][0]["pin"]
+                        config_data["intpinnum"] = item["pin_cfg"][1]["pin"]
+                        config_data["cspinnum"] = item["pin_cfg"][2]["pin"]
+                        config_data["mosipinnum"] = item["pin_cfg"][3]["pin"]
+                        config_data["misopinnum"] = item["pin_cfg"][4]["pin"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.hspi_slave_config_data = config_data
 
                     elif dev_name == "i2c":
                         config_data = self.i2c_config_data
@@ -463,6 +506,31 @@ class ConfigHelper:
 
                         self.spim_config_data = config_data
 
+                    elif dev_name == "spis":
+                        config_data = self.spis_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["clkpinnum"] = item["pin_cfg"][0]["pin"]
+                        config_data["dipinnum"] = item["pin_cfg"][1]["pin"]
+                        config_data["dopinnum"] = item["pin_cfg"][2]["pin"]
+                        config_data["cspinnum"] = item["pin_cfg"][3]["pin"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.spis_config_data = config_data
+
+                    elif dev_name == "spim_soft":
+                        config_data = self.spim_soft_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["clkpinnum"] = item["pin_cfg"][0]["pin"]
+                        config_data["dipinnum"] = item["pin_cfg"][1]["pin"]
+                        config_data["dopinnum"] = item["pin_cfg"][2]["pin"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.spim_soft_config_data = config_data
+
                     elif dev_name == "touch_sensor":
                         config_data = self.touch_sensor_config_data
                         exist_in_config.append(dev_name.lower())
@@ -486,6 +554,38 @@ class ConfigHelper:
                         self.load_init_cfg(item, config_data)
 
                         self.touch_button_config_data = config_data
+
+                    elif dev_name == "xpt2046":
+                        config_data = self.xpt2046_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["ifdevname"] = str(item["if_dev_name"])
+                        config_data["image"] = item["mirror_image"]
+                        config_data["width"] = item["width"]
+                        config_data["height"] = item["height"]
+                        config_data["mode"] = item["spi_cfg"]["mode"]
+                        config_data["freq"] = item["spi_cfg"]["freq"]
+                        config_data["cspinnum"] = item["spi_cfg"]["pin_cs"]["pin"]
+                        config_data["irqpinnum"] = item["irq_cfg"]["pin"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.xpt2046_config_data = config_data
+
+                    elif dev_name == "ft6336":
+                        config_data = self.ft6336_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        config_data["ifdevname"] = str(item["if_dev_name"])
+                        config_data["image"] = item["mirror_image"]
+                        config_data["width"] = item["width"]
+                        config_data["height"] = item["height"]
+                        config_data["resetpinnum"] = item["reset_cfg"]["pin"]
+                        config_data["maxclock"] = item["i2c_cfg"]["max_clock"]
+                        config_data["addr10bits"] = item["i2c_cfg"]["addr_10_bits"]
+                        self.load_init_cfg(item, config_data)
+
+                        self.ft6336_config_data = config_data
 
                     elif dev_name == "pwm":
                         config_data = self.pwm_config_data
@@ -586,6 +686,27 @@ class ConfigHelper:
 
                         self.load_init_cfg(item, config_data)
                         self.i2s_config_data = config_data
+
+                    elif dev_name == "es8374":
+
+                        config_data = self.es8374_config_data
+                        exist_in_config.append(dev_name.lower())
+
+                        codec_cfg = item["codec_cfg"]
+                        config_data["i2c_address"] = hex(codec_cfg["i2c_address"])
+                        config_data["in_port"] = codec_cfg["in_port"] 
+                        config_data["out_port"] = codec_cfg["out_port"]
+                        config_data["jack_pin"] = codec_cfg["jack_pin"] 
+                        config_data["pa_pin"] = codec_cfg["pa_pin"] 
+                        config_data["max_gain"] = codec_cfg["max_gain"] 
+
+                        config_data["i2s_device"] = item["i2s_device"] 
+                        config_data["i2c_device"] = item["i2c_device"]
+
+                        self.load_init_cfg(item, config_data)
+
+                        self.es8374_config_data = config_data
+                    
 
                     elif dev_name == "seg_lcd":
                         config_data = self.seg_lcd_config_data
@@ -819,14 +940,14 @@ class ConfigHelper:
                 self.set_devices_exist_in_config(exist_in_config)
 
         kconfig_default = 0
-        kconfig = {"wifi":kconfig_default, "uart":kconfig_default, "timer":kconfig_default, "iflash":kconfig_default, "eflash":kconfig_default, "crypto":kconfig_default, "crc":kconfig_default, "hash":kconfig_default, "rng":kconfig_default, "rsa":kconfig_default, "sdmmc":kconfig_default, "sdspi":kconfig_default, "tftlcd":kconfig_default, "nv3041a":kconfig_default, "st7735":kconfig_default, "gz035":kconfig_default, "sdio_slave":kconfig_default,"i2c":kconfig_default, "spim":kconfig_default, "touch_sensor":kconfig_default, "pwm":kconfig_default, "rtc":kconfig_default, "pmu":kconfig_default, "i2s":kconfig_default, "seg_lcd":kconfig_default, "adc":kconfig_default, "gpio":kconfig_default, "wdt":kconfig_default, "psram":kconfig_default}
+        kconfig = {"wifi":kconfig_default, "uart":kconfig_default, "timer":kconfig_default, "iflash":kconfig_default, "eflash":kconfig_default, "crypto":kconfig_default, "crc":kconfig_default, "hash":kconfig_default, "rng":kconfig_default, "rsa":kconfig_default, "sdmmc":kconfig_default, "sdspi":kconfig_default, "tftlcd":kconfig_default, "nv3041a":kconfig_default, "gc9a01":kconfig_default, "st7735":kconfig_default, "gz035":kconfig_default, "sdio_slave":kconfig_default, "hspi_slave":kconfig_default, "i2c":kconfig_default, "spim":kconfig_default, "spis":kconfig_default, "spim_soft":kconfig_default, "touch_sensor":kconfig_default, "touch_panel":kconfig_default, "xpt2046":kconfig_default, "ft6336":kconfig_default, "pwm":kconfig_default, "rtc":kconfig_default, "pmu":kconfig_default, "i2s":kconfig_default, "es8374":kconfig_default ,"seg_lcd":kconfig_default, "adc":kconfig_default, "gpio":kconfig_default, "wdt":kconfig_default, "psram":kconfig_default}
         self.set_devices_kconfig(kconfig)
         if (len(args) > 1 and len(args[1])):
             self.kconfig_file = args[1]
             chip_type = "W800"
             with open(self.kconfig_file, "r", encoding="utf-8") as file:
                 #kconfig_default = 0
-                #kconfig = {"wifi":kconfig_default, "uart":kconfig_default, "timer":kconfig_default, "iflash":kconfig_default, "eflash":kconfig_default, "crypto":kconfig_default, "crc":kconfig_default, "hash":kconfig_default, "rng":kconfig_default, "rsa":kconfig_default, "sdmmc":kconfig_default, "sdspi":kconfig_default, "tftlcd":kconfig_default, "nv3041a":kconfig_default, "st7735":kconfig_default, "gz035":kconfig_default, "sdio_slave":kconfig_default, "i2c":kconfig_default, "spim":kconfig_default, "touch_sensor":kconfig_default, "pwm":kconfig_default, "rtc":kconfig_default, "pmu":1, "i2s":kconfig_default, "seg_lcd":kconfig_default, "adc":kconfig_default, "gpio":kconfig_default, "wdt":kconfig_default, "psram":kconfig_default}
+                #kconfig = {"wifi":kconfig_default, "uart":kconfig_default, "timer":kconfig_default, "iflash":kconfig_default, "eflash":kconfig_default, "crypto":kconfig_default, "crc":kconfig_default, "hash":kconfig_default, "rng":kconfig_default, "rsa":kconfig_default, "sdmmc":kconfig_default, "sdspi":kconfig_default, "tftlcd":kconfig_default, "nv3041a":kconfig_default, "gc9a01":kconfig_default, "st7735":kconfig_default, "gz035":kconfig_default, "sdio_slave":kconfig_default, "hspi_slave":kconfig_default, "i2c":kconfig_default, "spim":kconfig_default, "touch_sensor":kconfig_default, "pwm":kconfig_default, "rtc":kconfig_default, "pmu":1, "i2s":kconfig_default, "seg_lcd":kconfig_default, "adc":kconfig_default, "gpio":kconfig_default, "wdt":kconfig_default, "psram":kconfig_default}
                 for line in file:
                     line = line.strip()
 
@@ -860,8 +981,14 @@ class ConfigHelper:
                         kconfig["sdspi"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED=y":
                         kconfig["sdio_slave"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED=y":
+                        kconfig["hspi_slave"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_SPIM_ENABLED=y":
                         kconfig["spim"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_SPIS_ENABLED=y":
+                        kconfig["spis"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED=y":
+                        kconfig["spim_soft"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_WDT_ENABLED=y":
                         kconfig["wdt"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED=y":
@@ -872,6 +999,8 @@ class ConfigHelper:
                         kconfig["gz035"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_LCD_NV3041A_SPI=y":
                         kconfig["nv3041a"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_LCD_GC9A01_SPI=y":
+                        kconfig["gc9a01"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_ADC_ENABLED=y":
                         kconfig["adc"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_CRC_ENABLED=y":
@@ -886,8 +1015,16 @@ class ConfigHelper:
                         kconfig["rsa"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_TOUCH_SENSOR_ENABLED=y":
                         kconfig["touch_sensor"] = 1
+                    elif line == "CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED=y":
+                        kconfig["touch_panel"] = 1
+                    elif line == "CONFIG_COMPONENT_XPT2046_DRIVER=y":
+                        kconfig["xpt2046"] = 1
+                    elif line == "CONFIG_COMPONENT_FT6336_DRIVER=y":
+                        kconfig["ft6336"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_I2S_ENABLED=y":
                         kconfig["i2s"] = 1
+                    elif line == "COMPONENT_DRIVER_CODEC_ES8374_ENABLED=y":
+                        kconfig["es8374"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_SEG_LCD_ENABLED=y":
                         kconfig["seg_lcd"] = 1
                     elif line == "CONFIG_COMPONENT_DRIVER_I2C_ENABLED=y":
@@ -924,9 +1061,13 @@ class ConfigHelper:
                 self.sdmmc_config_data["chip_type"] = chip_type
                 self.sdspi_config_data["chip_type"] = chip_type
                 self.sdio_slave_config_data["chip_type"] = chip_type
+                self.hspi_slave_config_data["chip_type"] = chip_type
                 self.spim_config_data["chip_type"] = chip_type
+                self.spis_config_data["chip_type"] = chip_type
+                self.spim_soft_config_data["chip_type"] = chip_type
                 self.wdt_config_data["chip_type"] = chip_type
                 self.nv3041a_config_data["chip_type"] = chip_type
+                self.gc9a01_config_data["chip_type"] = chip_type
                 self.st7735_config_data["chip_type"] = chip_type
                 self.gz035_config_data["chip_type"] = chip_type
                 self.adc_config_data["chip_type"] = chip_type
@@ -937,7 +1078,10 @@ class ConfigHelper:
                 self.rsa_config_data["chip_type"] = chip_type
                 self.touch_sensor_config_data["chip_type"] = chip_type
                 self.touch_button_config_data["chip_type"] = chip_type
+                self.xpt2046_config_data["chip_type"] = chip_type
+                self.ft6336_config_data["chip_type"] = chip_type
                 self.i2s_config_data["chip_type"] = chip_type
+                self.es8374_config_data["chip_type"] = chip_type
                 self.seg_lcd_config_data["chip_type"] = chip_type
                 self.i2c_config_data["chip_type"] = chip_type
                 self.eeprom0_config_data["chip_type"] = chip_type
@@ -972,9 +1116,13 @@ class ConfigHelper:
         self.sdmmc_config_data["kconfig"] = kconfig
         self.sdspi_config_data["kconfig"] = kconfig
         self.sdio_slave_config_data["kconfig"] = kconfig
+        self.hspi_slave_config_data["kconfig"] = kconfig
         self.spim_config_data["kconfig"] = kconfig
+        self.spis_config_data["kconfig"] = kconfig
+        self.spim_soft_config_data["kconfig"] = kconfig
         self.wdt_config_data["kconfig"] = kconfig
         self.nv3041a_config_data["kconfig"] = kconfig
+        self.gc9a01_config_data["kconfig"] = kconfig
         self.st7735_config_data["kconfig"] = kconfig
         self.gz035_config_data["kconfig"] = kconfig
         self.adc_config_data["kconfig"] = kconfig
@@ -985,7 +1133,10 @@ class ConfigHelper:
         self.rsa_config_data["kconfig"] = kconfig
         self.touch_sensor_config_data["kconfig"] = kconfig
         self.touch_button_config_data["kconfig"] = kconfig
+        self.xpt2046_config_data["kconfig"] = kconfig
+        self.ft6336_config_data["kconfig"] = kconfig
         self.i2s_config_data["kconfig"] = kconfig
+        self.es8374_config_data["kconfig"] = kconfig
         self.seg_lcd_config_data["kconfig"] = kconfig
         self.i2c_config_data["kconfig"] = kconfig
         self.eeprom0_config_data["kconfig"] = kconfig
@@ -1018,9 +1169,13 @@ class ConfigHelper:
         self.sdmmc_config_data["exist_in_config"] = exist_in_config
         self.sdspi_config_data["exist_in_config"] = exist_in_config
         self.sdio_slave_config_data["exist_in_config"] = exist_in_config
+        self.hspi_slave_config_data["exist_in_config"] = exist_in_config
         self.spim_config_data["exist_in_config"] = exist_in_config
+        self.spis_config_data["exist_in_config"] = exist_in_config
+        self.spim_soft_config_data["exist_in_config"] = exist_in_config
         self.wdt_config_data["exist_in_config"] = exist_in_config
         self.nv3041a_config_data["exist_in_config"] = exist_in_config
+        self.gc9a01_config_data["exist_in_config"] = exist_in_config
         self.st7735_config_data["exist_in_config"] = exist_in_config
         self.gz035_config_data["exist_in_config"] = exist_in_config
         self.adc_config_data["exist_in_config"] = exist_in_config
@@ -1031,7 +1186,10 @@ class ConfigHelper:
         self.rsa_config_data["exist_in_config"] = exist_in_config
         self.touch_sensor_config_data["exist_in_config"] = exist_in_config
         self.touch_button_config_data["exist_in_config"] = exist_in_config
+        self.xpt2046_config_data["exist_in_config"] = exist_in_config
+        self.ft6336_config_data["exist_in_config"] = exist_in_config
         self.i2s_config_data["exist_in_config"] = exist_in_config
+        self.es8374_config_data["exist_in_config"] = exist_in_config
         self.seg_lcd_config_data["exist_in_config"] = exist_in_config
         self.i2c_config_data["exist_in_config"] = exist_in_config
         self.eeprom0_config_data["exist_in_config"] = exist_in_config
@@ -1131,12 +1289,21 @@ class ConfigHelper:
                 self.pinmux["pinmux"][item["pin_lcd_reset"]][dev_name] = "GPIO"
                 self.pinmux["pinmux"][item["pin_lcd_dcx"]][dev_name] = "GPIO"
                 self.pinmux["pinmux"][item["pin_lcd_led"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_te"]][dev_name] = "GPIO"
+
+            elif dev_name == "gc9a01_spi" and kconfig["gc9a01"]:
+                self.pinmux["pinmux"][item["spi_cfg"]["pin_cs"]["pin_num"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_reset"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_dcx"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_led"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_te"]][dev_name] = "GPIO"
 
             elif dev_name == "st7735_spi" and kconfig["st7735"]:
                 self.pinmux["pinmux"][item["spi_cfg"]["pin_cs"]["pin_num"]][dev_name] = "GPIO"
                 self.pinmux["pinmux"][item["pin_lcd_reset"]][dev_name] = "GPIO"
                 self.pinmux["pinmux"][item["pin_lcd_dcx"]][dev_name] = "GPIO"
                 self.pinmux["pinmux"][item["pin_lcd_led"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["pin_lcd_te"]][dev_name] = "GPIO"
 
             elif dev_name == "gz035_spi" and kconfig["gz035"]:
                 self.pinmux["pinmux"][item["spi_cfg"]["pin_cs"]["pin_num"]][dev_name] = "GPIO"
@@ -1153,6 +1320,20 @@ class ConfigHelper:
                 self.pinmux["pinmux"][item["pin_cfg"][4]["pin"]][dev_name] = "MMC_DAT2"
                 self.pinmux["pinmux"][item["pin_cfg"][5]["pin"]][dev_name] = "MMC_DAT3"
 
+            elif dev_name == "hspi_slave" and kconfig["hspi_slave"]:
+                self.pinmux["pinmux"][item["pin_cfg"][0]["pin"]][dev_name] = "HSPI_CLK"
+                self.pinmux["pinmux"][item["pin_cfg"][1]["pin"]][dev_name] = "HSPI_INT"
+                self.pinmux["pinmux"][item["pin_cfg"][2]["pin"]][dev_name] = "HSPI_CS"
+                self.pinmux["pinmux"][item["pin_cfg"][3]["pin"]][dev_name] = "HSPI_MOSI"
+                self.pinmux["pinmux"][item["pin_cfg"][4]["pin"]][dev_name] = "HSPI_MISO"
+
+            elif dev_name == "xpt2046" and kconfig["xpt2046"]:
+                self.pinmux["pinmux"][item["spi_cfg"]["pin_cs"]["pin"]][dev_name] = "GPIO"
+                self.pinmux["pinmux"][item["irq_cfg"]["pin"]][dev_name] = "GPIO"
+
+            elif dev_name == "ft6336" and kconfig["ft6336"]:
+                self.pinmux["pinmux"][item["reset_cfg"]["pin"]][dev_name] = "GPIO"
+
             elif dev_name == "i2c" and kconfig["i2c"]:
                 self.pinmux["pinmux"][item["pin_cfg"][0]["pin"]][dev_name] = "I2C_SCL"
                 self.pinmux["pinmux"][item["pin_cfg"][1]["pin"]][dev_name] = "I2C_SDA"
@@ -1166,6 +1347,17 @@ class ConfigHelper:
                     self.pinmux["pinmux"][item["pin_cfg"]["pin"]][dev_name] = "GPIO"
 
             elif dev_name == "spim" and kconfig["spim"]:
+                self.pinmux["pinmux"][item["pin_cfg"][0]["pin"]][dev_name] = "LSPI_CK"
+                self.pinmux["pinmux"][item["pin_cfg"][1]["pin"]][dev_name] = "LSPI_MISO"
+                self.pinmux["pinmux"][item["pin_cfg"][2]["pin"]][dev_name] = "LSPI_MOSI"
+
+            elif dev_name == "spis" and kconfig["spis"]:
+                self.pinmux["pinmux"][item["pin_cfg"][0]["pin"]][dev_name] = "LSPI_CK"
+                self.pinmux["pinmux"][item["pin_cfg"][1]["pin"]][dev_name] = "LSPI_MISO"
+                self.pinmux["pinmux"][item["pin_cfg"][2]["pin"]][dev_name] = "LSPI_MOSI"
+                self.pinmux["pinmux"][item["pin_cfg"][3]["pin"]][dev_name] = "LSPI_CS"
+
+            elif dev_name == "spim_soft" and kconfig["spim_soft"]:
                 self.pinmux["pinmux"][item["pin_cfg"][0]["pin"]][dev_name] = "LSPI_CK"
                 self.pinmux["pinmux"][item["pin_cfg"][1]["pin"]][dev_name] = "LSPI_MISO"
                 self.pinmux["pinmux"][item["pin_cfg"][2]["pin"]][dev_name] = "LSPI_MOSI"
@@ -1208,7 +1400,6 @@ class ConfigHelper:
                     self.pinmux["pinmux"][self.i2s_config_data["dipinnum"]][dev_name] = "I2S_DI"
                 if self.i2s_config_data["enable_do"]:
                     self.pinmux["pinmux"][self.i2s_config_data["dopinnum"]][dev_name] = "I2S_DO"
-
             elif dev_name == "adc" and kconfig["adc"]:
                 config_data = self.adc_config_data
 
@@ -1306,7 +1497,7 @@ class ConfigHelper:
             return self.timer5_config_data
 
     def get_iflash_config(self, dev_name):
-        if dev_name == 'Internal_flash':
+        if dev_name == 'iflash':
             return self.iflash_config_data
 
     def get_eflash_w25q_config(self, dev_name):
@@ -1355,20 +1546,28 @@ class ConfigHelper:
             return self.sdspi_config_data
 
     def get_nv3041a_config(self, dev_name):
-        if dev_name == 'NV3041A':
+        if dev_name == 'nv3041a_spi':
             return self.nv3041a_config_data
 
+    def get_gc9a01_config(self, dev_name):
+        if dev_name == 'gc9a01_spi':
+            return self.gc9a01_config_data
+
     def get_st7735_config(self, dev_name):
-        if dev_name == 'ST7735':
+        if dev_name == 'st7735_spi':
             return self.st7735_config_data
 
     def get_gz035_config(self, dev_name):
-        if dev_name == 'GZ035':
+        if dev_name == 'gz035_spi':
             return self.gz035_config_data
 
     def get_sdio_slave_config(self, dev_name):
         if dev_name == 'SDIO_Slave':
             return self.sdio_slave_config_data
+
+    def get_hspi_slave_config(self, dev_name):
+        if dev_name == 'HSPI_Slave':
+            return self.hspi_slave_config_data
 
     def get_i2c_config(self, dev_name):
         if dev_name == 'I2C':
@@ -1383,8 +1582,16 @@ class ConfigHelper:
             return self.eeprom1_config_data
 
     def get_spim_config(self, dev_name):
-        if dev_name == 'SPI_Master':
+        if dev_name == 'spim':
             return self.spim_config_data
+
+    def get_spis_config(self, dev_name):
+        if dev_name == 'spis':
+            return self.spis_config_data
+
+    def get_spim_soft_config(self, dev_name):
+        if dev_name == 'spim_soft':
+            return self.spim_soft_config_data
 
     def get_touch_sensor_config(self, dev_name):
         if dev_name == 'Touch_Sensor':
@@ -1393,6 +1600,14 @@ class ConfigHelper:
     def get_touch_button_config(self, dev_name):
         if dev_name == 'Touch_Button':
             return self.touch_button_config_data
+
+    def get_xpt2046_config(self, dev_name):
+        if dev_name == 'XPT2046':
+            return self.xpt2046_config_data
+
+    def get_ft6336_config(self, dev_name):
+        if dev_name == 'FT6336':
+            return self.ft6336_config_data
 
     def get_pwm_config(self, dev_name):
         if dev_name == 'PWM':
@@ -1409,6 +1624,10 @@ class ConfigHelper:
     def get_i2s_config(self, dev_name):
         if dev_name == 'I2S':
             return self.i2s_config_data
+    
+    def get_es8374_config(self, dev_name):
+        if dev_name == 'ES8374':
+            return self.es8374_config_data
 
     def get_seg_lcd_config(self, dev_name):
         if dev_name == 'SEG_LCD':
@@ -1523,6 +1742,8 @@ class ConfigHelper:
                         else:
                             item["pin_cfg"][2]["pin"] = config_data["pinrts"]
                             item["pin_cfg"][2]["fun"] = rts_pin_func[rts_pin_num.index(config_data["pinrts"])]
+                        if len(item["pin_cfg"]) > 3:
+                            item["pin_cfg"].pop()
                 elif config_data["flowctrl"] == 2:
                     item["uart_cfg"]["flow_ctrl"] = "cts"
                     if len(item["pin_cfg"]) < 3:
@@ -1541,6 +1762,8 @@ class ConfigHelper:
                         else:
                             item["pin_cfg"][2]["pin"] = config_data["pincts"]
                             item["pin_cfg"][2]["fun"] = cts_pin_func[cts_pin_num.index(config_data["pincts"])]
+                        if len(item["pin_cfg"]) > 3:
+                            item["pin_cfg"].pop()
                 elif config_data["flowctrl"] == 3:
                     item["uart_cfg"]["flow_ctrl"] = "rts_cts"
                     if len(item["pin_cfg"]) < 3:
@@ -1647,7 +1870,7 @@ class ConfigHelper:
                 break
 
     def set_iflash_config(self, data):
-        if data['dev_name'] == 'Internal_flash':
+        if data['dev_name'] == 'iflash':
             self.iflash_config_data = data
 
         if not hasattr(self, 'config'):
@@ -1930,7 +2153,7 @@ class ConfigHelper:
                 break
 
     def set_nv3041a_config(self, data):
-        if data['dev_name'] == 'NV3041A':
+        if data['dev_name'] == 'nv3041a_spi':
             self.nv3041a_config_data = data
 
         if not hasattr(self, 'config'):
@@ -1948,13 +2171,41 @@ class ConfigHelper:
                 item["pin_lcd_reset"] = config_data['resetpinnum']
                 item["pin_lcd_dcx"] = config_data['dcxpinnum']
                 item["pin_lcd_led"] = config_data['ledpinnum']
+                if config_data['tepinnum'] != -1:
+                    item["pin_lcd_te"] = config_data['tepinnum']
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_gc9a01_config(self, data):
+        if data['dev_name'] == 'gc9a01_spi':
+            self.gc9a01_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "gc9a01_spi":
+                config_data = self.gc9a01_config_data
+                item["spi_cfg"]["mode"] = config_data['mode']
+                item["spi_cfg"]["freq"] = config_data['freq']
+                item["spi_cfg"]["pin_cs"]["pin_num"] = config_data['cspinnum']
+                item["spi_cfg"]["pin_cs"]["pin_mux"] = "fun5"
+                item["spi_cfg"]["pin_cs"]["dir"] = "output"
+                item["spi_cfg"]["pin_cs"]["pupd"] = "float"
+                item["pin_lcd_reset"] = config_data['resetpinnum']
+                item["pin_lcd_dcx"] = config_data['dcxpinnum']
+                item["pin_lcd_led"] = config_data['ledpinnum']
+                if config_data['tepinnum'] != -1:
+                    item["pin_lcd_te"] = config_data['tepinnum']
                 self.update_init_cfg(config_data, item)
 
                 self.update_config_file()
                 break
 
     def set_st7735_config(self, data):
-        if data['dev_name'] == 'ST7735':
+        if data['dev_name'] == 'st7735_spi':
             self.st7735_config_data = data
 
         if not hasattr(self, 'config'):
@@ -1972,13 +2223,15 @@ class ConfigHelper:
                 item["pin_lcd_reset"] = config_data['resetpinnum']
                 item["pin_lcd_dcx"] = config_data['dcxpinnum']
                 item["pin_lcd_led"] = config_data['ledpinnum']
+                if config_data['tepinnum'] != -1:
+                    item["pin_lcd_te"] = config_data['tepinnum']
                 self.update_init_cfg(config_data, item)
 
                 self.update_config_file()
                 break
 
     def set_gz035_config(self, data):
-        if data['dev_name'] == 'GZ035':
+        if data['dev_name'] == 'gz035_spi':
             self.gz035_config_data = data
 
         if not hasattr(self, 'config'):
@@ -2043,6 +2296,104 @@ class ConfigHelper:
                     item["pin_cfg"][5]["fun"] = "fun1"
                 else:
                     item["pin_cfg"][5]["fun"] = "fun2"
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_hspi_slave_config(self, data):
+        if data['dev_name'] == 'HSPI_Slave':
+            self.hspi_slave_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "hspi_slave":
+                config_data = self.hspi_slave_config_data
+                item["pin_cfg"][0]["pin"] = config_data['clkpinnum']
+                if config_data['clkpinnum'] == 22:
+                    item["pin_cfg"][0]["fun"] = "fun3"
+                elif config_data['clkpinnum'] == 28:
+                    item["pin_cfg"][0]["fun"] = "fun1"
+                else:
+                    item["pin_cfg"][0]["fun"] = "fun1"
+                item["pin_cfg"][1]["pin"] = config_data['intpinnum']
+                if config_data['intpinnum'] == 23:
+                    item["pin_cfg"][1]["fun"] = "fun3"
+                elif config_data['intpinnum'] == 29:
+                    item["pin_cfg"][1]["fun"] = "fun1"
+                else:
+                    item["pin_cfg"][1]["fun"] = "fun1"
+                item["pin_cfg"][2]["pin"] = config_data['cspinnum']
+                if config_data['cspinnum'] == 25:
+                    item["pin_cfg"][2]["fun"] = "fun3"
+                elif config_data['cspinnum'] == 30:
+                    item["pin_cfg"][2]["fun"] = "fun1"
+                else:
+                    item["pin_cfg"][2]["fun"] = "fun1"
+                item["pin_cfg"][3]["pin"] = config_data['mosipinnum']
+                if config_data['mosipinnum'] == 26:
+                    item["pin_cfg"][3]["fun"] = "fun3"
+                elif config_data['mosipinnum'] == 31:
+                    item["pin_cfg"][3]["fun"] = "fun1"
+                else:
+                    item["pin_cfg"][3]["fun"] = "fun1"
+                item["pin_cfg"][4]["pin"] = config_data['misopinnum']
+                if config_data['misopinnum'] == 27:
+                    item["pin_cfg"][4]["fun"] = "fun3"
+                elif config_data['misopinnum'] == 32:
+                    item["pin_cfg"][4]["fun"] = "fun1"
+                else:
+                    item["pin_cfg"][4]["fun"] = "fun1"
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_xpt2046_config(self, data):
+        if data['dev_name'] == 'XPT2046':
+            self.xpt2046_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "xpt2046":
+                config_data = self.xpt2046_config_data
+                item["if_dev_name"] = config_data["ifdevname"]
+                item["mirror_image"] = config_data["image"]
+                item["width"] = config_data["width"]
+                item["height"] = config_data["height"]
+                item["spi_cfg"]["mode"] = config_data['mode']
+                item["spi_cfg"]["freq"] = config_data['freq']
+                item["spi_cfg"]["pin_cs"]["pin"] = config_data['cspinnum']
+                item["spi_cfg"]["pin_cs"]["fun"] = "fun5"
+                item["spi_cfg"]["pin_cs"]["dir"] = "output"
+                item["spi_cfg"]["pin_cs"]["pupd"] = "float"
+                item["irq_cfg"]["pin"] = config_data['irqpinnum']
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_ft6336_config(self, data):
+        if data['dev_name'] == 'FT6336':
+            self.ft6336_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "ft6336":
+                config_data = self.ft6336_config_data
+                item["if_dev_name"] = config_data["ifdevname"]
+                item["mirror_image"] = config_data["image"]
+                item["width"] = config_data["width"]
+                item["height"] = config_data["height"]
+                item["reset_cfg"]["pin"] = config_data['resetpinnum']
+                item["i2c_cfg"]["max_clock"] = config_data["maxclock"]
+                item["i2c_cfg"]["addr_10_bits"] = config_data["addr10bits"]
                 self.update_init_cfg(config_data, item)
 
                 self.update_config_file()
@@ -2161,7 +2512,7 @@ class ConfigHelper:
                 break
 
     def set_spim_config(self, data):
-        if data['dev_name'] == 'SPI_Master':
+        if data['dev_name'] == 'spim':
             self.spim_config_data = data
 
         if not hasattr(self, 'config'):
@@ -2197,6 +2548,84 @@ class ConfigHelper:
                     item["pin_cfg"][2]["fun"] = "fun3"
                 else:#42
                     item["pin_cfg"][2]["fun"] = "fun1"
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_spis_config(self, data):
+        if data['dev_name'] == 'spis':
+            self.spis_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "spis":
+                config_data = self.spis_config_data
+                item["pin_cfg"][0]["pin"] = config_data['clkpinnum']
+                if config_data['clkpinnum'] == 17:
+                    item["pin_cfg"][0]["fun"] = "fun2"
+                elif config_data['clkpinnum'] == 18:
+                    item["pin_cfg"][0]["fun"] = "fun2"
+                elif config_data['clkpinnum'] == 31:
+                    item["pin_cfg"][0]["fun"] = "fun3"
+                else:#40
+                    item["pin_cfg"][0]["fun"] = "fun1"
+
+                item["pin_cfg"][1]["pin"] = config_data['dipinnum']
+                if config_data['dipinnum'] == 16:
+                    item["pin_cfg"][1]["fun"] = "fun2"
+                elif config_data['dipinnum'] == 19:
+                    item["pin_cfg"][1]["fun"] = "fun2"
+                elif config_data['dipinnum'] == 32:
+                    item["pin_cfg"][1]["fun"] = "fun3"
+                else:#41
+                    item["pin_cfg"][1]["fun"] = "fun1"
+
+                item["pin_cfg"][2]["pin"] = config_data['dopinnum']
+                if config_data['dopinnum'] == 7:
+                    item["pin_cfg"][2]["fun"] = "fun2"
+                elif config_data['dopinnum'] == 21:
+                    item["pin_cfg"][2]["fun"] = "fun1"
+                elif config_data['dopinnum'] == 33:
+                    item["pin_cfg"][2]["fun"] = "fun3"
+                else:#42
+                    item["pin_cfg"][2]["fun"] = "fun1"
+
+                item["pin_cfg"][3]["pin"] = config_data['cspinnum']
+                if config_data['cspinnum'] == 19:
+                    item["pin_cfg"][3]["fun"] = "fun3"
+                elif config_data['cspinnum'] == 20:
+                    item["pin_cfg"][3]["fun"] = "fun1"
+                elif config_data['cspinnum'] == 22:
+                    item["pin_cfg"][3]["fun"] = "fun2"
+                else:#43
+                    item["pin_cfg"][3]["fun"] = "fun3"
+
+                self.update_init_cfg(config_data, item)
+
+                self.update_config_file()
+                break
+
+    def set_spim_soft_config(self, data):
+        if data['dev_name'] == 'spim_soft':
+            self.spim_soft_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "spim_soft":
+                config_data = self.spim_soft_config_data
+                item["pin_cfg"][0]["pin"] = config_data['clkpinnum']
+                item["pin_cfg"][0]["fun"] = "fun5"
+
+                item["pin_cfg"][1]["pin"] = config_data['dipinnum']
+                item["pin_cfg"][1]["fun"] = "fun5"
+
+                item["pin_cfg"][2]["pin"] = config_data['dopinnum']
+                item["pin_cfg"][2]["fun"] = "fun5"
                 self.update_init_cfg(config_data, item)
 
                 self.update_config_file()
@@ -2392,6 +2821,43 @@ class ConfigHelper:
 
                 self.update_config_file()
                 break
+
+    def set_es8374_config(self, data):
+        if data['dev_name'] == 'ES8374':
+            self.es8374_config_data = data
+
+        if not hasattr(self, 'config'):
+            return
+
+        for item in self.config["dev"]:
+            if item["dev_name"] == "es8374":
+                config_data = self.es8374_config_data
+
+                if "codec_cfg" not in item:
+                    item["codec_cfg"] = {}
+
+                i2c_addr = config_data["i2c_address"]
+                if isinstance(i2c_addr, str):
+                    if i2c_addr.startswith("0x") or i2c_addr.startswith("0X"):
+                        item["codec_cfg"]["i2c_address"] = int(i2c_addr, 16)
+                    else:
+                        item["codec_cfg"]["i2c_address"] = int(i2c_addr)
+                else:
+                    item["codec_cfg"]["i2c_address"] = i2c_addr
+
+                item["codec_cfg"]["in_port"] = config_data["in_port"]
+                item["codec_cfg"]["out_port"] = config_data["out_port"]
+                item["codec_cfg"]["jack_pin"] = config_data["jack_pin"]
+                item["codec_cfg"]["pa_pin"] = config_data["pa_pin"]
+                item["codec_cfg"]["max_gain"] = config_data["max_gain"]
+
+                item["i2s_device"] = config_data["i2s_device"]
+                item["i2c_device"] = config_data["i2c_device"]
+
+                self.update_init_cfg(config_data, item)
+                self.update_config_file()
+                break
+
 
     def set_seg_lcd_config(self, data):
         if data['dev_name'] == 'SEG_LCD':

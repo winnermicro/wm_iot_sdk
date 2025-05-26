@@ -2,6 +2,7 @@ list(APPEND ADD_INCLUDE "include"
                         "include/touch_sensor"
                         "include/display/seg_lcd"
                         "include/display/tft_lcd"
+                        "include/touch_panel"
                         "include/codec/i2s"
                         "include/eeprom"
                         )
@@ -51,12 +52,24 @@ if(${CONFIG_COMPONENT_DRIVER_SDSPI_ENABLED})
                          )
 endif()
 
+if(${CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED})
+list(APPEND ADD_SRCS "src/wm_drv_touch_panel.c")
+if(${CONFIG_COMPONENT_FT6336_DRIVER})
+list(APPEND ADD_SRCS "src/touch_panel/wm_drv_ops_ft6336.c")
+endif()
+if(${CONFIG_COMPONENT_XPT2046_DRIVER})
+list(APPEND ADD_SRCS "src/touch_panel/wm_drv_ops_xpt2046.c")
+endif()
+list(APPEND ADD_SRCS "src/touch_panel/wm_drv_ops_touch_panel_cal.c")
+endif()
+
 if(${CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED})
     list(APPEND ADD_SRCS "src/wm_drv_tft_lcd.c"
                          "src/display/tft_lcd/wm_drv_ops_tft_lcd_spi.c"
                          "src/display/tft_lcd/wm_drv_ops_tft_lcd_nv3041a_spi.c"
                          "src/display/tft_lcd/wm_drv_ops_tft_lcd_st7735_spi.c"
                          "src/display/tft_lcd/wm_drv_ops_tft_lcd_gz035_spi.c"
+                         "src/display/tft_lcd/wm_drv_ops_tft_lcd_gc9a01_spi.c"
                          )
 endif()
 
@@ -92,6 +105,8 @@ endif()
 
 if(${CONFIG_COMPONENT_DRIVER_I2C_ENABLED})
     list(APPEND ADD_SRCS "src/wm_drv_i2c.c"
+                         "src/ops/${CONFIG_CHIP_FAMILY_NAME}/wm_drv_ops_i2c.c"
+                         "src/ops/${CONFIG_CHIP_FAMILY_NAME}/wm_drv_ops_i2c_soft.c"
                          "src/eeprom/wm_drv_eeprom.c"
                          "src/eeprom/wm_drv_eeprom_nv24c0x.c"
                          )
@@ -102,8 +117,23 @@ if(${CONFIG_COMPONENT_DRIVER_PSRAM_ENABLED})
                          )
 endif()
 
-if(${CONFIG_COMPONENT_DRIVER_SPIM_ENABLED})
+if(CONFIG_COMPONENT_DRIVER_SPIM_ENABLED OR CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED)
     list(APPEND ADD_SRCS "src/wm_drv_spi_master.c"
+                         )
+endif()
+
+if(${CONFIG_COMPONENT_DRIVER_SPIS_ENABLED})
+    list(APPEND ADD_SRCS "src/wm_drv_spi_slave.c"
+                         )
+endif()
+
+if(CONFIG_COMPONENT_DRIVER_SPIM_ENABLED OR CONFIG_COMPONENT_DRIVER_SPIS_ENABLED)
+    list(APPEND ADD_SRCS "src/ops/${CONFIG_CHIP_FAMILY_NAME}/wm_drv_ops_spi_master.c"
+                         )
+endif()
+
+if(${CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED})
+    list(APPEND ADD_SRCS "src/ops/${CONFIG_CHIP_FAMILY_NAME}/wm_drv_ops_spi_master_soft.c"
                          )
 endif()
 
@@ -156,6 +186,11 @@ endif()
 
 if(${CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED})
     list(APPEND ADD_SRCS "src/wm_drv_sdio_slave.c"
+                         )
+endif()
+
+if(${CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED})
+    list(APPEND ADD_SRCS "src/wm_drv_hspi_slave.c"
                          )
 endif()
 

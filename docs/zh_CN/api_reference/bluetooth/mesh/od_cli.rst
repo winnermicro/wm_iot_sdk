@@ -13,15 +13,25 @@
 如果存在，则必须仅在主元素上实例化按需专用代理客户端模型。
 
 配置
-**************
+===============
 
 可以使用传输超时选项 ``CONFIG_BT_MESH_OD_PRIV_Proxy_CLI_timeout`` 配置按需专用代理客户端模型行为。
 ``CONFIG_BT_MESH_OD_PRIV_PROXY_CLI_TIMEOUT`` 控制客户端等待状态响应消息到达的时间（以毫秒为单位）。
 可以使用 :c:func:`bt_mesh_od_priv_proxy_cli_timeout_set` 在运行时更改该值。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/od_priv_proxy_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/od_priv_proxy_cli.h"
 
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_od_priv_proxy_cli
    :project: wm-iot-sdk-apis

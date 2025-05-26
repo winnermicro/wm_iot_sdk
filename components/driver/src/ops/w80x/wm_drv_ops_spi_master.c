@@ -30,6 +30,7 @@
 #include "wm_drv_rcc.h"
 #include "wm_drv_dma.h"
 #include "wm_drv_spi_master.h"
+#include "wm_drv_ops_spi_master.h"
 
 #define LOG_TAG "drv_spi"
 #include "wm_log.h"
@@ -37,35 +38,6 @@
 #define WM_DRV_SPI_MUTEX_TIMEOUT       1000
 #define WM_SPIM_TRX_WITH_DMA_THRESHOLD 20
 #define WM_SPIM_MAX_WAIT_TIME          8 // max 65535 bit / (10000Hz) = 6.535s, max time wait hal tx/rx done
-
-typedef struct {
-    bool is_init;
-    wm_os_mutex_t *lock;
-    wm_device_t *rcc_dev;
-    wm_device_t *dma_dev;
-    wm_hal_spim_dev_t hal_dev;
-    wm_os_sem_t *sync_async_sem; //use to notice async done
-    void *priv;
-} wm_drv_spim_ctx_t;
-
-typedef struct {
-    wm_spim_callback_t callback;
-    void *usr_callback_data;
-    bool trx_with_dma;
-    wm_dt_hw_spim_dev_cfg_t config;
-    bool xfer_continue;
-    wm_os_sem_t *xfer_sem; //use to transceive tx/rx length over hw capibilty in one time
-    uint8_t transceive_flag;
-} spim_drv_priv_t;
-
-typedef struct {
-    int (*init)(wm_device_t *dev);
-    int (*deinit)(wm_device_t *dev);
-    int (*transceive_sync)(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *config, spim_transceive_t *desc,
-                           uint32_t ms_to_wait);
-    int (*transceive_async)(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *config, spim_transceive_t *desc,
-                            wm_spim_callback_t callback, void *usr_data);
-} wm_drv_spim_ops_t;
 
 static int wm_drv_spim_pin_config(wm_dt_hw_pin_cfg_t *pin_cfg, int count)
 {
@@ -94,14 +66,16 @@ static void wm_drv_spim_update_config(wm_device_t *dev, const wm_dt_hw_spim_dev_
     assert(config != NULL);
     assert(spim_drv->rcc_dev != NULL);
 
-    //set SPI clock, if user not set clock, use default clock
-    freq = config->freq;
-    if (!config->freq) {
-        freq = WM_SPIM_DEFAULT_CLOCK;
+    if (strcmp(dev->name, "spim") == 0) {
+        //set SPI clock, if user not set clock, use default clock
+        freq = config->freq;
+        if (!config->freq) {
+            freq = WM_SPIM_DEFAULT_CLOCK;
+        }
+        apb_clk = wm_drv_rcc_get_config_clock(spim_drv->rcc_dev, WM_RCC_TYPE_WLAN) / 4;
+        divider = (apb_clk * 1000000) / (freq * 2) - 1;
+        wm_hal_spim_set_cmds(spim_hal_dev, SPIM_CMD_FREQ, divider);
     }
-    apb_clk = wm_drv_rcc_get_config_clock(spim_drv->rcc_dev, WM_RCC_TYPE_WLAN) / 4;
-    divider = (apb_clk * 1000000) / (freq * 2) - 1;
-    wm_hal_spim_set_cmds(spim_hal_dev, SPIM_CMD_FREQ, divider);
 
     //set SPI mode
     wm_hal_spim_set_cmds(spim_hal_dev, SPIM_CMD_MODE, config->mode);
@@ -164,6 +138,7 @@ int w800_spim_init(wm_device_t *dev)
 
         spim_config.cs_control_by_sw = 1; //always contrl by SW
         spim_config.cs_active        = 0; //CS pin LOW is vavlid
+        spim_hal->role               = (strstr(dev->name, "spim") != NULL) ? SPI_ROLE_MASTER : SPI_ROLE_SLAVE;
         spim_hal->irq_no             = hw->irq_cfg.irq_num;
         spim_hal->register_base      = hw->reg_base;
         ret                          = wm_hal_spim_init(spim_hal, &spim_config);
@@ -249,7 +224,7 @@ static int spim_transceive_check_arg(wm_device_t *dev, const wm_dt_hw_spim_dev_c
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (!desc->rx_buf && !desc->tx_buf && !desc->flags & !(((spim_transceive_ex_t *)desc)->cmd_len)) {
+    if (!desc->rx_buf && !desc->tx_buf && !desc->flags && !(((spim_transceive_ex_t *)desc)->cmd_len)) {
         wm_log_error("both tx buf and rx buf and cmd are null\n");
         return WM_ERR_INVALID_PARAM;
     }
@@ -351,14 +326,16 @@ int w800_spim_transceive_sync(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *c
     ret = wm_os_internal_sem_acquire(spim_drv->sync_async_sem, HZ * WM_SPIM_MAX_WAIT_TIME);
     if (ret != WM_OS_STATUS_SUCCESS) {
         wm_log_error("wait sync_async_sem timeout\n");
-        return WM_ERR_TIMEOUT;
+        ret = WM_ERR_TIMEOUT;
+        goto exit;
     }
 
     //step2 check whether use DMA
     if ((desc->tx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->rx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
         (desc->tx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->tx_len != 0 && desc->rx_len > WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
         (desc->rx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->rx_len != 0 && desc->tx_len > WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
-        ((uint32_t)(desc->tx_buf) % 4) || ((uint32_t)(desc->rx_buf) % 4) || !spim_drv->dma_dev) {
+        ((uint32_t)(desc->tx_buf) % 4) || ((uint32_t)(desc->rx_buf) % 4) || (desc->tx_len % 4) || (desc->rx_len % 4) ||
+        !spim_drv->dma_dev) {
         use_dma = false;
     }
     if (desc->flags & SPI_TRANS_DUMMY_BITS) {
@@ -404,16 +381,16 @@ int w800_spim_transceive_sync(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *c
         if (use_dma) {
             wm_hal_spim_register_xfer_done_callback(spim_hal, NULL, NULL);
             while (remain_tx_len || remain_rx_len) {
-                if (remain_tx_len > WM_SPI_MAX_TXRX_LEN) {
-                    cur_tx_len = WM_SPI_MAX_TXRX_LEN;
-                    remain_tx_len -= WM_SPI_MAX_TXRX_LEN;
+                if (remain_tx_len > WM_SPI_MAX_DMA_TXRX_LEN) {
+                    cur_tx_len = WM_SPI_MAX_DMA_TXRX_LEN;
+                    remain_tx_len -= WM_SPI_MAX_DMA_TXRX_LEN;
                 } else {
                     cur_tx_len    = remain_tx_len;
                     remain_tx_len = 0;
                 }
-                if (remain_rx_len > WM_SPI_MAX_TXRX_LEN) {
-                    cur_rx_len = WM_SPI_MAX_TXRX_LEN;
-                    remain_rx_len -= WM_SPI_MAX_TXRX_LEN;
+                if (remain_rx_len > WM_SPI_MAX_DMA_TXRX_LEN) {
+                    cur_rx_len = WM_SPI_MAX_DMA_TXRX_LEN;
+                    remain_rx_len -= WM_SPI_MAX_DMA_TXRX_LEN;
                 } else {
                     cur_rx_len    = remain_rx_len;
                     remain_rx_len = 0;
@@ -448,6 +425,7 @@ int w800_spim_transceive_sync(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *c
     }
 
     wm_os_internal_sem_release(spim_drv->sync_async_sem);
+exit:
     wm_os_internal_mutex_release(spim_drv->lock);
 
     return ret;
@@ -533,7 +511,8 @@ int w800_spim_transceive_async(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *
     ret = wm_os_internal_sem_acquire(spim_drv->sync_async_sem, HZ * WM_SPIM_MAX_WAIT_TIME);
     if (ret != WM_OS_STATUS_SUCCESS) {
         wm_log_error("wait sync_async_sem timeout\n");
-        return WM_ERR_TIMEOUT;
+        ret = WM_ERR_TIMEOUT;
+        goto exit;
     }
 
     drv_priv->callback          = callback;
@@ -550,7 +529,8 @@ int w800_spim_transceive_async(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *
     if ((desc->tx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->rx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
         (desc->tx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->tx_len != 0 && desc->rx_len > WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
         (desc->rx_len < WM_SPIM_TRX_WITH_DMA_THRESHOLD && desc->rx_len != 0 && desc->tx_len > WM_SPIM_TRX_WITH_DMA_THRESHOLD) ||
-        ((uint32_t)(desc->tx_buf) % 4) || ((uint32_t)(desc->rx_buf) % 4) || !spim_drv->dma_dev) {
+        ((uint32_t)(desc->tx_buf) % 4) || ((uint32_t)(desc->rx_buf) % 4) || (desc->tx_len % 4) || (desc->rx_len % 4) ||
+        !spim_drv->dma_dev) {
         use_dma = false;
     }
 
@@ -603,16 +583,16 @@ int w800_spim_transceive_async(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *
             wm_hal_spim_register_xfer_done_callback(spim_hal, w800_spim_transceive_async_done_callback, dev);
 
             while (remain_tx_len || remain_rx_len) {
-                if (remain_tx_len > WM_SPI_MAX_TXRX_LEN) {
-                    cur_tx_len = WM_SPI_MAX_TXRX_LEN;
-                    remain_tx_len -= WM_SPI_MAX_TXRX_LEN;
+                if (remain_tx_len > WM_SPI_MAX_DMA_TXRX_LEN) {
+                    cur_tx_len = WM_SPI_MAX_DMA_TXRX_LEN;
+                    remain_tx_len -= WM_SPI_MAX_DMA_TXRX_LEN;
                 } else {
                     cur_tx_len    = remain_tx_len;
                     remain_tx_len = 0;
                 }
-                if (remain_rx_len > WM_SPI_MAX_TXRX_LEN) {
-                    cur_rx_len = WM_SPI_MAX_TXRX_LEN;
-                    remain_rx_len -= WM_SPI_MAX_TXRX_LEN;
+                if (remain_rx_len > WM_SPI_MAX_DMA_TXRX_LEN) {
+                    cur_rx_len = WM_SPI_MAX_DMA_TXRX_LEN;
+                    remain_rx_len -= WM_SPI_MAX_DMA_TXRX_LEN;
                 } else {
                     cur_rx_len    = remain_rx_len;
                     remain_rx_len = 0;
@@ -685,12 +665,20 @@ int w800_spim_transceive_async(wm_device_t *dev, const wm_dt_hw_spim_dev_cfg_t *
         w800_spim_transceive_async_done_callback(dev, ret);
     }
 
+exit:
     wm_os_internal_mutex_release(spim_drv->lock);
 
     return ret;
 }
 
 const wm_drv_spim_ops_t wm_drv_spim_ops = {
+    .init             = w800_spim_init,
+    .deinit           = w800_spim_deinit,
+    .transceive_sync  = w800_spim_transceive_sync,
+    .transceive_async = w800_spim_transceive_async,
+};
+
+const wm_drv_spis_ops_t wm_drv_spis_ops = {
     .init             = w800_spim_init,
     .deinit           = w800_spim_deinit,
     .transceive_sync  = w800_spim_transceive_sync,

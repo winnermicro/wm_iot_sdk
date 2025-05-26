@@ -15,11 +15,11 @@ It plays a dominant role in SPI communication, capable of actively sending comma
 Function List
 -----------------
 
-1. :ref:`Initialization <spi_init>` — Initialize the SPI driver.
-2. :ref:`Synchronous Data Transfer <spi_trans_sync>` — Ends transmission upon completion or timeout of data transfer.
-3. :ref:`Asynchronous Data Transfer <spi_trans_async>` — Ends transmission after data transfer is complete and enters a callback function.
+1. :ref:`Initialization <spim_init>` — Initialize the SPI driver.
+2. :ref:`Synchronous Data Transfer <spim_trans_sync>` — Ends transmission upon completion or timeout of data transfer.
+3. :ref:`Asynchronous Data Transfer <spim_trans_async>` — Ends transmission after data transfer is complete and enters a callback function.
 4. :ref:`Send Command and Get Result <TX_CMD>`—— Sends instructions to the peer user and retrieves the execution result.
-5. :ref:`Endianness <big_endian>`—— When hardware sends data in word units, it determines whether to send the contents of the high address or low address of the word first.
+5. :ref:`Endianness <spim_big_endian>`—— When hardware sends data in word units, it determines whether to send the contents of the high address or low address of the word first.
 
 
 Function Overview
@@ -54,7 +54,7 @@ SPI Master Hardware Wiring
     :alt: SPI Wiring Diagram
 
 
-.. _spi_init:
+.. _spim_init:
 
 Initialization of SPI
 --------------------------------
@@ -72,7 +72,7 @@ During initialization, only the ``"spi"`` string needs to be passed in.
      1. If SPI is already initialized, you can also directly call ``wm_dt_get_device_by_name`` to obtain the SPI device pointer.
      2. SPI-related configurations can be changed in the device tree.
 
-.. _spi_trans_sync:
+.. _spim_trans_sync:
 
 SPI Synchronous Transmission
 ---------------------------------
@@ -163,7 +163,7 @@ Deinitializing SPI
 
 If SPI is no longer needed for data transmission, you can call ``wm_drv_spim_deinit()`` to remove the driver and release the allocated resources.
 
-.. _spi_trans_async:
+.. _spim_trans_async:
 
 SPI Asynchronous Transmission
 -------------------------------
@@ -340,7 +340,7 @@ Example Code
     2: The cmd and addr parameters will only be valid if the SPI_TRANS_VARIABLE_CMD or SPI_TRANS_VARIABLE_ADDR flag in desc_ex.basic.flags is set.
 
 
-.. _big_endian:
+.. _spim_big_endian:
 
 
 Endianness
@@ -368,7 +368,7 @@ Assume the user wants to send: 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0
 
 The way data is stored in the TX FIFO is shown in the figure below:
 
-.. figure:: ../../../_static/component-guides/driver/spim_endian_tx.svg
+.. figure:: ../../../_static/component-guides/driver/spi_endian_tx.svg
     :align: center
     :scale: 100%
     :alt: Diagram of SPI connection lines
@@ -395,12 +395,12 @@ Notes
 
 .. note::
 
-   1.If the transmission or reception start address is not 4-byte aligned, the underlying layer will not use DMA for transmission and reception.
-   2.The transmission length is preferably not less than the reception length to avoid the opposite end receiving invalid data.
-   3.Only transmission or only reception is supported.
-   4.There are no restrictions on transmission and reception lengths.
-   5.The CLOCK, MISO, and MOSI pins are configured in the SPI driver. If the user wants to modify the default pins, they can do so in the DT (Device Table).
-   6.The CS pin is passed by the user each time the transmission and reception API is called. The driver will manage the CS pin. If the user passes an invalid CS pin (WM_GPIO_NUM_MAX), the CS pin will be maintained by the user themselves, unless for special purposes. We do not recommend that the user application layer control the CS Pin, especially in scenarios where the SPI Master controls multiple Slave devices. If some devices are configured to use the Driver to control the CS pin, while others are configured to be controlled by the user application, it can easily lead to confusion.
+    1. If the transmission or reception start address is not 4-byte aligned, the underlying layer will not use DMA for transmission and reception.
+    2. The transmission length is preferably not less than the reception length to avoid the opposite end receiving invalid data.
+    3. Only transmission or only reception is supported.
+    4. When not 4-byte aligned, the maximum data transmission and reception length is 8191; when 4-byte aligned, the maximum data transmission and reception length is 65535.
+    5. The CLOCK, MISO, and MOSI pins are configured in the SPI driver. If the user wants to modify the default pins, they can do so in the DT (Device Table).
+    6. The CS pin is passed by the user each time the transmission and reception API is called. The driver will manage the CS pin. If the user passes an invalid CS pin (WM_GPIO_NUM_MAX), the CS pin will be maintained by the user themselves, unless for special purposes. We do not recommend that the user application layer control the CS Pin, especially in scenarios where the SPI Master controls multiple Slave devices. If some devices are configured to use the Driver to control the CS pin, while others are configured to be controlled by the user application, it can easily lead to confusion.
 
 
 

@@ -21,7 +21,18 @@ L2CAP 层支持面向连接的通道，可以使用配置选项 ``CONFIG_BT_L2CA
 可以使用 :c:func:`bt_l2cap_chan_connect` 启动客户端通道 API，并且可以与 :c:func:`bt_l2cap_chan_disconnect` API 断开连接。
 请注意，后者还可以断开服务器创建的通道实例。
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/l2cap.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/l2cap.h"
+
 API 参考
-*************
+-----------
 
 .. doxygengroup:: bt_l2cap

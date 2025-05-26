@@ -25,7 +25,7 @@ SPI（Serial Peripheral Interface）是一种常用的串行通信协议，主�
    发送和接收长度没有限制，最高支持 20MHz clock
 
 
-   W800 共有 3 组 12 个 GPIO 引脚可用于 SPI，其中 CS 固定由 SW 控制，空闲的GPIO引脚都可以作为CS使用，默认使用GPIO26
+   W800 共有 3 组 12 个 GPIO 引脚可用于 SPI，其中 CS 固定由 SW 控制，空闲的GPIO引脚都可以作为CS使用，默认使用GPIO20
    SPI 引脚的关系如下表
 
    .. list-table::

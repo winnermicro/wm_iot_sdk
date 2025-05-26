@@ -11,8 +11,19 @@
 
 如果存在，则必须仅在主元素上实例化大型组合数据客户端模型。
 
+头文件
+=============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/large_comp_data_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/large_comp_data_cli.h"
+
 API 参考
-*************
+=============
 
 .. doxygengroup:: bt_mesh_large_comp_data_cli
    :project: wm-iot-sdk-apis

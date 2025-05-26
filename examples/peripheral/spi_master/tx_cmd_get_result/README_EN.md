@@ -12,7 +12,7 @@ This application controls a flash memory device through SPI.
 ## Environmental Requirements
 
 1. Connect the SPI-flash to the GPIO pins on the board beforehand
-2. The default GPIO pins are as follows: PIN_CS: GPIO0, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI:GPIO7
+2. The default GPIO pins are as follows: PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI:GPIO7
 
 
 ## Compilation and Flashing

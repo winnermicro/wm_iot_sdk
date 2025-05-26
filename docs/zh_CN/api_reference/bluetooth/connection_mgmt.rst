@@ -10,7 +10,18 @@ Bluetooth 协议栈使用一个名为 :c:struct:`bt_conn` 表示与其他设备�
 此结构作为应用程序为连接和断开事件以及其他事件如安全级别的更改或连接参数回调的参数传入回调函数。
 当蓝牙充当中心设备时，应用程序将通过 :c:func:`bt_conn_le_create` API创建该结构体。
 
-API参考
-*************
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/conn.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/conn.h"
+
+API 参考
+-----------
 
 .. doxygengroup:: bt_conn

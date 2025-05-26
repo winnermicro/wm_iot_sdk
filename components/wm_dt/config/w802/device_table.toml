@@ -154,8 +154,27 @@ dev_name = "spim"
 reg_base = 0x40010400
 init_cfg = {init_level = "app", init_priority = 0}
 pin_cfg = [{pin = 17, fun = "fun2"}, #clock
-           {pin = 16, fun = "fun2"}, #di
-           {pin = 7,  fun = "fun2"}] #do
+           {pin = 16, fun = "fun2"}, #miso
+           {pin = 7,  fun = "fun2"}] #mosi
+irq_cfg = {irq_num = 12, irq_priority = 0}
+dma_device = "dma"
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "spim_soft"
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 24, fun = "fun5", dir = "output", pupd = "float"},    #clock
+           {pin = 25, fun = "fun5", dir = "input", pupd = "float"},     #miso
+           {pin = 26,  fun = "fun5", dir = "output", pupd = "float"}]   #mosi
+
+[[dev]]
+dev_name = "spis"
+reg_base = 0x40010400
+init_cfg = {init_level = "app", init_priority = 0}
+pin_cfg = [{pin = 17, fun = "fun2"}, #clock
+           {pin = 16, fun = "fun2"}, #miso
+           {pin = 7,  fun = "fun2"}, #mosi
+           {pin = 20,  fun = "fun1"}] #cs
 irq_cfg = {irq_num = 12, irq_priority = 0}
 dma_device = "dma"
 rcc_device = "rcc"
@@ -192,6 +211,26 @@ touch_button_cfg = [{key_num = 3, threshold = 25},
                     {key_num = 4, threshold = 30}, 
                     {key_num = 5, threshold = 20}]
 touch_sensor_device = "touch_sensor"
+
+[[dev]]
+dev_name = "xpt2046"
+init_cfg = {init_level = "app", init_priority = 0}
+if_dev_name = "spim_soft"
+irq_cfg = {pin = 16, fun = "fun5", dir = "input", pupd = "float"}
+mirror_image = 0
+width = 480
+height = 272
+spi_cfg = {freq = 2000000, mode = 0, pin_cs = {pin = 27, fun = "fun5", dir = "output", pupd = "float"}}
+
+[[dev]]
+dev_name = "ft6336"
+init_cfg = {init_level = "app", init_priority = 0}
+if_dev_name = "i2c"
+reset_cfg = {pin = 24, fun = "fun5", dir = "output", pupd = "float"}
+mirror_image = 1
+width = 479
+height = 319
+i2c_cfg = {max_clock = 100000, addr_10_bits = 0}
 
 [[dev]]
 dev_name = "adc"
@@ -304,7 +343,18 @@ spi_cfg = {mode = 0, freq = 40000000, pin_cs = {pin_num = 14, pin_mux = "fun5", 
 pin_lcd_reset = 7
 pin_lcd_dcx = 12
 pin_lcd_led = 2
-pin_lcd_te = 45
+pin_lcd_te  = -1
+spi_device = "sdspi"
+gpio_device = "gpio"
+
+[[dev]]
+dev_name = "gc9a01_spi"
+init_cfg = {init_level = "app", init_priority = 0}
+spi_cfg = {mode = 0, freq = 30000000, pin_cs = {pin_num = 14, pin_mux = "fun5", dir = "output", pupd = "float"}}
+pin_lcd_reset = 7
+pin_lcd_dcx = 12
+pin_lcd_led = 2
+pin_lcd_te  = -1
 spi_device = "sdspi"
 gpio_device = "gpio"
 
@@ -315,17 +365,18 @@ spi_cfg = {mode = 0, freq = 15000000, pin_cs = {pin_num = 14, pin_mux = "fun5", 
 pin_lcd_reset = 7
 pin_lcd_dcx = 12
 pin_lcd_led = 2
+pin_lcd_te  = -1
 spi_device = "sdspi"
 gpio_device = "gpio"
 
 [[dev]]
 dev_name = "gz035_spi"
 init_cfg = {init_level = "app", init_priority = 0}
-spi_cfg = {mode = 0, freq = 40000000, pin_cs = {pin_num = 4, pin_mux = "fun5", dir = "output", pupd = "float"}}
+spi_cfg = {mode = 0, freq = 15000000, pin_cs = {pin_num = 14, pin_mux = "fun5", dir = "output", pupd = "float"}}
 pin_lcd_reset = 7
-pin_lcd_dcx = 1
-pin_lcd_led = 29
-pin_lcd_te = 24
+pin_lcd_dcx = 12
+pin_lcd_led = 2
+pin_lcd_te  = -1
 spi_device = "sdspi"
 gpio_device = "gpio"
 
@@ -399,4 +450,17 @@ pin_cfg = [{pin = 22, fun = "fun4"}, #CLK
            {pin = 25, fun = "fun4"}, #DAT1
            {pin = 26, fun = "fun4"}, #DAT2
            {pin = 27, fun = "fun4"}] #CD/DAT3
+rcc_device = "rcc"
+
+[[dev]]
+dev_name = "hspi_slave"
+reg_base = 0x40002600
+wrapper_reg_base = 0x40002800
+init_cfg = {init_level = "app", init_priority = 0}
+irq_cfg = {irq_num = 0, irq_priority = 0}
+pin_cfg = [{pin = 22, fun = "fun3"}, #CLK
+           {pin = 23, fun = "fun3"}, #INT
+           {pin = 25, fun = "fun3"}, #CS
+           {pin = 26, fun = "fun3"}, #MOSI
+           {pin = 27, fun = "fun3"}] #MISO
 rcc_device = "rcc"

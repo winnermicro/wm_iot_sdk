@@ -15,12 +15,23 @@
 如果存在，则只能在主元素上实例化请求 PDU RPL 配置服务器模型。
 
 配置
-**************
+===============
 
 对于请求 PDU RPL 配置服务器模型，可以配置 ``CONFIG_BT_MESH_PROXY_SRPL_SIZE`` 选项来设置 SRPL 的大小。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/sol_pdu_rpl_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/sol_pdu_rpl_srv.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_sol_pdu_rpl_srv
    :project: wm-iot-sdk-apis

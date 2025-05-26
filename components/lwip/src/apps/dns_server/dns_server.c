@@ -21,173 +21,173 @@
 
 static DNS_SERVER DnsServer;
 
-static INT32S _DnsCompareName(INT8U * MyDns, INT8U * Query)
+/* Use for WiFi provisioning */
+static INT8U g_froce_local = 0;
+
+void DNSS_Force_local(INT8U on_off)
 {
-	INT8U n;
-
-	if((strlen((const char *)Query) - 1) > 32)
-	{
-		return 1;
-	}
-	
-	do
-	{
-		n = *Query++;
-		/* @see RFC 1035 - 4.1.4. Message compression. */
-		if((n & 0xc0) == 0xc0) 
-		{
-			/* Compressed name. */
-			break;
-		}
-		else
-		{
-			/* Not compressed name. */
-			while(n > 0)
-			{
-				if((*MyDns) != (*Query))
-				{
-					return 1;
-				}
-				++Query;
-				++MyDns;
-				--n;
-			};
-			++MyDns;
-		}
-	} while (*Query != 0);
-
-	return ((*(--MyDns) == 0) ? 0 : 1);
+    g_froce_local = on_off;
 }
 
-static void _DNSNameErrGenAndSend(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8U * QueryName, INT16U TansactionId)
+static INT32S _DnsCompareName(INT8U *MyDns, INT8U *Query)
 {
-	INT32U Len;
-	INT8U * Body;
-	PDNS_HEADER pDnsHeader;
-	struct pbuf * pDnsBuf;
-	INT8U * pDnsReply;
+    INT8U n;
 
-	Len = ((sizeof(DNS_HEADER) + (strlen((const char *)QueryName) + 1) + sizeof(DNS_QUERY) + 3)  >> 2) << 2;
-	pDnsReply = mem_malloc(Len);
-	if(pDnsReply == NULL)
-	{
-		return;
-	}
-	
-	pDnsHeader = (PDNS_HEADER)pDnsReply;
-	Body = (INT8U *)(pDnsHeader + 1);
-	Len = 0;
+    if ((strlen((const char *)Query) - 1) > 32) {
+        return 1;
+    }
 
-	/* Header. */
-	pDnsHeader->TansactionId = TansactionId;
-	pDnsHeader->DnsFlag1 = DNS_FLAG1_RESPONSE;
-	pDnsHeader->DnsFlag2 = DNS_FLAG2_ERR_NAME;
-	pDnsHeader->Quentions = htons(1);
-	pDnsHeader->AnswerRR = 0;
-	pDnsHeader->AuthorityRR = 0;
-	pDnsHeader->AdditionalRR = 0;
-	Len += sizeof(DNS_HEADER);
-	
-	/* Querry. */
-	MEMCPY(Body, QueryName, strlen((const char *)QueryName) + 1);
-	Body += strlen((const char *)QueryName) + 1;
-	Len += strlen((const char *)QueryName) + 1;
-	MEMCPY(Body, pDnsQuery, sizeof(DNS_QUERY));
-	Len += sizeof(DNS_QUERY);
+    do {
+        n = *Query++;
+        /* @see RFC 1035 - 4.1.4. Message compression. */
+        if ((n & 0xc0) == 0xc0) {
+            /* Compressed name. */
+            break;
+        } else {
+            /* Not compressed name. */
+            while (n > 0) {
+                if ((*MyDns) != (*Query)) {
+                    return 1;
+                }
+                ++Query;
+                ++MyDns;
+                --n;
+            };
+            ++MyDns;
+        }
+    } while (*Query != 0);
 
-	pDnsBuf = pbuf_alloc(PBUF_TRANSPORT, Len, PBUF_RAM);
-	if(pDnsBuf == NULL)
-	{
-		mem_free(pDnsReply);
-		return;
-	}
-	pbuf_take(pDnsBuf, (const void *) pDnsReply, Len);
-
-	/* Send to the client. */
-	udp_sendto(DnsServer.Socket, pDnsBuf, Addr, Port);
-	pbuf_free(pDnsBuf);
-	mem_free(pDnsReply);
+    return ((*(--MyDns) == 0) ? 0 : 1);
 }
 
-static void _DNSAnswerGenAndSend(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8U * QueryName, INT16U TansactionId)
+static void _DNSNameErrGenAndSend(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8U *QueryName, INT16U TansactionId)
 {
-	INT32U Len;
-	INT8U * Body;
-	INT32U ServerIpAddr;
-	PDNS_HEADER pDnsHeader;
-	DNS_ANSWER DnsAnswer;
-	struct pbuf * pDnsBuf;
-	INT8U * pDnsReply;
-	INT16U Tmp;
+    INT32U Len;
+    INT8U *Body;
+    PDNS_HEADER pDnsHeader;
+    struct pbuf *pDnsBuf;
+    INT8U *pDnsReply;
 
-	Len = ((sizeof(DNS_HEADER) + (strlen((const char *)QueryName) + 1) + sizeof(DNS_QUERY) + 2 + sizeof(DNS_ANSWER) + 2 + 4 + 3)  >> 2) << 2;
-	pDnsReply = mem_malloc(Len);
-	if(pDnsReply == NULL)
-	{
-		return;
-	}
-	
-	pDnsHeader = (PDNS_HEADER)pDnsReply;
-	Body = (INT8U *)(pDnsHeader + 1);
-	Len = 0;
+    Len       = ((sizeof(DNS_HEADER) + (strlen((const char *)QueryName) + 1) + sizeof(DNS_QUERY) + 3) >> 2) << 2;
+    pDnsReply = mem_malloc(Len);
+    if (pDnsReply == NULL) {
+        return;
+    }
 
-	/* Header. */
-	pDnsHeader->TansactionId = TansactionId;
-	pDnsHeader->DnsFlag1 = DNS_FLAG1_RESPONSE;
-	pDnsHeader->DnsFlag2 = DNS_FLAG2_ERR_NONE;
-	pDnsHeader->Quentions = htons(1);
-	pDnsHeader->AnswerRR = htons(1);
-	pDnsHeader->AuthorityRR = 0;
-	pDnsHeader->AdditionalRR = 0;
-	Len += sizeof(DNS_HEADER);
-	
-	/* Querry. */
-	MEMCPY(Body, QueryName, strlen((const char *)QueryName) + 1);
-	Body += strlen((const char *)QueryName) + 1;
-	Len += strlen((const char *)QueryName) + 1;
-	MEMCPY(Body, pDnsQuery, sizeof(DNS_QUERY));
-	Body += sizeof(DNS_QUERY);
-	Len += sizeof(DNS_QUERY);
+    pDnsHeader = (PDNS_HEADER)pDnsReply;
+    Body       = (INT8U *)(pDnsHeader + 1);
+    Len        = 0;
 
-	/* NAME: provided as offset to first occurence in response. */
-	Tmp = DNS_NAME_OFFSET | sizeof(DNS_HEADER);
-	Tmp = htons(Tmp);
-	MEMCPY(Body, &Tmp, sizeof(INT16U));
-	Body += sizeof(INT16U);
-	Len += sizeof(INT16U);
+    /* Header. */
+    pDnsHeader->TansactionId = TansactionId;
+    pDnsHeader->DnsFlag1     = DNS_FLAG1_RESPONSE;
+    pDnsHeader->DnsFlag2     = DNS_FLAG2_ERR_NAME;
+    pDnsHeader->Quentions    = htons(1);
+    pDnsHeader->AnswerRR     = 0;
+    pDnsHeader->AuthorityRR  = 0;
+    pDnsHeader->AdditionalRR = 0;
+    Len += sizeof(DNS_HEADER);
 
-	/* Answer. */
-	DnsAnswer.Type = htons(DNS_RRTYPE_A);
-	DnsAnswer.Class = htons(DNS_RRCLASS_IN);
-	DnsAnswer.Ttl = htonl(DNS_DEFAULT_TTL);
-	MEMCPY(Body, &DnsAnswer, sizeof(DNS_ANSWER));
-	Body += sizeof(DNS_ANSWER);
-	Len += sizeof(DNS_ANSWER);
+    /* Querry. */
+    MEMCPY(Body, QueryName, strlen((const char *)QueryName) + 1);
+    Body += strlen((const char *)QueryName) + 1;
+    Len += strlen((const char *)QueryName) + 1;
+    MEMCPY(Body, pDnsQuery, sizeof(DNS_QUERY));
+    Len += sizeof(DNS_QUERY);
 
-	/* Length. */
-	Tmp = htons(4);
-	MEMCPY(Body, &Tmp, sizeof(INT16U));
-	Body += sizeof(INT16U);
-	Len += sizeof(INT16U);
+    pDnsBuf = pbuf_alloc(PBUF_TRANSPORT, Len, PBUF_RAM);
+    if (pDnsBuf == NULL) {
+        mem_free(pDnsReply);
+        return;
+    }
+    pbuf_take(pDnsBuf, (const void *)pDnsReply, Len);
 
-	/* IP Address. */
-	ServerIpAddr = ip_addr_get_ip4_u32(&DnsServer.HostIp);
-	MEMCPY(Body, &ServerIpAddr, 4);
-	Body += 4;
-	Len += 4;
-	
-	pDnsBuf = pbuf_alloc(PBUF_TRANSPORT, Len, PBUF_RAM);
-	if(pDnsBuf == NULL)
-	{
-		mem_free(pDnsReply);
-		return;
-	}
-	pbuf_take(pDnsBuf, (const void *) pDnsReply, Len);
+    /* Send to the client. */
+    udp_sendto(DnsServer.Socket, pDnsBuf, Addr, Port);
+    pbuf_free(pDnsBuf);
+    mem_free(pDnsReply);
+}
 
-	/* Send to the client. */
-	udp_sendto(DnsServer.Socket, pDnsBuf, Addr, Port);
-	pbuf_free(pDnsBuf);
-	mem_free(pDnsReply);
+static void _DNSAnswerGenAndSend(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8U *QueryName, INT16U TansactionId)
+{
+    INT32U Len;
+    INT8U *Body;
+    INT32U ServerIpAddr;
+    PDNS_HEADER pDnsHeader;
+    DNS_ANSWER DnsAnswer;
+    struct pbuf *pDnsBuf;
+    INT8U *pDnsReply;
+    INT16U Tmp;
+
+    Len = ((sizeof(DNS_HEADER) + (strlen((const char *)QueryName) + 1) + sizeof(DNS_QUERY) + 2 + sizeof(DNS_ANSWER) + 2 + 4 +
+            3) >>
+           2)
+          << 2;
+    pDnsReply = mem_malloc(Len);
+    if (pDnsReply == NULL) {
+        return;
+    }
+
+    pDnsHeader = (PDNS_HEADER)pDnsReply;
+    Body       = (INT8U *)(pDnsHeader + 1);
+    Len        = 0;
+
+    /* Header. */
+    pDnsHeader->TansactionId = TansactionId;
+    pDnsHeader->DnsFlag1     = DNS_FLAG1_RESPONSE;
+    pDnsHeader->DnsFlag2     = DNS_FLAG2_ERR_NONE;
+    pDnsHeader->Quentions    = htons(1);
+    pDnsHeader->AnswerRR     = htons(1);
+    pDnsHeader->AuthorityRR  = 0;
+    pDnsHeader->AdditionalRR = 0;
+    Len += sizeof(DNS_HEADER);
+
+    /* Querry. */
+    MEMCPY(Body, QueryName, strlen((const char *)QueryName) + 1);
+    Body += strlen((const char *)QueryName) + 1;
+    Len += strlen((const char *)QueryName) + 1;
+    MEMCPY(Body, pDnsQuery, sizeof(DNS_QUERY));
+    Body += sizeof(DNS_QUERY);
+    Len += sizeof(DNS_QUERY);
+
+    /* NAME: provided as offset to first occurence in response. */
+    Tmp = DNS_NAME_OFFSET | sizeof(DNS_HEADER);
+    Tmp = htons(Tmp);
+    MEMCPY(Body, &Tmp, sizeof(INT16U));
+    Body += sizeof(INT16U);
+    Len += sizeof(INT16U);
+
+    /* Answer. */
+    DnsAnswer.Type  = htons(DNS_RRTYPE_A);
+    DnsAnswer.Class = htons(DNS_RRCLASS_IN);
+    DnsAnswer.Ttl   = htonl(DNS_DEFAULT_TTL);
+    MEMCPY(Body, &DnsAnswer, sizeof(DNS_ANSWER));
+    Body += sizeof(DNS_ANSWER);
+    Len += sizeof(DNS_ANSWER);
+
+    /* Length. */
+    Tmp = htons(4);
+    MEMCPY(Body, &Tmp, sizeof(INT16U));
+    Body += sizeof(INT16U);
+    Len += sizeof(INT16U);
+
+    /* IP Address. */
+    ServerIpAddr = ip_addr_get_ip4_u32(&DnsServer.HostIp);
+    MEMCPY(Body, &ServerIpAddr, 4);
+    Body += 4;
+    Len += 4;
+
+    pDnsBuf = pbuf_alloc(PBUF_TRANSPORT, Len, PBUF_RAM);
+    if (pDnsBuf == NULL) {
+        mem_free(pDnsReply);
+        return;
+    }
+    pbuf_take(pDnsBuf, (const void *)pDnsReply, Len);
+
+    /* Send to the client. */
+    udp_sendto(DnsServer.Socket, pDnsBuf, Addr, Port);
+    pbuf_free(pDnsBuf);
+    mem_free(pDnsReply);
 }
 
 typedef struct {
@@ -229,7 +229,7 @@ static void dns_proxy_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const
 static void _DNSS_Proxy(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8U *QueryName, INT16U TansactionId,
                         struct pbuf *p)
 {
-    static char cur_dns_idx = 0;
+    static char cur_dns_idx              = 0;
     static dns_client_info_t client_info = { 0 };
     static struct udp_pcb *dns_pcbs      = NULL;
 
@@ -301,67 +301,64 @@ static void _DNSS_Proxy(ip_addr_t *Addr, INT16U Port, PDNS_QUERY pDnsQuery, INT8
 -------------------------------------------------------------------------*/
 void DNSS_RecvCb(void *Arg, struct udp_pcb *Pcb, struct pbuf *P, ip_addr_t *Addr, INT16U Port)
 {
-	PDNS_HEADER pDnsHeader;
-	DNS_QUERY DnsQuery;
-	//INT16U nQuestions, nAnswers;
-	INT8U * pDnsName;
-	INT8U * pDnsMsg;
+    PDNS_HEADER pDnsHeader;
+    DNS_QUERY DnsQuery;
+    //INT16U nQuestions, nAnswers;
+    INT8U *pDnsName;
+    INT8U *pDnsMsg;
 
-	do
-	{
-		pDnsMsg = mem_malloc(P->tot_len);
-		if(pDnsMsg == NULL)
-		{
-			break;
-		}
-		pbuf_copy_partial(P, pDnsMsg, P->tot_len, 0);
-		
-		pDnsHeader = (PDNS_HEADER)pDnsMsg;
+    do {
+        pDnsMsg = mem_malloc(P->tot_len);
+        if (pDnsMsg == NULL) {
+            break;
+        }
+        pbuf_copy_partial(P, pDnsMsg, P->tot_len, 0);
 
-		/* Get the quention number and answer number. */
-		//nQuestions = ntohs(pDnsHeader->Quentions);
-		//nAnswers = ntohs(pDnsHeader->AnswerRR);
+        pDnsHeader = (PDNS_HEADER)pDnsMsg;
 
-		/* Filter out the response frame and the unstandard query frame. */
-		if((pDnsHeader->DnsFlag1 & DNS_FLAG1_RESPONSE) || ((pDnsHeader->DnsFlag1 & (0xf << 3)) != DNS_FLAG1_OPCODE_STANDARD))
-		{
-			break;
-		}
+        /* Get the quention number and answer number. */
+        //nQuestions = ntohs(pDnsHeader->Quentions);
+        //nAnswers = ntohs(pDnsHeader->AnswerRR);
 
-		/* Locate the dns name. */
-		pDnsName = (INT8U *)(pDnsHeader + 1);
+        /* Filter out the response frame and the unstandard query frame. */
+        if ((pDnsHeader->DnsFlag1 & DNS_FLAG1_RESPONSE) || ((pDnsHeader->DnsFlag1 & (0xf << 3)) != DNS_FLAG1_OPCODE_STANDARD)) {
+            break;
+        }
 
-		/* Get the query class and type. */
-		MEMCPY(&DnsQuery, (pDnsName + strlen((const char *)pDnsName) + 1), sizeof(DnsQuery));
+        /* Locate the dns name. */
+        pDnsName = (INT8U *)(pDnsHeader + 1);
 
-		/* Check the query class and type. */
-		if((DnsQuery.Class != htons(DNS_RRCLASS_IN)) && (DnsQuery.Type != htons(DNS_RRTYPE_A)))
-		{
-			break;
-		}
+        /* Get the query class and type. */
+        MEMCPY(&DnsQuery, (pDnsName + strlen((const char *)pDnsName) + 1), sizeof(DnsQuery));
 
-		if (_DnsCompareName(DnsServer.DnsName, pDnsName) != 0)
-		{
-			/* Not my dns name, so notify the client name error. */
+        /* Check the query class and type. */
+        if ((DnsQuery.Class != htons(DNS_RRCLASS_IN)) && (DnsQuery.Type != htons(DNS_RRTYPE_A))) {
+            break;
+        }
+
+        if (_DnsCompareName(DnsServer.DnsName, pDnsName) != 0) {
+            /* Not my dns name, so notify the client name error. */
             wm_netif_t *netif = wm_netif_get_netif(WM_NETIF_TYPE_WIFI_STA);
-            if (!netif || !netif->netif) {
-                _DNSNameErrGenAndSend(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId);
+            if (g_froce_local) {
+                /* Force the local address to the client. */
+                _DNSAnswerGenAndSend(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId);
             } else {
-                _DNSS_Proxy(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId, P);
+                if (!netif || !netif->netif) {
+                    _DNSNameErrGenAndSend(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId);
+                } else {
+                    _DNSS_Proxy(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId, P);
+                }
             }
-		}
-		else
-		{
-			/* My dns name, so send the answer to the client. */
-			_DNSAnswerGenAndSend(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId);
-		}
-	}while(0);
+        } else {
+            /* My dns name, so send the answer to the client. */
+            _DNSAnswerGenAndSend(Addr, Port, &DnsQuery, pDnsName, pDnsHeader->TansactionId);
+        }
+    } while (0);
 
-	if(pDnsMsg)
-	{
-		mem_free(pDnsMsg);
-	}
-	pbuf_free(P);
+    if (pDnsMsg) {
+        mem_free(pDnsMsg);
+    }
+    pbuf_free(P);
 }
 
 /*   DNSS_Config   */
@@ -378,18 +375,17 @@ void DNSS_RecvCb(void *Arg, struct udp_pcb *Pcb, struct pbuf *P, ip_addr_t *Addr
 	Note:	
 		The length of the DNS name must be less than 32.
 -------------------------------------------------------------------------*/
-INT8S DNSS_Config(INT8U * DnsName)
+INT8S DNSS_Config(INT8U *DnsName)
 {
-	if((DnsName == NULL) || (strlen((const char *)DnsName) > 32))
-	{
-		/* The length of the DNS name must be less than 32. */
-		return DNSS_ERR_PARAM;
-	}
+    if ((DnsName == NULL) || (strlen((const char *)DnsName) > 32)) {
+        /* The length of the DNS name must be less than 32. */
+        return DNSS_ERR_PARAM;
+    }
 
-	memset(DnsServer.DnsName, 0, 32);
-	MEMCPY(DnsServer.DnsName, DnsName, strlen((const char *)DnsName));
+    memset(DnsServer.DnsName, 0, 32);
+    MEMCPY(DnsServer.DnsName, DnsName, strlen((const char *)DnsName));
 
-	return DNSS_ERR_SUCCESS;
+    return DNSS_ERR_SUCCESS;
 }
 
 /*   DNSS_Start   */
@@ -411,34 +407,31 @@ INT8S DNSS_Config(INT8U * DnsName)
 -------------------------------------------------------------------------*/
 INT8S DNSS_Start(struct netif *Netif, const char *DnsName)
 {
-	if((Netif == NULL) || (strlen((const char *)DnsName) > 32))
-	{
-		return DNSS_ERR_PARAM;
-	}
-	
-	if(netif_is_up(Netif) == 0)
-	{
-		return DNSS_ERR_LINKDOWN;
-	}
-	
-	memset(&DnsServer, 0, sizeof(DnsServer));
+    if ((Netif == NULL) || (strlen((const char *)DnsName) > 32)) {
+        return DNSS_ERR_PARAM;
+    }
 
-	MEMCPY(DnsServer.DnsName, DnsName, strlen((const char *)DnsName));
-	ip_addr_set(&DnsServer.HostIp, &Netif->ip_addr);
+    if (netif_is_up(Netif) == 0) {
+        return DNSS_ERR_LINKDOWN;
+    }
 
-	DnsServer.Socket = udp_new();
-	if(DnsServer.Socket == NULL)
-	{
-		return DNSS_ERR_MEM;
-	}
+    memset(&DnsServer, 0, sizeof(DnsServer));
 
-	/* Set up local and remote port for the pcb. */
-	udp_bind(DnsServer.Socket, IP_ADDR_ANY, DNS_SERVER_PORT);
+    MEMCPY(DnsServer.DnsName, DnsName, strlen((const char *)DnsName));
+    ip_addr_set(&DnsServer.HostIp, &Netif->ip_addr);
 
-	/* Set up the recv callback and argument. */
-	udp_recv(DnsServer.Socket, (udp_recv_fn)DNSS_RecvCb, Netif);
+    DnsServer.Socket = udp_new();
+    if (DnsServer.Socket == NULL) {
+        return DNSS_ERR_MEM;
+    }
 
-	return DNSS_ERR_SUCCESS;
+    /* Set up local and remote port for the pcb. */
+    udp_bind(DnsServer.Socket, IP_ADDR_ANY, DNS_SERVER_PORT);
+
+    /* Set up the recv callback and argument. */
+    udp_recv(DnsServer.Socket, (udp_recv_fn)DNSS_RecvCb, Netif);
+
+    return DNSS_ERR_SUCCESS;
 }
 
 /*   DNSS_Stop   */

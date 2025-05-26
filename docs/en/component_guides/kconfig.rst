@@ -36,6 +36,8 @@ Although Kconfig provides default configurations for each option, different proj
 Therefore, to allow each project to have its own default configuration, the WM IoT SDK can place a ``prj.config`` file in the project root directory.  
 When the ``menuconfig`` interface is opened, the configuration in the ``prj.config`` file will be loaded, displaying the current project's configuration, which will take effect during the compilation.
 
+It is recommended to manage user-specific configurations of the project using the ``prj.config`` file. This helps avoid losing all customized menuconfig settings when the build folder (generated during compilation) is deleted. Without this file, configuration mismatches may occur during recompilation, potentially leading to build errors and requiring the user to reconfigure the project via menuconfig from scratch.
+ 
 When the user makes changes in the ``menuconfig`` interface and saves the configuration, the ``build\config\wmsdk.config`` file will still be generated, and subsequent configurations will be based on``wmsdk.config``.  
 For a project, the priority of the final effective Kconfig configuration file priority is ``wmsdk.config`` > ``prj.config`` > ``Kconfig``.
 

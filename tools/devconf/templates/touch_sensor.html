@@ -1,22 +1,50 @@
-      {% include 'common.html' %}
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
+                                <div class="property-item">
+                                    <label>cmod:</label>
+                                    <select id="cmodpinnum" name="cmodpinnum">
+                                      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+                                        <option value="12" {% if data.cmodpinnum == 12 %} selected {% endif %}>PIN_12 (PA12)</option>
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>cdc:</label>
+                                    <select id="cdcpinnum" name="cdcpinnum">
+                                      {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+                                        <option value="14" {% if data.cdcpinnum == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
+                                      {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
 
-      <div class="card-header">
-        <h5>Pins</h5>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="cmodpin">cmod:</label>
-        <select class="col-sm-6" id="s" name="cmodpinnum">
-        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
-          <option value="12" {% if data.cmodpinnum == 12 %} selected {% endif %}>PIN_12 (PA12)</option>
-        {% endif %}
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="cdcpin">cdc:</label>
-        <select class="col-sm-6" id="cdcpinnum" name="cdcpinnum">
-        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
-          <option value="14" {% if data.cdcpinnum == 14 %} selected {% endif %}>PIN_14 (PA14)</option>
-        {% endif %}
-        </select>
-        </div>
-	  </div>
+                    <script>
+                        document.getElementById("cmodpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("cdcpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("cmodpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("cdcpinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+
+                        setPins();
+                    </script>

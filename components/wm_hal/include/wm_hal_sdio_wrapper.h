@@ -130,9 +130,9 @@ typedef enum {
 } wm_hal_sdio_wrapper_int_sts_t;
 
 /**
- * @brief SDIO Wrapper Transmit Buffer Descriptor structure (Host --> Slave)
+ * @brief SDIO Wrapper Transmit Buffer Descriptor structure (Slave --> Host)
  *
- * Used to create a linked list of transmit buffer descriptors for Host --> Slave SDIO transfers.
+ * Used to create a linked list of transmit buffer descriptors for Slave --> Host SDIO transfers.
  */
 typedef struct wm_hal_sdio_wrapper_txbd {
     uint32_t reserved     : 31;            /**< [30:0] Reserved bits */
@@ -145,9 +145,9 @@ typedef struct wm_hal_sdio_wrapper_txbd {
 } wm_hal_sdio_wrapper_txbd_t;
 
 /**
- * @brief SDIO Wrapper Receive Buffer Descriptor structure (Slave --> Host)
+ * @brief SDIO Wrapper Receive Buffer Descriptor structure (Host --> Slave)
  *
- * Used to create a linked list of receive buffer descriptors for Slave --> Host SDIO transfers.
+ * Used to create a linked list of receive buffer descriptors for Host --> Slave SDIO transfers.
  */
 typedef struct wm_hal_sdio_wrapper_rxbd {
     uint32_t reserved : 31;                /**< [30:0] Reserved bits */

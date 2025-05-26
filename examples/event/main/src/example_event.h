@@ -17,7 +17,7 @@ enum {
 };
 
 /*user event data info*/
-struct exampe_user_event_t {
+struct example_user_event_t {
     int param1;
     int param2;
 };

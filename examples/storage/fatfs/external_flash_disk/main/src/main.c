@@ -203,9 +203,5 @@ int main(void)
         wm_log_error("File read and write demo failed.");
     }
 
-    while (1) {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-
     return 0;
 }

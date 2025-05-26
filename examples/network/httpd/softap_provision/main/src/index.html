@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiFi Provisioning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 200px;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    input[type="submit"].disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    label {
+      margin-right: 10px;
+    }
+
+    #passwordInput {
+      width: 180px;
+    }
+
+    #togglePassword {
+      margin-left: 5px;
+    }
+
+    #statusText {
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .fail {
+      color: red;
+    }
+
+    .hidden {
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="information" class="hidden">
+    <h1 id="title">WiFi 配网</h1>
+    <div>
+      <label for="wifiName" id="wifiNameLabel">WiFi 名称:</label>
+      <input type="text" id="wifiName" name="wifiName">
+    </div>
+    <div>
+      <label for="wifiPassword" id="wifiPasswordLabel">WiFi 密码:</label>
+      <input type="password" id="wifiPassword" name="wifiPassword">
+    </div>
+    <div style="text-align: right;">
+      <input type="checkbox" id="togglePassword">
+      <label for="togglePassword" id="togglePasswordLabel">显示密码</label>
+      <input type="submit" value="提交" id="submitBtn" onclick="submitForm()">
+    </div>
+    <div id="statusText"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const lang = navigator.language || navigator.userLanguage;
+      if (navigator.language.startsWith('zh') ) {
+        document.getElementById('title').textContent = 'WiFi 配网';
+        document.getElementById('wifiNameLabel').textContent = 'WiFi 名称:';
+        document.getElementById('wifiPasswordLabel').textContent = 'WiFi 密码:';
+        document.getElementById('togglePasswordLabel').textContent = '显示密码';
+        document.getElementById('submitBtn').textContent = '提交';
+      } else {
+        document.getElementById('title').textContent = 'WiFi Provision';
+        document.getElementById('wifiNameLabel').textContent = 'WiFi Name:';
+        document.getElementById('wifiPasswordLabel').textContent = 'WiFi Pswd:';
+        document.getElementById('togglePasswordLabel').textContent = 'Show Password';
+        document.getElementById('submitBtn').value = 'Submit';
+      }
+
+      const infoElement = document.getElementById('information');
+      infoElement.classList.remove('hidden');
+    });
+
+    function on_notify(cmd) {
+      // if (cmd === 'doing') {
+      //   setTimeout(() => {
+      //     request({ cmd: 'getStatus' }, on_notify)
+      //   }, 1000);
+      // }
+    }
+
+    function request(data, notify) {
+      var xhr = new XMLHttpRequest();
+      xhr.timeout = 60000;
+      xhr.open('POST', '/provsion', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          var statusText = document.getElementById('statusText');
+          var submitBtn = document.getElementById('submitBtn');
+
+          if (xhr.status == 200) {
+            try {
+              var resp = JSON.parse(xhr.responseText);
+              updateStatus(resp.status);
+              notify(resp.status)
+            } catch (e) {
+              updateStatus('doing');
+            }
+          } else {
+            updateStatus('doing');
+          }
+          submitBtn.disabled = false;
+        }
+      };
+      xhr.ontimeout = function () {
+        updateStatus('Done');
+        document.getElementById('submitBtn').disabled = false;
+      };
+
+      document.getElementById('submitBtn').disabled = true;
+      xhr.send(JSON.stringify(data));
+    }
+
+    function submitForm() {
+      var wifiName = document.getElementById('wifiName').value;
+      var wifiPassword = document.getElementById('wifiPassword').value;
+
+      var data = {
+        cmd: 'prov',
+        wifiName: wifiName,
+        wifiPassword: wifiPassword
+      };
+
+      if (wifiName.length > 0 && (wifiPassword.length == 0 || wifiPassword.length >= 8)) {
+        updateStatus('doing')
+        request(data, on_notify)
+      } else {
+        updateStatus('badparam')
+      }
+    }
+
+    function updateStatus(status) {
+      const statusText = document.getElementById('statusText');
+      if (status === '') {
+        statusText.className = '';
+        statusText.textContent = '';
+      } else if (status === 'doing') {
+        statusText.className = '';
+        statusText.textContent = navigator.language.startsWith('zh') ? '配置中' : "provisioning"
+        statusText.className = '';
+      } else if (status === 'done') {
+        statusText.className = '';
+        statusText.textContent = navigator.language.startsWith('zh') ? '已配置，如果失败请重试' : "It's already provisioned. Please retry if it fails."
+        statusText.className = '';
+      } else if (status === 'OK') {
+        statusText.textContent = navigator.language.startsWith('zh') ? '配网成功' : 'provisioning  successful';
+        statusText.className = 'success';
+      } else if (status === 'badparam') {
+        statusText.textContent = navigator.language.startsWith('zh') ? '错误的名称或者密码' : 'Bad WiFi name or password';
+        statusText.className = 'fail';
+      } else {
+        statusText.textContent = navigator.language.startsWith('zh') ? '配网失败' : 'provisioning failed';
+        statusText.className = 'fail';
+      }
+    }
+
+    document.getElementById('togglePassword').addEventListener('change', function () {
+      var passwordInput = document.getElementById('wifiPassword');
+      if (this.checked) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    });
+  </script>
+</body>
+
+</html>

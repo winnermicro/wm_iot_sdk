@@ -95,13 +95,58 @@ menu "PERIPHERALS"
         bool "SPI Master"
         default n
         help
-            Enable spi master driver module.
+            Enable SPI master driver module.
+
+    config COMPONENT_DRIVER_SPIS_ENABLED
+        bool "SPI Slave"
+        default n
+        help
+            Enable spi slave driver module.
+
+    config COMPONENT_DRIVER_SPIM_SOFT_ENABLED
+        bool "SPI Master Soft (GPIO Simulation)"
+        select COMPONENT_DRIVER_GPIO_ENABLED
+        default n
+        help
+            Enable SPI master soft driver module (GPIO Simulation).
 
     config COMPONENT_DRIVER_WDT_ENABLED
         bool "WATCH Dog"
         default y
         help
             Enable watch dog driver module.
+
+    config COMPONENT_DRIVER_TOUCH_PANEL_ENABLED
+        bool "Touch Panel"
+        default n
+        help
+            Enable touch panel module
+
+    choice COMPONENT_TOUCH_PANEL_OPTIONS
+        prompt "touch panel"
+        depends on COMPONENT_DRIVER_TOUCH_PANEL_ENABLED
+        help
+            "Select the touch panel for the screen"
+
+        config COMPONENT_FT6336_DRIVER
+            bool "ft6336_i2c"
+            select COMPONENT_DRIVER_I2C_ENABLED
+            help
+                "touch panel FT6336"
+
+        config COMPONENT_XPT2046_DRIVER
+            bool "xpt2046_spi_soft"
+            select COMPONENT_DRIVER_SPIM_SOFT_ENABLED
+            help
+                "touch panel XPT2046"
+
+    endchoice
+
+    config CONPONENT_DRIVER_TOUCH_PANEL_MAX_POINT
+        int "Touch Panel Points"
+        default 6
+        help
+            Set touch panel max points support
 
     config COMPONENT_DRIVER_TFT_LCD_ENABLED
         bool "TFT LCD"
@@ -114,7 +159,7 @@ menu "PERIPHERALS"
         depends on COMPONENT_DRIVER_TFT_LCD_ENABLED
         help
             "select an option for tft lcd device"
-   
+
         config COMPONENT_DRIVER_LCD_NV3041A_SPI
             bool "nv3041a_spi"
             help
@@ -129,6 +174,12 @@ menu "PERIPHERALS"
             bool "gz035_spi"
             help
                 "LCD Device GZ035_SPI"
+
+        config COMPONENT_DRIVER_LCD_GC9A01_SPI
+            bool "gc9a01_spi"
+            help
+                "LCD Device GC9A01_SPI"
+
     endchoice
 
     config COMPONENT_DRIVER_ADC_ENABLED
@@ -210,4 +261,9 @@ menu "PERIPHERALS"
         help
             Enable sdio slave driver module.
 
+    config COMPONENT_DRIVER_HSPI_SLAVE_ENABLED
+        bool "HSPI Slave"
+        default n
+        help
+            Enable hspi slave driver module.
 endmenu

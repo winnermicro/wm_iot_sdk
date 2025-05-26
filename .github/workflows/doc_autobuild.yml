@@ -45,11 +45,11 @@ jobs:
         python ./build.py > temp_output.log 2>&1
         build_status=$?
 
-        echo "Generating warning report..."
-        grep -E 'warning:|error:|WARNING:|ERROR:' temp_output.log > sphinx_warning.log || true
-        if [ -s sphinx_warning.log ]; then
-          echo "⚠️ Documentation build has warnings/errors:"
-          cat sphinx_warning.log
+        echo "Generating error report..."
+        grep -E '|error:|ERROR:' temp_output.log > sphinx_errors.log || true
+        if [ -s sphinx_errors.log ]; then
+          echo "⚠️ Documentation build has errors:"
+          cat sphinx_errors.log
           exit 1
         fi
 

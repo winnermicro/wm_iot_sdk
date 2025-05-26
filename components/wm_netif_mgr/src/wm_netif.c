@@ -1,7 +1,6 @@
 #include "wmsdk_config.h"
 #include <string.h>
 #include "wm_error.h"
-#include "wm_nvs.h"
 #include "wm_key_config.h"
 #include "wm_netif.h"
 #ifdef CONFIG_WM_NETIF_SELECT_LWIP

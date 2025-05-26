@@ -17,7 +17,7 @@ DFU 规范在 WM IoT SDK Bluetooth Mesh DFU 子系统中实现为三个单独的
    dfd_srv
 
 概述
-********
+===============
 
 DFU 角色
 ===========
@@ -161,7 +161,7 @@ Bluetooth Mesh DFU 过程设计为分三个阶段工作：
 有关详细信息，请参见 :ref:`bluetooth_mesh_dfu_srv_comp_data_and_models_metadata` 。
 
 DFU 程序
-**************
+===============
 
 DFU 协议被实现为一组必须按特定顺序执行的过程。
 
@@ -253,17 +253,50 @@ DFU 协议被实现为一组必须按特定顺序执行的过程。
 
 
 API 参考
-*************
+===============
 
 本节列出了设备固件更新网格模型的常见类型。
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/dfd.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/dfd.h"
 
 .. doxygengroup:: bt_mesh_dfd
    :project: wm-iot-sdk-apis
    :members:
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/dfu.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/dfu.h"
+
 .. doxygengroup:: bt_mesh_dfu
    :project: wm-iot-sdk-apis
    :members:
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/dfu_metadata.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/dfu_metadata.h"
 
 .. doxygengroup:: bt_mesh_dfu_metadata
    :project: wm-iot-sdk-apis

@@ -11,6 +11,7 @@ The installation path must not contain special characters such as spaces, and th
 
 
 .. important::
+    - Please temporarily disable third-party antivirus software before installation to prevent some antivirus software from mistakenly deleting key files, which may cause abnormal functionality after installation !!!
     - Before installing the integrated compilation environment, you need to download the WM IoT SDK in advance.
     - When using the integrated compilation environment, you must always launch it through the shortcuts provided by the installer (desktop shortcut, Start menu shortcut, or context menu shortcut). Do not directly launch CMD or PowerShell that come with the Windows system.
     - For users who enjoy DIY, please refer to the manual setup for the compilation environment on Linux systems.

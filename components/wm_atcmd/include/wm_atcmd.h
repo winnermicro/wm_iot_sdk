@@ -12,7 +12,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0 
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -392,18 +392,19 @@ typedef struct wm_at_server_ctl {
 #if CONFIG_WM_ATCMD_SHOW_REMAIN_HEAP
     wm_os_timer_t *heap_timer; /**< Timer for showing remaining heap */
 #endif
-    wm_atcmd_dev_t dev;                          /**< Device for AT commands */
-    wm_os_mutex_t *mutex;                        /**< Mutex for synchronizing AT command access */
-    short atcmd_num;                             /**< Number of AT commands */
+    wm_atcmd_dev_t dev;   /**< Device for AT commands */
+    wm_os_mutex_t *mutex; /**< Mutex for synchronizing AT command access */
+    short atcmd_num;      /**< Number of AT commands */
+    bool echo_mode;
     wm_atcmd_item_t *at_cmd_table;               /**< Table of AT command items */
     uint32_t errno;                              /**< Error number for AT command processing */
     wm_at_passthrough_param_t passthrough_param; /**< Parameters for passthrough mode */
     char recv_buffer[AT_CMD_RECV_BUFF_LEN];      /**< Buffer for receiving AT command data */
     short cur_recv_len;                          /**< Current length of received data */
+    uint16_t at_recv_listnum;                    /**< Number of received AT commands */
     char start_str[AT_CMD_START_STR_LEN];        /**< Start string for AT commands */
     char end_str[AT_CMD_END_STR_LEN];            /**< End string for AT commands */
     wm_atcmd_entry atcmd_enter;                  /**< Entry function for AT commands */
-    uint16_t at_recv_listnum;                    /**< Number of received AT commands */
 #if CONFIG_WM_ATCMD_SYS_ENABLE
     void *wm_atcmd_sys_param; /**< Parameters for SYS AT commands */
 #endif

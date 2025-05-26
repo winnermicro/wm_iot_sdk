@@ -2637,6 +2637,20 @@ int bt_le_per_adv_set_response_data(struct bt_le_per_adv_sync *per_adv_sync,
 				    const struct net_buf_simple *data);
 
 /**
+ * @brief Enable bluetooth lowpower mode.
+ *
+ * @return None
+ */
+void bt_lowpower_enable(void);
+
+/**
+ * @brief Disable bluetooth lowpower mode.
+ *
+ * @return None
+ */
+void bt_lowpower_disable(void);
+
+/**
  * @}
  */
 

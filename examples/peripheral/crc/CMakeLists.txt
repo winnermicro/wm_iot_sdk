@@ -10,7 +10,7 @@ endif()
 
 # Check SDK Path
 if(NOT EXISTS ${SDK_PATH})
-    message(FATAL_ERROR "SDK path Error, Please set WM_SDK_PATH variable")
+    message(FATAL_ERROR "SDK path Error, Please set WM_IOT_SDK_PATH variable")
 endif()
 
 # Call compile rules

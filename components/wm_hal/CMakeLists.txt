@@ -79,7 +79,7 @@ if(${CONFIG_COMPONENT_DRIVER_PSRAM_ENABLED})
                          )
 endif()
 
-if(${CONFIG_COMPONENT_DRIVER_SPIM_ENABLED})
+if(CONFIG_COMPONENT_DRIVER_SPIM_ENABLED OR CONFIG_COMPONENT_DRIVER_SPIS_ENABLED)
     list(APPEND ADD_SRCS "src/${CONFIG_CHIP_FAMILY_NAME}/wm_hal_spi_master.c"
                          )
 endif()
@@ -127,6 +127,11 @@ endif()
 
 if(${CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED})
     list(APPEND ADD_SRCS "src/${CONFIG_CHIP_FAMILY_NAME}/wm_hal_sdio_slave.c"
+                         )
+endif()
+
+if(${CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED})
+    list(APPEND ADD_SRCS "src/${CONFIG_CHIP_FAMILY_NAME}/wm_hal_hspi_slave.c"
                          )
 endif()
 

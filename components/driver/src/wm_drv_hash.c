@@ -125,6 +125,8 @@ int wm_drv_md5(const void *in_buf, unsigned int in_len, void *md5_hash)
     if (ret != WM_ERR_SUCCESS) {
         return ret;
     }
+    /* disable cryp clock */
+    wm_drv_clock_disable(wm_dt_get_device_by_name("rcc"), WM_RCC_GPSEC_GATE_EN);
     return WM_ERR_SUCCESS;
 }
 

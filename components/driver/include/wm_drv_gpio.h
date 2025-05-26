@@ -73,6 +73,16 @@ typedef void (*wm_drv_gpio_isr_t)(void *arg);
 #define wm_drv_gpio_fast_write(pin, value) WM_HAL_GPIO_FAST_WRITE(pin, value)
 
 /**
+ * @brief Fast read gpio value, return 0 or 1
+ */
+#define wm_drv_gpio_fast_read(pin)         WM_HAL_GPIO_FAST_READ(pin)
+
+/**
+ * @brief Fast set gpio direction, WM_GPIO_DIR_INPUT or WM_GPIO_DIR_OUTPUT
+ */
+#define wm_drv_gpio_fast_set_dir(pin, dir) WM_HAL_GPIO_FAST_SET_DIR(pin, dir)
+
+/**
  * @}
  */
 

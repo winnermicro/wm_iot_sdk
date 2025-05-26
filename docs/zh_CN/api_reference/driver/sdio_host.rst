@@ -6,7 +6,21 @@ SDIO HOST API 参考
 
 该模块分为两个部分 API, 包括 SDH SDMMC 和 SDH SPI
 
-SDH SDMMC Macros
+SDH SDMMC
+================
+
+SDH SDMMC 头文件
+----------------------
+
+- wm_iot_sdk/components/driver/include/wm_drv_sdh_sdmmc.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "wm_drv_sdh_sdmmc.h"
+
+SDH SDMMC 宏定义
 ----------------------
 
 .. doxygengroup:: WM_DRV_SDH_SDMMC_Macros
@@ -14,7 +28,7 @@ SDH SDMMC Macros
     :content-only:
     :members:
 
-SDH SDMMC Enumerations
+SDH SDMMC 枚举
 ----------------------
 
 .. doxygengroup:: WM_DRV_SDH_SDMMC_Enumerations
@@ -22,7 +36,7 @@ SDH SDMMC Enumerations
     :content-only:
     :members:
 
-SDH SDMMC Structures
+SDH SDMMC 结构体
 ----------------------
 
 .. doxygengroup:: WM_DRV_SDH_SDMMC_Structures
@@ -30,14 +44,28 @@ SDH SDMMC Structures
     :content-only:
     :members:
 
-SDH SDMMC Functions
+SDH SDMMC 接口
 ----------------------
 
 .. doxygengroup:: WM_DRV_SDH_SDMMC_Functions
     :project: wm-iot-sdk-apis
     :content-only:
 
-SDH SPI Functions
+SDH SPI
+================
+
+SDH SPI 头文件
+----------------------
+
+- wm_iot_sdk/components/driver/include/wm_drv_sdh_spi.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "wm_drv_sdh_spi.h"
+
+SDH SPI 接口
 ----------------------
 
 .. doxygengroup:: WM_DRV_SDH_SPI_Functions

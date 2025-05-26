@@ -38,6 +38,7 @@ static void wpa_supplicant_set_config_blob(void *ctx,
 {
 	struct wpa_supplicant *wpa_s = ctx;
 	wpa_config_set_blob(wpa_s->conf, blob);
+#ifndef CONFIG_NO_CONFIG_WRITE
 	if (wpa_s->conf->update_config) {
 		int ret = wpa_config_write(wpa_s->confname, wpa_s->conf);
 		if (ret) {
@@ -45,6 +46,7 @@ static void wpa_supplicant_set_config_blob(void *ctx,
 				   "blob set");
 		}
 	}
+#endif
 }
 
 
@@ -1147,6 +1149,7 @@ static void wpa_supplicant_set_anon_id(void *ctx, const u8 *id, size_t len)
 			return;
 	}
 
+#ifndef CONFIG_NO_CONFIG_WRITE
 	if (wpa_s->conf->update_config) {
 		res = wpa_config_write(wpa_s->confname, wpa_s->conf);
 		if (res) {
@@ -1154,6 +1157,7 @@ static void wpa_supplicant_set_anon_id(void *ctx, const u8 *id, size_t len)
 				   "anonymous_id update");
 		}
 	}
+#endif
 }
 #endif /* IEEE8021X_EAPOL */
 

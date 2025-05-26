@@ -123,14 +123,31 @@ You can execute ``wm.py set-soc --list-socs`` to view all the supported chip typ
 Note that this operation will clear and initialize the project's previous compilation and configuration.
 
 
-**Configure the Project**
+**Configure the Project Compilation Parameters**
 
 ::
 
     wm.py menuconfig
 
-All configurations in the project have default values, so you can skip the project configuration step without affecting subsequent compilation and use.
+or
 
+::
+
+    wm.py guiconfig
+
+All configurations in the project have default values, 
+so you can skip the project configuration step without affecting subsequent compilation and use.
+
+
+**Configure the Project Device Table**
+
+::
+
+    wm.py devconfig
+
+The device table stores the hardware configuration parameters of the current SoC, 
+and each SoC has a default configuration, 
+so the step of configuring the device table can be skipped without affecting the subsequent compilation and use.
 
 **Compile the Project**
 

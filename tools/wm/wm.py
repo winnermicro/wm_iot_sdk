@@ -315,10 +315,30 @@ def do_set_soc(soc_type):
         print("remove the old soc configuration")
         shutil.rmtree("build")
     os.makedirs("build/config")
-    with open(sdk_config_file, "w", encoding="utf-8") as file:
-        file.write(conf_str + "\n")
-        file.write("\n")
-    do_kconfig(0)
+    do_kconfig(0) #generate .config
+    with open(sdk_config_file, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+        not_update = False
+        for soc in soc_list:
+            conf_str1 = "CONFIG_BUILD_TYPE_" + soc.upper() + "=y"
+            conf_str2 = "# CONFIG_BUILD_TYPE_" + soc.upper() + " is not set"
+            for i in range(len(lines)):
+                if lines[i].startswith(conf_str1):
+                    if soc_type == soc:
+                        not_update = True
+                    else:
+                        lines[i] = conf_str2 + lines[i][len(conf_str1):]
+                    break
+                elif lines[i].startswith(conf_str2):
+                    if soc_type == soc:
+                        lines[i] = conf_str1 + lines[i][len(conf_str2):]
+                    break
+        if not not_update:
+            with open(sdk_config_file, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        else:
+            print(f"no need to specify, the default is {soc_type}.")
+    do_kconfig(0) #fixed .config
     print(Fore.GREEN + "generate the new soc configuration")
 
 def check_project_build_path():
@@ -477,7 +497,7 @@ def do_devconfig():
     if not os.path.exists(binary_path + "/device_table"):
         os.mkdir(binary_path + "/device_table")
 
-    default_toml_file = sdk_path + "/components/wm_dt/config/" + chip_type + "/device_table.toml"
+    default_toml_file = sdk_path + "/components/wm_dt/config/" + chip_type.lower() + "/device_table.toml"
     project_toml_file = project_path + "/device_table.toml"
     temp_toml_file = binary_path + "/device_table/device_table.toml"
     if os.path.exists(temp_toml_file):
@@ -492,7 +512,7 @@ def do_devconfig():
     thread = threading.Thread(target=devconfig_server_task)
     thread.daemon = True
     thread.start()
-    res = subprocess.call([python_exec, sdk_path + "/tools/devconf/devconf.py", "-t", toml_file, "-c", sdk_config_file, "-a", "5"])
+    res = subprocess.call([python_exec, sdk_path + "/tools/devconf/devconf.py", "-t", toml_file, "-c", sdk_config_file, "-a", "15"])
     if res != 0:
         print(Fore.RED + "exec device config failed")
         sys.exit(1)

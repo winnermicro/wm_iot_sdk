@@ -59,6 +59,12 @@ Example
 
     // output 10KHz on pwm channel0
     AT+DRVPWMINIT=10000,16
+    // output 10KHz on pwm channel0,1,2
+    AT+DRVPWMINIT=10000,16,17,18 
+    // output 10KHz on pwm channel1,2
+    AT+DRVPWMINIT=10000,,17,18
+    // output 10KHz on pwm channel2
+    AT+DRVPWMINIT=10000,,,18 
 
 .. _cmd-DRVPWMDUTY:
 
@@ -102,6 +108,12 @@ Example
 
     // set the high-level cycle count to 10 in the PWM waveform output on pwm channel0
     AT+DRVPWMDUTY=10
+    // set the high-level cycle count to 10,20,30 in the PWM waveform output on pwm channel0,1,2
+    AT+DRVPWMDUTY=10,20,30
+    // set the high-level cycle count to 20,30 in the PWM waveform output on pwm channel1,2
+    AT+DRVPWMDUTY=,20,30
+    // set the high-level cycle count to 30 in the PWM waveform output on pwm channel2
+    AT+DRVPWMDUTY=,,30
 
 .. _cmd-DRVPWMFADE:
 
@@ -150,4 +162,10 @@ Example
 
     // change the duty cycle of the PWM waveform from the current duty value to 100 within 10 seconds
     AT+DRVPWMFADE=100,10000
+    // pwm channel0,1,2 output PWM waveform with duty cycle changing from the current duty value to 100 within 10 seconds
+    AT+DRVPWMFADE=100,10000,100,10000,100,10000
+    // pwm channel1,2 output PWM waveform with duty cycle changing from the current duty value to 100 within 10 seconds
+    AT+DRVPWMFADE=,,100,10000,100,10000
+    // pwm channel2 output PWM waveform with duty cycle changing from the current duty value to 100 within 10 seconds
+    AT+DRVPWMFADE=,,,,100,10000
 

@@ -145,7 +145,7 @@ void wm_system_reboot(void);
 /**
  * @brief          This function to set cpu usage duration
  *
- * @param[in]      time_ms : The time of being counted, if 0, the statistical time will be 
+ * @param[in]      time_ms : The time of being counted, if 0, the statistical time will be
  *                           calculated from the last time it was not 0
  *
  * @return
@@ -322,6 +322,7 @@ int wm_data_align_parser(uint8_t *addr, int32_t size, wm_data_align_t table[3]);
  */
 void *memrchr(const void *s, int c, size_t n);
 char *strdup(const char *s);
+char *strcasestr(const char *str1, const char *str2);
 int strcasecmp(const char *s1, const char *s2);
 int strncasecmp(const char *s1, const char *s2, size_t n);
 size_t strlcpy(char *dest, const char *src, size_t len);
@@ -378,25 +379,25 @@ int settimeofday(const struct timeval *tv, const struct timezone *tz);
 int setenv(const char *name, const char *value, int overwrite);
 
 /**
-  * @brief  Get the MAC address from storage according to the mac_type. 
-  * 
+  * @brief  Get the MAC address from storage according to the mac_type.
+  *
   * The main MAC address load flow in this api as follows:
   * First, obtain the MAC address from NVStore according to the mac_type.
-  * Second, if the MAC in NVStore is invalid, try to get the raw MAC from FT region(from flash or  
+  * Second, if the MAC in NVStore is invalid, try to get the raw MAC from FT region(from flash or
   * OTP depending no the chip design).
   * Third, since the FT region may only have two MAC addresses (WIFI mac, BT MAC), a coversion
   * needs to be done according to the actual usage of STA, SoftAP and BT.
   * Fouth, if the FT mac is invalid, use a default MAC address and then a conversion according to
   * the actual usage of STA, SoftAP, and BT.
-  * 
+  *
   * @param[in] mac_type  Indicates the type of the MAC address,refer to @ref wm_mac_type_t
-  * @param[in,out] mac_addr A pointer to a MAC address buffer that represents a six-byte length 
+  * @param[in,out] mac_addr A pointer to a MAC address buffer that represents a six-byte length
   *                         hexadecimal value
-  * @param[in] mac_addr_len The length of the MAC address buffer, which should always be equal 
+  * @param[in] mac_addr_len The length of the MAC address buffer, which should always be equal
   *                         to @ref WM_MAC_ADDR_LEN
-  * 
+  *
   * @attention  This is a weak API that provides a reference design for MAC address management. It
-  * is allowed to replace this function with a new one in a user's project according to their own 
+  * is allowed to replace this function with a new one in a user's project according to their own
   * MAC strategy. For example, implement the same function in main.c without needing to declare it
   * again. The linker will use the new implementation.
   *
@@ -407,21 +408,21 @@ int setenv(const char *name, const char *value, int overwrite);
 int wm_sys_get_mac_addr(wm_mac_type_t mac_type, uint8_t *mac_addr, uint8_t mac_addr_len);
 
 /**
-  * @brief  Set the MAC address into storage according to the mac_type. 
-  * 
+  * @brief  Set the MAC address into storage according to the mac_type.
+  *
   * The main MAC address store flow in this api as follows:
   * First, write the MAC address to NVStore according to the mac_type.
   * Second, if NVStore is not enabled, return direclty.
-  * 
+  *
   * @param[in] mac_type Indicates the type of the MAC address,refer to @ref wm_mac_type_t
-  * @param[in] mac_addr A pointer to a MAC address buffer that represents a six-byte length 
+  * @param[in] mac_addr A pointer to a MAC address buffer that represents a six-byte length
   *                     hexadecimal value
-  * @param[in] mac_addr_len The length of the MAC address buffer, which should always be equal 
+  * @param[in] mac_addr_len The length of the MAC address buffer, which should always be equal
   *                     to @ref WM_MAC_ADDR_LEN
 
-  * @attention  This is a weak API that provides a reference design for MAC address management. 
+  * @attention  This is a weak API that provides a reference design for MAC address management.
   * It is allowed to replace this function with a new one in a user's project according to their
-  * own MAC strategy. For example, implement the same function in main.c without needing to 
+  * own MAC strategy. For example, implement the same function in main.c without needing to
   * declare it again. The linker will use the new implementation.
   *
   * @return

@@ -10,6 +10,17 @@
 应用程序可以随时读取和清理统计信息。
 
 API 参考
-*************
+===============
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/statistic.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/statistic.h"
 
 .. doxygengroup:: bt_mesh_stat

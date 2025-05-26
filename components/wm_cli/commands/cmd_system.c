@@ -13,10 +13,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+extern const char *wm_sdk_build_time;
+extern const char *wm_sdk_build_date;
+
 static void cmd_version(int argc, char *argv[])
 {
-    wm_cli_printf("sdk version %s, optimize %s, build at %s %s\r\n", CONFIG_BUILD_VERSION, CONFIG_COMPILER_OPTS, __DATE__,
-                  __TIME__);
+    wm_cli_printf("sdk version %s, optimize %s, build at %s %s\r\n", CONFIG_BUILD_VERSION, CONFIG_COMPILER_OPTS,
+                  wm_sdk_build_date, wm_sdk_build_time);
 }
 WM_CLI_CMD_DEFINE(version, cmd_version, show sdk version info, version-- sdk version info);
 

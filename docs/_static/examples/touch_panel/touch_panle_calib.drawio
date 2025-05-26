@@ -1,0 +1,76 @@
+<mxfile host="Electron" modified="2025-05-06T14:28:50.352Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="UHcrcjHhEB9hOWucWdvi" version="21.7.5" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="934" dy="531" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="Z_RTVG3GJ-1OUCJCInHg-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="WIyWlLk6GJQsqaUBKTNV-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="系统上电" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="17" y="50" width="76" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-11" target="Z_RTVG3GJ-1OUCJCInHg-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-11" value="画面显示" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="126" y="50" width="63" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Z_RTVG3GJ-1OUCJCInHg-1" target="Z_RTVG3GJ-1OUCJCInHg-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z_RTVG3GJ-1OUCJCInHg-1" value="此时用户可以点击对应十字坐标" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="212" y="50" width="105" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Z_RTVG3GJ-1OUCJCInHg-3" target="Z_RTVG3GJ-1OUCJCInHg-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z_RTVG3GJ-1OUCJCInHg-3" value="校准完成后，在NVS中存储校准参数" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="347" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Z_RTVG3GJ-1OUCJCInHg-7" target="Z_RTVG3GJ-1OUCJCInHg-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z_RTVG3GJ-1OUCJCInHg-7" value="拷贝校准参数，调用set_config接口下发给驱动" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="493" y="50" width="153" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Z_RTVG3GJ-1OUCJCInHg-9" value="循环读取已校准坐标" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="668" y="50" width="82" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Umz-Q69OUQG_Y7P6ZeTm-2" target="Umz-Q69OUQG_Y7P6ZeTm-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-2" value="System power on" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="12" y="144" width="103" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Umz-Q69OUQG_Y7P6ZeTm-4" target="Umz-Q69OUQG_Y7P6ZeTm-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-4" value="Screen display" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="137" y="144" width="86" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Umz-Q69OUQG_Y7P6ZeTm-6" target="Umz-Q69OUQG_Y7P6ZeTm-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-6" value="User can click on the cross coordinate now" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="247" y="144" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Umz-Q69OUQG_Y7P6ZeTm-8" target="Umz-Q69OUQG_Y7P6ZeTm-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-8" value="Store the calibration parameters in NVS after calibration" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="391" y="137.5" width="120" height="53" as="geometry" />
+        </mxCell>
+        <mxCell id="b8Zx5AiFroyoyjNuZVlb-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="Umz-Q69OUQG_Y7P6ZeTm-10" target="Umz-Q69OUQG_Y7P6ZeTm-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-10" value="Copy the calibration parameters and call the set_comfig interface to send to the driver" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="541" y="124" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Umz-Q69OUQG_Y7P6ZeTm-11" value="Loop reading of calibrated coordinates" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="686" y="144" width="120" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

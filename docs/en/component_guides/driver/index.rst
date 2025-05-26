@@ -22,7 +22,7 @@ Driver Architecture
 
   Implements various functionalities of controllers within the Chip based on HAL layer interfaces.
   It is OS-dependent and capable of executing mutex, semaphore, and other resource protection functions. 
-  (Types of controllers include: I2C, SPI, DMA, Timer, WDT, I2S, Clock, USB, SDIO, IRQ, PWM, ADC, LCD, Touch, Uart, RTC, PMU, Crypto Engine, GPIO, etc.)
+  (Types of controllers include: I2C, SPI, HSPI slave, DMA, Timer, WDT, I2S, Clock, USB, SDIO, IRQ, PWM, ADC, LCD, Touch, Uart, RTC, PMU, Crypto Engine, GPIO, etc.)
 
 - Device Driver
 
@@ -49,6 +49,8 @@ Driver Introduction
    Flash <drv_flash>
    RCC <drv_rcc>
    SPI Master <drv_spim>
+   SPI Slave <drv_spis>
+   HSPI_SLAVE <drv_hspi_slave>
    GPIO <drv_gpio>
    IRQ <drv_irq>
    ADC <drv_adc>
@@ -59,6 +61,7 @@ Driver Introduction
    TFT_LCD <drv_tft_lcd>
    SDIO_HOST <drv_sdio_host>
    SDIO_SLAVE <drv_sdio_slave>
+   Touch_Panel <drv_touch_panel>
    PWM <drv_pwm>
    RTC <drv_rtc>
    PSRAM <drv_psram>
@@ -191,6 +194,10 @@ The main configuration is as follows:
 
   * - CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED
     - Whether to start the SDIO Slave driver
+    - N
+
+  * - CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED
+    - Whether to start the HSPI Slave driver
     - N
 
 How to Add a New Device Driver

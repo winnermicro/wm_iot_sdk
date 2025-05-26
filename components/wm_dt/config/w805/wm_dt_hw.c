@@ -54,6 +54,9 @@ typedef struct wm_drv_ops_structure wm_drv_tft_lcd_ops_t;
 extern const wm_drv_tft_lcd_ops_t wm_drv_tft_lcd_st7735_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_tft_lcd_ops_t;
+extern const wm_drv_tft_lcd_ops_t wm_drv_tft_lcd_gc9a01_ops;
+
+typedef struct wm_drv_ops_structure wm_drv_tft_lcd_ops_t;
 extern const wm_drv_tft_lcd_ops_t wm_drv_tft_lcd_gz035_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_rtc_ops_t;
@@ -76,6 +79,7 @@ extern const wm_drv_dma_ops_t wm_drv_dma_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_i2c_ops_t;
 extern const wm_drv_i2c_ops_t wm_drv_i2c_ops;
+extern const wm_drv_i2c_ops_t wm_drv_i2c_soft_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_eeprom_ops_t;
 extern const wm_drv_eeprom_ops_t wm_drv_eeprom_nv24c0x_ops;
@@ -85,6 +89,10 @@ extern const wm_drv_psram_ops_t wm_drv_psram_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_spim_ops_t;
 extern const wm_drv_spim_ops_t wm_drv_spim_ops;
+extern const wm_drv_spim_ops_t wm_drv_spim_soft_ops;
+
+typedef struct wm_drv_ops_structure wm_drv_spis_ops_t;
+extern const wm_drv_spis_ops_t wm_drv_spis_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_clock_ops_t;
 extern const wm_drv_clock_ops_t wm_drv_rcc_ops;
@@ -92,6 +100,10 @@ extern const wm_drv_clock_ops_t wm_drv_rcc_ops;
 typedef struct wm_drv_ops_structure wm_drv_flash_ops_t;
 extern const wm_drv_flash_ops_t wm_drv_internal_flash_ops;
 extern const wm_drv_flash_ops_t wm_drv_external_flash_ops;
+
+typedef struct wm_drv_ops_structure wm_drv_touch_driver_ops_t;
+extern const wm_drv_touch_driver_ops_t wm_drv_ft6336_ops;
+extern const wm_drv_touch_driver_ops_t wm_drv_xpt2046_ops;
 
 typedef struct wm_drv_ops_structure wm_drv_touch_sensor_ops_t;
 extern const wm_drv_touch_sensor_ops_t wm_drv_touch_sensor_ops;
@@ -120,6 +132,9 @@ extern const wm_drv_codec_i2s_ops_t wm_drv_codec_i2s_es8374_ops;
 typedef struct wm_drv_ops_structure wm_drv_sdio_slave_ops_t;
 extern const wm_drv_sdio_slave_ops_t wm_drv_sdio_slave_ops;
 
+typedef struct wm_drv_ops_structure wm_drv_hspi_slave_ops_t;
+extern const wm_drv_hspi_slave_ops_t wm_drv_hspi_slave_ops;
+
 #if CONFIG_COMPONENT_DRIVER_UART_ENABLED
 const static wm_dt_hw_pin_cfg_t dt_hw_uart0_pin[] = {
     { .pin_num = WM_GPIO_NUM_35, .pin_mux = WM_GPIO_IOMUX_FUN1 },
@@ -127,7 +142,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart0_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart0 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010600,
     .irq_cfg         = { .irq_num = WM_IRQ_UART0, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
@@ -146,7 +161,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart1_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart1 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010800,
     .irq_cfg         = { .irq_num = WM_IRQ_UART1, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
@@ -167,7 +182,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart2_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart2 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010A00,
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
                         .parity    = WM_UART_PARITY_NONE,
@@ -186,7 +201,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart3_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart3 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010c00,
     .irq_cfg         = { .irq_num = WM_IRQ_UART24, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
@@ -206,7 +221,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart4_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart4 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010e00,
     .irq_cfg         = { .irq_num = WM_IRQ_UART24, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
@@ -369,6 +384,26 @@ const static wm_dt_hw_tft_lcd_spi_t dt_hw_nv3041a = {
     .gpio_device_name="gpio",
 };
 
+const static wm_dt_hw_tft_lcd_spi_t dt_hw_gc9a01 = {
+    .init_cfg = { .init_level = 0, .init_priority = 0 },
+    .spi_cfg = {
+        .mode = 0,
+        .freq = 30000000,               /* Hz clock */
+        .pin_cs = {
+            .pin_num = WM_GPIO_NUM_27,  /**< CS - PB11 */
+            .pin_mux = WM_GPIO_IOMUX_FUN5,
+            .pin_dir = WM_GPIO_DIR_OUTPUT,
+            .pin_pupd = WM_GPIO_FLOAT,
+        },
+    },
+    .io_lcd_reset = WM_GPIO_NUM_26,     /**< RST - PB10 */
+    .io_lcd_dcx = WM_GPIO_NUM_25,       /**< DCX - PB9 */
+    .io_lcd_led = WM_GPIO_NUM_24,       /**< LED - PB8 */
+    .io_lcd_te = WM_GPIO_NUM_MAX,       /**< TE  - Not Used  */
+    .spi_device_name = "sdspi",
+    .gpio_device_name="gpio",
+};
+
 const static wm_dt_hw_tft_lcd_spi_t dt_hw_st7735 = {
     .init_cfg = { .init_level = 0, .init_priority = 0 },
     .spi_cfg = {
@@ -382,8 +417,28 @@ const static wm_dt_hw_tft_lcd_spi_t dt_hw_st7735 = {
         },
     },
     .io_lcd_reset = WM_GPIO_NUM_26,     /**< RST - PB10 */
-    .io_lcd_led = WM_GPIO_NUM_24,       /**< LED - PB8 */
     .io_lcd_dcx = WM_GPIO_NUM_25,       /**< DCX - PB9 */
+    .io_lcd_led = WM_GPIO_NUM_24,       /**< LED - PB8 */
+    .io_lcd_te = WM_GPIO_NUM_MAX,       /**< TE  - Not Used */
+    .spi_device_name = "sdspi",
+    .gpio_device_name="gpio",
+};
+
+const static wm_dt_hw_tft_lcd_spi_t dt_hw_gz035 = {
+    .init_cfg = { .init_level = 0, .init_priority = 0 },
+    .spi_cfg = {
+        .mode = 0,
+        .freq = 15000000,               /* Hz clock */
+        .pin_cs = {
+            .pin_num = WM_GPIO_NUM_27,  /**< CS - PB11 */
+            .pin_mux = WM_GPIO_IOMUX_FUN5,
+            .pin_dir = WM_GPIO_DIR_OUTPUT,
+            .pin_pupd = WM_GPIO_FLOAT,
+        },
+    },
+    .io_lcd_reset = WM_GPIO_NUM_26,     /**< RST - PB10 */
+    .io_lcd_dcx = WM_GPIO_NUM_25,       /**< DCX - PB9 */
+    .io_lcd_led = WM_GPIO_NUM_24,       /**< LED - PB8 */
     .io_lcd_te = WM_GPIO_NUM_MAX,       /**< TE  - Not Used */
     .spi_device_name = "sdspi",
     .gpio_device_name="gpio",
@@ -477,6 +532,35 @@ const static wm_dt_hw_i2c_t dt_hw_i2c = {
     .rcc_device_name = "rcc",
 };
 
+const static wm_dt_hw_pin_cfg_t dt_hw_i2c_soft_pin_cfg[] = {
+    /*SCL must be first*/
+    { .pin_num  = WM_GPIO_NUM_1,
+     .pin_mux  = WM_GPIO_IOMUX_FUN5,
+     .pin_dir  = WM_GPIO_DIR_OUTPUT,
+     .pin_pupd = WM_GPIO_PULL_UP }, /*SCL*/
+    { .pin_num  = WM_GPIO_NUM_4,
+     .pin_mux  = WM_GPIO_IOMUX_FUN5,
+     .pin_dir  = WM_GPIO_DIR_OUTPUT,
+     .pin_pupd = WM_GPIO_PULL_UP }, /*SDA*/
+};
+
+/**< Use a regular GPIO pin to simulate I2C communication. */
+const static wm_dt_hw_i2c_t dt_hw_i2c_soft = {
+    .init_cfg = { .init_level = 0, .init_priority = 0 },
+    .reg_base = 0,
+    .i2c_cfg ={
+        .max_clock = WM_I2C_SPEED_FAST,
+        .addr_10_bits = 0,
+    },
+    .pin_cfg_count = sizeof(dt_hw_i2c_soft_pin_cfg) / sizeof(dt_hw_i2c_soft_pin_cfg[0]),
+    .pin_cfg = (wm_dt_hw_pin_cfg_t*)&dt_hw_i2c_soft_pin_cfg[0],
+    .irq_cfg = {
+        .irq_num = 0,
+        .irq_priority = 0
+    },
+    .rcc_device_name = "rcc",
+};
+
 const static wm_dt_hw_pin_cfg_t dt_hw_eeprom_pin_cfg[] = {
     /**< Write Protection */
     { .pin_num = WM_GPIO_NUM_21, .pin_mux = WM_GPIO_IOMUX_FUN5, .pin_dir = WM_GPIO_DIR_OUTPUT, .pin_pupd = WM_GPIO_FLOAT },
@@ -515,6 +599,7 @@ const static wm_dt_hw_eeprom_t dt_hw_eeprom1 = {
     .read_only         = 0,
     .max_write_time_ms = 10,
 };
+
 #endif
 
 #if CONFIG_COMPONENT_DRIVER_PSRAM_ENABLED
@@ -551,17 +636,61 @@ const static wm_dt_hw_psram_t dt_hw_psram = {
 #if CONFIG_COMPONENT_DRIVER_SPIM_ENABLED
 const static wm_dt_hw_pin_cfg_t dt_hw_spim_pin_cfg[] = {
     { .pin_num = WM_GPIO_NUM_17, .pin_mux = WM_GPIO_IOMUX_FUN2 }, //clock
-    { .pin_num = WM_GPIO_NUM_16, .pin_mux = WM_GPIO_IOMUX_FUN2 }, //di
-    { .pin_num = WM_GPIO_NUM_7,  .pin_mux = WM_GPIO_IOMUX_FUN2 }, //do
+    { .pin_num = WM_GPIO_NUM_16, .pin_mux = WM_GPIO_IOMUX_FUN2 }, //miso
+    { .pin_num = WM_GPIO_NUM_7,  .pin_mux = WM_GPIO_IOMUX_FUN2 }, //mosi
 };
 
 const static wm_dt_hw_spim_t dt_hw_spim = {
-    .init_cfg        = {.init_level = 0, .init_priority = 50},
+    .init_cfg        = {.init_level = 0, .init_priority = 0},
     .reg_base        = 0x40010400,
-    .spi_master = true,
     .pin_cfg_count = sizeof(dt_hw_spim_pin_cfg) / sizeof(dt_hw_spim_pin_cfg[0]),
     .pin_cfg = (wm_dt_hw_pin_cfg_t*)dt_hw_spim_pin_cfg,
     .irq_cfg = {
+        .irq_num = WM_IRQ_SPI_LS,
+        .irq_priority = 0,
+    },
+    .dma_device_name = "dma",
+    .rcc_device_name = "rcc",
+};
+#endif
+
+#if CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED
+//clock, miso, mosi
+const static wm_dt_hw_pin_cfg_t dt_spim_soft_pin_cfg[] = {
+    { .pin_num  = WM_GPIO_NUM_24,
+     .pin_mux  = WM_GPIO_IOMUX_FUN5,
+     .pin_dir  = WM_GPIO_DIR_OUTPUT,
+     .pin_pupd = WM_GPIO_FLOAT                                                                                           }, //clock
+
+    { .pin_num = WM_GPIO_NUM_25,  .pin_mux = WM_GPIO_IOMUX_FUN5, .pin_dir = WM_GPIO_DIR_INPUT, .pin_pupd = WM_GPIO_FLOAT }, //miso
+
+    { .pin_num  = WM_GPIO_NUM_26,
+     .pin_mux  = WM_GPIO_IOMUX_FUN5,
+     .pin_dir  = WM_GPIO_DIR_OUTPUT,
+     .pin_pupd = WM_GPIO_FLOAT                                                                                           }, //mosi
+};
+
+const static wm_dt_hw_spim_soft_t dt_sw_spim = {
+    .init_cfg      = { .init_level = 0, .init_priority = 0 },
+    .pin_cfg_count = sizeof(dt_spim_soft_pin_cfg) / sizeof(dt_spim_soft_pin_cfg[0]),
+    .pin_cfg       = (wm_dt_hw_pin_cfg_t *)dt_spim_soft_pin_cfg,
+};
+#endif
+
+#if CONFIG_COMPONENT_DRIVER_SPIS_ENABLED
+const static wm_dt_hw_pin_cfg_t dt_hw_spis_pin_cfg[] = {
+    { .pin_num = WM_GPIO_NUM_17, .pin_mux = WM_GPIO_IOMUX_FUN2 }, //clock
+    { .pin_num = WM_GPIO_NUM_16, .pin_mux = WM_GPIO_IOMUX_FUN2 }, //miso
+    { .pin_num = WM_GPIO_NUM_7,  .pin_mux = WM_GPIO_IOMUX_FUN2 }, //mosi
+    { .pin_num = WM_GPIO_NUM_20, .pin_mux = WM_GPIO_IOMUX_FUN1 }, //cs
+};
+
+const static wm_dt_hw_spis_t dt_hw_spis = {
+    .init_cfg        = { .init_level = 0,          .init_priority = 0 },
+    .reg_base        = 0x40010400,
+    .pin_cfg_count   = sizeof(dt_hw_spis_pin_cfg) / sizeof(dt_hw_spis_pin_cfg[0]),
+    .pin_cfg         = (wm_dt_hw_pin_cfg_t *)dt_hw_spis_pin_cfg,
+    .irq_cfg         = {
         .irq_num = WM_IRQ_SPI_LS,
         .irq_priority = 0,
     },
@@ -594,9 +723,50 @@ const static wm_dt_hw_iflash_t dt_hw_iflash = {
 };
 #endif
 
+#if CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED
+#if CONFIG_COMPONENT_FT6336_DRIVER
+const static wm_dt_hw_touch_panel_t dt_hw_ft6336 = {
+    .init_cfg                = { .init_level = 0, .init_priority = 0 },
+    .if_dev_name             = "i2c",
+    .reset_pin               = { 
+        .pin_num = WM_GPIO_NUM_24,
+        .pin_mux = WM_GPIO_IOMUX_FUN5, 
+        .pin_dir = WM_GPIO_DIR_OUTPUT,
+        .pin_pupd = WM_GPIO_FLOAT,
+    },
+    .mirror_image = 1,
+    .width = 480 -1,
+    .height = 320 - 1,
+    .i2c_cfg = {
+        .max_clock = WM_I2C_SPEED_STANDARD,
+        .addr_10_bits = 0,
+    }
+};
+#endif
+#if CONFIG_COMPONENT_XPT2046_DRIVER
+const static wm_dt_hw_touch_panel_t dt_hw_xpt2046 = {
+    .init_cfg     = { .init_level = 0, .init_priority = 0 },
+    .if_dev_name  = "spim_soft",
+    .irq_pin      = { .pin_num  = WM_GPIO_NUM_16,
+                     .pin_mux  = WM_GPIO_IOMUX_FUN5,
+                     .pin_dir  = WM_GPIO_DIR_INPUT,
+                     .pin_pupd = WM_GPIO_FLOAT },
+    .mirror_image = 0,
+    .width        = 480,
+    .height       = 272,
+    .spi_cfg      = { .freq   = 2 * 1000000,
+                     .mode   = 0,
+                     .pin_cs = { .pin_num  = WM_GPIO_NUM_27,
+                                  .pin_mux  = WM_GPIO_IOMUX_FUN5,
+                                  .pin_dir  = WM_GPIO_DIR_OUTPUT,
+                                  .pin_pupd = WM_GPIO_FLOAT } }
+};
+#endif
+#endif /* CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED */
+
 #if CONFIG_COMPONENT_DRIVER_EXTERNAL_FLASH_ENABLED
 const static wm_dt_hw_eflash_t dt_hw_eflash_w25q = {
-    .init_cfg = {.init_level = 0, .init_priority = 50},
+    .init_cfg = {.init_level = 0, .init_priority = 0},
     .flash_cfg = { .quad_spi = false},
     .spi_device_name = "spim",
     .spi_cfg = {
@@ -612,7 +782,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_w25q = {
 };
 
 const static wm_dt_hw_eflash_t dt_hw_eflash_gd25q = {
-    .init_cfg = {.init_level = 0, .init_priority = 50},
+    .init_cfg = {.init_level = 0, .init_priority = 0},
     .flash_cfg = { .quad_spi = false},
     .spi_device_name = "spim",
     .spi_cfg = {
@@ -628,7 +798,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_gd25q = {
 };
 
 const static wm_dt_hw_eflash_t dt_hw_eflash_xt25f = {
-    .init_cfg = {.init_level = 0, .init_priority = 50},
+    .init_cfg = {.init_level = 0, .init_priority = 0},
     .flash_cfg = { .quad_spi = false},
     .spi_device_name = "spim",
     .spi_cfg = {
@@ -644,7 +814,7 @@ const static wm_dt_hw_eflash_t dt_hw_eflash_xt25f = {
 };
 
 const static wm_dt_hw_eflash_t dt_hw_eflash_th25q = {
-    .init_cfg = {.init_level = 0, .init_priority = 50},
+    .init_cfg = {.init_level = 0, .init_priority = 0},
     .flash_cfg = { .quad_spi = false},
     .spi_device_name = "spim",
     .spi_cfg = {
@@ -728,6 +898,26 @@ const static wm_dt_hw_sdio_slave_t dt_hw_sdio_slave = {
 };
 #endif
 
+#if CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED
+const static wm_dt_hw_pin_cfg_t dt_hw_hspi_slave_pin_cfg[] = {
+    { .pin_num = WM_GPIO_NUM_22, .pin_mux = WM_GPIO_IOMUX_FUN3 }, /**< CLK */
+    { .pin_num = WM_GPIO_NUM_23, .pin_mux = WM_GPIO_IOMUX_FUN3 }, /**< INT */
+    { .pin_num = WM_GPIO_NUM_25, .pin_mux = WM_GPIO_IOMUX_FUN3 }, /**< CS */
+    { .pin_num = WM_GPIO_NUM_26, .pin_mux = WM_GPIO_IOMUX_FUN3 }, /**< MOSI */
+    { .pin_num = WM_GPIO_NUM_27, .pin_mux = WM_GPIO_IOMUX_FUN3 }, /**< MISO */
+};
+
+const static wm_dt_hw_hspi_slave_t dt_hw_hspi_slave = {
+    .init_cfg            = { .init_level = 0,        .init_priority = 0 },
+    .hspi_slave_reg_base = 0x40002600,
+    .wrapper_reg_base    = 0x40002800,
+    .irq_cfg             = { .irq_num = WM_IRQ_SDIO, .irq_priority = 0  },
+    .pin_cfg_count       = sizeof(dt_hw_hspi_slave_pin_cfg) / sizeof(dt_hw_hspi_slave_pin_cfg[0]),
+    .pin_cfg             = (wm_dt_hw_pin_cfg_t *)&dt_hw_hspi_slave_pin_cfg[0],
+    .rcc_device_name     = "rcc",
+};
+#endif
+
 const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #if CONFIG_COMPONENT_DRIVER_UART_ENABLED
     { .dev_name = "uart0",       .hw_addr = (void *)&dt_hw_uart0,        .ops_addr = (void *)&wm_drv_uart_ops             },
@@ -759,6 +949,8 @@ const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #if CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED
     { .dev_name = "nv3041a_spi", .hw_addr = (void *)&dt_hw_nv3041a,      .ops_addr = (void *)&wm_drv_tft_lcd_nv3041a_ops  },
     { .dev_name = "st7735_spi",  .hw_addr = (void *)&dt_hw_st7735,       .ops_addr = (void *)&wm_drv_tft_lcd_st7735_ops   },
+    { .dev_name = "gc9a01_spi",  .hw_addr = (void *)&dt_hw_gc9a01,       .ops_addr = (void *)&wm_drv_tft_lcd_gc9a01_ops   },
+    { .dev_name = "gz035_spi",   .hw_addr = (void *)&dt_hw_gz035,        .ops_addr = (void *)&wm_drv_tft_lcd_gz035_ops    },
 #endif  /* CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_RTC_ENABLED
     { .dev_name = "rtc",         .hw_addr = (void *)&dt_hw_rtc,          .ops_addr = (void *)&wm_drv_rtc_ops              },
@@ -780,6 +972,7 @@ const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #endif  /* CONFIG_COMPONENT_DRIVER_DMA_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_I2C_ENABLED
     { .dev_name = "i2c",         .hw_addr = (void *)&dt_hw_i2c,          .ops_addr = (void *)&wm_drv_i2c_ops              },
+    { .dev_name = "i2c_soft",    .hw_addr = (void *)&dt_hw_i2c_soft,     .ops_addr = (void *)&wm_drv_i2c_soft_ops         },
     { .dev_name = "eeprom0",     .hw_addr = (void *)&dt_hw_eeprom0,      .ops_addr = (void *)&wm_drv_eeprom_nv24c0x_ops   },
     { .dev_name = "eeprom1",     .hw_addr = (void *)&dt_hw_eeprom1,      .ops_addr = (void *)&wm_drv_eeprom_nv24c0x_ops   },
 #endif  /* CONFIG_COMPONENT_DRIVER_I2C_ENABLED */
@@ -789,12 +982,26 @@ const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #if CONFIG_COMPONENT_DRIVER_SPIM_ENABLED
     { .dev_name = "spim",        .hw_addr = (void *)&dt_hw_spim,         .ops_addr = (void *)&wm_drv_spim_ops             },
 #endif  /* CONFIG_COMPONENT_DRIVER_SPIM_ENABLED */
+#if CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED
+    { .dev_name = "spim_soft",   .hw_addr = (void *)&dt_sw_spim,         .ops_addr = (void *)&wm_drv_spim_soft_ops        },
+#endif  /* CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED */
+#if CONFIG_COMPONENT_DRIVER_SPIS_ENABLED
+    { .dev_name = "spis",        .hw_addr = (void *)&dt_hw_spis,         .ops_addr = (void *)&wm_drv_spis_ops             },
+#endif  /* CONFIG_COMPONENT_DRIVER_SPIS_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_RCC_ENABLED
     { .dev_name = "rcc",         .hw_addr = (void *)&dt_hw_rcc,          .ops_addr = (void *)&wm_drv_rcc_ops              },
-#endif  /* CONFIG_COMPONENT_DRIVER_SPIM_ENABLED */
+#endif  /* CONFIG_COMPONENT_DRIVER_RCC_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_INTERNAL_FLASH_ENABLED
     { .dev_name = "iflash",      .hw_addr = (void *)&dt_hw_iflash,       .ops_addr = (void *)&wm_drv_internal_flash_ops   },
 #endif  /* CONFIG_COMPONENT_DRIVER_INTERNAL_FLASH_ENABLED */
+#if CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED
+#if CONFIG_COMPONENT_FT6336_DRIVER
+    { .dev_name = "ft6336",      .hw_addr = (void *)&dt_hw_ft6336,       .ops_addr = (void *)&wm_drv_ft6336_ops           },
+#endif
+#if CONFIG_COMPONENT_XPT2046_DRIVER
+    { .dev_name = "xpt2046",     .hw_addr = (void *)&dt_hw_xpt2046,      .ops_addr = (void *)&wm_drv_xpt2046_ops          },
+#endif
+#endif  /* CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED */
 #if CONFIG_COMPONENT_DRIVER_EXTERNAL_FLASH_ENABLED
     { .dev_name = "flash_w25q",  .hw_addr = (void *)&dt_hw_eflash_w25q,  .ops_addr = (void *)&wm_drv_external_flash_ops   },
     { .dev_name = "flash_gd25q", .hw_addr = (void *)&dt_hw_eflash_gd25q, .ops_addr = (void *)&wm_drv_external_flash_ops   },
@@ -822,6 +1029,9 @@ const static struct wm_dt_table_entry dt_hw_table_entry[] = {
 #if CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED
     { .dev_name = "sdio_slave",  .hw_addr = (void *)&dt_hw_sdio_slave,   .ops_addr = (void *)&wm_drv_sdio_slave_ops       },
 #endif  /* CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED */
+#if CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED
+    { .dev_name = "hspi_slave",  .hw_addr = (void *)&dt_hw_hspi_slave,   .ops_addr = (void *)&wm_drv_hspi_slave_ops       },
+#endif  /* CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED */
 };
 
 WM_DT_TABLE_DEFINE(, (sizeof(dt_hw_table_entry) / sizeof(dt_hw_table_entry[0])), (void *)&dt_hw_table_entry[0]);

@@ -22,7 +22,7 @@
 - Controller Driver
 
   基于 HAL 层接口 实现 Chip 内各控制器的各种功能，具有 OS 依赖性，执行互斥，信号量等资源保护能力。
-  （控制器种类如: I2C, SPI, DMA, Timer, WDT, I2S, Clock, USB, SDIO, IRQ, PWM, ADC, LCD, Touch, Uart, RTC, PMU, Crypto Engin, GPIO 等）
+  （控制器种类如: I2C, SPI, HSPI slave, DMA, Timer, WDT, I2S, Clock, USB, SDIO, IRQ, PWM, ADC, LCD, Touch, Uart, RTC, PMU, Crypto Engin, GPIO 等）
 
 - Device Driver
 
@@ -48,6 +48,8 @@
    Flash <drv_flash>
    RCC <drv_rcc>
    SPI Master <drv_spim>
+   SPI Slave <drv_spis>
+   HSPI_SLAVE <drv_hspi_slave>
    GPIO <drv_gpio>
    IRQ <drv_irq>
    TIMER <drv_timer>
@@ -60,6 +62,7 @@
    RTC <drv_rtc>
    PSRAM <drv_psram>
    触摸传感器 <drv_touch_sensor>
+   Touch_Panel <drv_touch_panel>
    ADC <drv_adc>
    SEG_LCD <drv_seg_lcd>
    CRC <drv_crc>
@@ -193,6 +196,9 @@
      - 是否启用 SDIO Slave 驱动
      - N 
 
+   * - CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED 
+     - 是否启用 HSPI Slave 驱动
+     - N 
 
 如何添加一个新的设备驱动
 ^^^^^^^^^^^^^^^^^^^^^^^^^

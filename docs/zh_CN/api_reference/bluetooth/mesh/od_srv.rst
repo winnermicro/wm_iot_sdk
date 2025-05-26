@@ -13,8 +13,19 @@
 
 如果存在，则必须仅在主元素上实例化按需专用代理服务器模型。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/od_priv_proxy_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/od_priv_proxy_srv.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_od_priv_proxy_srv
    :project: wm-iot-sdk-apis

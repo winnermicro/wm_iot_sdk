@@ -1,5 +1,8 @@
-      <div class="row">
-      <label class="col-sm-3 text-right" for="device_name">Device name:</label>
-      <input type="text" class="col-sm-6" value="{{ data.dev_name|lower }}" id="device_name" name="device_name" readonly>
-      &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
-      </div>
+<div class="property-item">
+                                    <label>Device name:</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" value="{{ data.dev_name|lower }}" readonly id="device_name">
+                                    </div>
+                                    <div class="copy" id="copyBtn" onclick="copyText()"><img src="/static/images/copy.png"
+                                            alt=""></div>
+                                </div>

@@ -49,7 +49,7 @@ int wm_nvs_init(const char *partition_name)
 
     WM_NVS_LOGD("init %s", partition_name);
 
-    /*init port at first partition initializing*/
+    /*initialize the port during the first partition initialization*/
     err = wm_nvs_port_init();
     if (err != WM_NVS_ERR_OK) {
         return err;
@@ -75,10 +75,11 @@ int wm_nvs_deinit(const char *partition_name)
         return WM_NVS_ERR_INVALID_PARAM;
     }
 
-    /*init port at first partition initializing*/
-    if (!wm_nvs_ptm_is_in_using() && (err = wm_nvs_port_init()) != WM_NVS_ERR_OK) {
-        return err;
+    /*check nvs is initialized or not*/
+    if (!(wm_nvs_ptm_is_in_using() && wm_nvs_port_is_init())) {
+        return WM_NVS_ERR_FAIL;
     }
+
     WM_NVS_LOCK();
 
     err = wm_nvs_ptm_deinit(partition_name);
@@ -195,7 +196,7 @@ static int set_item(wm_nvs_handle_t *handle, wm_nvs_type_t type, const char *key
     wm_nvs_handle_info_t *h = (wm_nvs_handle_info_t *)handle;
     int key_len;
 
-    if (!(handle && key && value && length >= 0 && type > WM_NVS_TYPE_ANY && type < WM_NVS_TYPE_MAX)) {
+    if (!(handle && key && value && type > WM_NVS_TYPE_ANY && type < WM_NVS_TYPE_MAX)) {
         return WM_NVS_ERR_INVALID_PARAM;
     }
 

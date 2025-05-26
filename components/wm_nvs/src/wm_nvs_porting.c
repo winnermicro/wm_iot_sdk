@@ -63,6 +63,11 @@ int wm_nvs_port_deinit(void)
     return WM_NVS_ERR_OK;
 }
 
+int wm_nvs_port_is_init(void)
+{
+    return ((g_nvs_mutex && g_crc_dev) ? true : false);
+}
+
 int wm_nvs_port_mutex_lock(void)
 {
     if (!g_nvs_mutex) {

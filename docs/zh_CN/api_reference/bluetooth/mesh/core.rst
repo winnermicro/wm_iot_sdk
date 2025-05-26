@@ -66,4 +66,14 @@ Replay 保护列表使用相同的工作项来存储 RPL 条目。如果请求�
 API 参考
 **************
 
+**头文件**
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/main.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/main.h"
+
 .. doxygengroup:: bt_mesh

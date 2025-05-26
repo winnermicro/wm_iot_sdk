@@ -47,7 +47,7 @@ class wm_device_table:
             self.check_and_load_kconfig(kconfig_file)
         else:
             self.chip_type = "W800"
-            self.kconfig = ["uart", "timer", "iflash", "eflash", "crypto", "crc", "hash", "rng", "rsa", "sdmmc", "sdspi", "sdio_slave", "tftlcd", "nv3041a", "st7735", "gz035", "i2c", "spim", "touch_sensor", "pwm", "rtc", "pmu", "i2s", "seg_lcd", "adc", "gpio", "wdt", "psram"]
+            self.kconfig = ["uart", "timer", "iflash", "eflash", "crypto", "crc", "hash", "rng", "rsa", "sdmmc", "sdspi", "sdio_slave", "hspi_slave", "tftlcd", "nv3041a", "gc9a01", "st7735", "gz035", "i2c", "spim", "spis", "spim_soft", "touch_sensor", "touch_panel", "xpt2046", "ft6336", "pwm", "rtc", "pmu", "i2s","es8374","seg_lcd", "adc", "gpio", "wdt", "psram"]
 
     def check_and_load_kconfig(self, kconfig_file):
         with open(kconfig_file, "r", encoding="utf-8") as file:
@@ -85,14 +85,22 @@ class wm_device_table:
                     self.kconfig.append("sdspi")
                 elif line == "CONFIG_COMPONENT_DRIVER_SDIO_SLAVE_ENABLED=y":
                     self.kconfig.append("sdio_slave")
+                elif line == "CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED=y":
+                    self.kconfig.append("hspi_slave")
                 elif line == "CONFIG_COMPONENT_DRIVER_SPIM_ENABLED=y":
                     self.kconfig.append("spim")
+                elif line == "CONFIG_COMPONENT_DRIVER_SPIS_ENABLED=y":
+                    self.kconfig.append("spis")
+                elif line == "CONFIG_COMPONENT_DRIVER_SPIM_SOFT_ENABLED=y":
+                    self.kconfig.append("spim_soft")
                 elif line == "CONFIG_COMPONENT_DRIVER_WDT_ENABLED=y":
                     self.kconfig.append("wdt")
                 elif line == "CONFIG_COMPONENT_DRIVER_TFT_LCD_ENABLED=y":
                     self.kconfig.append("tftlcd")
                 elif line == "CONFIG_COMPONENT_DRIVER_LCD_ST7735_SPI=y":
                     self.kconfig.append("st7735")
+                elif line == "CONFIG_COMPONENT_DRIVER_LCD_GC9A01_SPI=y":
+                    self.kconfig.append("gc9a01")
                 elif line == "CONFIG_COMPONENT_DRIVER_LCD_NV3041A_SPI=y":
                     self.kconfig.append("nv3041a")
                 elif line == "CONFIG_COMPONENT_DRIVER_LCD_GZ035_SPI=y":
@@ -111,6 +119,12 @@ class wm_device_table:
                     self.kconfig.append("rsa")
                 elif line == "CONFIG_COMPONENT_DRIVER_TOUCH_SENSOR_ENABLED=y":
                     self.kconfig.append("touch_sensor")
+                elif line == "CONFIG_COMPONENT_DRIVER_TOUCH_PANEL_ENABLED=y":
+                    self.kconfig.append("touch_panel")
+                elif line == "CONFIG_COMPONENT_XPT2046_DRIVER=y":
+                    self.kconfig.append("xpt2046")
+                elif line == "CONFIG_COMPONENT_FT6336_DRIVER=y":
+                    self.kconfig.append("ft6336")
                 elif line == "CONFIG_COMPONENT_DRIVER_I2S_ENABLED=y":
                     self.kconfig.append("i2s")
                 elif line == "CONFIG_COMPONENT_DRIVER_CODEC_ES8374_ENABLED=y":
@@ -441,18 +455,6 @@ struct wm_drv_ops_structure;
 
     def update_dt_hw_c_reg_base(self, item):
         self.wm_dt_hw_c = self.wm_dt_hw_c + "    .reg_base = " + hex(item["reg_base"]) + ",\n"
-
-    def update_dt_hw_c_pin_lcd_reset(self, item):
-        if "irq_device" in item:
-            self.wm_dt_hw_c = self.wm_dt_hw_c + "    .pin_lcd_reset = \"" + item["pin_lcd_reset"] + "\",\n"
-
-    def update_dt_hw_c_pin_lcd_dcx(self, item):
-        if "irq_device" in item:
-            self.wm_dt_hw_c = self.wm_dt_hw_c + "    .pin_lcd_dcx = \"" + item["pin_lcd_dcx"] + "\",\n"
-
-    def update_dt_hw_c_irq_pin_lcd_led(self, item):
-        if "irq_device" in item:
-            self.wm_dt_hw_c = self.wm_dt_hw_c + "    .pin_lcd_led = \"" + item["pin_lcd_led"] + "\",\n"
 
     def update_dt_hw_c_begin(self, base_name, dev_name):
         self.wm_dt_hw_c = self.wm_dt_hw_c + "const static wm_dt_hw_" + base_name + "_t dt_hw" + self.append_table_name() + dev_name + " = {\n"
@@ -881,13 +883,6 @@ typedef struct {
 
         members = '''
 typedef struct {
-    uint8_t mode;              /**< support 0(CPOL=0,CPHA=0), 1(CPOL=0,CPHA=1), 2(CPOL=1,CPHA=0), 3(CPOL=1,CPHA=1) */
-    uint32_t freq;             /**< freq for current device, unit is HZ, freq = FAPB_CLK/ ( 2 x (Divider +1))
-                                    range: WM_SPIM_MIN_CLOCK ~ WM_SPIM_MAX_CLOCK*/
-    wm_dt_hw_pin_cfg_t pin_cs; /**< the CS GPIO number for select slave device */
-} wm_dt_hw_spim_dev_cfg_t;
-
-typedef struct {
     bool quad_spi;
 } wm_dt_hw_flash_cfg_t;
 
@@ -1048,6 +1043,9 @@ typedef struct {
 '''
         base_name = "i2c"
 
+        # if base_name in self.kconfig or "xpt2046" in self.kconfig or "ft6336" in self.kconfig:
+        #     self.update_dt_hw_h(members)
+
         if not base_name in self.kconfig:
             return
 
@@ -1079,6 +1077,13 @@ typedef struct {
 
         members = '''
 typedef struct {
+    uint8_t mode;              /**< support 0(CPOL=0,CPHA=0), 1(CPOL=0,CPHA=1), 2(CPOL=1,CPHA=0), 3(CPOL=1,CPHA=1) */
+    uint32_t freq;             /**< freq for current device, unit is HZ, freq = FAPB_CLK/ ( 2 x (Divider +1))
+                                    range: WM_SPIM_MIN_CLOCK ~ WM_SPIM_MAX_CLOCK*/
+    wm_dt_hw_pin_cfg_t pin_cs; /**< the CS GPIO number for select slave device */
+} wm_dt_hw_spim_dev_cfg_t;
+
+typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
 
     uint32_t reg_base;
@@ -1092,6 +1097,49 @@ typedef struct {
 } wm_dt_hw_spim_t;
 '''
         base_name = "spim"
+
+        if base_name in self.kconfig or "spis" in self.kconfig or "spim_soft" in self.kconfig or "sdspi" in self.kconfig or "tftlcd" in self.kconfig:
+            self.update_dt_hw_h(members)
+
+        if not base_name in self.kconfig:
+            return
+
+        self.update_dt_hw_c_ops_def(base_name)
+
+        for item in self.config:
+            dev_name = item["dev_name"]
+            if base_name == dev_name:
+                self.update_dt_table(dev_name, base_name, item)
+                self.update_dt_hw_c_pin_cfg(dev_name, item)
+                self.update_dt_hw_c_begin(base_name, dev_name)
+                self.update_dt_hw_c_reg_base(item)
+                self.update_dt_hw_c_irq_cfg(item)
+                self.update_dt_hw_c_init_cfg(item)
+                self.update_dt_hw_c_dma_device(item)
+                self.update_dt_hw_c_rcc_device(item)
+                self.update_dt_hw_c_pin_cfg_link(dev_name, item)
+                self.update_dt_hw_c_end()
+
+    def generate_spis(self):
+        members = '''
+typedef struct {
+    uint8_t mode;              /**< support 0(CPOL=0,CPHA=0), 1(CPOL=0,CPHA=1), 2(CPOL=1,CPHA=0), 3(CPOL=1,CPHA=1) */
+} wm_dt_hw_spis_dev_cfg_t;
+
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+
+    uint32_t reg_base;
+    wm_dt_hw_irq_cfg_t irq_cfg;
+
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+
+    char *dma_device_name;
+    char *rcc_device_name;
+} wm_dt_hw_spis_t;
+'''
+        base_name = "spis"
 
         if not base_name in self.kconfig:
             return
@@ -1110,6 +1158,34 @@ typedef struct {
                 self.update_dt_hw_c_init_cfg(item)
                 self.update_dt_hw_c_dma_device(item)
                 self.update_dt_hw_c_rcc_device(item)
+                self.update_dt_hw_c_pin_cfg_link(dev_name, item)
+                self.update_dt_hw_c_end()
+
+    def generate_spim_soft(self):
+        members = '''
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+} wm_dt_hw_spim_soft_t;
+'''
+
+        base_name = "spim_soft"
+
+        if not base_name in self.kconfig:
+            return
+
+        self.update_dt_hw_h(members)
+        self.update_dt_hw_c_ops_def(base_name)
+
+        for item in self.config:
+            dev_name = item["dev_name"]
+            if base_name == dev_name:
+                self.update_dt_table(dev_name, base_name, item)
+                self.update_dt_hw_c_pin_cfg(dev_name, item)
+                self.update_dt_hw_c_begin(base_name, dev_name)
+                self.update_dt_hw_c_init_cfg(item)
                 self.update_dt_hw_c_pin_cfg_link(dev_name, item)
                 self.update_dt_hw_c_end()
 
@@ -1256,6 +1332,79 @@ typedef struct {
                 self.update_dt_hw_c_touch_sensor_device(item)
                 self.update_dt_hw_c_pin_cfg_link(dev_name, item)
                 self.update_dt_hw_c_touch_button_cfg_link(dev_name)
+                self.update_dt_hw_c_end()
+
+    def generate_touch_panel(self):
+
+        members = '''
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+    char *if_dev_name;
+    wm_dt_hw_pin_cfg_t irq_pin;
+    wm_dt_hw_pin_cfg_t reset_pin;
+    uint8_t mirror_image;
+    uint16_t width;
+    uint16_t height;
+    #if CONFIG_COMPONENT_FT6336_DRIVER
+    wm_dt_hw_i2c_cfg_t i2c_cfg;
+    #endif
+    #if CONFIG_COMPONENT_XPT2046_DRIVER
+    wm_dt_hw_spim_dev_cfg_t spi_cfg;
+    #endif
+} wm_dt_hw_touch_panel_t;
+'''
+        if not "touch_panel" in self.kconfig:
+                return
+
+        self.update_dt_hw_h(members)
+
+        for item in self.config:
+            dev_name = item["dev_name"]
+            if dev_name == "xpt2046" and "xpt2046" not in self.kconfig:
+                continue
+            if dev_name == "ft6336" and "ft6336" not in self.kconfig:
+                continue
+
+            if "xpt2046" == dev_name:
+                self.update_dt_hw_c_ops_def("touch_driver", dev_name)
+                self.update_dt_table(dev_name, dev_name, item)
+                self.update_dt_hw_c_begin("touch_panel", dev_name)
+                self.update_dt_hw_c_init_cfg(item)
+                self.wm_dt_hw_c += (
+                    "    .if_dev_name  = \"" + str(item["if_dev_name"]) + "\",\n"
+                    "    .irq_pin      = { .pin_num = WM_GPIO_NUM_" + str(item["irq_cfg"]["pin"]) + ",\n"
+                    "                    .pin_mux = WM_GPIO_IOMUX_" + item["irq_cfg"]["fun"].upper() + ",\n"
+                    "                    .pin_dir = WM_GPIO_DIR_" + item["irq_cfg"]["dir"].upper() + ",\n"
+                    "                    .pin_pupd = WM_GPIO_" + item["irq_cfg"]["pupd"].upper() + " },\n"
+                    "    .mirror_image = " + str(item["mirror_image"]).upper() + ",\n"
+                    "    .width        = " + str(item["width"]).upper() + ",\n"
+                    "    .height       = " + str(item["height"]).upper() + ",\n"
+                    "    .spi_cfg  = { .mode = " + str(item["spi_cfg"]["mode"]) + ",\n"
+                    "                  .freq = " + str(item["spi_cfg"]["freq"]) + ",\n"
+                    "                  .pin_cs = { .pin_num  = WM_GPIO_NUM_" + str(item["spi_cfg"]["pin_cs"]["pin"]) + ",\n"
+                    "                              .pin_mux  = WM_GPIO_IOMUX_" + item["spi_cfg"]["pin_cs"]["fun"].upper() + ",\n"
+                    "                              .pin_dir  = WM_GPIO_DIR_" + item["spi_cfg"]["pin_cs"]["dir"].upper() + ",\n"
+                    "                              .pin_pupd = WM_GPIO_" + item["spi_cfg"]["pin_cs"]["pupd"].upper() + " } }\n"
+                )
+                self.update_dt_hw_c_end()
+
+            elif "ft6336" == dev_name:
+                self.update_dt_hw_c_ops_def("touch_driver", dev_name)
+                self.update_dt_table(dev_name, dev_name, item)
+                self.update_dt_hw_c_begin("touch_panel", dev_name)
+                self.update_dt_hw_c_init_cfg(item)
+                self.wm_dt_hw_c += (
+                    "    .if_dev_name  = \"" + str(item["if_dev_name"]) + "\",\n"
+                    "    .reset_pin      = { .pin_num = WM_GPIO_NUM_" + str(item["reset_cfg"]["pin"]) + ",\n"
+                    "                        .pin_mux = WM_GPIO_IOMUX_" + item["reset_cfg"]["fun"].upper() + ",\n"
+                    "                        .pin_dir = WM_GPIO_DIR_" + item["reset_cfg"]["dir"].upper() + ",\n"
+                    "                        .pin_pupd = WM_GPIO_" + item["reset_cfg"]["pupd"].upper() + " },\n"
+                    "    .mirror_image = " + str(item["mirror_image"]).upper() + ",\n"
+                    "    .width        = " + str(item["width"]).upper() + ",\n"
+                    "    .height       = " + str(item["height"]).upper() + ",\n"
+                    "    .i2c_cfg  = { .max_clock = " + str(item["i2c_cfg"]["max_clock"]) + ",\n"
+                    "                      .addr_10_bits = " + str(item["i2c_cfg"]["addr_10_bits"]) + "}\n"
+                )
                 self.update_dt_hw_c_end()
 
     def generate_adc(self):
@@ -1452,8 +1601,7 @@ typedef struct {
                 self.update_dt_hw_c_rcc_device(item)
                 self.update_dt_hw_c_end()
 
-        self.generate_es8374()
-
+   
     def generate_sdh(self):
 
         members = '''
@@ -1557,6 +1705,44 @@ typedef struct {
                 self.update_dt_hw_c_rcc_device(item)
                 self.update_dt_hw_c_end()
 
+    def generate_hspi_slave(self):
+
+        members = '''
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+
+    uint32_t hspi_slave_reg_base;
+    uint32_t wrapper_reg_base;
+    wm_dt_hw_irq_cfg_t irq_cfg;
+
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+
+    char *rcc_device_name;
+} wm_dt_hw_hspi_slave_t;
+'''
+        base_name = "hspi_slave"
+
+        if not base_name in self.kconfig:
+            return
+
+        self.update_dt_hw_h(members)
+        self.update_dt_hw_c_ops_def(base_name)
+
+        for item in self.config:
+            dev_name = item["dev_name"]
+            if dev_name == base_name:
+                self.update_dt_hw_c_pin_cfg(dev_name, item)
+                self.update_dt_table(dev_name, base_name, item)
+                self.update_dt_hw_c_begin(base_name, dev_name)
+                self.update_dt_hw_c_init_cfg(item)
+                self.wm_dt_hw_c = self.wm_dt_hw_c + "    .hspi_slave_reg_base = " + hex(item["reg_base"]) + ",\n"
+                self.wm_dt_hw_c = self.wm_dt_hw_c + "    .wrapper_reg_base = " + hex(item["wrapper_reg_base"]) + ",\n"
+                self.update_dt_hw_c_irq_cfg(item)
+                self.update_dt_hw_c_pin_cfg_link(dev_name, item)
+                self.update_dt_hw_c_rcc_device(item)
+                self.update_dt_hw_c_end()
+
     def generate_tftlcd(self):
 
         if not "tftlcd" in self.kconfig:
@@ -1581,7 +1767,7 @@ typedef struct {
         writed = False
         for item in self.config:
             dev_name = item["dev_name"]
-            if "nv3041a_spi" == dev_name or "st7735_spi" == dev_name or "gz035_spi" == dev_name:
+            if "nv3041a_spi" == dev_name or "gc9a01_spi" == dev_name or "st7735_spi" == dev_name or "gz035_spi" == dev_name:
                 if not writed:
                     self.update_dt_hw_h(members)
                     writed = True
@@ -1616,6 +1802,9 @@ typedef struct {
                 if "pin_lcd_te" in item:
                     if item["pin_lcd_te"] != -1:
                         self.wm_dt_hw_c += "    .io_lcd_te    = WM_GPIO_NUM_" + str(item["pin_lcd_te"]) + ",\n"
+                    else:
+                        self.wm_dt_hw_c += "    .io_lcd_te    = WM_GPIO_NUM_MAX" + ",\n"
+
                 else:
                     self.wm_dt_hw_c += "    .io_lcd_te    = WM_GPIO_NUM_MAX" + ",\n"
 
@@ -1934,14 +2123,19 @@ typedef struct {
         wmdt.generate_seg_lcd()
         wmdt.generate_i2c()
         wmdt.generate_spim()
+        wmdt.generate_spis()
+        wmdt.generate_spim_soft()
         wmdt.generate_rtc()
         wmdt.generate_pmu()
         wmdt.generate_touch_sensor()
+        wmdt.generate_touch_panel()
         wmdt.generate_adc()
         wmdt.generate_eflash()
         wmdt.generate_i2s()
+        wmdt.generate_es8374()
         wmdt.generate_sdh()
         wmdt.generate_sdio_slave()
+        wmdt.generate_hspi_slave()
         wmdt.generate_tftlcd()
         wmdt.generate_wdt()
         wmdt.generate_psram()

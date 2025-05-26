@@ -1,136 +1,159 @@
-      <div class="card-header">
-        <h5>Properties</h5>
-        {% include 'device_name.html' %}
-	    <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="duty_sel">Duty:</label>
-        <select class="col-sm-6" id="duty_sel" name="duty_sel">
-          <option value="0" {% if data.duty_sel == 0 %} selected {% endif %}>Static duty</option>
-          <option value="1" {% if data.duty_sel == 1 %} selected {% endif %}>1/2 duty cycle</option>
-          <option value="2" {% if data.duty_sel == 2 %} selected {% endif %}>1/3 duty cycle</option>
-          <option value="3" {% if data.duty_sel == 3 %} selected {% endif %}>1/4 duty cycle</option>
-          <option value="4" {% if data.duty_sel == 4 %} selected {% endif %}>1/5 duty cycle</option>
-          <option value="5" {% if data.duty_sel == 5 %} selected {% endif %}>1/6 duty cycle</option>
-          <option value="6" {% if data.duty_sel == 6 %} selected {% endif %}>1/7 duty cycle</option>
-          <option value="7" {% if data.duty_sel == 7 %} selected {% endif %}>1/8 duty cycle</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="vlcd_cc">Supply voltage:</label>
-        <select class="col-sm-6" id="vlcd_cc" name="vlcd_cc">
-          <option value="0" {% if data.vlcd_cc == 0 %} selected {% endif %}>2.7V</option>
-          <option value="1" {% if data.vlcd_cc == 1 %} selected {% endif %}>2.9V</option>
-          <option value="2" {% if data.vlcd_cc == 2 %} selected {% endif %}>3.1V</option>
-          <option value="3" {% if data.vlcd_cc == 3 %} selected {% endif %}>3.3V</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="bias">Internal bias:</label>
-        <select class="col-sm-6" id="bias" name="bias">
-          <option value="0" {% if data.bias == 0 %} selected {% endif %}>1/4 internal bias</option>
-          <option value="1" {% if data.bias == 1 %} selected {% endif %}>1/2 internal bias</option>
-          <option value="2" {% if data.bias == 2 %} selected {% endif %}>1/3 internal bias</option>
-          <option value="3" {% if data.bias == 3 %} selected {% endif %}>Static bias</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="hd">Output drive strength:</label>
-        <select class="col-sm-6" id="hd" name="hd">
-          <option value="0" {% if data.hd == 0 %} selected {% endif %}>Low</option>
-          <option value="1" {% if data.hd == 1 %} selected {% endif %}>High</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="frame_freq">Frame frequency:</label>
-        <input type="number" value="{{ data.frame_freq }}" class="col-sm-6" id="frame_freq" name="frame_freq">
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="com_num">Number of COM lines:</label>
-        <input type="number" min="0" max="7" value="{{ data.com_num }}" class="col-sm-6" id="com_num" name="com_num">
-        </div>
-      </div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <div class="property-item">
+                                    <label>Duty:</label>
+                                    <select id="duty_sel" name="duty_sel">
+                                        <option value="0" {% if data.duty_sel == 0 %} selected {% endif %}>Static duty</option>
+                                        <option value="1" {% if data.duty_sel == 1 %} selected {% endif %}>1/2 duty cycle</option>
+                                        <option value="2" {% if data.duty_sel == 2 %} selected {% endif %}>1/3 duty cycle</option>
+                                        <option value="3" {% if data.duty_sel == 3 %} selected {% endif %}>1/4 duty cycle</option>
+                                        <option value="4" {% if data.duty_sel == 4 %} selected {% endif %}>1/5 duty cycle</option>
+                                        <option value="5" {% if data.duty_sel == 5 %} selected {% endif %}>1/6 duty cycle</option>
+                                        <option value="6" {% if data.duty_sel == 6 %} selected {% endif %}>1/7 duty cycle</option>
+                                        <option value="7" {% if data.duty_sel == 7 %} selected {% endif %}>1/8 duty cycle</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Supply voltage:</label>
+                                    <select id="vlcd_cc" name="vlcd_cc">
+                                        <option value="0" {% if data.vlcd_cc == 0 %} selected {% endif %}>2.7V</option>
+                                        <option value="1" {% if data.vlcd_cc == 1 %} selected {% endif %}>2.9V</option>
+                                        <option value="2" {% if data.vlcd_cc == 2 %} selected {% endif %}>3.1V</option>
+                                        <option value="3" {% if data.vlcd_cc == 3 %} selected {% endif %}>3.3V</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Internal bias:</label>
+                                    <select id="bias" name="bias">
+                                        <option value="0" {% if data.bias == 0 %} selected {% endif %}>1/4 internal bias</option>
+                                        <option value="1" {% if data.bias == 1 %} selected {% endif %}>1/2 internal bias</option>
+                                        <option value="2" {% if data.bias == 2 %} selected {% endif %}>1/3 internal bias</option>
+                                        <option value="3" {% if data.bias == 3 %} selected {% endif %}>Static bias</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Output drive strength:</label>
+                                    <select id="hd" name="hd">
+                                        <option value="0" {% if data.hd == 0 %} selected {% endif %}>Low</option>
+                                        <option value="1" {% if data.hd == 1 %} selected {% endif %}>High</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>Frame frequency：</label>
+                                    <input type="number" value="{{data.frame_freq}}" id="frame_freq" name="frame_freq">
+                                </div>
+                                <div class="property-item">
+                                    <label>Number of COM lines：</label>
+                                    <input type="number" value="{{data.com_num}}" min="0" max="7" id="com_num" name="com_num">
+                                </div>
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
 
-      <div class="card-header">
-        <h5>Pins</h5>
-        {% for i in range(0, 46) %}
-          {% set pin_valid = 0 %}
+                                {% for i in range(0, 46) %}
+                                  {% set pin_valid = 0 %}
+                                
+                                  {% if i == 0 or i == 1 or i == 4 or i == 7 or i == 16 or i == 17 or i == 18 or i == 19 or i == 20 or i == 21 or i == 22 or i == 23 or i == 24 or i == 25 or i == 26 or i == 27 or i == 35 or i == 36 %}
+                                    {% set pin_valid = 1 %}
+                                  {% endif %}
+                                
+                                  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                    {% if i == 2 or i == 3 or i == 5 or i == 6 or i == 9 or i == 10 or i == 28 or i == 29 or i == 30 or i == 31 or i == 32 or i == 33 or i == 34 or i == 37 or i == 38 or i == 40 or i == 41 or i == 42 %}
+                                      {% set pin_valid = 1 %}
+                                    {% endif %}
+                                  {% endif %}
+                                
+                                  {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+                                      {% if i == 8 or i == 11 or i == 13 or i == 15 or i == 43 %}
+                                        {% set pin_valid = 1 %}
+                                      {% endif %}
+                                  {% endif %}
+                                
+                                  {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
+                                      {% if i == 12 or i == 14 %}
+                                        {% set pin_valid = 1 %}
+                                      {% endif %}
+                                  {% endif %}
+                                
+                                  {% if data.chip_type == "W802" %}
+                                      {% if i == 45 %}
+                                        {% set pin_valid = 1 %}
+                                      {% endif %}
+                                  {% endif %}
 
-          {% if i == 0 or i == 1 or i == 4 or i == 7 or i == 16 or i == 17 or i == 18 or i == 19 or i == 20 or i == 21 or i == 22 or i == 23 or i == 24 or i == 25 or i == 26 or i == 27 or i == 35 or i == 36 %}
-            {% set pin_valid = 1 %}
-          {% endif %}
+                                {% if pin_valid %}
+                                <div class="property-item">
+                                    <label>Pin:</label>
+                                    <select id="pinnum{{i}}" name="pinnum{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                      {% if data.pinnum[i] > 15 %}
+                                          <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PB{{i - 16}})</option>
+                                      {% else %}
+                                          <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PA{{i}})</option>
+                                      {% endif %}
+                                    </select>
+                                    <label class="toggle-control">
+                                      {% if data.pinnum[i] > 15 %}
+                                        <input type="checkbox" value="1" id="enable{{i}}" name="enable{{i}}" {% if data.enable[i] %} checked {% endif %} data-change-name="PIN_{{i}} (PB{{i-16}}) enable:">
+                                      {% else %}
+                                        <input type="checkbox" value="1" id="enable{{i}}" name="enable{{i}}" {% if data.enable[i] %} checked {% endif %} data-change-name="PIN_{{i}}( PA{{i}}) enable:">
+                                      {% endif %}
+                                        <span class="control"></span>
+                                    </label>
+                                </div>
+                                {% endif %}
 
-          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-            {% if i == 2 or i == 3 or i == 5 or i == 6 or i == 9 or i == 10 or i == 28 or i == 29 or i == 30 or i == 31 or i == 32 or i == 33 or i == 34 or i == 37 or i == 38 or i == 40 or i == 41 or i == 42 %}
-              {% set pin_valid = 1 %}
-            {% endif %}
-          {% endif %}
+                                {% endfor %}
 
-          {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
-              {% if i == 8 or i == 11 or i == 13 or i == 15 or i == 43 %}
-                {% set pin_valid = 1 %}
-              {% endif %}
-          {% endif %}
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
 
-          {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W806" %}
-              {% if i == 12 or i == 14 %}
-                {% set pin_valid = 1 %}
-              {% endif %}
-          {% endif %}
+                    <script>
+                        function setPins() {
+                            let pins = [];
 
-          {% if data.chip_type == "W802" %}
-              {% if i == 45 %}
-                {% set pin_valid = 1 %}
-              {% endif %}
-          {% endif %}
+                            for (let i = 0; i < 46; i++) {
+                                var div = document.getElementById('enable' + i.toString());
+                                if (div) {
+                                  if (div.checked) {
+                                      div = document.getElementById('pinnum' + i.toString());
+                                      pins.push(div.value);
+                                  }
+                                }
+                            }
 
-          {% if pin_valid %}
-            <div class="row">
-              <label class="col-sm-3 text-right" for="pwmpin">Pin:</label>
-              <select class="col-sm-6" id="pinnum{{i}}" name="pinnum{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                {% if data.pinnum[i] > 15 %}
-                    <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PB{{i - 16}})</option>
-                {% else %}
-                    <option value="{{i}}" {% if data.pinnum[i] == 0 %} selected {% endif %}>PIN_{{i}} (PA{{i}})</option>
-                {% endif %}
-              </select>
-              <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable{{i}}" name="enable{{i}}" {% if data.enable[i] %} checked {% endif %}>
-            </div>
-            {% if not loop.last%} <br> {% endif %}
-          {% endif %}
-        {% endfor %}
-      </div>
+                            setCurrPins(pins);
+                        }
 
-<script>
-    function check_gpiopin_status(index) {
-        const enable = document.getElementById('enable' + index.toString());
-        const pinnum = document.getElementById('pinnum' + index.toString());
-        const pindir = document.getElementById('pindir' + index.toString());
-        const pinpupd = document.getElementById('pinpupd' + index.toString());
-        const pinint = document.getElementById('pinint' + index.toString());
+                        function check_seg_lcd_pin(index) {
+                            var pin = document.getElementById('pinnum' + index.toString());
+                            if (pin) {
+                                pin.addEventListener("change", function() {
+                                    setPins();
+                                });
+                            }
+                            var enable = document.getElementById('enable' + index.toString());
+                            if (enable) {
+                                enable.addEventListener("change", function() {
+                                    const select = document.getElementById('pinnum' + index.toString());
+                                    if (this.checked) {
+                                        select.disabled = false;
+                                    } else {
+                                        select.disabled = true;
+                                    }
 
-        if (enable) {
-            enable.addEventListener('change', function() {
-                if (this.checked) {
-                    pinnum.disabled = false;
-                    pindir.disabled = false;
-                    pinpupd.disabled = false;
-                    pinint.disabled = false;
-                } else {
-                    pinnum.disabled = true;
-                    pindir.disabled = true;
-                    pinpupd.disabled = true;
-                    pinint.disabled = true;
-                }
-            });
-        }
-    }
+                                    setPins();
+                                });
+                            }
+                        }
 
-    for (let i = 0; i <= 47; i++) {
-        check_gpiopin_status(i);
-    }
-</script>
+                        for (let i = 0; i < 46; i++) {
+                            check_seg_lcd_pin(i);
+                        }
+                        setPins();
+                    </script>

@@ -1,202 +1,262 @@
-      {% include 'common.html' %}
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <i></i>
 
-      {% for i in range(0, 6) %}
-        {% set skip_loop = 0 %}
-        {% if (i == 2 or i == 3 or i == 5) and not (data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806") %}
-          {% set skip_loop = 1 %}
-        {% endif %}
+                        {% for i in range(0, 6) %}
+                            {% set skip_loop = 0 %}
+                            {% if (i == 2 or i == 3 or i == 5) and not (data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806") %}
+                                {% set skip_loop = 1 %}
+                            {% endif %}
+                            
+                            {% if not skip_loop %}
 
-        {% if not skip_loop %}
-          <div class="card-header">
-            {% if i <= 3 %}
-              <h5>Channel {{i}}</h5>
-            {% elif i == 4 %}
-              <h5>Channel 0 and 1 difference</h5>
-            {% elif i == 5 %}
-              <h5>Channel 2 and 3 difference</h5>
-            {% endif %}
-            <div class="row">
-              <label class="col-sm-3 text-right" for="adccfg">Enable:</label>
-              <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable_{{i}}" name="enable_{{i}}" {% if data.enable[i] %} checked {% endif %}>
-            </div>
-            <br>
-            <div class="row">
-              <label class="col-sm-3 text-right" for="adccfg">Cmp pol:</label>
-              <input type="checkbox" class="col-sm-1 text-right" value="1" id="cmp_pol_{{i}}" name="cmp_pol_{{i}}" {% if data.cmp_pol[i] %} checked {% endif %} {% if not data.enable[i] %} disabled {% endif %}>
-            </div>
-            <br>
-            <div class="row">
-              <label class="col-sm-3 text-right" for="adccfg">Cmp data:</label>
-              <input type="number" min="0" max="262143" class="col-sm-6" id="cmp_data_{{i}}" name="cmp_data_{{i}}" value="{{data.cmp_data[i]}}" {% if not data.enable[i] or not data.adc_cmp[i] %} disabled {% endif %}></input>
-              <input type="checkbox" class="col-sm-1 text-right" value="1" id="adc_cmp_{{i}}" name="adc_cmp_{{i}}" {% if data.adc_cmp[i] %} checked {% endif %} {% if not data.enable[i] %} disabled {% endif %}>
-            </div>
-            <br>
-            <div class="row">
-              <label class="col-sm-3 text-right" for="adccfg">Pga gain1:</label>
-              <select class="col-sm-6" id="pga_gain1_{{i}}" name="pga_gain1_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                <option value="0" {% if data.pga_gain1[i] == 0 %} selected {% endif %}>LEVEL 0</option>
-                <option value="1" {% if data.pga_gain1[i] == 1 %} selected {% endif %}>LEVEL 1</option>
-                <option value="2" {% if data.pga_gain1[i] == 2 %} selected {% endif %}>LEVEL 2</option>
-                <option value="3" {% if data.pga_gain1[i] == 3 %} selected {% endif %}>LEVEL 3</option>
-                <option value="4" {% if data.pga_gain1[i] == 4 %} selected {% endif %}>LEVEL 4</option>
-                <option value="5" {% if data.pga_gain1[i] == 5 %} selected {% endif %}>LEVEL 5</option>
-              </select>
-            </div>
-            <br>
-            <div class="row">
-              <label class="col-sm-3 text-right" for="adccfg">Pga gain2:</label>
-              <select class="col-sm-6" id="pga_gain2_{{i}}" name="pga_gain2_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                <option value="0" {% if data.pga_gain2[i] == 0 %} selected {% endif %}>LEVEL 0</option>
-                <option value="1" {% if data.pga_gain2[i] == 1 %} selected {% endif %}>LEVEL 1</option>
-                <option value="2" {% if data.pga_gain2[i] == 2 %} selected {% endif %}>LEVEL 2</option>
-                <option value="3" {% if data.pga_gain2[i] == 3 %} selected {% endif %}>LEVEL 3</option>
-              </select>
-            </div>
-            <br>
-            {% if i == 0 %}
-              <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                  <option value="1" {% if data.pinnum0[i] == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
-                </select>
-              </div>
-            {% elif i == 1 %}
-              <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                  <option value="4" {% if data.pinnum0[i] == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
-                </select>
-              </div>
-            {% elif i == 2 %}
-             <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-                  <option value="3" {% if data.pinnum0[i] == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
-                {% endif %}
-                </select>
-              </div>
-            {% elif i == 3 %}
-             <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-                  <option value="2" {% if data.pinnum0[i] == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
-                {% endif %}
-                </select>
-              </div>
-            {% elif i == 4 %}
-              <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                  <option value="1" {% if data.pinnum0[i] == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
-                </select>
-              </div>
-              <br>
-              <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum1_{{i}}" name="pinnum1_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                  <option value="4" {% if data.pinnum1[i] == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
-                </select>
-              </div>
-            {% elif i == 5 %}
-             <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-                  <option value="3" {% if data.pinnum0[i] == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
-                {% endif %}
-                </select>
-              </div>
-              <br>
-              <div class="row">
-                <label class="col-sm-3 text-right" for="adccfg">Pin:</label>
-                <select class="col-sm-6" id="pinnum1_{{i}}" name="pinnum1_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
-                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-                  <option value="2" {% if data.pinnum1[i] == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
-                {% endif %}
-                </select>
-              </div>
-            {% endif %}
-    	  </div>
-        {% endif %}
-      {% endfor %}
+                                <div class="switch-list">
+                                  {% if i <= 3 %}
+                                    {% set ii = "Channel" ~ i %}
+                                    <h3>Channel {{i}}</h3>
+                                  {% elif i == 4 %}
+                                    {% set ii = "Channel 0 and 1 difference" %}
+                                    <h3>Channel 0 and 1 difference</h3>
+                                  {% elif i == 5 %}
+                                    {% set ii = "Channel 2 and 3 difference" %}
+                                    <h3>Channel 2 and 3 difference</h3>
+                                  {% endif %}
+                                    <div class="property-control">
+                                        <label class="toggle-label">Enable:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable_{{i}}" name="enable_{{i}}" {% if data.enable[i] %} checked {% endif %} data-change-name="{{ii}} enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item checkbox-item">
+                                            <label>Cmp:</label>
+                                            <input type="checkbox" value="1" id="cmp_pol_{{i}}" name="cmp_pol_{{i}}" style="flex: inherit;margin-right: auto;" {% if data.cmp_pol[i] %} checked {% endif %} {% if not data.enable[i] %} disabled {% endif %} data-change-name="{{ii}} cmp:">
+                                            <label>data:</label>
+                                            <input type="number" value="{{data.cmp_data[i]}}" min="0" max="262143" id="cmp_data_{{i}}" name="cmp_data_{{i}}" {% if not data.enable[i] or not data.adc_cmp[i] %} disabled {% endif %} data-change-name="{{ii}} data:">
+                                            <label class="toggle-control">
+                                                <input type="checkbox" value="1" id="adc_cmp_{{i}}" name="adc_cmp_{{i}}" {% if data.adc_cmp[i] %} checked {% endif %} {% if not data.enable[i] %} disabled {% endif %} data-change-name="{{ii}} cmp data valid:">
+                                                <span class="control"></span>
+                                            </label>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>Pga gain1:</label>
+                                            <select id="pga_gain1_{{i}}" name="pga_gain1_{{i}}" {% if not data.enable[i] %} disabled {% endif %} data-change-name="{{ii}} pga gain1:">
+                                                <option value="0" {% if data.pga_gain1[i] == 0 %} selected {% endif %}>LEVEL 0</option>
+                                                <option value="1" {% if data.pga_gain1[i] == 1 %} selected {% endif %}>LEVEL 1</option>
+                                                <option value="2" {% if data.pga_gain1[i] == 2 %} selected {% endif %}>LEVEL 2</option>
+                                                <option value="3" {% if data.pga_gain1[i] == 3 %} selected {% endif %}>LEVEL 3</option>
+                                                <option value="4" {% if data.pga_gain1[i] == 4 %} selected {% endif %}>LEVEL 4</option>
+                                                <option value="5" {% if data.pga_gain1[i] == 5 %} selected {% endif %}>LEVEL 5</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>Pga gain2:</label>
+                                            <select id="pga_gain2_{{i}}" name="pga_gain2_{{i}}" {% if not data.enable[i] %} disabled {% endif %} data-change-name="{{ii}} pga gain2:">
+                                                <option value="0" {% if data.pga_gain2[i] == 0 %} selected {% endif %}>LEVEL 0</option>
+                                                <option value="1" {% if data.pga_gain2[i] == 1 %} selected {% endif %}>LEVEL 1</option>
+                                                <option value="2" {% if data.pga_gain2[i] == 2 %} selected {% endif %}>LEVEL 2</option>
+                                                <option value="3" {% if data.pga_gain2[i] == 3 %} selected {% endif %}>LEVEL 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% if i == 0 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                                <option value="1" {% if data.pinnum0[i] == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% elif i == 1 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                                <option value="4" {% if data.pinnum0[i] == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% elif i == 2 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                              {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                                <option value="3" {% if data.pinnum0[i] == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+                                              {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% elif i == 3 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                              {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                                <option value="2" {% if data.pinnum0[i] == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+                                              {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% elif i == 4 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                                <option value="1" {% if data.pinnum0[i] == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum1_{{i}}" name="pinnum1_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                                <option value="4" {% if data.pinnum1[i] == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% elif i == 5 %}
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum1_{{i}}" name="pinnum1_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                              {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                                <option value="2" {% if data.pinnum1[i] == 2 %} selected {% endif %}>PIN_2 (PA2)</option>
+                                              {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum0_{{i}}" name="pinnum0_{{i}}" {% if not data.enable[i] %} disabled {% endif %}>
+                                              {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                                <option value="3" {% if data.pinnum0[i] == 3 %} selected {% endif %}>PIN_3 (PA3)</option>
+                                              {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="property-item">
+                                        </div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                <i></i>
 
-<script>
-    function check_adc_status(index) {
-        const checkbox = document.getElementById('enable_' + index.toString());
-        const pga_gain1 = document.getElementById('pga_gain1_' + index.toString());
-        const pga_gain2 = document.getElementById('pga_gain2_' + index.toString());
-        const cmp_data = document.getElementById('cmp_data_' + index.toString());
-        const adc_cmp = document.getElementById('adc_cmp_' + index.toString());
-        const cmp_pol = document.getElementById('cmp_pol_' + index.toString());
-        const pinnum0 = document.getElementById('pinnum0_' + index.toString());
-        const pinnum1 = document.getElementById('pinnum1_' + index.toString());
+                            {% endif %}
+                        {% endfor %}
 
-        if (checkbox) {
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    pga_gain1.disabled = false;
-                    pga_gain2.disabled = false;
-                    adc_cmp.disabled = false;
-                    if (adc_cmp.checked) {
-                        cmp_data.disabled = false;
-                    } else {
-                        cmp_data.disabled = true;
-                    }
-                    cmp_pol.disabled = false;
-                    pinnum0.disabled = false;
-                    if (pinnum1) {
-                        pinnum1.disabled = false;
-                    }
-                } else {
-                    pga_gain1.disabled = true;
-                    pga_gain2.disabled = true;
-                    adc_cmp.disabled = true;
-                    cmp_data.disabled = true;
-                    cmp_pol.disabled = true;
-                    pinnum0.disabled = true;
-                    if (pinnum1) {
-                        pinnum1.disabled = true;
-                    }
-                }
-            });
-        }
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
 
-        if (adc_cmp) {
-            adc_cmp.addEventListener('change', function() {
-                if (this.checked) {
-                    cmp_data.disabled = false;
-                } else {
-                    cmp_data.disabled = true;
-                }
-            });
-        }
+                    <script>
+                        function setPins() {
+                            let pins = [];
 
-        if (pga_gain1 && pga_gain2) {
-            if (index == 0) {
-              pga_gain1.value = {{ data.pga_gain1[0] }};
-              pga_gain2.value = {{ data.pga_gain2[0] }};
-            } else if (index == 1) {
-              pga_gain1.value = {{ data.pga_gain1[1] }};
-              pga_gain2.value = {{ data.pga_gain2[1] }};
-            } else if (index == 2) {
-              pga_gain1.value = {{ data.pga_gain1[2] }};
-              pga_gain2.value = {{ data.pga_gain2[2] }};
-            } else if (index == 3) {
-              pga_gain1.value = {{ data.pga_gain1[3] }};
-              pga_gain2.value = {{ data.pga_gain2[3] }};
-            } else if (index == 4) {
-              pga_gain1.value = {{ data.pga_gain1[4] }};
-              pga_gain2.value = {{ data.pga_gain2[4] }};
-            } else if (index == 5) {
-              pga_gain1.value = {{ data.pga_gain1[5] }};
-              pga_gain2.value = {{ data.pga_gain2[5] }};
-            }
-        }
-    }
+                            for (let i = 0; i <= 5; i++) {
+                                const checkbox = document.getElementById('enable_' + i.toString());
+                                const pinnum0 = document.getElementById('pinnum0_' + i.toString());
+                                const pinnum1 = document.getElementById('pinnum1_' + i.toString());
 
-    for (let i = 0; i <= 5; i++) {
-        check_adc_status(i);
-    }
-</script>
+                                if (checkbox) {
+                                    if (checkbox.checked) {
+                                        pins.push(pinnum0.value);
+                                        if (pinnum1) {
+                                            pins.push(pinnum1.value);
+                                        }
+                                    }
+                                }
+                            }
+
+                            setCurrPins(pins);
+                        }
+
+                        function check_adc_status(index) {
+                            const checkbox = document.getElementById('enable_' + index.toString());
+                            const pga_gain1 = document.getElementById('pga_gain1_' + index.toString());
+                            const pga_gain2 = document.getElementById('pga_gain2_' + index.toString());
+                            const cmp_data = document.getElementById('cmp_data_' + index.toString());
+                            const adc_cmp = document.getElementById('adc_cmp_' + index.toString());
+                            const cmp_pol = document.getElementById('cmp_pol_' + index.toString());
+                            const pinnum0 = document.getElementById('pinnum0_' + index.toString());
+                            const pinnum1 = document.getElementById('pinnum1_' + index.toString());
+
+                            if (checkbox) {
+                                checkbox.addEventListener('change', function() {
+                                    if (this.checked) {
+                                        adc_cmp.disabled = false;
+                                        if (adc_cmp.checked) {
+                                            cmp_data.disabled = false;
+                                        } else {
+                                            cmp_data.disabled = true;
+                                        }
+                                        cmp_pol.disabled = false;
+                                    } else {
+                                        adc_cmp.disabled = true;
+                                        cmp_data.disabled = true;
+                                        cmp_pol.disabled = true;
+                                    }
+
+                                    setPins();
+                                });
+
+                                pinnum0.addEventListener("change", function() {
+                                    setPins();
+                                });
+                                if (pinnum1) {
+                                    pinnum1.addEventListener("change", function() {
+                                        setPins();
+                                    });
+                                }
+                            }
+
+                            if (adc_cmp) {
+                                adc_cmp.addEventListener('change', function() {
+                                    if (this.checked) {
+                                        cmp_data.disabled = false;
+                                    } else {
+                                        cmp_data.disabled = true;
+                                    }
+                                });
+                            }
+
+                            if (pga_gain1 && pga_gain2) {
+                                if (index == 0) {
+                                  pga_gain1.value = {{ data.pga_gain1[0] }};
+                                  pga_gain2.value = {{ data.pga_gain2[0] }};
+                                } else if (index == 1) {
+                                  pga_gain1.value = {{ data.pga_gain1[1] }};
+                                  pga_gain2.value = {{ data.pga_gain2[1] }};
+                                } else if (index == 2) {
+                                  pga_gain1.value = {{ data.pga_gain1[2] }};
+                                  pga_gain2.value = {{ data.pga_gain2[2] }};
+                                } else if (index == 3) {
+                                  pga_gain1.value = {{ data.pga_gain1[3] }};
+                                  pga_gain2.value = {{ data.pga_gain2[3] }};
+                                } else if (index == 4) {
+                                  pga_gain1.value = {{ data.pga_gain1[4] }};
+                                  pga_gain2.value = {{ data.pga_gain2[4] }};
+                                } else if (index == 5) {
+                                  pga_gain1.value = {{ data.pga_gain1[5] }};
+                                  pga_gain2.value = {{ data.pga_gain2[5] }};
+                                }
+                            }
+                        }
+
+                        for (let i = 0; i <= 5; i++) {
+                            check_adc_status(i);
+                        }
+
+                        setPins();
+                    </script>

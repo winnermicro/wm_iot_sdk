@@ -115,5 +115,7 @@ uint32_t wm_drv_crc32_reverse(const void *buf, unsigned int len)
     wm_drv_crc_cfg(dev, &ctx, 0xFFFFFFFF, WM_GPSEC_CRC32, WM_GPSEC_CRC_OUT_IN_REVERSE);
     wm_drv_crc_update(dev, &ctx, (unsigned char *)buf, len);
     wm_drv_crc_final(dev, &ctx, &crcvalue);
+    /* disable cryp clock */
+    wm_drv_clock_disable(wm_dt_get_device_by_name("rcc"), WM_RCC_GPSEC_GATE_EN);
     return crcvalue;
 }

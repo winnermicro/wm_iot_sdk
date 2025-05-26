@@ -11,12 +11,12 @@ The demo project will do the following two things
 
 1. The slave device and spi master pins must be connected in advance
 2. Start the slave end in advance, wait for receiving and prepare the data to be sent
-3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI:GPIO21, mode 0, clock: 2MHz
+3. PIN_CS: GPIO20, PIN_CLK: GPIO17, PIN_MISO: GPIO16, PIN_MOSI: GPIO7, mode 0, clock: 2MHz
 
 
 ## Compile and Download
 
-demo project path：`examples/peripheral/spi_master/transceive_sync`
+demo project path：`examples/peripheral/spi_master/transceive_async`
 
 For compilation, flashing, and other operations, please refer to: [Quick Start Guide](https://doc.winnermicro.net/w800/en/latest/get_started/index.html)
 

@@ -60,6 +60,11 @@ typedef enum {
     SPIM_CMD_MAX
 } spim_cmd_e;
 
+typedef enum {
+    SPI_ROLE_MASTER = 0,
+    SPI_ROLE_SLAVE  = 1
+} wm_spi_role_t;
+
 typedef struct {
     bool cs_active;           //0: SPI_CS invalid singal is 0,  1: SPI_CS invalid singal is 1
     uint32_t clock;           //unit is HZ
@@ -67,7 +72,8 @@ typedef struct {
 } hal_spim_config_t;
 
 typedef struct {
-    bool big_endian; // if set, transmit high address byte first
+    bool big_endian;    // if set, transmit high address byte first
+    wm_spi_role_t role; //0: SPI master, 1: SPI slave
     uint8_t irq_no;
     uint8_t tx_dma_channel;
     uint8_t rx_dma_channel;

@@ -1068,6 +1068,7 @@ struct wpa_driver_associate_params {
 	 */
 	int fixed_bssid;
 
+#ifdef CONFIG_MESH
 	/**
 	 * fixed_freq - Fix control channel in IBSS mode
 	 * 0 = don't fix control channel (default)
@@ -1075,6 +1076,7 @@ struct wpa_driver_associate_params {
 	 *	channel
 	 */
 	int fixed_freq;
+#endif
 
 	/**
 	 * disable_ht - Disable HT (IEEE 802.11n) for this connection
@@ -1146,6 +1148,7 @@ struct wpa_driver_associate_params {
 	 */
 	int pbss;
 
+#ifdef CONFIG_FILS
 	/**
 	 * fils_kek - KEK for FILS association frame protection (AES-SIV)
 	 */
@@ -1203,6 +1206,7 @@ struct wpa_driver_associate_params {
 	 * fils_erp_rrk_len - Length of fils_erp_rrk in bytes
 	 */
 	size_t fils_erp_rrk_len;
+#endif /* CONFIG_FILS */
 
 	/**
 	 * sae_pwe - SAE mechanism for PWE derivation
@@ -1407,7 +1411,6 @@ struct wpa_driver_ap_params {
 	 * interworking - Whether Interworking is enabled
 	 */
 	int interworking;
-#endif
 
 	/**
 	 * hessid - Homogeneous ESS identifier or %NULL if not set
@@ -1421,6 +1424,7 @@ struct wpa_driver_ap_params {
 	 * enabled.
 	 */
 	u8 access_network_type;
+#endif
 
 	/**
 	 * ap_max_inactivity - Timeout in seconds to detect STA's inactivity
@@ -1429,15 +1433,19 @@ struct wpa_driver_ap_params {
 	 */
 	int ap_max_inactivity;
 
+#ifdef CONFIG_P2P
 	/**
 	 * ctwindow - Client Traffic Window (in TUs)
 	 */
 	u8 p2p_go_ctwindow;
+#endif /* CONFIG_P2P */
 
+#ifdef CONFIG_HS20
 	/**
 	 * disable_dgaf - Whether group-addressed frames are disabled
 	 */
 	int disable_dgaf;
+#endif /* CONFIG_HS20 */
 
 	/**
 	 * osen - Whether OSEN security is enabled
@@ -1498,6 +1506,7 @@ struct wpa_driver_ap_params {
 	 */
 	const struct wpabuf *civic;
 
+#ifdef CONFIG_IEEE80211AX
 	/**
 	 * he_spr_ctrl - Spatial Reuse control field of SPR element
 	 */
@@ -1549,6 +1558,7 @@ struct wpa_driver_ap_params {
 	 * twt_responder - Whether Target Wait Time responder is enabled
 	 */
 	int twt_responder;
+#endif /* CONFIG_IEEE80211AX */
 
 	/**
 	 * sae_pwe - SAE mechanism for PWE derivation
@@ -1558,6 +1568,7 @@ struct wpa_driver_ap_params {
 	 */
 	int sae_pwe;
 
+#ifdef CONFIG_FILS
 	/**
 	 * FILS Discovery frame minimum interval in TUs
 	 */
@@ -1577,6 +1588,7 @@ struct wpa_driver_ap_params {
 	 * FILS Discovery frame template length
 	 */
 	size_t fd_frame_tmpl_len;
+#endif /* CONFIG_FILS */
 
 	/**
 	 * Unsolicited broadcast Probe Response interval in TUs

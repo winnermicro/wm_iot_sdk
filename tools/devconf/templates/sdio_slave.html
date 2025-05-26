@@ -1,44 +1,89 @@
-      <div class="card-header">
-        <h5>Pins</h5>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">CLK:</label>
-        <select class="col-sm-6" id="clkpinnum" name="clkpinnum">
-          <option value="22" {% if data.clkpinnum == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">CMD:</label>
-        <select class="col-sm-6" id="cmdpinnum" name="cmdpinnum">
-          <option value="23" {% if data.cmdpinnum == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">DAT0:</label>
-        <select class="col-sm-6" id="dat0pinnum" name="dat0pinnum">
-          <option value="24" {% if data.dat0pinnum == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">DAT1:</label>
-        <select class="col-sm-6" id="dat1pinnum" name="dat1pinnum">
-          <option value="25" {% if data.dat1pinnum == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">DAT2:</label>
-        <select class="col-sm-6" id="dat2pinnum" name="dat2pinnum">
-          <option value="26" {% if data.dat2pinnum == 26 %} selected {% endif %}>PIN_26 (PB10)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdioslavepin">CD/DAT3:</label>
-        <select class="col-sm-6" id="dat3pinnum" name="dat3pinnum">
-          <option value="27" {% if data.dat3pinnum == 27 %} selected {% endif %}>PIN_27 (PB11)</option>
-        </select>
-        </div>
-	  </div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
+                                <div class="property-item">
+                                    <label>CLK:</label>
+                                    <select id="clkpinnum" name="clkpinnum">
+                                        <option value="22" {% if data.clkpinnum == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>CMD:</label>
+                                    <select id="cmdpinnum" name="cmdpinnum">
+                                        <option value="23" {% if data.cmdpinnum == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>DAT0:</label>
+                                    <select id="dat0pinnum" name="dat0pinnum">
+                                        <option value="24" {% if data.dat0pinnum == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>DAT1:</label>
+                                    <select id="dat1pinnum" name="dat1pinnum">
+                                        <option value="25" {% if data.dat1pinnum == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>DAT2:</label>
+                                    <select id="dat2pinnum" name="dat2pinnum">
+                                        <option value="26" {% if data.dat2pinnum == 26 %} selected {% endif %}>PIN_26 (PB10)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>CD/DAT3:</label>
+                                    <select id="dat3pinnum" name="dat3pinnum">
+                                        <option value="27" {% if data.dat3pinnum == 27 %} selected {% endif %}>PIN_27 (PB11)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
+
+                    <script>
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("clkpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("cmdpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("dat0pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("dat1pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("dat2pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("dat3pinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+                        document.getElementById("clkpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("cmdpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("dat0pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("dat1pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("dat2pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("dat3pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        setPins();
+                    </script>

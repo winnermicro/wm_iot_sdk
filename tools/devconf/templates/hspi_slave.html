@@ -1,0 +1,104 @@
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
+                                <div class="property-item">
+                                    <label>clock:</label>
+                                    <select id="clkpinnum" name="clkpinnum">
+                                      {% if data.dev_name == 'HSPI_Slave' %}
+                                        <option value="22" {% if data.clkpinnum == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+                                        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                          <option value="28" {% if data.clkpinnum == 28 %} selected {% endif %}>PIN_28 (PB12)</option>
+                                        {% endif %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>int:</label>
+                                    <select id="intpinnum" name="intpinnum">
+                                      {% if data.dev_name == 'HSPI_Slave' %}
+                                        <option value="23" {% if data.intpinnum == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+                                        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                        <option value="29" {% if data.intpinnum == 29 %} selected {% endif %}>PIN_29 (PB13)</option>
+                                        {% endif %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>cs:</label>
+                                    <select id="cspinnum" name="cspinnum">
+                                      {% if data.dev_name == 'HSPI_Slave' %}
+                                        <option value="25" {% if data.cspinnum == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
+                                        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                        <option value="30" {% if data.cspinnum == 30 %} selected {% endif %}>PIN_30 (PB14)</option>
+                                        {% endif %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>mosi:</label>
+                                    <select id="mosipinnum" name="mosipinnum">
+                                      {% if data.dev_name == 'HSPI_Slave' %}
+                                        <option value="26" {% if data.mosipinnum == 26 %} selected {% endif %}>PIN_26 (PB10)</option>
+                                        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                          <option value="31" {% if data.mosipinnum == 31 %} selected {% endif %}>PIN_31 (PB15)</option>
+                                        {% endif %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>miso:</label>
+                                    <select id="misopinnum" name="misopinnum">
+                                      {% if data.dev_name == 'HSPI_Slave' %}
+                                        <option value="27" {% if data.misopinnum == 27 %} selected {% endif %}>PIN_27 (PB11)</option>
+                                        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                          <option value="32" {% if data.misopinnum == 32 %} selected {% endif %}>PIN_32 (PB16)</option>
+                                        {% endif %}
+                                      {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
+
+                    <script>
+                        document.getElementById("clkpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("intpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("cspinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("mosipinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("misopinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("clkpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("intpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("cspinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("mosipinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("misopinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+
+                        setPins();
+                    </script>

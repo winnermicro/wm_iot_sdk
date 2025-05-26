@@ -112,10 +112,12 @@ static void wm_nm_wifi_ap_start_handle(void)
 
 static void wm_nm_wifi_ap_stop_handle(void)
 {
-    wm_nm_netif_t netif;
-    netif = wm_nm_get_netif_by_name(WIFI_SOFTAP_NETIF_NAME);
-    wm_nm_stop_netif_dnss(netif);
-    wm_nm_stop_netif_dhcps(netif);
+    wm_nm_internal_netif_t *int_netif = wm_nm_query_internal_netif(WM_NETIF_TYPE_WIFI_AP);
+    if (int_netif != NULL) {
+        wm_net_stack_dnss_stop(int_netif->netif);
+        wm_net_stack_dhcps_stop(int_netif->netif);
+    }
+
     wm_netif_delif(WM_NETIF_TYPE_WIFI_AP);
 }
 #endif /** CONFIG_WIFI_ENABLE_AP_FEATURE */

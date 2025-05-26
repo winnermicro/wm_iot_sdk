@@ -3,21 +3,32 @@
 OTA_OPS API 参考
 ===================
 
-Macros
+头文件
+-----------
+
+- wm_iot_sdk/components/wm_ota/include/wm_ota_ops.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "wm_ota_ops.h"
+   
+宏定义
 ----------------------
 
 .. doxygengroup:: WM_OTA_OPS_Macros
     :project: wm-iot-sdk-apis
     :content-only:
 
-Enumerations
+枚举
 ----------------------
 
 .. doxygengroup:: WM_OTA_OPS_Enumerations
     :project: wm-iot-sdk-apis
     :content-only:
 
-Unions
+联合体
 ----------------------
 
 .. doxygengroup:: WM_OTA_OPS_Unions
@@ -25,7 +36,7 @@ Unions
     :content-only:
     :members:
 
-Structures
+结构体
 ----------------------
 
 .. doxygengroup:: WM_OTA_OPS_Structures
@@ -33,7 +44,7 @@ Structures
     :content-only:
     :members:
 
-Functions
+接口
 ----------------------
 
 .. doxygengroup:: WM_OTA_OPS_Functions

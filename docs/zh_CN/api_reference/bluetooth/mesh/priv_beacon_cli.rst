@@ -15,8 +15,19 @@
 
 如果存在，则只能在主元素上实例化专用信标客户端模型。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/priv_beacon_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/priv_beacon_cli.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_priv_beacon_cli
    :project: wm-iot-sdk-apis

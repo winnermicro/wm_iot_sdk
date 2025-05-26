@@ -6,7 +6,7 @@ BLOB 传输客户端
 二进制大型对象（BLOB）传输客户端是 BLOB 传输的发送方。它支持将任何大小的 BLOB 发送到任意数量的目标节点，无论是 Push BLOB 传输模式还是 Pull BLOB 转移模式。
 
 使用
-*****
+===============
 
 初始化
 ==============
@@ -96,8 +96,19 @@ BLOB 传输通过调用 :c:member:`bt_mesh_BLOB_cli_send` 函数启动，该函�
 
 传输将一直运行，直到至少一个目标节点的传输成功完成，或者传输被取消。传输的结束通过结束回调与应用程序通信。丢失的目标节点将通过 :c:member:`lost_target <bt_mesh_blob_cli_cb.lost_target>` 回调报告。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/blob_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/blob_cli.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_blob_cli
    :project: wm-iot-sdk-apis

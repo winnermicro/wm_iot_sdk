@@ -277,8 +277,6 @@ int wm_atcmd_blesppscfg(wm_at_type_e type, int argc, char **argv);
 int wm_atcmd_blesppstart(wm_at_type_e type, int argc, char **argv);
 int wm_atcmd_blesppstop(wm_at_type_e type, int argc, char **argv);
 
-int wm_atcmd_bttest(wm_at_type_e type, int argc, char **argv);
-
 WM_ATCMD_DEFINE("AT+BLEVERS", wm_atcmd_blevers, WM_ATCMD_BLEINIT_USAGE)
 WM_ATCMD_DEFINE("AT+BLEINIT", wm_atcmd_bleinit, WM_ATCMD_BLEINIT_USAGE)
 WM_ATCMD_DEFINE("AT+BLEADDR", wm_atcmd_bleaddr, WM_ATCMD_BLEADDR_USAGE)
@@ -341,7 +339,6 @@ WM_ATCMD_DEFINE("AT+BLESPPSTART", wm_atcmd_blesppstart, WM_ATCMD_BLESPP_START)
 WM_ATCMD_DEFINE("AT+BLESPPSTOP", wm_atcmd_blesppstop, WM_ATCMD_BLESPPC_STOP)
 
 #endif
-WM_ATCMD_DEFINE("AT+BTTEST", wm_atcmd_bttest, WM_ATCMD_BTTEST_USAGE)
 
 #endif //CONFIG_WM_ATCMD_BT_ENABLE
 

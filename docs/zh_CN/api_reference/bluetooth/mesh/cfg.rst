@@ -12,8 +12,19 @@ Bluetooth Mesh 节点通常应由具有配置客户端型号的中央网络 :ref
 
 .. note::
    配置节点之前的运行时配置更改将不会存储在 :ref:`持久性储存 <bluetooth_mesh_persistent_storage>`.
-
+   
 API 参考
-*************
+===============
+
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/cfg.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/cfg.h"
 
 .. doxygengroup:: bt_mesh_cfg

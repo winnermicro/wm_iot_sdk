@@ -502,9 +502,9 @@ static int wm_drv_ops_sdio_slave_init(wm_device_t *dev)
 
 exit:
     WM_DRV_SDIO_SLAVE_UNLOCK(drv_data->drv_ctx.mutex);
-    if (ret != WM_ERR_SUCCESS && dev->drv != NULL) {
-        wm_os_internal_free(dev->drv);
-        dev->drv = NULL;
+    if (ret != WM_ERR_SUCCESS && drv_data != NULL) {
+        wm_os_internal_free(drv_data);
+        drv_data = NULL;
         WM_DRV_SDIO_SLAVE_LOG_E("Driver initialization failed");
     } else {
         WM_DRV_SDIO_SLAVE_LOG_I("Driver initialization completed successfully");

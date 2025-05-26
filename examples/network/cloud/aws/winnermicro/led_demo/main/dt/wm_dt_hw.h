@@ -202,6 +202,16 @@ typedef struct {
 } wm_dt_hw_crc_t;
 #endif
 
+#if CONFIG_COMPONENT_DRIVER_CRYPTO_ENABLED
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+
+    uint32_t reg_base;
+    char *rcc_device_name;
+    wm_dt_hw_irq_cfg_t irq_cfg;
+} wm_dt_hw_crypto_t;
+#endif
+
 #if CONFIG_COMPONENT_DRIVER_HASH_ENABLED
 typedef wm_hal_hash_cfg_t wm_dt_hw_hash_cfg_t;
 

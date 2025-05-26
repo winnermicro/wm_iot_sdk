@@ -13,6 +13,14 @@ Introduction
 
     The master device initiates data transmission on the bus and generates the clock for data transmission. Any addressed device is considered a slave. The roles of master and slave, transmitter and receiver, are not fixed but depend on the direction of data transmission. If the master sends data to a slave, the master first addresses the slave, then sends data to it, and finally terminates the data transmission. If the master receives data from a slave, the master first addresses the slave, then receives data from it, and finally terminates the reception process. In this case, the master is responsible for generating the clock and terminating data transmission.
 
+I2C controllers
+-----------------
+
+    Two I2C master controllers are implemented in the driver: One is a hardware-based I2C controller, usually with the device name "i2c". Only a few pins support this hardware controller (refer to the Pinmux for details). The second one is a software-based I2C controller, which is implemented by simulating with GPIO. Usually, the device name is "i2c_soft", and this software controller is applicable to all GPIOs.
+
+    Both controllers use the same interface. When used by the upper layer, the only difference lies in the name of the I2C controller passed as a parameter during initialization.
+
+
 Function List
 ---------------
 

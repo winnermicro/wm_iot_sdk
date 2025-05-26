@@ -25,7 +25,7 @@ BLOB 可以以高达 1 kbps 的速率传输，允许在 10-15 分钟内传输 10
 BLOB Transfer Client 在发送方节点上实例化，BLOB 传输服务器在接收方节点上实例化。
 
 概念
-********
+===============
 
 BLOB 传输协议引入了几个新的概念来实现 BLOB 传送。
 
@@ -141,8 +141,19 @@ BLOB 传输服务器使用以下公式来计算 BLOB 传送超时::
 
 其中 TTL 是传输中设置的生存时间值。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/blob.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/blob.h"
+
 API 参考
-*************
+===============
 
 本节包含 BLOB 传输模型通用的类型和定义。
 

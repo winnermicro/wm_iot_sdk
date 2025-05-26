@@ -1596,7 +1596,7 @@ void hostapd_set_security_params(struct hostapd_bss_config *bss,
 #ifndef CONFIG_NO_RADIUS
 	if (bss->wpa && bss->ieee802_1x) {
 		bss->ssid.security_policy = SECURITY_WPA;
-	} else 
+	} else
 #endif
 	if (bss->wpa) {
 		bss->ssid.security_policy = SECURITY_WPA_PSK;

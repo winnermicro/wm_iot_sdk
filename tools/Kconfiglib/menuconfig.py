@@ -826,7 +826,22 @@ def _menuconfig(stdscr):
     _stdscr = stdscr
 
     _init()
-
+    try:
+        key_C2 = curses.KEY_C2
+    except AttributeError:
+        key_C2 = "j"
+    try:
+        key_A2 = curses.KEY_A2
+    except AttributeError:
+        key_A2 = "k"
+    try:
+        key_B3 = curses.KEY_B3
+    except AttributeError:
+        key_B3 = "l"
+    try:
+        key_B1 = curses.KEY_B1
+    except AttributeError:
+        key_B1 = "h"
     while True:
         _draw_main()
         curses.doupdate()
@@ -837,10 +852,10 @@ def _menuconfig(stdscr):
         if c == curses.KEY_RESIZE:
             _resize_main()
 
-        elif c in (curses.KEY_DOWN, "j", "J", curses.KEY_C2):
+        elif c in (curses.KEY_DOWN, "j", "J", key_C2):
             _select_next_menu_entry()
 
-        elif c in (curses.KEY_UP, "k", "K", curses.KEY_A2):
+        elif c in (curses.KEY_UP, "k", "K", key_A2):
             _select_prev_menu_entry()
 
         elif c in (curses.KEY_NPAGE, "\x04"):  # Page Down/Ctrl-D
@@ -865,7 +880,7 @@ def _menuconfig(stdscr):
             if not _change_node(sel_node):
                 _enter_menu(sel_node)
 
-        elif c in (curses.KEY_RIGHT, "\n", "l", "L", curses.KEY_B3):
+        elif c in (curses.KEY_RIGHT, "\n", "l", "L", key_B3):
             # Enter the node if possible
             sel_node = _shown[_sel_node_i]
             if not _enter_menu(sel_node):
@@ -881,7 +896,7 @@ def _menuconfig(stdscr):
             _set_sel_node_tri_val(2)
 
         elif c in (curses.KEY_LEFT, curses.KEY_BACKSPACE, _ERASE_CHAR,
-                   "\x1B", "h", "H", curses.KEY_B1):  # \x1B = ESC
+                   "\x1B", "h", "H", key_B1):  # \x1B = ESC
 
             if c == "\x1B" and _cur_menu is _kconf.top_node:
                 res = _quit_dialog()

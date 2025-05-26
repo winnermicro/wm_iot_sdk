@@ -66,19 +66,6 @@
 #define WM_DRV_I2C_MAX_ADDRESS      0x7F
 
 /**
- * @brief Local api types
- */
-typedef struct {
-    int (*init)(wm_device_t *device);
-    int (*deinit)(wm_device_t *device);
-
-    int (*read)(wm_device_t *device, wm_drv_i2c_config_t *config, const void *sub_addr, uint32_t sub_addr_size, void *read_buf,
-                uint32_t read_size);
-    int (*write)(wm_device_t *device, wm_drv_i2c_config_t *config, const void *sub_addr, uint32_t sub_addr_size,
-                 const void *data, uint32_t data_size);
-} wm_drv_i2c_ops_t;
-
-/**
   * @brief  driver context struct
   */
 typedef struct {
@@ -138,11 +125,12 @@ static int i2c_init(wm_device_t *device)
 
     /*check max clock*/
     max_clock = dev->hw->i2c_cfg.max_clock;
-    WM_DRV_I2C_CHECK_PARAM(max_clock >= WM_I2C_SPEED_STANDARD && max_clock <= WM_I2C_SPEED_MAX);
+    if (!(max_clock >= WM_I2C_SPEED_MIN && max_clock <= WM_I2C_SPEED_MAX)) {
+        return WM_ERR_FAILED;
+    }
 
     dev->drv = calloc(1, sizeof(wm_drv_i2c_data_t));
     if (!dev->drv) {
-        WM_DRV_I2C_TRACE_FAIL();
         return WM_ERR_NO_MEM;
     }
 
@@ -152,7 +140,6 @@ static int i2c_init(wm_device_t *device)
     /* create mutex for api calling*/
     if (wm_os_internal_recursive_mutex_create(&ctx->mutex) != WM_OS_STATUS_SUCCESS) {
         free(dev->drv);
-        WM_DRV_I2C_TRACE_FAIL();
         return WM_ERR_FAILED;
     }
 
@@ -177,7 +164,6 @@ static int i2c_init(wm_device_t *device)
         wm_os_internal_recursive_mutex_delete(ctx->mutex);
         free(dev->drv);
         dev->drv = NULL;
-        WM_DRV_I2C_TRACE_FAIL();
         return WM_ERR_FAILED;
     }
 
@@ -231,8 +217,13 @@ static int i2c_read(wm_device_t *device, wm_drv_i2c_config_t *config, const void
     wm_hal_i2c_dev_t *hal;
     int ret;
 
-    WM_DRV_I2C_CHECK_PARAM(dev->drv && config->addr <= WM_DRV_I2C_MAX_ADDRESS);
-    WM_DRV_I2C_CHECK_PARAM(config->speed_hz >= WM_I2C_SPEED_STANDARD && config->speed_hz <= dev->hw->i2c_cfg.max_clock);
+    if (!(dev->drv && config->addr <= WM_DRV_I2C_MAX_ADDRESS)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    if (!(config->speed_hz >= WM_I2C_SPEED_MIN && config->speed_hz <= dev->hw->i2c_cfg.max_clock)) {
+        return WM_ERR_INVALID_PARAM;
+    }
 
     ctx = &dev->drv->ctx;
     hal = &dev->drv->hal_dev;
@@ -269,8 +260,13 @@ static int i2c_write(wm_device_t *device, wm_drv_i2c_config_t *config, const voi
     int write_flag;
     int ret;
 
-    WM_DRV_I2C_CHECK_PARAM(dev->drv && config->addr <= WM_DRV_I2C_MAX_ADDRESS);
-    WM_DRV_I2C_CHECK_PARAM(config->speed_hz >= WM_I2C_SPEED_STANDARD && config->speed_hz <= dev->hw->i2c_cfg.max_clock);
+    if (!(dev->drv && config->addr <= WM_DRV_I2C_MAX_ADDRESS)) {
+        return WM_ERR_INVALID_PARAM;
+    }
+
+    if (!(config->speed_hz >= WM_I2C_SPEED_MIN && config->speed_hz <= dev->hw->i2c_cfg.max_clock)) {
+        return WM_ERR_INVALID_PARAM;
+    }
 
     write_flag = ((data && data_size > 0) ? WM_HAL_I2C_FLAG_NOSTOP : 0);
     ctx        = &dev->drv->ctx;

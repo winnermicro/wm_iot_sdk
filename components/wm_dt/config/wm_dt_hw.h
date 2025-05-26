@@ -83,6 +83,10 @@ typedef struct {
 } wm_dt_hw_spim_dev_cfg_t;
 
 typedef struct {
+    uint8_t mode; /**< support 0(CPOL=0,CPHA=0), 1(CPOL=0,CPHA=1), 2(CPOL=1,CPHA=0), 3(CPOL=1,CPHA=1) */
+} wm_dt_hw_spis_dev_cfg_t;
+
+typedef struct {
     bool extal_clock_en; /**< external mclk enable  */
     uint32_t mclk_hz;    /**< unit hz. mclk=F_I2SCLK/div, div=[2,63];
                                     F_I2SCLK : peripheral clock ,default 160M ;
@@ -360,6 +364,22 @@ typedef struct {
 } wm_dt_hw_spim_t;
 
 typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+} wm_dt_hw_spim_soft_t;
+
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+    uint32_t reg_base;
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+    wm_dt_hw_irq_cfg_t irq_cfg;
+    char *dma_device_name;
+    char *rcc_device_name;
+} wm_dt_hw_spis_t;
+
+typedef struct {
     wm_rcc_type_t type; /**< @ref wm_rcc_type_t */
     uint32_t clock;     /**< Define the clock for each of bus/controller, unit:Hz,
                          *   The range is same as that defined by \c wm_drv_rcc_config_clock()*/
@@ -381,6 +401,33 @@ typedef struct {
     uint32_t reg_base;
     wm_dt_hw_flash_cfg_t flash_cfg;
 } wm_dt_hw_iflash_t; //internal flash
+
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+    char *if_dev_name;            // device name
+    wm_dt_hw_pin_cfg_t irq_pin;   // irq pin selection
+    wm_dt_hw_pin_cfg_t reset_pin; // reset pin selection
+    wm_dt_hw_pin_cfg_t mode_pin;  // mode pin selection
+    wm_dt_hw_pin_cfg_t addr_pin;  // i2c addr pin selection
+    /**
+     * 0: indicates no processing
+     * 1: Regarding mirror symmetry of the x-axis and y-axis
+     */
+    uint8_t mirror_image;
+    uint16_t width;
+    uint16_t height;
+/**
+     * according to if_dev_name:
+     * i2c/i2c_soft use ic_cfg.
+     * spim/spim_soft use spi_cfg.
+     */
+#if CONFIG_COMPONENT_FT6336_DRIVER
+    wm_dt_hw_i2c_cfg_t i2c_cfg;
+#endif
+#if CONFIG_COMPONENT_XPT2046_DRIVER
+    wm_dt_hw_spim_dev_cfg_t spi_cfg;
+#endif
+} wm_dt_hw_touch_panel_t;
 
 typedef struct {
     wm_dt_hw_init_cfg_t init_cfg;
@@ -491,6 +538,18 @@ typedef struct {
     wm_dt_hw_pin_cfg_t *pin_cfg;
     char *rcc_device_name;
 } wm_dt_hw_sdio_slave_t;
+#endif
+
+#if CONFIG_COMPONENT_DRIVER_HSPI_SLAVE_ENABLED
+typedef struct {
+    wm_dt_hw_init_cfg_t init_cfg;
+    uint32_t hspi_slave_reg_base;
+    uint32_t wrapper_reg_base;
+    wm_dt_hw_irq_cfg_t irq_cfg;
+    uint8_t pin_cfg_count;
+    wm_dt_hw_pin_cfg_t *pin_cfg;
+    char *rcc_device_name;
+} wm_dt_hw_hspi_slave_t;
 #endif
 
 #pragma pack()

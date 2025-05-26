@@ -12,7 +12,18 @@
 
 有关规范定义的故障值的列表，请参阅 :ref:`bluetooth_mesh_health_faults` 。
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/health_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/health_cli.h"
+
 API 参考
-*************
+-----------
 
 .. doxygengroup:: bt_mesh_health_cli

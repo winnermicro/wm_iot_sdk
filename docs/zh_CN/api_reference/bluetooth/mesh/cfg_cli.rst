@@ -11,7 +11,18 @@
 
 配置客户端模型是可选的，并且它必须仅在主元素上实例化（如果在合成数据中存在）。
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/cfg_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/cfg_cli.h"
+
 API 参考
-*************
+-----------
 
 .. doxygengroup:: bt_mesh_cfg_cli

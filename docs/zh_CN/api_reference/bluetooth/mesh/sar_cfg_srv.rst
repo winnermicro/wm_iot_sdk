@@ -15,8 +15,19 @@ SAR 配置服务器模型没有自己的 API，但依赖于 :ref:`bluetooth_mesh
 
 如果存在，SAR 配置服务器模型必须仅在主元素上实例化。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/sar_cfg_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/sar_cfg_srv.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_sar_cfg_srv
    :project: wm-iot-sdk-apis

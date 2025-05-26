@@ -47,8 +47,6 @@
         return WM_ERR_INVALID_PARAM; \
     }
 
-#include "wm_drv_ops_i2c.c"
-
 wm_device_t *wm_drv_i2c_init(const char *device_name)
 {
     wm_device_t *dev = (device_name ? wm_dt_get_device_by_name(device_name) : NULL);

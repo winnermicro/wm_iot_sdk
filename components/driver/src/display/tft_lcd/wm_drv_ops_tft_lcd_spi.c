@@ -1,5 +1,5 @@
 /**
- * @file wm_drv_ops_tft_lcd_st7735_spi.c
+ * @file wm_drv_ops_tft_lcd_spi.c
  *
  * @brief DRV OPS COMMON Module for SPI TFT LCD
  *

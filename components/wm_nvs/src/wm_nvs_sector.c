@@ -405,9 +405,10 @@ int wm_nvs_sector_find_item(wm_nvs_sector_t *sec, uint8_t group_id, wm_nvs_type_
     int slice_index;
     int span;
     int err;
+    int key_len = 0;
 
-    WM_NVS_LOGD("sec find: gid=%d,type=%d,key=%s,index=%d, seg=%d,%d", group_id, type, (key ? key : "null"), *item_index,
-                seg_index, seg_start);
+    WM_NVS_LOGD("sec find: gid=%d,type=%d,key=%.*s,index=%d, seg=%d,%d", group_id, type, WM_NVS_MAX_KEY_LEN,
+                (key ? key : "null"), *item_index, seg_index, seg_start);
 
     if (sec->state == WM_NVS_SECTOR_STATE_CRASH || sec->state == WM_NVS_SECTOR_STATE_INVALID ||
         sec->state == WM_NVS_SECTOR_STATE_UNINIT) {
@@ -466,13 +467,17 @@ int wm_nvs_sector_find_item(wm_nvs_sector_t *sec, uint8_t group_id, wm_nvs_type_
             WM_NVS_LOGD("found drop");
 
         } else if (item->state == WM_NVS_ITEM_STATE_USING) {
+            if (key) {
+                key_len = strnlen(key, WM_NVS_MAX_KEY_LEN);
+            }
+
             /*using, check item match*/
             if (item->state == WM_NVS_ITEM_STATE_USING && (group_id == WM_NVS_GROUP_ID_ANY || group_id == item->group_id) &&
                 ((type == WM_NVS_TYPE_ANY || type == item->type) ||
                  (type == WM_NVS_TYPE_ANY_WITHOUT_SEG && item->type != WM_NVS_TYPE_BLOB_SEG)) &&
                 (seg_index == WM_NVS_SEG_ID_ANY || seg_index == item->seg_id) &&
                 (seg_start == WM_NVS_SEG_START_ANY || (item->seg_id >= seg_start && item->seg_id - seg_start < 0x80)) &&
-                (!key || !strncmp(item->name, key, strlen(key)))) {
+                (!key || !strncmp(item->name, key, key_len))) {
                 *item_index = start;
                 WM_NVS_LOGD("found match,start=%d,type=%d,item.type=%d", start, type, item->type);
 
@@ -480,13 +485,13 @@ int wm_nvs_sector_find_item(wm_nvs_sector_t *sec, uint8_t group_id, wm_nvs_type_
 
             } else {
                 if (type == WM_NVS_TYPE_BLOB_SEG && item->type == WM_NVS_TYPE_BLOB_SEG) {
-                    WM_NVS_LOGD("for: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%s", group_id, type, seg_index,
-                                seg_start, key ? key : "NULL");
+                    WM_NVS_LOGD("for: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%.*s", group_id, type, seg_index,
+                                seg_start, WM_NVS_MAX_KEY_LEN, key ? key : "NULL");
                     WM_NVS_LOGD("it: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%.*s", item->group_id, item->type,
                                 item->seg_id, item->seg_start, WM_NVS_MAX_KEY_LEN, item->name);
                 } else if (type == WM_NVS_TYPE_BLOB && item->type == WM_NVS_TYPE_BLOB) {
-                    WM_NVS_LOGD("for: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%s", group_id, type, seg_index,
-                                seg_start, key ? key : "NULL");
+                    WM_NVS_LOGD("for: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%.*s", group_id, type, seg_index,
+                                seg_start, WM_NVS_MAX_KEY_LEN, key ? key : "NULL");
                     WM_NVS_LOGD("it: group_id=%d,type=%d,seg_index=%d,seg_start=%d,key=%.*s", item->group_id, item->type,
                                 item->seg_id, item->seg_start, WM_NVS_MAX_KEY_LEN, item->name);
                 }

@@ -1,0 +1,121 @@
+menuconfig COMPONENT_LITTLEFS_ENABLED
+    bool "LittleFS"
+    default n
+    help
+        Select this option to enable LittleFS and show the submenu.
+
+if COMPONENT_LITTLEFS_ENABLED
+
+    config LITTLEFS_INTERNAL_FLASH_DISK_ENABLE
+        bool "Enable LittleFS disk on internal flash"
+        default n
+        help
+            Select this option to enable LittleFS disk on internal flash.
+
+    config LITTLEFS_EXTERNAL_FLASH_DISK_ENABLE
+        bool "Enable LittleFS disk on external flash"
+        default n
+        select COMPONENT_DRIVER_EXTERNAL_FLASH_ENABLED
+        help
+            Select this option to enable LittleFS disk on external flash.
+
+    if LITTLEFS_INTERNAL_FLASH_DISK_ENABLE
+        config LITTLEFS_INTERNAL_FLASH_PARTITION_NAME
+            string "Internal flash partition name"
+            default "littlefs"
+            help
+                Specify the partition name for the internal flash LittleFS disk.
+                This name should match the partition name defined in the partition table.
+    endif
+
+    if LITTLEFS_EXTERNAL_FLASH_DISK_ENABLE
+        config LITTLEFS_EXTERNAL_FLASH_DEVICE_NAME
+            string "External flash device name"
+            default "flash_w25q"
+            help
+                Specify the device name for the external flash LittleFS disk.
+                This name should match the external flash device name defined in the device table.
+
+        config LITTLEFS_EXTERNAL_FLASH_START_ADDRESS
+            hex "External flash start address"
+            default 0x0
+            help
+                Specify the start address for the external flash LittleFS disk.
+                Default is 0x0, which means starting from the beginning of the external flash.
+                Make sure this address aligns with your external flash is sector boundaries.
+
+        config LITTLEFS_EXTERNAL_FLASH_SIZE
+            hex "External flash size for LittleFS"
+            default 0x40000
+            help
+                Specify the size of the area on external flash to be used for LittleFS.
+                This defines the maximum space available for the LittleFS file system on the external flash.
+                Default is 256KB (0x40000 bytes). Make sure this size aligns with your flash's sector size.
+    endif
+
+    config LITTLEFS_READONLY_ENABLE
+        bool "Enable read-only mode"
+        default n
+        help
+            When enabled, LittleFS will operate in read-only mode.
+            This prevents any write operations to the filesystem,
+            which can be useful for protecting the filesystem from
+            accidental modifications or when using read-only storage media.
+
+    config LITTLEFS_THREADSAFE_ENABLE
+        bool "Enable thread-safe operations"
+        default y
+        depends on !LITTLEFS_READONLY_ENABLE
+        help
+            When enabled, LittleFS will support multi-threaded operations.
+            This enables locking mechanisms to ensure safe filesystem access
+            in multi-threaded environments, preventing data races and conflicts.
+            Note: This requires providing lock and unlock function pointers
+            in the lfs_config structure.
+
+    config LITTLEFS_MULTIVERSION_ENABLE
+        bool "Enable multi-version support"
+        default n
+        help
+            When enabled, LittleFS will support version control features.
+            This allows storing multiple versions of data under the same file path,
+            similar to version control systems, enabling data rollback
+            and version management capabilities.
+
+    config LITTLEFS_YES_TRACE_ENABLE
+        bool "Enable trace messages"
+        default n
+        help
+            When enabled, LittleFS will print trace messages for debugging.
+            This allows tracking filesystem operations and internal state changes,
+            which can be helpful for development and troubleshooting.
+            Note that enabling this will increase code size and runtime overhead.
+
+    config LITTLEFS_READ_SIZE
+        int "Flash read size"
+        range 256 4096
+        default 256
+        help
+            Specify the minimum size of a read operation in bytes.
+            This should match the flash device's read operation size requirements.
+            Typical values are 256-4096 bytes.
+
+    config LITTLEFS_PROG_SIZE
+        int "Flash program size"
+        range 256 4096
+        default 256
+        help
+            Specify the minimum size of a program (write) operation in bytes.
+            This should match the flash device's program operation size requirements.
+            Typical values are 256-4096 bytes.
+
+    config LITTLEFS_ERASE_SIZE
+        int "Flash erase size"
+        range 1024 65536
+        default 4096
+        help
+            Specify the size of an erase operation in bytes.
+            This should match the flash device's erase block size.
+            Common values are 1024 (1KB) or 65536 (64KB).
+
+endif

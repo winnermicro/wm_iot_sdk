@@ -15,8 +15,19 @@
 
 为了能够聚合来自客户端模型的消息，它应该支持异步 API，例如通过回调。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/op_agg_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/op_agg_cli.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_op_agg_cli
    :project: wm-iot-sdk-apis

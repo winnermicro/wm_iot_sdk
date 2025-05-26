@@ -46,6 +46,7 @@ typedef struct {
     eflash_cmd_t prscur;    //program secturity register
     eflash_cmd_t pe;        //page erase
     eflash_cmd_t se;        //sectore erase
+    eflash_cmd_t hbe;       //64K block erase
     eflash_cmd_t ce;        //chip erase
     eflash_cmd_t read;      //read data
     eflash_cmd_t fread;     //fast read

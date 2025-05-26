@@ -63,17 +63,22 @@ GATT 层管理服务数据库，为服务注册提供 API 和属性声明。
   删除订阅时 ``notify``  用数据调用回调
   设置为 NULL。
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/gatt.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/gatt.h"
+
 API 参考
-*************
+-----------
 
 .. doxygengroup:: bt_gatt
 
-GATT Server
-===========
-
 .. doxygengroup:: bt_gatt_server
-
-GATT Client
-===========
 
 .. doxygengroup:: bt_gatt_client

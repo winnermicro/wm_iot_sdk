@@ -1,0 +1,178 @@
+<mxfile host="Electron" modified="2025-05-06T13:17:21.308Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="CRgnErT-M-jbNm1orU05" version="21.7.5" type="device">
+  <diagram id="prtHgNgQTEPvFCAcTncT" name="Page-1">
+    <mxGraphModel dx="933" dy="530" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-2" value="Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="27" y="239" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-3" value="WM Touch Panel Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="27" y="299" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-4" value="Touch Panel OPS Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="27" y="359" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-5" value="FT6336 OPS&lt;br&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="27" y="399" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-6" value="XPT2046 OPS&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="167" y="399" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-7" value="Other TP OPS&lt;br&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;glass=0;shadow=0;" parent="1" vertex="1">
+          <mxGeometry x="307" y="399" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-8" value="Touch Panel I/F Driver&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="27" y="479" width="400" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-9" value="hardware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="27" y="514" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-10" value="SPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="27" y="544" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-13" value="I2C" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="117" y="544" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-14" value="GPIO simulation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="247" y="514" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-15" value="SPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="247" y="544" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-16" value="I2C" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="337" y="544" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-17" value="校准算法实现&lt;br&gt;对触摸坐标进行处理" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="672" y="244" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-18" value="wm_drv_touch_panel.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="467" y="299" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-20" value="wm_dt_hw.c&lt;br&gt;wm_dt_hw.h&lt;br&gt;wm_dt_hw.toml" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="467" y="359" width="150" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-21" value="wm_drv_ops_ft6336.c&lt;br&gt;wm_drv_ops_xpt2046.c&lt;br&gt;wm_drv_ops_xxxxxx.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="467" y="402" width="150" height="57" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-22" value="对外公共接口" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="672" y="309" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-23" value="设备表定义&lt;br&gt;驱动OPS挂载等" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="672" y="359" width="103" height="41" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-24" value="各种触摸芯片驱动实现" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="672" y="419" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-25" value="wm_drv_i2c.c&lt;br&gt;wm_drv_spi_master.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="467" y="519" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-26" value="总线驱动公共接口" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="672" y="526.5" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-27" value="touch panel example" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="467" y="239" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-29" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="27" y="219" as="sourcePoint" />
+            <mxPoint x="807" y="219" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-30" value="Touch Panel 驱动分层架构" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="127" y="189" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-31" value="相关代码文件" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="492" y="189" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5UiWwszeNNdzOxaOKwMR-32" value="说明" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="702" y="189" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-1" value="Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="12" y="659" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-2" value="WM Touch Panel Driver Public API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="12" y="719" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-3" value="Touch Panel OPS Register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="12" y="779" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-4" value="FT6336 OPS&lt;br&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="12" y="819" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-5" value="XPT2046 OPS&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="152" y="819" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-6" value="Other TP OPS&lt;br&gt;Implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;glass=0;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="292" y="819" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-7" value="Touch Panel I/F Driver&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="12" y="899" width="400" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-8" value="hardware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="12" y="934" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-9" value="SPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="12" y="964" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-10" value="I2C" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="102" y="964" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-11" value="GPIO simulation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="232" y="934" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-12" value="SPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="232" y="964" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-13" value="I2C" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="322" y="964" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-14" value="&lt;p style=&quot;box-sizing: inherit; margin: 0px; line-height: 26px; color: rgb(51, 51, 51); font-family: sans-serif; background-color: rgb(255, 255, 255);&quot; class=&quot;trans-content&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Calibration Implementation&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: inherit; margin: 0px; line-height: 26px; color: rgb(51, 51, 51); font-family: sans-serif; background-color: rgb(255, 255, 255);&quot; class=&quot;trans-content&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Touch coordinate processing&lt;/font&gt;&lt;/p&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="639.5" y="653" width="183" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-15" value="wm_drv_touch_panel.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="719" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-16" value="wm_dt_hw.c&lt;br&gt;wm_dt_hw.h&lt;br&gt;wm_dt_hw.toml" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="779" width="150" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-17" value="wm_drv_ops_ft6336.c&lt;br&gt;wm_drv_ops_xpt2046.c&lt;br&gt;wm_drv_ops_xxxxxx.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="822" width="150" height="57" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-18" value="External public interface" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="636.5" y="733" width="146" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-19" value="&lt;p style=&quot;box-sizing: inherit; margin: 0px; line-height: 26px; color: rgb(51, 51, 51); font-family: sans-serif; background-color: rgb(255, 255, 255);&quot; class=&quot;trans-content&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Equipment table definition&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: inherit; margin: 0px; line-height: 26px; color: rgb(51, 51, 51); font-family: sans-serif; background-color: rgb(255, 255, 255);&quot; class=&quot;trans-content&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Drive OPS mounting, etc&lt;/font&gt;&lt;/p&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="636.5" y="767" width="171" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-20" value="Implementation of &lt;br&gt;Touch Chip Driver" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="638" y="833" width="113" height="41" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-21" value="wm_drv_i2c.c&lt;br&gt;wm_drv_spi_master.c" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="939" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-22" value="Bus driven common interface" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="639.5" y="951" width="173" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-23" value="touch panel example" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="452" y="659" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-24" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="12" y="639" as="sourcePoint" />
+            <mxPoint x="792" y="639" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-25" value="Touch Panel&amp;nbsp;Architecture&amp;nbsp;Layer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="100" y="611" width="184" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-26" value="Reference Source Code" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="454" y="611" width="147" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="mbPwy6CZyMuL-bygkq4x-27" value="The Description of Layer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="638" y="611" width="149" height="26" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

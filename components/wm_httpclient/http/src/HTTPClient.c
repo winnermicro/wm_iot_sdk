@@ -1827,6 +1827,7 @@ static uint32_t HTTPIntrnSend(P_HTTP_SESSION pHTTPSession,
             // a repeated Write events (socket is connected)
 
             FD_SET(pConnection->HttpSocket, &pConnection->FDError);
+            FD_SET(pConnection->HttpSocket, &pConnection->FDWrite);
 
             // See if we got any events on the socket
             nSocketEvents = select((pConnection->HttpSocket + 1), 0, &pConnection->FDWrite, &pConnection->FDError, &Timeval);

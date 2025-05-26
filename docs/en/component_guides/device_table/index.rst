@@ -349,9 +349,14 @@ For SD/MMC devices, their configuration options wtthin the configuration file un
 
 For TFT LCD, the configuration options include the following:
 
-    * ``pin_lcd_reset`` specifies the reset pin for the TFT LCD screen, used to reset the display module. It takes a GPIO pin number, which can be any number from ``0`` to ``45``.
-    * ``pin_lcd_dcx`` specifies the data/command select pin for the TFT LCD screen. It takes a GPIO pin number, which can be any number from ``0`` to ``45``.
-    * ``pin_lcd_led`` specifies the backlight control pin for the TFT LCD screen. It takes a GPIO pin number, which can be any number from ``0`` to ``45``.
+    * ``pin_lcd_reset`` specifies the reset pin for the TFT LCD screen, used to reset the display module. It takes a GPIO pin number, which can be any number from ``0`` to ``WM_GPIO_NUM_MAX-1``.
+    * ``pin_lcd_dcx`` specifies the data/command select pin for the TFT LCD screen. It takes a GPIO pin number, which can be any number from ``0`` to ``WM_GPIO_NUM_MAX-1``.
+    * ``pin_lcd_led`` specifies the backlight control pin for the TFT LCD screen. It takes a GPIO pin number, which can be any number from ``0`` to ``WM_GPIO_NUM_MAX-1``.
+
+.. hint::
+    During the build process, the build script ``wmdt.py`` will first convert ``device_table.toml`` into ``wm_dt_hw.c``. The ``pin_lcd_*`` entries in ``device_table.toml`` will be converted to ``io_lcd_*`` and stored in ``wm_dt_hw.c``.
+    If ``pin_lcd_*`` is set to ``-1`` in ``device_table.toml``, it will be converted to ``io_lcd_* = WM_GPIO_NUM_MAX`` in ``wm_dt_hw.c``.
+    When ``io_lcd_* = WM_GPIO_NUM_MAX``, the corresponding IO will be ignored during TFT LCD driver initialization, and IO initialization will not be performed for that pin.
 
 .. _wdt_config_section:
 

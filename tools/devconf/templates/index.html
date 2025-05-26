@@ -1,237 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Winnermicro Device Table Configurations</title>
-  {% include 'header.html' %}
-  <style>
-  </style>
-</head>
-<body>
-
-{% include 'menu.html' %}
-
-<div class="container" style="margin-top:30px">
-  <div class="row">
-
-    {% include 'devices.html' %}
-
-    <div class="col-sm-9">
-    <div class="row">
-    <h2 class="col-sm-3 text-right">Configurations</h2>&nbsp;&nbsp;&nbsp;
-    <form id="post_form" method="post" action="/wmdt/index">
-    <input type="hidden" id="dev_name2" name="dev_name2" value="Uart0" />
-    <div class="col-sm-6 text-right"><button class="btn btn-primary" style="width:100px" type="submit" onclick="saveDevconfigs()">Save</button></div>
-    </div>
-	<div class="card" id="conf_container">
-
-    {% if data.dev_name == 'Clock' %}
-    {% include 'clock.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
-    {% include 'uart.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'Timer'|length] == 'Timer' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'Internal_flash'|length] == 'Internal_flash' %}
-    {% include 'iflash.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'External_flash_w25q'|length] == 'External_flash_w25q' %}
-    {% include 'eflash.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'External_flash_gd25q'|length] == 'External_flash_gd25q' %}
-    {% include 'eflash.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'External_flash_xt25f'|length] == 'External_flash_xt25f' %}
-    {% include 'eflash.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'External_flash_th25q'|length] == 'External_flash_th25q' %}
-    {% include 'eflash.html' %}
-    {% endif %}
-
-
-    {% if data.dev_name[:'CRYPTO'|length] == 'CRYPTO' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'CRC'|length] == 'CRC' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'HASH'|length] == 'HASH' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'RNG'|length] == 'RNG' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'RSA'|length] == 'RSA' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'SDMMC'|length] == 'SDMMC' %}
-    {% include 'sdmmc.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'SDSPI'|length] == 'SDSPI' %}
-    {% include 'sdspi.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'NV3041A'|length] == 'NV3041A' %}
-    {% include 'tftlcd.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'ST7735'|length] == 'ST7735' %}
-    {% include 'tftlcd.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'GZ035'|length] == 'GZ035' %}
-    {% include 'tftlcd.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'SDIO_Slave'|length] == 'SDIO_Slave' %}
-    {% include 'common.html' %}
-    {% include 'sdio_slave.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'I2C'|length] == 'I2C' %}
-    {% include 'i2c.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'eeprom0'|length] == 'eeprom0' %}
-    {% include 'eeprom.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'eeprom1'|length] == 'eeprom1' %}
-    {% include 'eeprom.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'SPI_Master'|length] == 'SPI_Master' %}
-    {% include 'spim.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'Touch_Sensor'|length] == 'Touch_Sensor' %}
-    {% include 'touch_sensor.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'Touch_Button'|length] == 'Touch_Button' %}
-    {% include 'touch_button.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'SEG_LCD'|length] == 'SEG_LCD' %}
-    {% include 'seg_lcd.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'PWM'|length] == 'PWM' %}
-    {% include 'pwm.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'I2S'|length] == 'I2S' %}
-    {% include 'i2s.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'ADC'|length] == 'ADC' %}
-    {% include 'adc.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'RTC'|length] == 'RTC' %}
-    {% include 'common.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'PMU'|length] == 'PMU' %}
-    {% include 'pmu.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'GPIO'|length] == 'GPIO' %}
-    {% include 'gpio.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'WDT'|length] == 'WDT' %}
-    {% include 'wdt.html' %}
-    {% endif %}
-
-    {% if data.dev_name[:'PSRAM'|length] == 'PSRAM' %}
-    {% include 'psram.html' %}
-    {% endif %}
-
-
-    {% if data.dev_name != 'Clock' and data.dev_name[:'Uart'|length] != 'Uart' %}
-    {% include 'init.html' %}
-    {% endif %}
-
-    </div>
-    </div>
-  </div>
-</div>
 
 <script>
-function changeInputValue(newValue) {
-    event.preventDefault();
-    var inputElement = document.getElementById('dev_name');
-    inputElement.value = newValue;
-    var form = document.getElementById('get_form');
-    form.submit();
-}
+  window.GLOBAL_CONFIG = {
+{% if data.dev_name == 'Clock' %}
+    wm_cpuFreq: '{{ (480 / data.clk_div_cpu) | round | int }}MHz',
+    wm_cpuFreqDiv: '1/{{ data.clk_div_cpu | round | int }}',
+    wm_wlanFreq: '{{ (480 / data.clk_div_wlan) | round | int }}MHz',
+    wm_wlanFreqDiv: '1/{{ data.clk_div_wlan | round | int }}',
+  {% set apbdiv = (480 / data.clk_div_wlan / 4) | round | int %}
+  {% if apbdiv != 0 %}
+    wm_apbFreq: '{{ (480 / data.clk_div_wlan / 4) | round | int }}MHz',
+  {% else %}
+    wm_apbFreq: '{{ (480 * 1000 / data.clk_div_wlan / 4) | round | int }}KHz',
+  {% endif %}
+{% endif %}
+    wm_devName: '{{ data.dev_name }}',
+  };
 
-function saveDevconfigs() {
-    event.preventDefault();
-    var inputElement2 = document.getElementById('dev_name2');
-    inputElement2.value = "{{ data.dev_name }}";
-    {% if data.dev_name == 'Clock' %}
-      checkClockconfigs();
-    {% endif %}
+{% if data.dev_name[:'iflash'|length] == 'iflash' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Flash';
+{% elif data.dev_name[:'External_flash_w25q'|length] == 'External_flash_w25q' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Flash';
+{% elif data.dev_name[:'External_flash_gd25q'|length] == 'External_flash_gd25q' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Flash';
+{% elif data.dev_name[:'External_flash_xt25f'|length] == 'External_flash_xt25f' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Flash';
+{% elif data.dev_name[:'External_flash_th25q'|length] == 'External_flash_th25q' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Flash';
+{% endif %}
+{% if data.dev_name[:'CRYPTO'|length] == 'CRYPTO' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Crypto';
+{% elif data.dev_name[:'CRC'|length] == 'CRC' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Crypto';
+{% elif data.dev_name[:'HASH'|length] == 'HASH' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Crypto';
+{% elif data.dev_name[:'RNG'|length] == 'RNG' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Crypto';
+{% elif data.dev_name[:'RSA'|length] == 'RSA' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Crypto';
+{% endif %}
+{% if data.dev_name[:'SDMMC'|length] == 'SDMMC' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'SDSPI'|length] == 'SDSPI' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'nv3041a_spi'|length] == 'nv3041a_spi' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'st7735_spi'|length] == 'st7735_spi' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'gz035_spi'|length] == 'gz035_spi' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'gc9a01_spi'|length] == 'gc9a01_spi' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% elif data.dev_name[:'SDIO_Slave'|length] == 'SDIO_Slave' %}
+  window.GLOBAL_CONFIG.wm_devName = 'SDIO';
+{% endif %}
+{% if data.dev_name[:'I2C'|length] == 'I2C' %}
+  window.GLOBAL_CONFIG.wm_devName = 'I2C';
+{% elif data.dev_name[:'eeprom0'|length] == 'eeprom0' %}
+  window.GLOBAL_CONFIG.wm_devName = 'I2C';
+{% elif data.dev_name[:'eeprom1'|length] == 'eeprom1' %}
+  window.GLOBAL_CONFIG.wm_devName = 'I2C';
+{% endif %}
+{% if data.dev_name[:'Touch_Sensor'|length] == 'Touch_Sensor' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Touch_Sensor';
+{% elif data.dev_name[:'Touch_Button'|length] == 'Touch_Button' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Touch_Sensor';
+{% endif %}
+{% if data.dev_name[:'XPT2046'|length] == 'XPT2046' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Touch_Panel';
+{% elif data.dev_name[:'FT6336'|length] == 'FT6336' %}
+  window.GLOBAL_CONFIG.wm_devName = 'Touch_Panel';
+{% endif %}
 
-    var form = document.getElementById('post_form');
 
-    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
-        var pinrts = document.getElementById('pinrts');
-        if (pinrts) {
-            var pinrts_hidden = document.createElement('input');  
-            pinrts_hidden.type = 'hidden';  
-            pinrts_hidden.name = 'pinrts';  
-            pinrts_hidden.value = pinrts.value;  
-            form.appendChild(pinrts_hidden);
-        }
-        var pincts = document.getElementById('pincts');
-        if (pincts) {
-            var pincts_hidden = document.createElement('input');  
-            pincts_hidden.type = 'hidden';  
-            pincts_hidden.name = 'pincts';  
-            pincts_hidden.value = pincts.value;  
-            form.appendChild(pincts_hidden);
-        }
-    {% endif %}
+</script>
 
-    form.submit();
+{% include 'header.html' %}
 
-    {% if data.dev_name[:'Uart'|length] == 'Uart' %}
-        if (pinrts) {
-            pinrts_hidden.remove();
-        }
-        if (pincts) {
-            pincts_hidden.remove();
-        }
-    {% endif %}
-}
+<body>
+    <div class="app-container">
+{% include 'menu.html' %}
 
-function copy_device_name() {
-    var text = document.getElementById("device_name");
-    text.select();
-    document.execCommand("copy");
-}
+        <main class="main-content">
+            <div class="devices-panel-container">
+{% include 'devices.html' %}
+                <div class="configuration-panel">
+                <form id="post_form" style="display: contents;">
+                    <input type="hidden" id="dev_name2" name="dev_name2" value="Uart0" />
+                    <div class="panel-header">
+                        <h2>Configurations</h2>
+                        <div class="save-button-container">
+                            <img src="/static/images/allChange.png" alt="" id="changeToggle">
+                            <div class="changes-dropdown" id="changesDropdown">
+                                <div class="changes-header">
+                                    <span>Changed</span>
+                                    <span class="close-dropdown" id="closeDropdown"><img src="/static/images/close-square.png" alt=""></span>
+                                </div>
+                                <div class="changes-content">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="save-button" type="submit" style="cursor: pointer;">Save</button>
+                    </div>
 
-{% include 'status.html' %}
+                {% if data.dev_name[:'Uart'|length] == 'Uart' %}
+                    {% include 'uart.html' %}
+                {% endif %}
+
+                {% if data.dev_name[:'Timer'|length] == 'Timer' or data.dev_name[:'CRYPTO'|length] == 'CRYPTO' or data.dev_name[:'CRC'|length] == 'CRC' or data.dev_name[:'HASH'|length] == 'HASH' or data.dev_name[:'RNG'|length] == 'RNG' or data.dev_name[:'RSA'|length] == 'RSA' or data.dev_name[:'RTC'|length] == 'RTC' %}
+                    {% include 'common.html' %}
+                {% endif %}
+
+                    {% if data.dev_name[:'iflash'|length] == 'iflash' %}
+                    {% include 'iflash.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'External_flash_w25q'|length] == 'External_flash_w25q' or data.dev_name[:'External_flash_gd25q'|length] == 'External_flash_gd25q' or data.dev_name[:'External_flash_xt25f'|length] == 'External_flash_xt25f' or data.dev_name[:'External_flash_th25q'|length] == 'External_flash_th25q' %}
+                    {% include 'eflash.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'SDMMC'|length] == 'SDMMC' %}
+                    {% include 'sdmmc.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'SDSPI'|length] == 'SDSPI' %}
+                    {% include 'sdspi.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'nv3041a_spi'|length] == 'nv3041a_spi' or data.dev_name[:'st7735_spi'|length] == 'st7735_spi' or data.dev_name[:'gz035_spi'|length] == 'gz035_spi' or data.dev_name[:'gc9a01_spi'|length] == 'gc9a01_spi' %}
+                    {% include 'tftlcd.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'SDIO_Slave'|length] == 'SDIO_Slave' %}
+                    {% include 'sdio_slave.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'I2C'|length] == 'I2C' %}
+                    {% include 'i2c.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'eeprom'|length] == 'eeprom' %}
+                    {% include 'eeprom.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'spim'|length] == 'spim' %}
+                    {% include 'spim.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'spis'|length] == 'spis' %}
+                    {% include 'spis.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'HSPI_Slave'|length] == 'HSPI_Slave' %}
+                    {% include 'hspi_slave.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'Touch_Sensor'|length] == 'Touch_Sensor' %}
+                    {% include 'touch_sensor.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'Touch_Button'|length] == 'Touch_Button' %}
+                    {% include 'touch_button.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'XPT2046'|length] == 'XPT2046' or data.dev_name[:'FT6336'|length] == 'FT6336' %}
+                    {% include 'touch_panel.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'SEG_LCD'|length] == 'SEG_LCD' %}
+                    {% include 'seg_lcd.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'PWM'|length] == 'PWM' %}
+                    {% include 'pwm.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'I2S'|length] == 'I2S' %}
+                    {% include 'i2s.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'ES8374'|length] == 'ES8374' %}
+                    {% include 'es8374.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'ADC'|length] == 'ADC' %}
+                    {% include 'adc.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'PMU'|length] == 'PMU' %}
+                    {% include 'pmu.html' %}
+                    {% endif %}
+
+                    {% if data.dev_name[:'GPIO'|length] == 'GPIO' %}
+                    {% include 'gpio.html' %}
+                    {% endif %}
+
+                    {% if data.dev_name[:'WDT'|length] == 'WDT' %}
+                    {% include 'wdt.html' %}
+                    {% endif %}
+                    
+                    {% if data.dev_name[:'PSRAM'|length] == 'PSRAM' %}
+                    {% include 'psram.html' %}
+                    {% endif %}
+
+                    {% if data.dev_name[:'Chip'|length] == 'Chip' %}
+                    {% include 'chip.html' %}
+                    {% endif %}
+
+                    {% if data.dev_name == 'Clock' %}
+                    <div class="configuration-diagram" id="configDiagram"></div>
+                    {% endif %}
+                </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/static/js/index.js"></script>
+
+<script>
+    window.addEventListener('load', function() {
+        findChangedElements();
+    });
+
+    function findChangedElements() {
+        const changedElements = [];
+
+      {% if data.dev_name == 'Clock' %}
+        const deviceLeftDiv = document.querySelector('.configuration-diagram');
+        
+        const formElements = deviceLeftDiv.querySelectorAll('select');
+        
+        formElements.forEach(element => {
+            if (element.tagName === 'SELECT') {
+                if (!element.options || element.selectedIndex === -1) {
+                    return;
+                }
+
+                const selectedOption = element.options[element.selectedIndex];
+
+                if (element.hasAttribute('data-initial-value')) {
+                    const initialValue = element.getAttribute('data-initial-value');
+                    const currentValue = selectedOption.text;
+                    let itemName;
+
+                    if (element.hasAttribute('data-change-name')) {
+                        itemName = element.getAttribute('data-change-name');
+                    } else {
+                        const label = element.previousElementSibling;
+                        if (label?.tagName === "LABEL") {
+                            itemName = label.textContent.trim();
+                        } else {
+                            itemName = element.name + ":";
+                        }
+                    }
+
+                    if (currentValue !== initialValue) {
+                        changedElements.push({
+                            itemName: itemName,
+                            initialValue: initialValue,
+                            currentValue: currentValue
+                        });
+                    }
+                } else {
+                    element.setAttribute('data-initial-value', selectedOption.text);
+                }
+            }
+        });
+      {% else %}
+        const deviceLeftDiv = document.querySelector('.device_left');
+        
+        const formElements = deviceLeftDiv.querySelectorAll('select, input');
+        
+        formElements.forEach(element => {
+            if (element.tagName === 'SELECT') {
+                if (!element.options || element.selectedIndex === -1) {
+                    return;
+                }
+
+                const selectedOption = element.options[element.selectedIndex];
+                
+                if (element.hasAttribute('data-initial-value')) {
+                    const initialValue = element.getAttribute('data-initial-value');
+                    const currentValue = selectedOption.text;
+                    let itemName;
+
+                    if (element.hasAttribute('data-change-name')) {
+                        itemName = element.getAttribute('data-change-name');
+                    } else {
+                        const label = element.previousElementSibling;
+                        if (label?.tagName === "LABEL") {
+                            itemName = label.textContent.trim();
+                        } else {
+                            itemName = element.name + ":";
+                        }
+                    }
+
+                    if (currentValue !== initialValue) {
+                        changedElements.push({
+                            itemName: itemName,
+                            initialValue: initialValue,
+                            currentValue: currentValue
+                        });
+                    }
+                } else {
+                    element.setAttribute('data-initial-value', selectedOption.text);
+                }
+            } else if (element.tagName === 'INPUT') {
+                const inputType = element.type.toLowerCase();
+
+                let currentValue;
+                if (inputType === 'checkbox') {
+                    currentValue = element.checked;
+                } else {
+                    currentValue = element.value;
+                }
+
+                if (element.hasAttribute('data-initial-value')) {
+                    const initialValue = element.getAttribute('data-initial-value');
+                    let itemName;
+
+                    if (element.hasAttribute('data-change-name')) {
+                        itemName = element.getAttribute('data-change-name');
+                    } else {
+                        const label = element.previousElementSibling;
+                        if (label?.tagName === "LABEL") {
+                            itemName = label.textContent.trim();
+                        } else {
+                            itemName = element.name + ":";
+                        }
+                    }
+
+                    if (String(currentValue) !== initialValue) {
+                        changedElements.push({
+                            itemName: itemName,
+                            initialValue: initialValue,
+                            currentValue: currentValue
+                        });
+                    }
+                } else {
+                    element.setAttribute('data-initial-value', String(currentValue));
+                }
+            }
+        });
+      {% endif %}
+
+        return changedElements;
+    }
+
+    function changeInputValue(newValue) {
+        event.preventDefault();
+        var inputElement = document.getElementById('dev_name');
+        inputElement.value = newValue;
+        var form = document.getElementById('get_form');
+        form.submit();
+    }
+
+    $(document).ready(function() {
+        $('#post_form').on('submit', function(e) {
+            e.preventDefault();
+
+            var inputElement2 = document.getElementById('dev_name2');
+            inputElement2.value = "{{ data.dev_name }}";
+
+            $.ajax({
+                type: 'POST',
+                url: '/wmdt/index',
+                data: $(this).serialize(),
+                success: function(response) {
+                    new ZhenshangyinMessage({message: 'Save successfully', type: 'success', duration: 2000});
+                },
+                error: function(xhr) {
+                    new ZhenshangyinMessage({message: 'Save failed', type: 'error', duration: 2000});
+                }
+            });
+        });
+    });
 </script>
 
 {% include 'keep_alive.html' %}
 
 </body>
+
 </html>

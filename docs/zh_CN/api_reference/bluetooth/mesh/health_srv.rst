@@ -8,7 +8,7 @@
 如果存在，则必须在主元素上实例化运行状况服务器模型。
 
 故障
-******
+=============
 
 运行状况服务器模型可以报告在设备生命周期内发生的故障列表。
 通常，故障是可能改变节点行为的事件或条件，如断电或外围设备故障。
@@ -22,7 +22,7 @@
 .. _bluetooth_mesh_models_health_srv_attention:
 
 注意力状态
-***************
+=============
 
 注意力状态用于使设备通过一些物理行为（如闪烁、播放声音或振动）来唤起对自身的注意力。
 注意状态可以在配置期间使用，以让用户知道他们正在配置哪个设备，以及在运行时通过运行状况模型。
@@ -31,8 +31,19 @@
 
 可以通过 :c:member:`bt_mesh_health_srv.attn_timer` 查询关注期的剩余时间。
 
+头文件
+=============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/health_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/health_srv.h"
+
 API 参考
-*************
+=============
 
 .. doxygengroup:: bt_mesh_health_srv
 

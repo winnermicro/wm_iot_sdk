@@ -16,6 +16,7 @@ API Reference
     CLI <cli>
     HTTP Client <http_client>
     MQTT Client <mqtt_client>
+    Httpd Websocket <httpd_websocket>
     Device table <dt>
     Driver <driver/index>
     AT CMD <at_cmd>

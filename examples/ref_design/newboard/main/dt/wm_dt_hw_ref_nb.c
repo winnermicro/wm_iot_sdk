@@ -72,7 +72,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart0_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart0 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010600,
     .irq_cfg         = { .irq_num = WM_IRQ_UART0, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,
@@ -91,7 +91,7 @@ const static wm_dt_hw_pin_cfg_t dt_hw_uart1_pin[] = {
 };
 
 const static wm_dt_hw_uart_t dt_hw_uart1 = {
-    .init_cfg        = { .init_level = 0, .init_priority = 50 },
+    .init_cfg        = { .init_level = 0, .init_priority = 0 },
     .reg_base        = 0x40010800,
     .irq_cfg         = { .irq_num = WM_IRQ_UART1, .irq_priority = 0 },
     .uart_cfg        = { .baudrate  = WM_UART_BAUDRATE_B115200,

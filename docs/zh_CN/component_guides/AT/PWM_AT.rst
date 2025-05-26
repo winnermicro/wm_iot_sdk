@@ -58,6 +58,12 @@ PWM，即脉冲宽度调制（Pulse Width Modulation），是一种模拟信号�
 
     // pwm channel0 输出 10KHz
     AT+DRVPWMINIT=10000,16
+    // pwm channel0,1,2 输出 10KHz
+    AT+DRVPWMINIT=10000,16,17,18 
+    // pwm channel1,2 输出 10KHz
+    AT+DRVPWMINIT=10000,,17,18 
+    // pwm channel2 输出 10KHz
+    AT+DRVPWMINIT=10000,,,18
 
 .. _cmd-DRVPWMDUTY:
 
@@ -100,6 +106,12 @@ PWM，即脉冲宽度调制（Pulse Width Modulation），是一种模拟信号�
 
     // pwm channel0 输出 PWM 波形中的高电平 cycle 数为 10
     AT+DRVPWMDUTY=10
+    // pwm channel0,1,2 输出 PWM 波形中的高电平 cycle 数为 10,20,30
+    AT+DRVPWMDUTY=10,20,30
+    // pwm channel1,2 输出 PWM 波形中的高电平 cycle 数为 20,30
+    AT+DRVPWMDUTY=,20,30
+    // pwm channel2 输出 PWM 波形中的高电平 cycle 数为 30
+    AT+DRVPWMDUTY=,,30
 
 .. _cmd-DRVPWMFADE:
 
@@ -145,6 +157,12 @@ PWM，即脉冲宽度调制（Pulse Width Modulation），是一种模拟信号�
 
 ::
 
-    // 输出pwm波形的占空比从当前duty值在 10 秒内变化至 100
+    // pwm channel0 输出pwm波形的占空比从当前duty值在 10 秒内变化至 100
     AT+DRVPWMFADE=100,10000
+    // pwm channel0,1,2 输出pwm波形的占空比从当前duty值在 10 秒内变化至 100
+    AT+DRVPWMFADE=100,10000,100,10000,100,10000
+    // pwm channel1,2 输出pwm波形的占空比从当前duty值在 10 秒内变化至 100
+    AT+DRVPWMFADE=,,100,10000,100,10000
+    // pwm channel2 输出pwm波形的占空比从当前duty值在 10 秒内变化至 100
+    AT+DRVPWMFADE=,,,,100,10000
 

@@ -2,7 +2,6 @@
 config WM_NETIF_SELECT_LWIP
     depends on CHIP_HAVE_WIFI
     bool
-    select COMPONENT_NVS_ENABLED
     default y
     help
         Internal use, any modification is not allowed.

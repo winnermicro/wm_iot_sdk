@@ -1,183 +1,364 @@
-      <div class="card-header">
-        <h5>Properties</h5>
-        <div class="row">
-        <label class="col-sm-2 text-right" for="device_name">Device name:</label>
-        <input type="text" class="col-sm-5" value="{{ data.dev_name|lower }}" id="device_name" name="device_name" readonly>
-        &nbsp;<button type="button" class="btn btn-light col-sm-1" onclick="copy_device_name()">copy</button>
-        </div>
-	    <br>
-        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH1:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable1" name="enable1" {% if data.enable1 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold1 }}" class="col-sm-2" id="threshold1" name="threshold1" {% if not data.enable1 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum1" name="pinnum1" {% if not data.enable1 %} disabled {% endif %}>
-            <option value="9" {% if data.pinnum1 == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
-          </select>
-        </div>
-        <br>
-        {% endif %}
-        {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH2:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable2" name="enable2" {% if data.enable2 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold2 }}" class="col-sm-2" id="threshold2" name="threshold2" {% if not data.enable2 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum2" name="pinnum2" {% if not data.enable2 %} disabled {% endif %}>
-            <option value="10" {% if data.pinnum2 == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
-          </select>
-        </div>
-        <br>
-        {% endif %}
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH3:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable3" name="enable3" {% if data.enable3 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold3 }}" class="col-sm-2" id="threshold3" name="threshold3" {% if not data.enable3 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum3" name="pinnum3" {% if not data.enable3 %} disabled {% endif %}>
-            <option value="16" {% if data.pinnum3 == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH4:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable4" name="enable4" {% if data.enable4 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold4 }}" class="col-sm-2" id="threshold4" name="threshold4" {% if not data.enable4 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum4" name="pinnum4" {% if not data.enable4 %} disabled {% endif %}>
-            <option value="17" {% if data.pinnum4 == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH5:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable5" name="enable5" {% if data.enable5 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold5 }}" class="col-sm-2" id="threshold5" name="threshold5" {% if not data.enable5 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum5" name="pinnum5" {% if not data.enable5 %} disabled {% endif %}>
-            <option value="18" {% if data.pinnum5 == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH6:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable6" name="enable6" {% if data.enable6 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold6 }}" class="col-sm-2" id="threshold6" name="threshold6" {% if not data.enable6 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum6" name="pinnum6" {% if not data.enable6 %} disabled {% endif %}>
-            <option value="19" {% if data.pinnum6 == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH7:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable7" name="enable7" {% if data.enable7 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold7 }}" class="col-sm-2" id="threshold7" name="threshold7" {% if not data.enable7 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum7" name="pinnum7" {% if not data.enable7 %} disabled {% endif %}>
-            <option value="20" {% if data.pinnum7 == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH8:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable8" name="enable8" {% if data.enable8 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold8 }}" class="col-sm-2" id="threshold8" name="threshold8" {% if not data.enable8 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum8" name="pinnum8" {% if not data.enable8 %} disabled {% endif %}>
-            <option value="21" {% if data.pinnum8 == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH9:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable9" name="enable9" {% if data.enable9 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold9 }}" class="col-sm-2" id="threshold9" name="threshold9" {% if not data.enable9 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum9" name="pinnum9" {% if not data.enable9 %} disabled {% endif %}>
-            <option value="22" {% if data.pinnum9 == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH10:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable10" name="enable10" {% if data.enable10 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold10 }}" class="col-sm-2" id="threshold10" name="threshold10" {% if not data.enable10 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum10" name="pinnum10" {% if not data.enable10 %} disabled {% endif %}>
-            <option value="23" {% if data.pinnum10 == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH11:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable11" name="enable11" {% if data.enable11 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold11 }}" class="col-sm-2" id="threshold11" name="threshold11" {% if not data.enable11 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum11" name="pinnum11" {% if not data.enable11 %} disabled {% endif %}>
-            <option value="24" {% if data.pinnum11 == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
-          </select>
-        </div>
-        <br>
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH12:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable12" name="enable12" {% if data.enable12 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold12 }}" class="col-sm-2" id="threshold12" name="threshold12" {% if not data.enable12 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum12" name="pinnum12" {% if not data.enable12 %} disabled {% endif %}>
-            <option value="25" {% if data.pinnum12 == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
-          </select>
-        </div>
-        <br>
-        {% if data.chip_type == "W802" %}
-        <div class="row">
-          <label class="col-sm-2 text-right" for="touch">TOUCH15:</label>
-          <input type="checkbox" class="col-sm-1 text-right" value="1" id="enable15" name="enable15" {% if data.enable15 %} checked {% endif %}>
-          <label class="col-sm-2 text-right" for="touch">threshold:</label>
-          <input type="number" min="0" max="127" value="{{ data.threshold15 }}" class="col-sm-2" id="threshold15" name="threshold15" {% if not data.enable15 %} disabled {% endif %}>
-          <label class="col-sm-1 text-right" for="touch">pin:</label>
-          <select class="col-sm-3" id="pinnum15" name="pinnum15" {% if not data.enable15 %} disabled {% endif %}>
-            <option value="45" {% if data.pinnum15 == 45 %} selected {% endif %}>PIN_45 (PB29)</option>
-          </select>
-        </div>
-        {% endif %}
-	  </div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <i></i>
 
-<script>
-    function check_touch_button_status(index) {
-        const checkbox = document.getElementById('enable' + index.toString());
+                                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH1:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable1" name="enable1" {% if data.enable1 %} checked {% endif %} data-change-name="TOUCH1 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold1}}" min="0" max="127" id="threshold1" name="threshold1" {% if not data.enable1 %} disabled {% endif %} data-change-name="TOUCH1 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum1" name="pinnum1" {% if not data.enable1 %} disabled {% endif %}>
+                                                <option value="9" {% if data.pinnum1 == 9 %} selected {% endif %}>PIN_9 (PA9)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+                                {% endif %}
 
-        if (checkbox) {
-            checkbox.addEventListener('change', function() {
-                const select = document.getElementById('pinnum' + index.toString());
-                const input = document.getElementById('threshold' + index.toString());
+                                {% if data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W806" %}
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH2:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable2" name="enable2" {% if data.enable2 %} checked {% endif %} data-change-name="TOUCH2 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold2}}" min="0" max="127" id="threshold2" name="threshold2" {% if not data.enable2 %} disabled {% endif %} data-change-name="TOUCH2 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum2" name="pinnum2" {% if not data.enable2 %} disabled {% endif %}>
+                                                <option value="10" {% if data.pinnum2 == 10 %} selected {% endif %}>PIN_10 (PA10)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+                                {% endif %}
 
-                if (this.checked) {
-                    input.disabled = false;
-                    select.disabled = false;
-                } else {
-                    input.disabled = true;
-                    select.disabled = true;
-                }
-            });
-        }
-    }
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH3:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable3" name="enable3" {% if data.enable3 %} checked {% endif %} data-change-name="TOUCH3 enable:" data-change-name="TOUCH3 threshold:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold3}}" min="0" max="127" id="threshold3" name="threshold3" {% if not data.enable3 %} disabled {% endif %}>
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum3" name="pinnum3" {% if not data.enable3 %} disabled {% endif %}>
+                                                <option value="16" {% if data.pinnum3 == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
 
-    check_touch_button_status(15);
-    for (let i = 1; i <= 12; i++) {
-        check_touch_button_status(i);
-    }
-</script>
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH4:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable4" name="enable4" {% if data.enable4 %} checked {% endif %} data-change-name="TOUCH4 enable:" data-change-name="TOUCH4 threshold:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold4}}" min="0" max="127" id="threshold4" name="threshold4" {% if not data.enable4 %} disabled {% endif %}>
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum4" name="pinnum4" {% if not data.enable4 %} disabled {% endif %}>
+                                                <option value="17" {% if data.pinnum4 == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH5:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable5" name="enable5" {% if data.enable5 %} checked {% endif %} data-change-name="TOUCH5 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold5}}" min="0" max="127" id="threshold5" name="threshold5" {% if not data.enable5 %} disabled {% endif %} data-change-name="TOUCH5 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum5" name="pinnum5" {% if not data.enable5 %} disabled {% endif %}>
+                                                <option value="18" {% if data.pinnum5 == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH6:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable6" name="enable6" {% if data.enable6 %} checked {% endif %} data-change-name="TOUCH6 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold6}}" min="0" max="127" id="threshold6" name="threshold6" {% if not data.enable6 %} disabled {% endif %} data-change-name="TOUCH6 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum6" name="pinnum6" {% if not data.enable6 %} disabled {% endif %}>
+                                                <option value="19" {% if data.pinnum6 == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH7:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable7" name="enable7" {% if data.enable7 %} checked {% endif %} data-change-name="TOUCH7 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold7}}" min="0" max="127" id="threshold7" name="threshold7" {% if not data.enable7 %} disabled {% endif %} data-change-name="TOUCH7 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum7" name="pinnum7" {% if not data.enable7 %} disabled {% endif %}>
+                                                <option value="20" {% if data.pinnum7 == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH8:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable8" name="enable8" {% if data.enable8 %} checked {% endif %} data-change-name="TOUCH8 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold8}}" min="0" max="127" id="threshold8" name="threshold8" {% if not data.enable8 %} disabled {% endif %} data-change-name="TOUCH8 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum8" name="pinnum8" {% if not data.enable8 %} disabled {% endif %}>
+                                                <option value="21" {% if data.pinnum8 == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH9:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable9" name="enable9" {% if data.enable9 %} checked {% endif %} data-change-name="TOUCH9 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold9}}" min="0" max="127" id="threshold9" name="threshold9" {% if not data.enable9 %} disabled {% endif %} data-change-name="TOUCH9 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum9" name="pinnum9" {% if not data.enable9 %} disabled {% endif %}>
+                                                <option value="22" {% if data.pinnum9 == 22 %} selected {% endif %}>PIN_22 (PB6)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH10:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable10" name="enable10" {% if data.enable10 %} checked {% endif %} data-change-name="TOUCH10 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold10}}" min="0" max="127" id="threshold10" name="threshold10" {% if not data.enable10 %} disabled {% endif %} data-change-name="TOUCH10 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum10" name="pinnum10" {% if not data.enable10 %} disabled {% endif %}>
+                                                <option value="23" {% if data.pinnum10 == 23 %} selected {% endif %}>PIN_23 (PB7)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH11:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable11" name="enable11" {% if data.enable11 %} checked {% endif %} data-change-name="TOUCH11 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold11}}" min="0" max="127" id="threshold11" name="threshold11" {% if not data.enable11 %} disabled {% endif %} data-change-name="TOUCH11 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum11" name="pinnum11" {% if not data.enable11 %} disabled {% endif %}>
+                                                <option value="24" {% if data.pinnum11 == 24 %} selected {% endif %}>PIN_24 (PB8)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH12:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable12" name="enable12" {% if data.enable12 %} checked {% endif %} data-change-name="TOUCH12 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold12}}" min="0" max="127" id="threshold12" name="threshold12" {% if not data.enable12 %} disabled {% endif %} data-change-name="TOUCH12 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum12" name="pinnum12" {% if not data.enable12 %} disabled {% endif %}>
+                                                <option value="25" {% if data.pinnum12 == 25 %} selected {% endif %}>PIN_25 (PB9)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+
+                                {% if data.chip_type == "W802" %}
+                                <div class="switch-list">
+                                    <div class="property-control">
+                                        <label class="toggle-label">TOUCH15:</label>
+                                        <label class="toggle-control">
+                                            <input type="checkbox" value="1" id="enable15" name="enable15" {% if data.enable15 %} checked {% endif %} data-change-name="TOUCH15 enable:">
+                                            <span class="control"></span>
+                                        </label>
+                                    </div>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <label>threshold:</label>
+                                            <input type="number" value="{{data.threshold15}}" min="0" max="127" id="threshold15" name="threshold15" {% if not data.enable15 %} disabled {% endif %} data-change-name="TOUCH15 threshold:">
+                                        </div>
+                                        <div class="property-item">
+                                            <label>pin:</label>
+                                            <select id="pinnum15" name="pinnum15" {% if not data.enable15 %} disabled {% endif %}>
+                                                <option value="45" {% if data.pinnum15 == 45 %} selected {% endif %}>PIN_45 (PB29)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i></i>
+                                {% endif %}
+
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
+
+                    <script>
+                        function setPins() {
+                            let pins = [];
+  
+                            for (let i = 1; i <= 12; i++) {
+                                var div = document.getElementById('enable' + i.toString());
+                                if (div.checked) {
+                                    div = document.getElementById('pinnum' + i.toString());
+                                    pins.push(div.value);
+                                }
+                            }
+
+                            var div = document.getElementById('enable15');
+                            if (div.checked) {
+                                div = document.getElementById('pinnum15');
+                                pins.push(div.value);
+                            }
+
+                            setCurrPins(pins);
+                        }
+
+                        function check_touch_button_status(index) {
+                            document.getElementById('pinnum' + index.toString()).addEventListener("change", function() {
+                                setPins();
+                            });
+                            document.getElementById('enable' + index.toString()).addEventListener("change", function() {
+                                const input = document.getElementById('threshold' + index.toString());
+                                const select = document.getElementById('pinnum' + index.toString());
+                                if (this.checked) {
+                                    input.disabled = false;
+                                    select.disabled = false;
+                                } else {
+                                    input.disabled = true;
+                                    select.disabled = true;
+                                }
+
+                                setPins();
+                            });
+                        }
+
+                        check_touch_button_status(15);
+                        for (let i = 1; i <= 12; i++) {
+                            check_touch_button_status(i);
+                        }
+                        setPins();
+                    </script>

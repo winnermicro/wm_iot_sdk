@@ -36,6 +36,7 @@ macro(project name)
     include("${SDK_PATH}/tools/cmake/menuconfig.cmake")
     include("${wmsdk_config_dir}/wmsdk_config.cmake")
 
+    message(STATUS "SDK_VERSION: ${CONFIG_BUILD_VERSION}")
     message(STATUS "CHIP_TYPE: ${CONFIG_CHIP_NAME}")
     string(TOLOWER ${CONFIG_CHIP_NAME} chip_type)
 
@@ -76,7 +77,9 @@ macro(project name)
     add_executable(${project_elf} "${project_elf_src}")
     add_custom_command(OUTPUT ${project_elf_src}
 #                       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/project
-                       COMMAND ${CMAKE_COMMAND} -E touch ${project_elf_src}
+#                       COMMAND ${CMAKE_COMMAND} -E touch ${project_elf_src}
+                       COMMAND ${CMAKE_COMMAND} -E echo "const char *wm_sdk_build_time = __TIME__;" > ${project_elf_src}
+                       COMMAND ${CMAKE_COMMAND} -E echo "const char *wm_sdk_build_date = __DATE__;" >> ${project_elf_src}
                        VERBATIM)
     add_custom_target(gen_project_elf_src DEPENDS "${project_elf_src}")
     add_dependencies(${project_elf} gen_project_elf_src)

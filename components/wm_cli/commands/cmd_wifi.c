@@ -4,7 +4,6 @@
 #include <string.h>
 #include "wm_cli.h"
 #include "wm_wifi.h"
-#include "wm_nvs.h"
 #include "wm_key_config.h"
 #include "wm_osal.h"
 #include "wm_wifi_event.h"
@@ -102,6 +101,40 @@ static void cmd_wifi(int argc, char *argv[])
                 vSemaphoreDelete(cmd_wifi_sync_sem);
                 cmd_wifi_sync_sem = NULL;
             }
+        } else if (!strcmp(argv[1], "softap") && (argc == 3 || argc == 4)) {
+            wm_wifi_config_t ap_conf = { 0 };
+
+            wm_wifi_init();
+
+            strncpy((char *)ap_conf.ap.ssid, argv[2], 32);
+            ap_conf.ap.ssid_len = strlen(argv[2]) > 32 ? 32 : strlen(argv[2]);
+
+            ap_conf.ap.max_connection = 8;
+            ap_conf.ap.pairwise_cipher = WM_WIFI_CIPHER_TYPE_CCMP;
+            ap_conf.ap.channel = 1;
+
+            if (argc > 3) {
+                strncpy((char *)ap_conf.ap.password, argv[3], 64);
+                ap_conf.ap.authmode = WM_WIFI_AUTH_WPA2_PSK;
+            } else {
+                ap_conf.ap.authmode = WM_WIFI_AUTH_OPEN;
+            }
+
+            ret = wm_wifi_set_config(WM_WIFI_IF_AP, &ap_conf);
+            ret |= wm_wifi_ap_start();
+
+            if (ret) {
+                wm_cli_printf("start softap fail\r\n");
+            } else {
+                if (ap_conf.ap.authmode == WM_WIFI_AUTH_OPEN) {
+                    wm_cli_printf("start softap ssid:%.32s, no password\r\n", ap_conf.ap.ssid);
+                } else {
+                    wm_cli_printf("start softap ssid:%.32s, pwd:%.64s\r\n", ap_conf.ap.ssid, ap_conf.ap.password);
+                }
+            }
+
+        } else {
+            goto usage;
         }
     } else {
         goto usage;
@@ -116,7 +149,8 @@ usage:
                   "  scan and results : %s scan    [ssid]\r\n"
                   "  sta join an ap   : %s connect <ssid> [password]\r\n"
                   "  sta leave form ap: %s disconnect\r\n",
-                  argv[0], argv[0], argv[0], argv[0], argv[0], argv[0]);
+                  "  start softap     : %s softap <ssid> [password]\r\n", argv[0], argv[0], argv[0], argv[0], argv[0], argv[0],
+                  argv[0]);
 }
 WM_CLI_CMD_DEFINE(wifi, cmd_wifi, wifi cmd, wifi<args...> --operate wifi);
 #endif //CONFIG_WIFI_API_ENABLED

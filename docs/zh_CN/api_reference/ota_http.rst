@@ -3,7 +3,18 @@
 OTA_HTTP API 参考
 ===================
 
-Structures
+头文件
+-----------
+
+- wm_iot_sdk/components/wm_ota/include/wm_ota_http.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "wm_ota_http.h"
+
+结构体
 ----------------------
 
 .. doxygengroup:: WM_OTA_HTTP_Structures
@@ -11,14 +22,14 @@ Structures
     :content-only:
     :members:
 
-Type Definitions
+类型定义
 ----------------------
 
 .. doxygengroup:: WM_OTA_HTTP_Type_Definitions
     :project: wm-iot-sdk-apis
     :content-only:
 
-Functions
+接口
 ----------------------
 
 .. doxygengroup:: WM_OTA_HTTP_Functions

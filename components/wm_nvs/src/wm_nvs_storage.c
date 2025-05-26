@@ -331,8 +331,8 @@ static int storage_blob_check_drop(wm_nvs_storage_t *storage, struct dl_list *in
             dl_list_for_each(desc, info, wm_nvs_blob_into_t, list)
             {
                 /*look for the blob descriptor*/
-                if (!strncmp(item.name, desc->name, strlen(desc->name)) && item.group_id == desc->group_id &&
-                    item.seg_id >= desc->seg_start &&
+                if (!strncmp(item.name, desc->name, strnlen(desc->name, WM_NVS_MAX_KEY_LEN)) &&
+                    item.group_id == desc->group_id && item.seg_id >= desc->seg_start &&
                     item.seg_id < (desc->seg_start == WM_NVS_SEG_START_VER_1 ? WM_NVS_SEG_START_ANY : WM_NVS_SEG_START_VER_1)) {
                     /*match*/
                     found = 1;
@@ -476,7 +476,7 @@ int wm_nvs_storage_open_group(wm_nvs_storage_t *storage, const char *group, bool
         return err;
     }
 
-    err = storage_add_group(storage, *group_id, group, strlen(group));
+    err = storage_add_group(storage, *group_id, group, strnlen(group, WM_NVS_MAX_KEY_LEN));
 
     return err;
 }

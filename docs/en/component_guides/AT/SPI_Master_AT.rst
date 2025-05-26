@@ -23,7 +23,7 @@ Function Overview
    The W800 implements synchronous SPI master-slave functionality. Its working clock is the internal system bus clock. The master supports four Motorola SPI formats (CPOL, CPHA), TI timing, and macrowire timing. The send and receive lengths are unlimited, with a maximum clock support of 20MHz.
 
 
-   The W800 has three groups of 12 GPIO pins that can be used for SPI, with CS fixedly controlled by software. Any idle GPIO pin can be used as CS, and GPIO26 is used by default. The relationship of SPI pins is shown in the following table:
+   The W800 has three groups of 12 GPIO pins that can be used for SPI, with CS fixedly controlled by software. Any idle GPIO pin can be used as CS, and GPIO20 is used by default. The relationship of SPI pins is shown in the following table:
 
    .. list-table::
       :widths: 25 25 25 25 25

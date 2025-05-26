@@ -29,12 +29,15 @@
 #include "wm_drv_rcc.h"
 #include "wm_drv_flash.h"
 #include "wm_drv_uart.h"
+#include "wm_drv_rng.h"
 
 #define WM_SYSTEM_UART_LOG_RX_BUF_SIZE 512
 #define WM_SYSTEM_UART_LOG_TX_BUF_SIZE 1024
 
 extern int main(void);
 extern void wm_soc_basic_init(wm_device_t *rcc_dev);
+extern const char *wm_sdk_build_time;
+extern const char *wm_sdk_build_date;
 
 static void wm_sys_clk_set(uint8_t clk)
 {
@@ -59,6 +62,20 @@ static void wm_sys_init(wm_device_t *rcc_dev)
     wm_sys_clk_set(cpu_clk);
 }
 
+static void wm_libc_init(void)
+{
+    uint32_t seed;
+    wm_device_t *rng_dev;
+
+    rng_dev = wm_drv_rng_init("rng");
+    if (rng_dev) {
+        seed = wm_drv_rng_read(rng_dev);
+        wm_drv_rng_deinit(rng_dev);
+
+        srand(seed);
+    }
+}
+
 #if defined(CONFIG_CHIP_HAVE_WIFI) || defined(CONFIG_CHIP_HAVE_BT)
 /* mac_addr array format: [0x01,0x23,0x45,0x67,0x89,0xAB] with 6 bytes length */
 static bool is_valid_mac_addr_data(uint8_t *mac_addr)
@@ -77,7 +94,9 @@ ATTRIBUTE_WEAK int wm_sys_get_mac_addr(wm_mac_type_t mac_type, uint8_t *mac_addr
 {
     int ret                          = WM_ERR_FAILED;
     uint8_t def_mac[WM_MAC_ADDR_LEN] = WM_DEFAULT_BASE_MAC_ADDRESS;
-    size_t len                       = WM_MAC_ADDR_LEN;
+#if CONFIG_COMPONENT_NVS_ENABLED
+    size_t len = WM_MAC_ADDR_LEN;
+#endif
 
     if (mac_addr == NULL || mac_addr_len != WM_MAC_ADDR_LEN) {
         return WM_ERR_INVALID_PARAM;
@@ -301,7 +320,7 @@ static void factory_params_init(void)
 static void dump_chip_info(void)
 {
 #ifdef CONFIG_COMPONENT_LOG_ENABLED
-    wm_log_info("ver: %s build at %s %s", CONFIG_BUILD_VERSION, __DATE__, __TIME__);
+    wm_log_info("ver: %s build at %s %s", CONFIG_BUILD_VERSION, wm_sdk_build_date, wm_sdk_build_time);
 
     wm_log_info("boot reason %d", wm_get_reboot_reason());
 
@@ -366,6 +385,8 @@ void wm_start(void)
     wm_soc_basic_init(rcc_dev);
 
     wm_sys_init(rcc_dev);
+
+    wm_libc_init();
 
     wm_os_internal_task_create(NULL, "main", wm_start_task, NULL, WM_TASK_MAIN_STACK, WM_TASK_MAIN_PRIO, 0);
 

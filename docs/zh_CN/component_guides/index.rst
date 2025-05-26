@@ -25,6 +25,7 @@
    HTTP Client <http_client>
    MQTT Client <mqtt_client>
    Cloud <cloud/index>
+   HTTPD Webosocket <httpd_websocket>
    OTA <ota>
    AT 命令 <AT/index>
    CLI <cli>

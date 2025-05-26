@@ -1,80 +1,119 @@
-      <div class="card-header">
-        <h5>Properties</h5>
-        {% include 'device_name.html' %}
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="mode">mode:</label>
-        <select class="col-sm-6" id="mode" name="mode">
-          <option value="0" {% if data.mode == 0 %} selected {% endif %}>spi</option>
-          <option value="1" {% if data.mode == 1 %} selected {% endif %}>qspi</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="clock">clock:</label>
-        <select class="col-sm-6" id="clock" name="clock">
-          {% for clkdiv in range(3, 16) %}
-            {% if data.cpu_freq % clkdiv == 0 %}
-              {% set psramclk = (data.cpu_freq / clkdiv) | int %}
-              {% if psramclk <= 80000000 %}
-                <option value="{{ psramclk }}" {% if data.clock == psramclk %} selected {% endif %}>{{ "{:,}".format(psramclk) }}</option>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </select> &nbsp;HZ
-        </div>
-      </div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <div class="property-item">
+                                    <label>mode:</label>
+                                    <select id="mode" name="mode">
+                                        <option value="0" {% if data.mode == 0 %} selected {% endif %}>spi</option>
+                                        <option value="1" {% if data.mode == 1 %} selected {% endif %}>qspi</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>clock:</label>
+                                    <select id="clock" name="clock">
+                                      {% for clkdiv in range(3, 16) %}
+                                        {% if data.cpu_freq % clkdiv == 0 %}
+                                          {% set psramclk = (data.cpu_freq / clkdiv) | int %}
+                                          {% if psramclk <= 80000000 %}
+                                            <option value="{{ psramclk }}" {% if data.clock == psramclk %} selected {% endif %}>{{ "{:,}".format(psramclk) }}</option>
+                                          {% endif %}
+                                        {% endif %}
+                                      {% endfor %}
+                                    </select> &nbsp;HZ
+                                </div>
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
+                                <div class="property-item">
+                                    <label>CK:</label>
+                                    <select id="ckpinnum" name="ckpinnum">
+                                      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+                                        <option value="15" {% if data.ckpinnum == 15 %} selected {% endif %}>PIN_15 (PA15)</option>
+                                      {% endif %}
+                                        <option value="16" {% if data.ckpinnum == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>CS:</label>
+                                    <select id="cspinnum" name="cspinnum">
+                                        <option value="17" {% if data.cspinnum == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
+                                      {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
+                                        <option value="43" {% if data.cspinnum == 43 %} selected {% endif %}>PIN_43 (PB27)</option>
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>D0:</label>
+                                    <select id="d0pinnum" name="d0pinnum">
+                                        <option value="18" {% if data.d0pinnum == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>D1:</label>
+                                    <select id="d1pinnum" name="d1pinnum">
+                                        <option value="19" {% if data.d1pinnum == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
+                                      {% if data.chip_type == "W802" %}
+                                        <option value="45" {% if data.d1pinnum == 45 %} selected {% endif %}>PIN_45 (PB29)</option>
+                                      {% endif %}
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>D2:</label>
+                                    <select id="d2pinnum" name="d2pinnum">
+                                        <option value="20" {% if data.d2pinnum == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>D3:</label>
+                                    <select id="d3pinnum" name="d3pinnum">
+                                        <option value="21" {% if data.d3pinnum == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
 
-      <div class="card-header">
-        <h5>Pins</h5>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">CK:</label>
-        <select class="col-sm-6" id="ckpinnum" name="ckpinnum">
-        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
-          <option value="15" {% if data.ckpinnum == 15 %} selected {% endif %}>PIN_15 (PA15)</option>
-        {% endif %}
-          <option value="16" {% if data.ckpinnum == 16 %} selected {% endif %}>PIN_16 (PB0)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">CS:</label>
-        <select class="col-sm-6" id="cspinnum" name="cspinnum">
-          <option value="17" {% if data.cspinnum == 17 %} selected {% endif %}>PIN_17 (PB1)</option>
-        {% if data.chip_type == "W801S" or data.chip_type == "W806" %}
-          <option value="43" {% if data.cspinnum == 43 %} selected {% endif %}>PIN_43 (PB27)</option>
-        {% endif %}
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">D0:</label>
-        <select class="col-sm-6" id="d0pinnum" name="d0pinnum">
-          <option value="18" {% if data.d0pinnum == 18 %} selected {% endif %}>PIN_18 (PB2)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">D1:</label>
-        <select class="col-sm-6" id="d1pinnum" name="d1pinnum">
-          <option value="19" {% if data.d1pinnum == 19 %} selected {% endif %}>PIN_19 (PB3)</option>
-        {% if data.chip_type == "W802" %}
-          <option value="45" {% if data.d1pinnum == 45 %} selected {% endif %}>PIN_45 (PB29)</option>
-        {% endif %}
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">D2:</label>
-        <select class="col-sm-6" id="d2pinnum" name="d2pinnum">
-          <option value="20" {% if data.d2pinnum == 20 %} selected {% endif %}>PIN_20 (PB4)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="psrampin">D3:</label>
-        <select class="col-sm-6" id="d3pinnum" name="d3pinnum">
-          <option value="21" {% if data.d3pinnum == 21 %} selected {% endif %}>PIN_21 (PB5)</option>
-        </select>
-        </div>
-	  </div>
+                    <script>
+                        document.getElementById("ckpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("cspinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("d0pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("d1pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("d2pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("d3pinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("ckpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("cspinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("d0pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("d1pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("d2pinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("d3pinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+
+                        setPins();
+                    </script>

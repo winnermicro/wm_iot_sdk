@@ -25,6 +25,7 @@ Component Guide
    HTTP Client <http_client>
    MQTT Client <mqtt_client>
    Cloud <cloud/index>
+   Httpd Websocket <httpd_websocket>
    OTA <ota>
    AT Command <AT/index>
    CLI <cli>

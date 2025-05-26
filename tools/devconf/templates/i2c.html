@@ -1,38 +1,61 @@
-      <div class="card-header">
-        <h5>Properties</h5>
-        {% include 'device_name.html' %}
-	    <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="clock">clock:</label>
-        <select class="col-sm-6" id="clock" name="clock">
-          <option value="100000" {% if data.clock == 100000 %} selected {% endif %}>100,000</option>
-          <option value="400000" {% if data.clock == 400000 %} selected {% endif %}>400,000</option>
-        </select> &nbsp;HZ
-        </div>
-      {% if not (data.chip_type == "W800" or data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W805" or data.chip_type == "W806") %}
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="addr_10_bits">address 10 bits:</label>
-        <input type="checkbox" class="col-sm-1 text-right" value="1" id="addr_10_bits" name="addr_10_bits" {% if data.addr_10_bits %} checked {% endif %}>
-        </div>
-      {% endif %}
-      </div>
+<div class="device">
+                        <div class="device_left">
+                            <div class="properties-section properties-section-common">
+                                <h3>Properties</h3>
+                                {% include 'device_name.html' %}
+                                <div class="property-item">
+                                    <label>clock:</label>
+                                    <select id="clock" name="clock">
+                                        <option value="100000" {% if data.clock == 100000 %} selected {% endif %}>100,000</option>
+                                        <option value="400000" {% if data.clock == 400000 %} selected {% endif %}>400,000</option>
+                                    </select> &nbsp;HZ
+                                {% if not (data.chip_type == "W800" or data.chip_type == "W801S" or data.chip_type == "W802" or data.chip_type == "W803" or data.chip_type == "W805" or data.chip_type == "W806") %}
+                                <div class="property-item checkbox-item">
+                                    <label>address 10 bits:</label>
+                                    <input type="checkbox" value="1" id="addr_10_bits" name="addr_10_bits" {% if data.addr_10_bits %} checked {% endif %} style="flex: inherit;margin-right: auto;">
+                                </div>
+                                {% endif %}
+                                </div>
+                            </div>
+                            <div class="pins-section">
+                                <h3>Pins</h3>
+                                <div class="property-item">
+                                    <label>SCL:</label>
+                                    <select id="sclpinnum" name="sclpinnum">
+                                        <option value="1" {% if data.sclpinnum == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
+                                        <option value="36" {% if data.sclpinnum == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
+                                    </select>
+                                </div>
+                                <div class="property-item">
+                                    <label>SDA:</label>
+                                    <select id="sdapinnum" name="sdapinnum">
+                                        <option value="4" {% if data.sdapinnum == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
+                                        <option value="35" {% if data.sdapinnum == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'init.html' %}
+                        </div>
+                        {% include 'pins.html' %}
+                    </div>
 
-      <div class="card-header">
-        <h5>Pins</h5>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sclpin">SCL:</label>
-        <select class="col-sm-6" id="sclpinnum" name="sclpinnum">
-          <option value="1" {% if data.sclpinnum == 1 %} selected {% endif %}>PIN_1 (PA1)</option>
-          <option value="36" {% if data.sclpinnum == 36 %} selected {% endif %}>PIN_36 (PB20)</option>
-        </select>
-        </div>
-        <br>
-        <div class="row">
-        <label class="col-sm-3 text-right" for="sdapin">SDA:</label>
-        <select class="col-sm-6" id="sdapinnum" name="sdapinnum">
-          <option value="4" {% if data.sdapinnum == 4 %} selected {% endif %}>PIN_4 (PA4)</option>
-          <option value="35" {% if data.sdapinnum == 35 %} selected {% endif %}>PIN_35 (PB19)</option>
-        </select>
-        </div>
-	  </div>
+                    <script>
+                        document.getElementById("sclpinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+                        document.getElementById("sdapinnum").addEventListener("change", function() {
+                            setPins();
+                        });
+
+                        function setPins() {
+                            let pins = [];
+                            var div = document.getElementById("sclpinnum");
+                            pins.push(div.value);
+                            div = document.getElementById("sdapinnum");
+                            pins.push(div.value);
+
+                            setCurrPins(pins);
+                        }
+
+                        setPins();
+                    </script>

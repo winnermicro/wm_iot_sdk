@@ -119,6 +119,8 @@ if COMPONENT_WM_ATCMD_ENABLED
         config WM_ATCMD_BT_ENABLE
             select BT
             bool "Enable ATCMD BLUETOOTH"
+            select COMPONENT_DRIVER_CRYPTO_ENABLED
+            select COMPONENT_DRIVER_RNG_ENABLED
             default n
             help
                 Enable atcmd bluetooth.
@@ -142,7 +144,7 @@ if COMPONENT_WM_ATCMD_ENABLED
                 Enable atcmd ota(over-the-air).
     endif
 
-    config WM_ATCMD_FS_ENABLE
+    menuconfig WM_ATCMD_FS_ENABLE
         select COMPONENT_FATFS_ENABLED
         select COMPONENT_DRIVER_RTC_ENABLED
         bool "Enable ATCMD FILE SYSTEM"
@@ -193,16 +195,19 @@ if COMPONENT_WM_ATCMD_ENABLED
         bool "Enable ATCMD SPI MASTER"
         default y
         select COMPONENT_DRIVER_SPIM_ENABLED
+        select COMPONENT_DRIVER_SPIM_SOFT_ENABLED
         help
             Enable atcmd for spi master driver.
 
-    config WM_ATCMD_GPSEC_ENABLE
-        bool
-        default y
-        select COMPONENT_DRIVER_CRYPTO_ENABLED
-        select COMPONENT_DRIVER_RNG_ENABLED
+    config WM_ATCMD_FT_ENABLE
+        bool "Enable ATCMD FT"
+        default n
+        select COMPONENT_WIFI_ENABLED
+        select COMPONENT_BT_ENABLED
+        select COMPONENT_DRIVER_WDT_ENABLED
         help
-            Internal use, any modification is not allowed.
+            Enable FT atcmd for factory tools.
+
     orsource "lib/Kconfig"
 
 endif

@@ -75,7 +75,7 @@ if COMPONENT_FATFS_ENABLED
             default "flash_w25q"
             help
                 Specify the device name for the external flash FATFS disk.
-                This name should match the external flash device name defined in the device tree.
+                This name should match the external flash device name defined in the device table.
         config FATFS_EXTERNAL_FLASH_START_ADDRESS
             hex "External flash start address"
             default 0x0

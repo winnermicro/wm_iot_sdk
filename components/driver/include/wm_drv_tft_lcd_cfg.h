@@ -39,6 +39,7 @@ extern "C" {
 #define DEV_NAME_NV3041A_SPI "nv3041a_spi"
 #define DEV_NAME_ST7735_SPI  "st7735_spi"
 #define DEV_NAME_GZ035_SPI   "gz035_spi"
+#define DEV_NAME_GC9A01_SPI  "gc9a01_spi"
 
 /** List all lcd device's resoultion and rotation info */
 /*  Special notice:
@@ -68,6 +69,13 @@ extern "C" {
 #define WM_CFG_TFT_LCD_X_RESOLUTION 212
 #define WM_CFG_TFT_LCD_Y_RESOLUTION 318
 #define WM_CFG_TFT_LCD_ROTATION     1
+#define WM_CFG_TFT_LCD_PIXEL_WIDTH  2 //RGB565(2 Bytes)
+
+#elif defined(CONFIG_COMPONENT_DRIVER_LCD_GC9A01_SPI)
+#define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_GC9A01_SPI
+#define WM_CFG_TFT_LCD_X_RESOLUTION 240
+#define WM_CFG_TFT_LCD_Y_RESOLUTION 240
+#define WM_CFG_TFT_LCD_ROTATION     0
 #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2 //RGB565(2 Bytes)
 
 #endif

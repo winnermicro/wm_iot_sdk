@@ -1,11 +1,3 @@
-# SPDX-License-Identifier: Apache-2.0
-
-#cmake_minimum_required(VERSION 3.20.0)
-#find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-#project(beacon)
-
-#target_sources(app PRIVATE src/main.c)
-
 cmake_minimum_required(VERSION 3.20)
 
 # Get SDK path
@@ -20,9 +12,6 @@ endif()
 if(NOT EXISTS ${SDK_PATH})
     message(FATAL_ERROR "SDK path Error, Please set WM_IOT_SDK_PATH variable")
 endif()
-
-## Add preprocessor definitions for whole project
-# add_definitions(-DAAAAA=1)
 
 # Call compile rules
 include(${SDK_PATH}/tools/cmake/project.cmake)

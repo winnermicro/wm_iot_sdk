@@ -548,7 +548,7 @@ static int wm_drv_internal_flash_erase_sector(wm_device_t *dev, uint32_t sector_
         return WM_ERR_INVALID_PARAM;
     }
 
-    if (sector_idx * hal_dev->device_info.sector_size <= WM_FT_REGION) {
+    if (sector_idx * hal_dev->device_info.sector_size < WM_FT_REGION) {
         wm_log_error("cannot write or erase FT region: 0 ~ 0x%x\n", WM_FT_REGION);
         return WM_ERR_INVALID_PARAM;
     }

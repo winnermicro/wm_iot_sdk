@@ -4,24 +4,27 @@
 Linux Command-Line Compilation Environment Setup
 ====================================================
 
-**Download Tools**
+Tools and Versions
+~~~~~~~~~~~~~~~~~~
 
-- The recommended version of CMake: 3.25.1(version cannot be lower than 3.20), `Official Download <https://cmake.org/download/>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/cmake-3.25.1-linux-x86_64.sh>`__.
-- The recommended version of Ninja：1.11.1, `Official Download <https://github.com/ninja-build/ninja/releases>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/ninja-linux.zip>`__.
-- The recommended version of Ccache: 4.7.4(optional) , `Official Download <https://ccache.dev/download.html>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/ccache-4.7.4-linux-x86_64.tar.xz>`__.
-- The recommended use of Python: Python 3.8.10 (version not less than 3.8), `Official Download <https://www.python.org/downloads/>`__ ; `Backup Download <https://doc.winnermicro.net/download/tools/linux/Python-3.6.8.tar.xz>`__.
-- Toolchain：`Official Download <https://occ.t-head.cn/community/my/download?id=3885366095506644992>`__， `Backup Download <https://doc.winnermicro.net/download/tools/linux/csky-elfabiv2-tools-x86_64-minilibc-20210423.tar.gz>`__.
-  
-    * The approximate name of the toolchain is csky-elfabiv2-tools-\*.tar，the toolchains with -mingw- in the name are for Windows, while others are for Linux.
-    * Under Linux, some versions of toolchain may depend on ncurses. If you see the prompt "error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory" , install libncurses5 (e.g., sudo apt install libncurses5). Other similar issues may need to be resolved by the user.
+- The recommended version of CMake: 3.25.1(version cannot be lower than 3.20)
+- The recommended version of Ninja: 1.11.1
+- The recommended version of Ccache: 4.7.4(optional)
+- The recommended use of Python: Python 3.8.10 (version not less than 3.8)
+- Toolchain
+- DebugServer (optional)
 
-- DebugServer (optional): `Official Download <https://www.xrvm.cn/community/download?id=4313368247333359616>`__, `Backup Download <https://doc.winnermicro.net/download/tools/linux/XuanTie-DebugServer-linux.zip>`__.
-    * For detailed installation instructions, please refer to the relevant installation section of the `T-Head Debugger Server User Guide <../../../../download/debug_server/T-Head_Debugger_Server_User_Guide_ZH-CN.pdf>`_.
+Install Tools
+~~~~~~~~~~~~~~
 
-- Besides downloading from the above addresses, Linux systems often allow installation via built-in package managers. Details are not provided here.
-- If these tools already exist on your system and meet version requirements, you can use them directly without reinstalling.
+There are two ways to install tools:  
+  - 1. Use package management tools such as apt, yum, dnf, etc. to automatically install related tools.
+  - 2. Users can download from the official website or designated website of each tool and manually configure environment variables.
 
-On Linux systems, it's **recommended** to use package managers like ``apt`` 、``yum``、``dnf`` to automatically install the related tools. Here are examples of using the apt command on an Ubuntu system, with specific steps outlined below:
+**Installation method 1**
+
+This is also our **recommended** approach, as if users use commands (apt, yum) to install related tools, the environment variables may have 
+already been added and there is no need for users to manually set them again.
 
 - Install CMake
 
@@ -47,7 +50,8 @@ On Linux systems, it's **recommended** to use package managers like ``apt`` 、`
 
   sudo apt-get install python3
 
-- The toolchain tools still need to be installed manually as mentioned above.
+- **Toolchain tool still needs to be installed manually using the following method.**.
+
 
 - Install Python dependency packages
 
@@ -57,11 +61,29 @@ Assuming the WM IoT SDK has been downloaded and named ``wm_iot_sdk`` 。
 
   python -m pip install --user -r /home/wm/wm_iot_sdk/tools/wm/requirements.txt
 
+Due to the protection mechanism enabled in Python 3.11 and above (PEP 668), pip is prevented from directly installing Python packages. Execute the above command
+Possible errors may occur: externally-managed-environment. Need to add the ``-- break system packages`` parameter to bypass the protection mechanism.
+
 In addition,the Tkinter module needs to be installed for Python on Linux. For Ubuntu systems, you can use ``sudo apt-get install python-tk`` (or ``sudo apt-get install python3-tk`` ) to install it.
+
+**Installation method 2**
+
+- CMake: `Official Download <https://cmake.org/download/>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/cmake-3.25.1-linux-x86_64.sh>`__.
+- Ninja: `Official Download <https://github.com/ninja-build/ninja/releases>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/ninja-linux.zip>`__.
+- Ccache(optional): `Official Download <https://ccache.dev/download.html>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/ccache-4.7.4-linux-x86_64.tar.xz>`__.
+- Python: `Official Download <https://www.python.org/downloads/>`__ ; `Backup Download <https://doc.winnermicro.net/download/tools/linux/Python-3.6.8.tar.xz>`__.
+- Toolchain: `Official Download <https://occ.t-head.cn/community/my/download?id=3885366095506644992>`__; `Backup Download <https://doc.winnermicro.net/download/tools/linux/csky-elfabiv2-tools-x86_64-minilibc-20210423.tar.gz>`__.
+
+    - The approximate name of the toolchain is csky-elfabiv2-tools-\*.tar, the toolchains with -mingw- in the name are for Windows, while others are for Linux.
+    - Under Linux, some versions of toolchain may depend on ncurses. If you see the prompt "error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory" , install libncurses5 (e.g., sudo apt install libncurses5). Other similar issues may need to be resolved by the user.
+
+- DebugServer (optional): `Official Download <https://www.xrvm.cn/community/download?id=4313368247333359616>`__, `Backup Download <https://doc.winnermicro.net/download/tools/linux/XuanTie-DebugServer-linux.zip>`__.
+
+    - For detailed installation instructions, please refer to the relevant installation section of the `T-Head Debugger Server User Guide <../../../../download/debug_server/T-Head_Debugger_Server_User_Guide_ZH-CN.pdf>`_.
 
 **Set Environment Variables for Tools**
 
-If tools are installed by package managers(apt、yum), environment variables might already be set and do not need to be configured again.
+Assuming that all tools are stored in the/home/wm/tools directory
 
 - Add CMake to PATH
 

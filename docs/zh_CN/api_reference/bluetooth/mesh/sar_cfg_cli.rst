@@ -19,8 +19,19 @@ SAR 接收机过程用于确定和配置 SAR 配置服务器的 SAR 接收机状
 
 如果存在，SAR 配置客户端模型必须仅在主元素上实例化。
 
+头文件
+===============
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/sar_cfg_cli.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/sar_cfg_cli.h"
+
 API 参考
-*************
+===============
 
 .. doxygengroup:: bt_mesh_sar_cfg_cli
    :project: wm-iot-sdk-apis

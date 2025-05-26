@@ -11,7 +11,18 @@
 
 配置服务器模型在所有 Bluetooth Mesh 节点上都是必需的，并且只能在主元素上实例化。
 
+头文件
+-----------
+
+- wm_iot_sdk/components/bluetooth/include/bluetooth/mesh/cfg_srv.h
+- This header file can be included with:
+
+.. code-block:: c
+   :emphasize-lines: 1
+
+   #include "bluetooth/mesh/cfg_srv.h"
+
 API 参考
-*************
+-----------
 
 .. doxygengroup:: bt_mesh_cfg_srv

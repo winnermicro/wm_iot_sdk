@@ -64,6 +64,21 @@ typedef struct {
         WM_HAL_GPIO_NUM_COVERT(__tmp);                  \
         wm_ll_gpio_write_pin(gpio_reg, __tmp, value);   \
     } while (0)
+
+#define WM_HAL_GPIO_FAST_READ(pin)            \
+    wm_ll_gpio_read_pin(g_gpio_map[(pin)].hw, \
+                        ((pin) > WM_HAL_GPIO_COVERT_GROUPA_NUM ? (pin) - WM_HAL_GPIO_COVERT_GROUPA_NUM - 1 : (pin)))
+
+#define WM_HAL_GPIO_FAST_SET_DIR(pin, dir)                                                                       \
+    do {                                                                                                         \
+        int __tmp = ((pin) > WM_HAL_GPIO_COVERT_GROUPA_NUM ? (pin) - WM_HAL_GPIO_COVERT_GROUPA_NUM - 1 : (pin)); \
+        if (dir == WM_GPIO_DIR_INPUT) {                                                                          \
+            wm_ll_gpio_set_dir_input(g_gpio_map[(pin)].hw, __tmp);                                               \
+        } else {                                                                                                 \
+            wm_ll_gpio_set_dir_output(g_gpio_map[(pin)].hw, __tmp);                                              \
+        }                                                                                                        \
+    } while (0)
+
 /**
  * @brief Initialize gpio pin.
  *

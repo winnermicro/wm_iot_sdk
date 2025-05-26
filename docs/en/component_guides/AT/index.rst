@@ -39,6 +39,9 @@ It is strongly recommended to read the following content before using commands t
 -  :ref:`AT Messages <cmd-3>` 
   
 AT commands default to using UART1 with a baud rate of 115200, 8 data bits, 1 stop bit, no parity, and no flow control. It can be selected to use other serial ports in the menuconfig menu. When selecting other serial ports, it is recommended not to mix them with the LOG serial port to avoid interaction interference.
+
+When running the AT example project, if there is no response after sending AT commands, please first check whether the UART port of the W80X development board connected to the host PC is correct.
+
 .. _cmd-1: 
 
 :ref:`Classification of AT Commands <AT>`
@@ -67,7 +70,6 @@ There are four types of universal AT commands:
      - Run commands without user-defined parameters
 
 -  Not every AT command has the four types of commands mentioned above.
--  AT commands are case-sensitive and must be in uppercase letters.
 -  Input parameters in the command, currently only string parameters and integer parameters are supported.
 -  The parameters within the angle brackets < > cannot be omitted.
 -  The parameters within square brackets [ ] can be omitted, and default values will be used when omitted. For example, when running the command :ref:`AT+CWJAP <cmd-JAP>` , some parameters are omitted:

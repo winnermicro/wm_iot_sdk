@@ -775,7 +775,7 @@ config BT_DEVICE_NAME_MAX
 
 config BT_DEVICE_NAME
 	string "Bluetooth device name"
-	default "Zephyr"
+	default "WM-IOT"
 	help
 	  Bluetooth device name. Name can be up to 248 bytes long (excluding
 	  NULL termination). Can be empty string.

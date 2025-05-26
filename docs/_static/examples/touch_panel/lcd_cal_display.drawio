@@ -1,0 +1,82 @@
+<mxfile host="Electron" modified="2025-04-29T11:42:30.826Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="6NySo8vCYa-M5t_jFjWW" version="21.7.5" type="device">
+  <diagram name="第 1 页" id="sDIy-iJzNMqo3TzeBLsJ">
+    <mxGraphModel dx="1098" dy="828" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="260" width="320" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-3" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="250" as="sourcePoint" />
+            <mxPoint x="280" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-4" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="230" y="220" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-5" value="&lt;font color=&quot;#ff0000&quot; style=&quot;font-size: 22px;&quot;&gt;+&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-6" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="300" as="sourcePoint" />
+            <mxPoint x="230" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-7" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="260" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-8" value="&lt;font color=&quot;#ff0000&quot; style=&quot;font-size: 22px;&quot;&gt;+&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="400" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-9" value="&lt;font color=&quot;#ff0000&quot; style=&quot;font-size: 22px;&quot;&gt;+&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="500" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-10" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="220" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-12" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="250" as="sourcePoint" />
+            <mxPoint x="560" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-13" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="460" as="sourcePoint" />
+            <mxPoint x="280" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-14" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="300" as="sourcePoint" />
+            <mxPoint x="570" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-15" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="450" as="sourcePoint" />
+            <mxPoint x="230" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-16" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="560" y="270" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-17" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="170" y="420" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-18" value="20 Pixels" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="230" y="460" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-21" value="// The display offset for character &#39;+&#39; on LCD screen&lt;br&gt;#define LCD_CAL_DISPLAY_OFFSET 20" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="180" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6bKhRxPqPmOffzOQJM2S-22" value="(0,0)LCD origial pixel" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="230" y="260" width="140" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

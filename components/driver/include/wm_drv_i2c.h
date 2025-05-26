@@ -56,6 +56,19 @@ typedef struct {
 } wm_drv_i2c_config_t;
 
 /**
+ * @brief Local api types
+ */
+typedef struct {
+    int (*init)(wm_device_t *device);
+    int (*deinit)(wm_device_t *device);
+
+    int (*read)(wm_device_t *device, wm_drv_i2c_config_t *config, const void *sub_addr, uint32_t sub_addr_size, void *read_buf,
+                uint32_t read_size);
+    int (*write)(wm_device_t *device, wm_drv_i2c_config_t *config, const void *sub_addr, uint32_t sub_addr_size,
+                 const void *data, uint32_t data_size);
+} wm_drv_i2c_ops_t;
+
+/**
  * @}
  */
 

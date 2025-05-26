@@ -285,4 +285,11 @@ There are two configuration files here. After adding the new screen driver, you 
     #define WM_CFG_TFT_LCD_Y_RESOLUTION 160
     #define WM_CFG_TFT_LCD_ROTATION     0
     #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2
+    #elif defined(CONFIG_COMPONENT_DRIVER_LCD_GC9A01_SPI)
+    #define WM_CFG_TFT_LCD_DEVICE_NAME  DEV_NAME_GC9A01_SPI
+    #define WM_CFG_TFT_LCD_X_RESOLUTION 240
+    #define WM_CFG_TFT_LCD_Y_RESOLUTION 240
+    #define WM_CFG_TFT_LCD_ROTATION     1
+    #define WM_CFG_TFT_LCD_PIXEL_WIDTH  2
+
     #endif

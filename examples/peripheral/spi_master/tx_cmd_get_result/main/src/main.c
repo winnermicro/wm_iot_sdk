@@ -48,7 +48,7 @@ int example_spim_read_data_from_flash(wm_device_t *dev)
         .freq = 2 * 1000000, //2M clock
         .mode = 0,
         .pin_cs = {
-            .pin_num = WM_GPIO_NUM_26,
+            .pin_num = WM_GPIO_NUM_20,
             .pin_mux = WM_GPIO_IOMUX_FUN5,
         },
     };
