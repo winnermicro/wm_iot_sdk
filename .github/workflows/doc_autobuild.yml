@@ -46,7 +46,7 @@ jobs:
         build_status=$?
 
         echo "Generating error report..."
-        grep -E '|error:|ERROR:' temp_output.log > sphinx_errors.log || true
+        grep -E 'error:|ERROR:' temp_output.log > sphinx_errors.log || true
         if [ -s sphinx_errors.log ]; then
           echo "⚠️ Documentation build has errors:"
           cat sphinx_errors.log
